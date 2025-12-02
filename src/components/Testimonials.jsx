@@ -1,0 +1,117 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
+
+const testimonials = [
+    {
+        id: 1,
+        name: 'Budi Santoso',
+        role: 'CEO PT Maju Jaya',
+        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        content: 'Pelayanan sangat memuaskan! Website selesai tepat waktu dan hasilnya jauh melebihi ekspektasi saya. Sangat recommended untuk yang butuh website profesional.',
+    },
+    {
+        id: 2,
+        name: 'Siti Aminah',
+        role: 'Owner Batik Cantik',
+        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        content: 'Sejak punya website dari sini, penjualan online saya meningkat drastis. Desainnya cantik dan mudah digunakan oleh pelanggan saya.',
+    },
+    {
+        id: 3,
+        name: 'Rizky Pratama',
+        role: 'Founder Startup Tech',
+        image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        content: 'Tim developer sangat responsif dan solutif. Fitur-fitur custom yang saya minta dapat diimplementasikan dengan baik. Terima kasih!',
+    },
+    {
+        id: 4,
+        name: 'Dewi Lestari',
+        role: 'Marketing Manager',
+        image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        content: 'Harga sangat terjangkau untuk kualitas premium seperti ini. Support after-sales nya juga juara, selalu siap bantu kalau ada kendala.',
+    },
+];
+
+const Testimonials = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            nextSlide();
+        }, 3000);
+        return () => clearInterval(timer);
+    }, [currentIndex]);
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    };
+
+    return (
+        <section id="testimonials" className="py-20 bg-white dark:bg-slate-900 overflow-hidden">
+            <div className="container mx-auto px-6">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">Apa Kata Mereka?</h2>
+                    <p className="text-slate-600 dark:text-slate-300 text-lg">
+                        Kepuasan klien adalah prioritas utama kami.
+                    </p>
+                </div>
+
+                <div className="max-w-4xl mx-auto relative">
+                    <div className="absolute top-0 left-0 -translate-x-4 -translate-y-4 text-blue-100 dark:text-blue-900/50">
+                        <Quote size={120} />
+                    </div>
+
+                    <div className="relative z-10 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 p-8 md:p-12 min-h-[300px] flex items-center justify-center">
+                        <AnimatePresence mode='wait'>
+                            <motion.div
+                                key={currentIndex}
+                                initial={{ opacity: 0, x: 50 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -50 }}
+                                transition={{ duration: 0.5 }}
+                                className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left w-full"
+                            >
+                                <img
+                                    src={testimonials[currentIndex].image}
+                                    alt={testimonials[currentIndex].name}
+                                    className="w-24 h-24 rounded-full object-cover border-4 border-blue-50 dark:border-blue-900/50 shadow-md"
+                                />
+                                <div>
+                                    <p className="text-xl text-slate-700 dark:text-slate-300 italic mb-6 leading-relaxed">
+                                        "{testimonials[currentIndex].content}"
+                                    </p>
+                                    <div>
+                                        <h4 className="text-lg font-bold text-slate-900 dark:text-white">{testimonials[currentIndex].name}</h4>
+                                        <p className="text-blue-600 dark:text-blue-400 font-medium">{testimonials[currentIndex].role}</p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+
+                    <div className="flex justify-center gap-4 mt-8">
+                        <button
+                            onClick={prevSlide}
+                            className="p-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-500 transition-all shadow-sm"
+                        >
+                            <ChevronLeft size={24} />
+                        </button>
+                        <button
+                            onClick={nextSlide}
+                            className="p-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-500 transition-all shadow-sm"
+                        >
+                            <ChevronRight size={24} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export default Testimonials;

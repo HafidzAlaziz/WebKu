@@ -1,0 +1,22 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
+import HomePage from './pages/HomePage';
+import OrderPage from './pages/OrderPage';
+
+function App() {
+  return (
+    <ThemeProvider>
+      <Router>
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/order" element={<OrderPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </ThemeProvider>
+  );
+}
+
+export default App;
