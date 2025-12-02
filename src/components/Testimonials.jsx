@@ -51,6 +51,15 @@ const Testimonials = () => {
         setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
     };
 
+    const getInitials = (name) => {
+        return name
+            .split(' ')
+            .map((n) => n[0])
+            .join('')
+            .toUpperCase()
+            .substring(0, 2);
+    };
+
     return (
         <section id="testimonials" className="py-20 bg-white dark:bg-slate-900 overflow-hidden">
             <div className="container mx-auto px-6">
@@ -76,11 +85,9 @@ const Testimonials = () => {
                                 transition={{ duration: 0.5 }}
                                 className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left w-full"
                             >
-                                <img
-                                    src={testimonials[currentIndex].image}
-                                    alt={testimonials[currentIndex].name}
-                                    className="w-24 h-24 rounded-full object-cover border-4 border-blue-50 dark:border-blue-900/50 shadow-md"
-                                />
+                                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold border-4 border-blue-50 dark:border-blue-900/50 shadow-md shrink-0">
+                                    {getInitials(testimonials[currentIndex].name)}
+                                </div>
                                 <div>
                                     <p className="text-xl text-slate-700 dark:text-slate-300 italic mb-6 leading-relaxed">
                                         "{testimonials[currentIndex].content}"
