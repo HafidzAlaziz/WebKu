@@ -186,7 +186,7 @@ const OrderPage = () => {
         {
             icon: <Zap className="w-6 h-6" />,
             title: 'Pengerjaan Cepat',
-            description: 'Website selesai dalam 3-7 hari kerja, tanpa mengurangi kualitas',
+            description: 'Pengerjaan dalam waktu singkat, tanpa mengurangi kualitas',
             color: 'from-yellow-500 to-orange-500',
         },
         {
