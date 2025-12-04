@@ -23,7 +23,7 @@ const CTA = () => {
                         Siap Mewujudkan Website Impian Anda?
                     </h2>
                     <p className="text-blue-100 text-lg lg:text-xl max-w-2xl mx-auto mb-10">
-                        Jangan tunda lagi! Konsultasikan kebutuhan website Anda sekarang juga dan dapatkan penawaran spesial.
+                        Jangan tunda lagi! Konsultasikan kebutuhan website Anda sekarang juga. Selengkapnya bisa order langsung di website ini.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

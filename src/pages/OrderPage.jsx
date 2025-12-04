@@ -93,23 +93,23 @@ const OrderPage = () => {
 
         // Format data untuk WhatsApp
         const packageNames = {
-            basic: 'Basic - Rp 100.000',
-            professional: 'Profesional - Rp 500.000',
-            business: 'Bisnis/Elite - Rp 1.500.000',
-            custom: 'Custom - Konsultasi'
+            hemat: 'Paket Hemat - Rp 100rb',
+            custom: 'Custom / UMKM - Harga Fleksibel',
+            fullcustom: 'Full Custom - Harga Diskusi'
         };
 
         const websiteTypes = {
+            'landing-page': 'Landing Page',
             'company-profile': 'Company Profile',
             'ecommerce': 'Toko Online / E-commerce',
-            'landing-page': 'Landing Page',
+            'portfolio': 'Portfolio',
             'umkm': 'Website UMKM',
-            'portal': 'Portal Berita',
+            'custom-system': 'Sistem Custom (Booking, CRM, dll)',
             'other': 'Lainnya'
         };
 
         // Buat pesan WhatsApp
-        let waMessage = `*FORM PEMESANAN WEBSITE - WebKu*\n\n`;
+        let waMessage = `*FORM PEMESANAN WEBSITE - WebKuu*\n\n`;
         waMessage += `📝 *Data Pemesan:*\n`;
         waMessage += `Nama: ${formData.name}\n`;
         waMessage += `Email: ${formData.email}\n`;
@@ -131,7 +131,7 @@ const OrderPage = () => {
         waMessage += `${formData.message}\n`;
         waMessage += `\n`;
         waMessage += `---\n`;
-        waMessage += `Dikirim via Form Order WebKu`;
+        waMessage += `Dikirim via Form Order WebKuu`;
 
         // Encode untuk URL
         const encodedMessage = encodeURIComponent(waMessage);
@@ -155,7 +155,7 @@ const OrderPage = () => {
                 email: '',
                 phone: '',
                 company: '',
-                package: 'basic',
+                package: 'hemat',
                 websiteType: '',
                 techStack: '',
                 message: '',
@@ -389,10 +389,9 @@ const OrderPage = () => {
                                                 required
                                                 className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
                                             >
-                                                <option value="basic">Basic - Rp 100.000</option>
-                                                <option value="professional">Profesional - Rp 500.000</option>
-                                                <option value="business">Bisnis/Elite - Rp 1.500.000</option>
-                                                <option value="custom">Custom - Konsultasi</option>
+                                                <option value="hemat">Paket Hemat - Rp 100rb</option>
+                                                <option value="custom">Custom / UMKM - Harga Fleksibel</option>
+                                                <option value="fullcustom">Full Custom - Harga Diskusi</option>
                                             </select>
                                         </div>
 
@@ -411,11 +410,12 @@ const OrderPage = () => {
                                                     } dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all`}
                                             >
                                                 <option value="">Pilih jenis website</option>
+                                                <option value="landing-page">Landing Page</option>
                                                 <option value="company-profile">Company Profile</option>
                                                 <option value="ecommerce">Toko Online / E-commerce</option>
-                                                <option value="landing-page">Landing Page</option>
+                                                <option value="portfolio">Portfolio</option>
                                                 <option value="umkm">Website UMKM</option>
-                                                <option value="portal">Portal Berita</option>
+                                                <option value="custom-system">Sistem Custom (Booking, CRM, dll)</option>
                                                 <option value="other">Lainnya</option>
                                             </select>
                                             {errors.websiteType && (

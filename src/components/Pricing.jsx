@@ -5,45 +5,45 @@ import { Check } from 'lucide-react';
 const Pricing = () => {
     const plans = [
         {
-            name: 'Basic',
-            price: '100.000',
-            description: 'Cocok untuk pemula atau landing page sederhana.',
+            name: 'Paket Hemat',
+            price: '100rb',
+            description: 'Cocok untuk landing page sederhana, undangan digital, atau bio link.',
             features: [
                 '1 Halaman Landing Page',
+                'Desain Template Premium',
                 'Mobile Responsive',
-                'Gratis Domain (1 thn)',
-                'Hosting Standar',
+                'Gratis Konsultasi',
                 'Revisi Sepuasnya',
             ],
             recommended: false,
         },
         {
-            name: 'Profesional',
-            price: '500.000',
-            description: 'Pilihan terbaik untuk Company Profile dan UMKM.',
+            name: 'Custom / UMKM',
+            price: 'Fleksibel',
+            description: 'Paling laris! Website custom sesuai kebutuhan bisnis Anda.',
             features: [
-                'Sampai 4 Halaman',
-                'Desain Premium & Custom',
-                'Support SEO Dasar',
-                'Admin Panel Sederhana',
-                'Gratis Domain & Hosting (1 thn)',
-                'Revisi Sepuasnya',
-                'Integrasi WhatsApp',
+                'Desain Custom (Bisa Request)',
+                'Halaman Sesuai Kebutuhan',
+                'Fitur Bebas Request',
+                'Gratis Domain & Hosting',
+                'Support & Maintenance',
+                'Gratis Revisi Sepuasnya',
+                'Tech Stack Bebas (React/Next.js/dll)',
             ],
             recommended: true,
         },
         {
-            name: 'Bisnis / Elite',
-            price: '1.500.000',
-            description: 'Solusi lengkap untuk bisnis skala besar atau toko online.',
+            name: 'Full Custom',
+            price: 'Diskusi',
+            description: 'Solusi kompleks untuk perusahaan, startup, atau toko online besar.',
             features: [
-                'Halaman Unlimited',
-                'Fitur Custom Lengkap',
-                'SEO Full Optimization',
-                'Maintenance 1 Bulan',
+                'Unlimited Pages',
+                'Sistem Kompleks (Backend+DB)',
+                'Payment Gateway',
+                'Dashboard Admin Custom',
                 'Prioritas Support 24/7',
-                'Integrasi Payment Gateway',
-                'Training Penggunaan',
+                'Dokumentasi Lengkap',
+                'Garansi Error Selamanya',
             ],
             recommended: false,
         },
@@ -80,9 +80,11 @@ const Pricing = () => {
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{plan.name}</h3>
                                 <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">{plan.description}</p>
                                 <div className="mb-6">
-                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">Mulai dari</p>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">
+                                        {plan.price === '100rb' ? 'Mulai dari' : 'Harga'}
+                                    </p>
                                     <div className="flex items-baseline">
-                                        <span className="text-sm text-slate-500 dark:text-slate-400 font-semibold">Rp</span>
+                                        {plan.price === '100rb' && <span className="text-sm text-slate-500 dark:text-slate-400 font-semibold">Rp</span>}
                                         <span className="text-4xl font-bold text-slate-900 dark:text-white mx-1">{plan.price}</span>
                                     </div>
                                 </div>

@@ -8,28 +8,28 @@ const testimonials = [
         name: 'Budi Santoso',
         role: 'CEO PT Maju Jaya',
         image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        content: 'Pelayanan sangat memuaskan! Website selesai tepat waktu dan hasilnya jauh melebihi ekspektasi saya. Sangat recommended untuk yang butuh website profesional.',
+        content: 'Saya request fitur custom untuk sistem internal perusahaan, hasilnya sangat memuaskan! Tim developer sangat paham teknis dan solutif.',
     },
     {
         id: 2,
         name: 'Siti Aminah',
         role: 'Owner Batik Cantik',
         image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        content: 'Sejak punya website dari sini, penjualan online saya meningkat drastis. Desainnya cantik dan mudah digunakan oleh pelanggan saya.',
+        content: 'Awalnya ragu karena harganya terjangkau, ternyata hasilnya premium banget. Website toko online saya jadi terlihat sangat profesional.',
     },
     {
         id: 3,
         name: 'Rizky Pratama',
         role: 'Founder Startup Tech',
         image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        content: 'Tim developer sangat responsif dan solutif. Fitur-fitur custom yang saya minta dapat diimplementasikan dengan baik. Terima kasih!',
+        content: 'Tech stack yang digunakan modern (Next.js), performa website jadi sangat cepat. Revisi juga dilayani dengan sabar sampai benar-benar pas.',
     },
     {
         id: 4,
         name: 'Dewi Lestari',
         role: 'Marketing Manager',
         image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        content: 'Harga sangat terjangkau untuk kualitas premium seperti ini. Support after-sales nya juga juara, selalu siap bantu kalau ada kendala.',
+        content: 'Layanan konsultasinya sangat membantu. Saya yang awam IT jadi paham website seperti apa yang cocok untuk bisnis saya. Recommended!',
     },
 ];
 

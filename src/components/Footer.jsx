@@ -9,7 +9,7 @@ const Footer = () => {
 
                     {/* Brand Info */}
                     <div>
-                        <h3 className="text-2xl font-bold text-white mb-6">WebKu</h3>
+                        <h3 className="text-2xl font-bold text-white mb-6">WebKuu</h3>
                         <p className="text-slate-400 mb-6 leading-relaxed">
                             Jasa pembuatan website profesional terpercaya. Kami membantu bisnis Anda tumbuh di era digital dengan solusi website terbaik.
                         </p>
@@ -71,9 +71,9 @@ const Footer = () => {
                 </div>
 
                 <div className="border-t border-slate-800 dark:border-slate-900 pt-8 text-center text-sm text-slate-500 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p>&copy; 2024 WebKu. All rights reserved.</p>
+                    <p>&copy; 2025 WebKuu. All rights reserved.</p>
                     <p className="flex items-center gap-1">
-                        Dibuat oleh tim WebKu
+                        Dibuat oleh tim WebKuu
                     </p>
                 </div>
             </div>
