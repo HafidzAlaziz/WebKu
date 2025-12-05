@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, ExternalLink } from 'lucide-react';
+import { X, Send, ShoppingCart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ChatbotWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -298,17 +299,15 @@ const ChatbotWidget = () => {
                             </div>
                         )}
 
-                        {/* WhatsApp CTA */}
-                        <div className="p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-t-2 border-green-200 dark:border-green-800">
-                            <a
-                                href="https://wa.me/62895613114028?text=Halo, saya ingin konsultasi pembuatan website"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold rounded-xl transition-all text-sm shadow-lg hover:shadow-green-500/30"
+                        {/* Order CTA */}
+                        <div className="p-3 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-t-2 border-blue-200 dark:border-blue-800">
+                            <Link
+                                to="/order"
+                                className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-xl transition-all text-sm shadow-lg hover:shadow-blue-500/30"
                             >
-                                <ExternalLink size={16} />
-                                Konsultasi WhatsApp
-                            </a>
+                                <ShoppingCart size={16} />
+                                Order Sekarang
+                            </Link>
                         </div>
 
                         {/* Input */}

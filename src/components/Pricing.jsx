@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Pricing = () => {
     const plans = [
@@ -100,17 +101,15 @@ const Pricing = () => {
                             </div>
 
                             <div className="p-8 pt-0 mt-auto">
-                                <a
-                                    href={`https://wa.me/6281234567890?text=Halo, saya tertarik dengan paket website ${plan.name}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                <Link
+                                    to="/order"
                                     className={`block w-full py-4 text-center rounded-xl font-semibold transition-all ${plan.recommended
                                         ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-blue-500/30'
                                         : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
                                         }`}
                                 >
                                     Pesan Paket Ini
-                                </a>
+                                </Link>
                             </div>
                         </motion.div>
                     ))}
