@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, ShoppingCart } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { X, Send } from 'lucide-react';
 
 const ChatbotWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -34,40 +33,60 @@ const ChatbotWidget = () => {
     // FAQ Database
     const faqDatabase = [
         {
-            keywords: ['apa itu', 'website custom', 'custom website', 'pengertian'],
-            response: 'Website Custom adalah layanan pembuatan website yang dibuat khusus sesuai kebutuhan Anda. Bukan template! Anda bisa request desain, fitur, dan teknologi yang diinginkan. 🎨✨'
+            keywords: ['halo', 'hai', 'hello', 'hi', 'pagi', 'siang', 'sore', 'malam'],
+            response: 'Halo! 👋 Senang bertemu dengan Anda! Saya RoboBot, asisten virtual WebKuu yang siap membantu Anda.\n\nAda yang ingin Anda tanyakan tentang layanan website kami? Saya bisa bantu jelaskan tentang harga, fitur, proses pembuatan, atau apapun yang Anda butuhkan! 😊'
         },
         {
-            keywords: ['harga', 'biaya', 'berapa', 'tarif', 'price'],
-            response: 'Harga layanan kami sangat terjangkau:\n\n💰 Paket Hemat: Mulai Rp 100rb (Landing Page)\n💼 Custom/UMKM: Harga Fleksibel (sesuai kebutuhan)\n🏢 Full Custom: Harga Diskusi (sistem kompleks)\n\nHarga bervariasi tergantung fitur yang Anda butuhkan!'
+            keywords: ['apa itu', 'website custom', 'custom website', 'pengertian', 'jelaskan'],
+            response: 'Website Custom adalah layanan pembuatan website yang dibuat khusus sesuai kebutuhan Anda. Bukan template! 🎨\n\nKeuntungannya:\n✨ Desain unik sesuai brand Anda\n✨ Fitur yang Anda mau, bukan yang sudah jadi\n✨ Teknologi modern dan terkini\n✨ Lebih fleksibel untuk dikembangkan\n\nJadi website Anda benar-benar mencerminkan bisnis Anda, bukan copy-paste dari orang lain! 💪'
         },
         {
-            keywords: ['fitur', 'request', 'bisa', 'dapat'],
-            response: 'Anda bisa request berbagai fitur:\n\n✅ Desain custom 100%\n✅ Sistem booking/reservasi\n✅ Payment gateway\n✅ Dashboard admin\n✅ Integrasi API\n✅ E-commerce lengkap\n✅ Dan fitur lainnya!\n\nBeritahu kami kebutuhan Anda, kami wujudkan! 🚀'
+            keywords: ['harga', 'biaya', 'berapa', 'tarif', 'price', 'mahal'],
+            response: 'Harga layanan kami sangat terjangkau dan fleksibel! 💰\n\n📌 Paket Hemat: Mulai Rp 100.000\n   → Landing page sederhana\n   → Cocok untuk portfolio atau promosi\n\n📌 Custom/UMKM: Harga Fleksibel\n   → Sesuai fitur yang Anda butuhkan\n   → Desain custom 100%\n\n📌 Full Custom: Harga Diskusi\n   → Sistem kompleks dengan database\n   → Backend + Admin panel\n\nHarga final tergantung fitur yang Anda mau. Konsultasi gratis dulu yuk, kita diskusikan kebutuhan Anda! 😊'
         },
         {
-            keywords: ['lama', 'pengerjaan', 'waktu', 'berapa lama', 'durasi'],
-            response: 'Pengerjaan website kami cepat:\n\n⚡ Landing Page: 3-5 hari\n⚡ Website UMKM: 5-7 hari\n⚡ Sistem Kompleks: 2-4 minggu\n\nTergantung kompleksitas fitur. Kami prioritaskan kualitas tanpa mengorbankan kecepatan! ⏱️'
+            keywords: ['fitur', 'request', 'bisa', 'dapat', 'tersedia', 'ada'],
+            response: 'Anda bisa request berbagai fitur sesuai kebutuhan! 🚀\n\n✅ Desain custom 100% (sesuai brand Anda)\n✅ Sistem booking/reservasi online\n✅ Payment gateway (terima pembayaran online)\n✅ Dashboard admin (kelola konten sendiri)\n✅ Integrasi API (Google Maps, sosmed, dll)\n✅ E-commerce lengkap (toko online)\n✅ Multi-bahasa\n✅ SEO optimization\n✅ Dan masih banyak lagi!\n\nPunya ide fitur tertentu? Ceritakan aja, kami bantu wujudkan! 💡'
         },
         {
-            keywords: ['teknologi', 'tech stack', 'react', 'next', 'framework'],
-            response: 'Kami menggunakan teknologi modern:\n\n🔧 React.js + Tailwind CSS\n🔧 Next.js (SEO Friendly)\n🔧 Node.js + Express\n🔧 Laravel + PHP\n🔧 WordPress (jika diminta)\n🔧 Dan framework lainnya\n\nAnda juga bisa request tech stack tertentu! 💻'
+            keywords: ['lama', 'pengerjaan', 'waktu', 'berapa lama', 'durasi', 'cepat'],
+            response: 'Kami kerja cepat tapi tetap berkualitas! ⚡\n\n⏱️ Landing Page Sederhana: 3-5 hari kerja\n⏱️ Website UMKM/Company Profile: 5-7 hari kerja\n⏱️ Toko Online/E-commerce: 1-2 minggu\n⏱️ Sistem Kompleks (Custom): 2-4 minggu\n\nWaktu bisa lebih cepat atau lambat tergantung:\n• Kompleksitas fitur yang diminta\n• Kecepatan feedback dari Anda\n• Ketersediaan konten (teks, gambar, dll)\n\nYang pasti, kami selalu prioritaskan kualitas! 🎯'
         },
         {
-            keywords: ['order', 'pesan', 'cara', 'bagaimana', 'proses'],
-            response: 'Cara order sangat mudah:\n\n1️⃣ Konsultasi gratis (via WhatsApp/Form)\n2️⃣ Sepakati fitur & harga\n3️⃣ Kami kerjakan website Anda\n4️⃣ Review & revisi (gratis!)\n5️⃣ Website siap online! 🎉\n\nKlik tombol "Konsultasi via WhatsApp" di bawah untuk mulai!'
+            keywords: ['teknologi', 'tech stack', 'react', 'next', 'framework', 'bahasa'],
+            response: 'Kami pakai teknologi modern dan terkini! 💻\n\n🔧 Frontend:\n   • React.js + Tailwind CSS\n   • Next.js (untuk SEO maksimal)\n   • Vue.js (jika diminta)\n\n🔧 Backend:\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\n🔧 CMS:\n   • WordPress (jika Anda prefer)\n   • Custom CMS\n\n🔧 Database:\n   • MySQL, PostgreSQL, MongoDB\n\nAnda juga bisa request tech stack tertentu sesuai kebutuhan! Kami fleksibel kok! 😊'
         },
         {
-            keywords: ['paket', 'pilihan', 'tersedia'],
-            response: 'Kami punya 3 paket:\n\n📦 Paket Hemat (Rp 100rb)\n- Landing page sederhana\n- Mobile responsive\n\n📦 Custom/UMKM (Fleksibel)\n- Desain custom\n- Fitur sesuai kebutuhan\n\n📦 Full Custom (Diskusi)\n- Sistem kompleks\n- Backend + Database\n\nPilih yang sesuai kebutuhan Anda!'
+            keywords: ['order', 'pesan', 'cara', 'bagaimana', 'proses', 'mulai'],
+            response: 'Cara order sangat mudah dan simple! 📝\n\n1️⃣ Konsultasi Gratis\n   → Hubungi kami via WhatsApp/Email\n   → Ceritakan kebutuhan website Anda\n\n2️⃣ Diskusi & Penawaran\n   → Kami bantu tentukan fitur yang tepat\n   → Sepakati harga dan timeline\n\n3️⃣ Pengerjaan\n   → Kami mulai kerjakan website Anda\n   → Update progress secara berkala\n\n4️⃣ Review & Revisi\n   → Anda cek hasilnya\n   → Revisi GRATIS sampai puas!\n\n5️⃣ Launching! 🎉\n   → Website siap online\n   → Dapat support selamanya\n\nMau mulai? Hubungi kami sekarang! 📱'
         },
         {
-            keywords: ['revisi', 'gratis', 'garansi'],
-            response: 'Kami berikan:\n\n✅ Revisi GRATIS sampai puas\n✅ Garansi bug fix\n✅ Support selamanya\n✅ Konsultasi gratis\n\nKepuasan Anda prioritas kami! 🌟'
+            keywords: ['paket', 'pilihan', 'tersedia', 'rekomendasi'],
+            response: 'Kami punya 3 paket yang bisa disesuaikan! 📦\n\n💼 Paket Hemat (Mulai Rp 100rb)\n   • Landing page 1-3 halaman\n   • Desain modern & responsive\n   • Cocok untuk: Portfolio, promosi produk\n\n🏢 Custom/UMKM (Harga Fleksibel)\n   • Desain custom sesuai brand\n   • Fitur sesuai kebutuhan\n   • Cocok untuk: Company profile, UMKM\n\n🚀 Full Custom (Harga Diskusi)\n   • Sistem kompleks + database\n   • Backend & admin panel\n   • Cocok untuk: E-commerce, booking system\n\nBingung pilih yang mana? Konsultasi gratis aja, kami bantu tentukan yang paling cocok! 😊'
         },
         {
-            keywords: ['kontak', 'hubungi', 'whatsapp', 'contact'],
-            response: 'Hubungi kami:\n\n📱 WhatsApp: +62 895 6131 14028\n📧 Email: web.kuu@gmail.com\n\nKami siap membantu Anda 24/7! 💬'
+            keywords: ['revisi', 'gratis', 'garansi', 'support', 'maintenance'],
+            response: 'Kami berikan jaminan terbaik untuk Anda! 🌟\n\n✅ Revisi GRATIS sampai puas\n   → Tidak ada batasan jumlah revisi\n   → Sampai Anda benar-benar puas!\n\n✅ Garansi Bug Fix\n   → Gratis perbaikan jika ada error\n   → Berlaku selamanya\n\n✅ Support Selamanya\n   → Konsultasi gratis kapanpun\n   → Bantuan teknis jika ada masalah\n\n✅ Update Konten\n   → Kami ajari cara update sendiri\n   → Atau bisa request ke kami (gratis!)\n\nKepuasan dan kesuksesan Anda adalah prioritas kami! 💪'
+        },
+        {
+            keywords: ['kontak', 'hubungi', 'whatsapp', 'contact', 'email', 'telepon'],
+            response: 'Yuk hubungi kami sekarang! 📞\n\n📱 WhatsApp: +62 895 6131 14028\n   → Chat langsung dengan tim kami\n   → Konsultasi gratis!\n\n📧 Email: web.kuu@gmail.com\n   → Untuk pertanyaan detail\n   → Kirim brief project Anda\n\n🌐 Website: Anda sedang di sini! 😊\n\n⏰ Jam Operasional:\n   → Senin - Sabtu: 09.00 - 21.00 WIB\n   → Minggu: 10.00 - 18.00 WIB\n\nKami fast response kok! Biasanya balas dalam hitungan menit! 💬'
+        },
+        {
+            keywords: ['portfolio', 'contoh', 'hasil', 'karya', 'project'],
+            response: 'Kami sudah banyak mengerjakan berbagai project! 🎨\n\nAnda bisa lihat portfolio kami di halaman Portfolio website ini. Ada berbagai jenis website yang sudah kami buat:\n\n✨ Company Profile\n✨ Toko Online\n✨ Landing Page\n✨ Website UMKM\n✨ Sistem Booking\n✨ Dan masih banyak lagi!\n\nSetiap project dikerjakan dengan detail dan sesuai kebutuhan klien. Mau lihat? Klik menu Portfolio di atas! 👆'
+        },
+        {
+            keywords: ['terima kasih', 'thanks', 'makasih', 'ok', 'oke', 'siap'],
+            response: 'Sama-sama! 😊🙏\n\nSenang bisa membantu Anda! Kalau ada pertanyaan lain, jangan ragu untuk tanya ya.\n\nKalau sudah siap untuk mulai project, langsung hubungi kami via WhatsApp atau email. Kami tunggu kabar baiknya! 💙\n\nSemoga harimu menyenangkan! ✨'
+        },
+        {
+            keywords: ['responsive', 'mobile', 'hp', 'handphone', 'tablet'],
+            response: 'Semua website yang kami buat PASTI mobile-friendly! 📱💻\n\n✅ Responsive Design\n   → Tampil sempurna di semua device\n   → HP, tablet, laptop, desktop\n\n✅ Fast Loading\n   → Optimasi kecepatan maksimal\n   → User experience terbaik\n\n✅ Touch-Friendly\n   → Tombol dan menu mudah diklik\n   → Navigasi smooth di touchscreen\n\nDi era sekarang, 70% pengunjung dari mobile. Jadi responsive design itu WAJIB! 🎯'
+        },
+        {
+            keywords: ['seo', 'google', 'ranking', 'optimasi', 'pencarian'],
+            response: 'SEO adalah salah satu fokus utama kami! 🔍\n\n✅ SEO-Friendly Structure\n   → Kode yang clean dan terstruktur\n   → Meta tags yang optimal\n\n✅ Fast Loading Speed\n   → Google suka website cepat\n   → Kami optimasi maksimal\n\n✅ Mobile Optimization\n   → Google prioritaskan mobile-first\n   → Website kami pasti responsive\n\n✅ Content Optimization\n   → Heading structure yang benar\n   → Alt text untuk gambar\n\n✅ Sitemap & Analytics\n   → Submit ke Google Search Console\n   → Tracking dengan Google Analytics\n\nWebsite bagus tapi gak keliatan di Google = percuma! Makanya kami pastikan website Anda SEO-friendly! 📈'
         }
     ];
 
@@ -87,7 +106,7 @@ const ChatbotWidget = () => {
             }
         }
 
-        return 'Maaf, saya belum mengerti pertanyaan Anda. 😅\n\nCoba tanyakan tentang:\n• Harga layanan\n• Fitur yang tersedia\n• Cara order\n• Tech stack\n• Waktu pengerjaan\n\nAtau hubungi kami langsung via WhatsApp untuk konsultasi gratis! 📱';
+        return 'Hmm, saya belum sepenuhnya mengerti pertanyaan Anda. 😅\n\nTapi tenang! Saya bisa bantu jelaskan tentang:\n\n💡 Harga & Paket Layanan\n💡 Fitur yang Bisa Direquest\n💡 Cara Order & Proses Kerja\n💡 Teknologi yang Digunakan\n💡 Waktu Pengerjaan\n💡 Portfolio & Contoh Karya\n💡 Garansi & Support\n💡 SEO & Mobile Optimization\n\nCoba tanyakan salah satu topik di atas, atau langsung hubungi kami via WhatsApp untuk konsultasi lebih detail! 📱\n\nAtau gunakan tombol pertanyaan cepat di bawah untuk mulai! 👇';
     };
 
     const handleSendMessage = (text = inputText) => {
@@ -299,16 +318,7 @@ const ChatbotWidget = () => {
                             </div>
                         )}
 
-                        {/* Order CTA */}
-                        <div className="p-3 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 border-t-2 border-blue-200 dark:border-blue-800">
-                            <Link
-                                to="/order"
-                                className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-xl transition-all text-sm shadow-lg hover:shadow-blue-500/30"
-                            >
-                                <ShoppingCart size={16} />
-                                Order Sekarang
-                            </Link>
-                        </div>
+
 
                         {/* Input */}
                         <div className="p-4 bg-white dark:bg-slate-800 border-t-2 border-blue-100 dark:border-slate-700">
