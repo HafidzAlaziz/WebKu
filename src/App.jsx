@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import HomePage from './pages/HomePage';
 import OrderPage from './pages/OrderPage';
+import PortfolioPage from './pages/PortfolioPage';
 import ChatbotWidget from './components/ChatbotWidget';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/order" element={<OrderPage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
           </Routes>
           <ChatbotWidget />
         </div>

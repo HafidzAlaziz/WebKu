@@ -33,6 +33,7 @@ const Navbar = () => {
     const navLinks = [
         { name: 'Home', href: '#home' },
         { name: 'Layanan', href: '#services' },
+        { name: 'Portfolio', href: '/portfolio', isRoute: true },
         { name: 'Harga', href: '#pricing' },
         { name: 'Testimoni', href: '#testimonials' },
     ];
@@ -91,14 +92,24 @@ const Navbar = () => {
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center space-x-8">
                     {navLinks.map((link) => (
-                        <a
-                            key={link.name}
-                            href={link.href}
-                            onClick={(e) => handleScroll(e, link.href)}
-                            className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors cursor-pointer"
-                        >
-                            {link.name}
-                        </a>
+                        link.isRoute ? (
+                            <Link
+                                key={link.name}
+                                to={link.href}
+                                className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
+                            >
+                                {link.name}
+                            </Link>
+                        ) : (
+                            <a
+                                key={link.name}
+                                href={link.href}
+                                onClick={(e) => handleScroll(e, link.href)}
+                                className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors cursor-pointer"
+                            >
+                                {link.name}
+                            </a>
+                        )
                     ))}
                     <motion.button
                         onClick={handleToggleTheme}
@@ -150,14 +161,25 @@ const Navbar = () => {
                     >
                         <div className="flex flex-col p-4 space-y-2">
                             {navLinks.map((link) => (
-                                <a
-                                    key={link.name}
-                                    href={link.href}
-                                    onClick={(e) => handleScroll(e, link.href)}
-                                    className="block w-full py-3 px-4 text-slate-600 dark:text-slate-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
-                                >
-                                    {link.name}
-                                </a>
+                                link.isRoute ? (
+                                    <Link
+                                        key={link.name}
+                                        to={link.href}
+                                        className="block w-full py-3 px-4 text-slate-600 dark:text-slate-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ) : (
+                                    <a
+                                        key={link.name}
+                                        href={link.href}
+                                        onClick={(e) => handleScroll(e, link.href)}
+                                        className="block w-full py-3 px-4 text-slate-600 dark:text-slate-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer"
+                                    >
+                                        {link.name}
+                                    </a>
+                                )
                             ))}
                             <Link
                                 to="/order"
