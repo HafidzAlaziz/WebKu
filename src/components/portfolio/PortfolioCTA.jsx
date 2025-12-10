@@ -101,7 +101,7 @@ const PortfolioCTA = () => {
 
                         {/* Chat Admin Button */}
                         <motion.a
-                            href="https://wa.me/62895613114028"
+                            href="https://wa.me/6285122959690"
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}

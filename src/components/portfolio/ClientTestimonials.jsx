@@ -216,29 +216,6 @@ const ClientTestimonials = () => {
                         ))}
                     </div>
                 </div>
-
-                {/* CTA
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4 }}
-                    className="text-center mt-16"
-                >
-                    <p className="text-lg text-slate-600 dark:text-slate-300 mb-6">
-                        Ingin website custom juga? Hubungi kami untuk konsultasi gratis.
-                    </p>
-                    <motion.a
-                        href="https://wa.me/62895613114028"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="inline-block px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-xl"
-                    >
-                        Chat Admin Sekarang
-                    </motion.a>
-                </motion.div> */}
             </div>
         </section>
     );
