@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Instagram, Twitter, Mail, Phone, MapPin, Heart } from 'lucide-react';
+import { Facebook, Instagram, Mail, Phone, MapPin, Heart } from 'lucide-react';
 
 const Footer = () => {
     return (
@@ -14,14 +14,23 @@ const Footer = () => {
                             Jasa pembuatan website profesional terpercaya. Kami membantu bisnis Anda tumbuh di era digital dengan solusi website terbaik.
                         </p>
                         <div className="flex gap-4">
-                            <a href="#" className="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
+                            <a
+                                href="https://www.instagram.com/web.kuu3?igsh=MWxoc2tiOG85dmh3Zg=="
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-pink-600 hover:text-white transition-all"
+                                aria-label="Instagram WebKuu"
+                            >
                                 <Instagram size={20} />
                             </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
+                            <a
+                                href="https://www.facebook.com/share/1FpmQZd6nW/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all"
+                                aria-label="Facebook WebKuu"
+                            >
                                 <Facebook size={20} />
-                            </a>
-                            <a href="#" className="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all">
-                                <Twitter size={20} />
                             </a>
                         </div>
                     </div>
