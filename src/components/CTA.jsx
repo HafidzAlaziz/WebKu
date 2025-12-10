@@ -4,6 +4,22 @@ import { MessageCircle, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const CTA = () => {
+    // Template pesan WhatsApp
+    const whatsappMessage = `Halo WebKuu! 👋
+
+Saya ingin konsultasi tentang pembuatan website.
+
+📋 *Informasi Awal:*
+• Jenis Website: [Isi jenis website yang diinginkan]
+• Budget: [Isi budget yang tersedia]
+• Deadline: [Isi deadline yang diharapkan]
+
+Saya tertarik untuk mengetahui lebih lanjut tentang layanan pembuatan website custom dari WebKuu.
+
+Terima kasih! 🙏`;
+
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+
     return (
         <section id="order" className="py-20 bg-blue-600 relative overflow-hidden">
             {/* Background Patterns */}
@@ -39,7 +55,7 @@ const CTA = () => {
                         </Link>
 
                         <motion.a
-                            href="https://wa.me/62895613114028?text=Halo, saya ingin konsultasi pembuatan website"
+                            href={`https://wa.me/6285122959690?text=${encodedMessage}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.05 }}

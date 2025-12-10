@@ -70,7 +70,7 @@ const ChatbotWidget = () => {
         },
         {
             keywords: ['kontak', 'hubungi', 'whatsapp', 'contact', 'email', 'telepon'],
-            response: 'Yuk hubungi kami sekarang! 📞\n\n📱 WhatsApp: +62 895 6131 14028\n   → Chat langsung dengan tim kami\n   → Konsultasi gratis!\n\n📧 Email: web.kuu@gmail.com\n   → Untuk pertanyaan detail\n   → Kirim brief project Anda\n\n🌐 Website: Anda sedang di sini! 😊\n\n⏰ Jam Operasional:\n   → Senin - Sabtu: 09.00 - 21.00 WIB\n   → Minggu: 10.00 - 18.00 WIB\n\nKami fast response kok! Biasanya balas dalam hitungan menit! 💬'
+            response: 'Yuk hubungi kami sekarang! 📞\n\n📱 WhatsApp: +62 851 2295 9690\n   → Chat langsung dengan tim kami\n   → Konsultasi gratis!\n\n📧 Email: web.kuu@gmail.com\n   → Untuk pertanyaan detail\n   → Kirim brief project Anda\n\n🌐 Website: Anda sedang di sini! 😊\n\n⏰ Jam Operasional:\n   → Senin - Sabtu: 09.00 - 21.00 WIB\n   → Minggu: 10.00 - 18.00 WIB\n\nKami fast response kok! Biasanya balas dalam hitungan menit! 💬'
         },
         {
             keywords: ['portfolio', 'contoh', 'hasil', 'karya', 'project'],

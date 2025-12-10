@@ -4,6 +4,22 @@ import { MessageCircle, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const PortfolioCTA = () => {
+    // Template pesan WhatsApp
+    const whatsappMessage = `Halo WebKuu! 👋
+
+Saya ingin konsultasi tentang pembuatan website.
+
+📋 *Informasi Awal:*
+• Jenis Website: [Isi jenis website yang diinginkan]
+• Budget: [Isi budget yang tersedia]
+• Deadline: [Isi deadline yang diharapkan]
+
+Saya tertarik untuk mengetahui lebih lanjut tentang layanan pembuatan website custom dari WebKuu.
+
+Terima kasih! 🙏`;
+
+    const encodedMessage = encodeURIComponent(whatsappMessage);
+
     return (
         <section className="py-20 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 dark:from-blue-800 dark:via-indigo-900 dark:to-purple-900 relative overflow-hidden">
             {/* Animated Background Elements */}
@@ -101,7 +117,7 @@ const PortfolioCTA = () => {
 
                         {/* Chat Admin Button */}
                         <motion.a
-                            href="https://wa.me/6285122959690"
+                            href={`https://wa.me/6285122959690?text=${encodedMessage}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
