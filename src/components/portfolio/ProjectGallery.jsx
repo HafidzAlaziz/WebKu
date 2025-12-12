@@ -13,7 +13,7 @@ const projectsData = [
         shortDescription: "Website company profile profesional untuk layanan fotografi",
         fullDescription: "Website company profile modern untuk Aura Visuals yang menampilkan layanan fotografi, portfolio, dan daftar harga. Desain elegan dengan nuansa monokrom dan emas, dilengkapi animasi yang halus.",
         duration: "1 Minggu",
-        client: "Aura Visuals",
+        client: "Create",
         demoLink: "https://company-profile-xi-indol.vercel.app/",
         technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
         features: [
@@ -33,7 +33,7 @@ const projectsData = [
         shortDescription: "Platform e-commerce modern untuk toko fashion dengan sistem pembayaran terintegrasi",
         fullDescription: "Website e-commerce lengkap dengan fitur keranjang belanja, checkout, payment gateway, dan admin dashboard untuk mengelola produk dan pesanan. Desain modern dan responsif dengan performa tinggi.",
         duration: "3 Minggu",
-        client: "Fashion Co.",
+        client: "Client",
         demoLink: "",
         technologies: ["React", "Tailwind CSS", "Node.js", "MongoDB", "Stripe"],
         features: [
@@ -55,7 +55,7 @@ const projectsData = [
         shortDescription: "Website company profile profesional dengan animasi modern dan konten interaktif",
         fullDescription: "Website company profile yang menampilkan informasi perusahaan, layanan, portfolio, dan tim dengan desain yang clean dan profesional. Dilengkapi dengan form kontak dan integrasi media sosial.",
         duration: "2 Minggu",
-        client: "TechStart Inc.",
+        client: "Client",
         demoLink: "",
         technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "EmailJS"],
         features: [
@@ -77,7 +77,7 @@ const projectsData = [
         shortDescription: "Landing page konversi tinggi untuk produk SaaS dengan CTA yang kuat",
         fullDescription: "Landing page yang dirancang khusus untuk meningkatkan konversi dengan copywriting yang persuasif, desain yang menarik, dan call-to-action yang jelas. Dilengkapi dengan analytics tracking.",
         duration: "1 Minggu",
-        client: "SaaS Pro",
+        client: "Client",
         demoLink: "",
         technologies: ["React", "Tailwind CSS", "Vite", "Google Analytics"],
         features: [
@@ -99,7 +99,7 @@ const projectsData = [
         shortDescription: "Sistem pemesanan online untuk restoran dengan menu digital interaktif",
         fullDescription: "Platform pemesanan makanan online dengan menu digital yang interaktif, sistem keranjang, dan integrasi dengan WhatsApp untuk konfirmasi pesanan. Desain yang appetizing dan user-friendly.",
         duration: "2 Minggu",
-        client: "Resto Nusantara",
+        client: "Client",
         demoLink: "",
         technologies: ["React", "Tailwind CSS", "Firebase", "WhatsApp API"],
         features: [
@@ -121,7 +121,7 @@ const projectsData = [
         shortDescription: "Portfolio website untuk fotografer dengan galeri foto yang stunning",
         fullDescription: "Website portfolio yang menampilkan karya fotografi dengan galeri yang indah, lightbox untuk viewing, dan kategori yang terorganisir. Desain minimalis yang menonjolkan karya fotografi.",
         duration: "1.5 Minggu",
-        client: "PhotoArt Studio",
+        client: "Client",
         demoLink: "",
         technologies: ["Next.js", "Tailwind CSS", "Cloudinary", "Lightbox"],
         features: [
@@ -143,7 +143,7 @@ const projectsData = [
         shortDescription: "Platform pembelajaran online dengan video courses dan quiz interaktif",
         fullDescription: "Platform e-learning lengkap dengan sistem course management, video player, quiz interaktif, progress tracking, dan sertifikat digital. Mendukung berbagai format konten pembelajaran.",
         duration: "4 Minggu",
-        client: "EduLearn",
+        client: "Client",
         demoLink: "",
         technologies: ["React", "Node.js", "MongoDB", "Video.js", "PDF.js"],
         features: [
