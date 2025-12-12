@@ -6,6 +6,26 @@ import ProjectModal from './ProjectModal';
 // Sample project data - you can replace this with your actual projects
 const projectsData = [
     {
+        id: 0,
+        name: "Aura Visuals",
+        type: "Company Profile",
+        thumbnail: "https://company-profile-xi-indol.vercel.app/images/portfolio-1.jpg",
+        shortDescription: "Website company profile profesional untuk layanan fotografi",
+        fullDescription: "Website company profile modern untuk Aura Visuals yang menampilkan layanan fotografi, portfolio, dan daftar harga. Desain elegan dengan nuansa monokrom dan emas, dilengkapi animasi yang halus.",
+        duration: "1 Minggu",
+        client: "Aura Visuals",
+        demoLink: "https://company-profile-xi-indol.vercel.app/",
+        technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
+        features: [
+            "Modern & Elegant Design",
+            "Responsive Gallery",
+            "Pricing Tables",
+            "Contact Form",
+            "Smooth Animations",
+            "SEO Optimized"
+        ]
+    },
+    {
         id: 1,
         name: "E-Commerce Fashion Store",
         type: "Toko Online",
