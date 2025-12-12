@@ -39,7 +39,10 @@ const ProjectCard = ({ project, onClick }) => {
                         {project.name}
                     </h3>
                     {project.client && (
-                        <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 text-xs font-semibold rounded-full flex items-center gap-1 flex-shrink-0">
+                        <span className={`px-2 py-1 text-xs font-semibold rounded-full flex items-center gap-1 flex-shrink-0 ${project.client === 'Client'
+                                ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                                : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400'
+                            }`}>
                             <Star size={12} fill="currentColor" />
                             {project.client}
                         </span>
