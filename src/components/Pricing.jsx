@@ -6,45 +6,42 @@ import { Link } from 'react-router-dom';
 const Pricing = () => {
     const plans = [
         {
-            name: 'Paket Hemat',
+            name: 'Starter / Landing Page',
             price: '100rb',
-            description: 'Cocok untuk landing page sederhana, undangan digital, atau bio link.',
+            description: 'Solusi hemat untuk landing page sederhana atau profil usaha.',
             features: [
-                '1 Halaman Landing Page',
-                'Desain Template Premium',
+                '1 Halaman Website',
+                'Desain Rapih & Modern',
                 'Mobile Responsive',
-                'Gratis Konsultasi',
-                'Revisi Sepuasnya',
+                'Tombol ke WhatsApp/Sosmed',
+                'Pengerjaan Cepat (48 Jam)',
+                'Gratis Hosting (Subdomain)',
             ],
             recommended: false,
         },
         {
-            name: 'Custom / UMKM',
-            price: 'Fleksibel',
-            description: 'Paling laris! Website custom sesuai kebutuhan bisnis Anda.',
+            name: 'Enterprise / Full Custom',
+            price: 'Diskusi',
+            description: 'Harga menyesuaikan fitur dan tingkat kesulitan website.',
             features: [
-                'Desain Custom (Bisa Request)',
-                'Halaman Sesuai Kebutuhan',
-                'Fitur Bebas Request',
-                'Gratis Domain & Hosting',
-                'Support & Maintenance',
-                'Gratis Revisi Sepuasnya',
-                'Tech Stack Bebas (React/Next.js/dll)',
+                'Fitur Sesuai Request & Budget',
+                'Konsultasi Teknis Mendalam',
+                'Prioritas Support & Garansi',
             ],
             recommended: true,
         },
         {
-            name: 'Full Custom',
-            price: 'Diskusi',
-            description: 'Solusi kompleks untuk perusahaan, startup, atau toko online besar.',
+            name: 'Professional / UMKM',
+            price: '1 Juta',
+            description: 'Website bisnis profesional untuk meningkatkan kredibilitas.',
             features: [
-                'Unlimited Pages',
-                'Sistem Kompleks (Backend+DB)',
-                'Payment Gateway',
-                'Dashboard Admin Custom',
-                'Prioritas Support 24/7',
-                'Dokumentasi Lengkap',
-                'Garansi Error Selamanya',
+                'Desain Eksklusif (Bukan Template)',
+                'Hingga 5 Halaman (Home, About, dll)',
+                'Gratis Domain .com (1 Tahun)',
+                'Optimasi SEO Dasar (Google)',
+                'Integrasi Maps & Form Kontak',
+                'Revisi Desain 3x',
+                'Gratis Maintenance 1 Bulan',
             ],
             recommended: false,
         },
@@ -82,10 +79,10 @@ const Pricing = () => {
                                 <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">{plan.description}</p>
                                 <div className="mb-6">
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">
-                                        {plan.price === '100rb' ? 'Mulai dari' : 'Harga'}
+                                        {(plan.price === '100rb' || plan.price === '1 Juta') ? 'Mulai dari' : 'Harga'}
                                     </p>
                                     <div className="flex items-baseline">
-                                        {plan.price === '100rb' && <span className="text-sm text-slate-500 dark:text-slate-400 font-semibold">Rp</span>}
+                                        {(plan.price === '100rb' || plan.price === '1 Juta') && <span className="text-sm text-slate-500 dark:text-slate-400 font-semibold">Rp</span>}
                                         <span className="text-4xl font-bold text-slate-900 dark:text-white mx-1">{plan.price}</span>
                                     </div>
                                 </div>

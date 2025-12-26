@@ -156,19 +156,94 @@ const projectsData = [
             "Instructor panel",
             "Payment integration"
         ]
+    },
+    {
+        id: 7,
+        name: "Smart AI Chatbot",
+        type: "Web Application",
+        thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
+        shortDescription: "Asisten virtual cerdas berbasis AI untuk layanan pelanggan otomatis",
+        fullDescription: "Aplikasi chatbot cerdas yang menggunakan teknologi AI untuk merespons pertanyaan pengguna secara natural dan real-time. Cocok untuk customer service 24 jam dengan integrasi mudah ke berbagai platform.",
+        duration: "2 Minggu",
+        client: "Create",
+        demoLink: "https://chatbot-dusky-eta-13.vercel.app/",
+        technologies: ["React", "Tailwind CSS", "OpenAI API", "Vercel"],
+        features: [
+            "Natural Language Processing",
+            "Real-time Response",
+            "Mobile Responsive Chat UI",
+            "Custom Personality",
+            "History Chat",
+            "Dark Mode Support",
+            "Fast & Lightweight"
+        ]
+    },
+    {
+        id: 8,
+        name: "Handara Golf & Resort Bali",
+        type: "Company Profile",
+        thumbnail: "https://images.unsplash.com/photo-1582653291997-079a1c04e5a1?w=800&h=600&fit=crop",
+        shortDescription: "Website resmi resort mewah di Bali dengan pemandangan golf yang indah",
+        fullDescription: "Website company profile premium untuk Handara Golf & Resort Bali. Menampilkan keindahan resort, layanan golf, fasilitas penginapan, dan informasi booking dengan desain elegan dan visual yang memukau.",
+        duration: "3 Minggu",
+        client: "Create",
+        demoLink: "https://handara-bali.vercel.app/",
+        technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "React Leaflet"],
+        features: [
+            "Luxury Visual Design",
+            "Interactive Map Integration",
+            "Room & Golf Showcase",
+            "Booking Information",
+            "Smooth Page Transitions",
+            "SEO Optimized for Travel",
+            "Responsive Mobile View"
+        ]
     }
 ];
 
 const ProjectGallery = () => {
     const [selectedProject, setSelectedProject] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [sourceFilter, setSourceFilter] = useState('All'); // 'All' | 'Client' | 'Create'
     const [filter, setFilter] = useState('All');
+    const [visibleCount, setVisibleCount] = useState(3);
 
-    const categories = ['All', 'Toko Online', 'Company Profile', 'Landing Page', 'Portfolio', 'Learning Management System'];
+    const categories = ['All', 'Web Application', 'Company Profile', 'Toko Online', 'Landing Page', 'Portfolio'];
 
-    const filteredProjects = filter === 'All'
+    // 1. Filter by Category
+    const categoryFiltered = filter === 'All'
         ? projectsData
         : projectsData.filter(project => project.type === filter);
+
+    // 2. Filter by Source (Client vs Create)
+    const finalFilteredProjects = sourceFilter === 'All'
+        ? categoryFiltered
+        : categoryFiltered.filter(project => {
+            if (sourceFilter === 'Create') return project.client === 'Create';
+            return project.client !== 'Create'; // Assuming anything not 'Create' is a Client project
+        });
+
+    // 3. Pagination Logic
+    const displayedProjects = finalFilteredProjects.slice(0, visibleCount);
+    const hasMoreProjects = finalFilteredProjects.length > visibleCount;
+
+    const handleFilterChange = (category) => {
+        setFilter(category);
+        setVisibleCount(3); // Reset pagination on filter change
+    };
+
+    const handleSourceFilterChange = (source) => {
+        setSourceFilter(source);
+        setVisibleCount(3); // Reset pagination on filter change
+    };
+
+    const handleShowMore = () => {
+        if (hasMoreProjects) {
+            setVisibleCount(finalFilteredProjects.length); // Show All
+        } else {
+            setVisibleCount(3); // Show Less (Reset)
+        }
+    };
 
     const handleProjectClick = (project) => {
         setSelectedProject(project);
@@ -199,7 +274,30 @@ const ProjectGallery = () => {
                     </p>
                 </motion.div>
 
-                {/* Filter Buttons */}
+                {/* Source Filter (Top Level) */}
+                <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="flex justify-center mb-8"
+                >
+                    <div className="bg-white dark:bg-slate-800 p-1.5 rounded-full inline-flex shadow-sm border border-slate-200 dark:border-slate-700">
+                        {['All', 'Client', 'Create'].map((source) => (
+                            <button
+                                key={source}
+                                onClick={() => handleSourceFilterChange(source)}
+                                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${sourceFilter === source
+                                    ? 'bg-blue-600 text-white shadow-md'
+                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                                    }`}
+                            >
+                                {source}
+                            </button>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* Category Filter Buttons */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -212,10 +310,10 @@ const ProjectGallery = () => {
                             key={category}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => setFilter(category)}
+                            onClick={() => handleFilterChange(category)}
                             className={`px-6 py-2.5 rounded-full font-medium transition-all ${filter === category
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
-                                : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg'
+                                : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
                                 }`}
                         >
                             {category}
@@ -226,9 +324,9 @@ const ProjectGallery = () => {
                 {/* Projects Grid */}
                 <motion.div
                     layout
-                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
                 >
-                    {filteredProjects.map((project, index) => (
+                    {displayedProjects.map((project, index) => (
                         <motion.div
                             key={project.id}
                             layout
@@ -245,8 +343,24 @@ const ProjectGallery = () => {
                     ))}
                 </motion.div>
 
+                {/* Show More / Show Less Button */}
+                {finalFilteredProjects.length > 3 && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        className="flex justify-center"
+                    >
+                        <button
+                            onClick={handleShowMore}
+                            className="px-8 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-semibold rounded-full hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
+                        >
+                            {hasMoreProjects ? "Lihat Selengkapnya" : "Lebih Sedikit"}
+                        </button>
+                    </motion.div>
+                )}
+
                 {/* Empty State */}
-                {filteredProjects.length === 0 && (
+                {finalFilteredProjects.length === 0 && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

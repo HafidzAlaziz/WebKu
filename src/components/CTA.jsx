@@ -21,7 +21,7 @@ Terima kasih! 🙏`;
     const encodedMessage = encodeURIComponent(whatsappMessage);
 
     return (
-        <section id="order" className="py-20 bg-blue-600 relative overflow-hidden">
+        <section id="order" className="py-20 bg-blue-600 relative z-10 overflow-hidden">
             {/* Background Patterns */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
                 <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white blur-3xl" />

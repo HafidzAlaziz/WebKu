@@ -11,3 +11,143 @@
     @apply bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 font-sans antialiased;
   }
 }
+
+/* Rocket Animation CSS */
+.rain {
+  position: absolute;
+  width: 2px;
+  /* Thinner rain */
+  height: 5rem;
+  background: #ffffff;
+  border-radius: 20%;
+  opacity: 0.1;
+  /* More subtle */
+  z-index: 1;
+}
+
+.drop {
+  width: 2px;
+  height: 4rem;
+  background: #ffffff;
+  position: absolute;
+  border-radius: 20%;
+  opacity: 0.1;
+}
+
+.rain1 {
+  left: 5%;
+  top: 2%;
+  animation: raining 2s linear infinite both;
+}
+
+.rain2 {
+  left: 15%;
+  top: 10%;
+  animation: raining 3s linear infinite both;
+}
+
+.drop2 {
+  top: 12rem;
+  animation: raining 4s linear infinite both -2s;
+}
+
+.rain3 {
+  left: 5%;
+  top: 35%;
+  animation: raining 3s linear infinite both;
+}
+
+.rain4 {
+  right: 23%;
+  top: 6%;
+  animation: raining 4s linear infinite both;
+}
+
+.rain5 {
+  left: 25%;
+  top: 47%;
+  animation: raining 3s linear infinite both -3s;
+}
+
+.drop5 {
+  top: -6rem;
+  animation: raining 2s linear infinite both;
+}
+
+.rain6 {
+  right: 10%;
+  top: 34%;
+  animation: raining 3s linear infinite both;
+}
+
+.rain7 {
+  left: 34%;
+  top: 10%;
+  animation: raining 2s linear infinite both -5s;
+}
+
+.rain8 {
+  right: 25%;
+  top: 40%;
+  animation: raining 3s linear infinite both;
+}
+
+.drop8 {
+  top: -7rem;
+  animation: raining 4s linear infinite both -6s;
+}
+
+.rain9 {
+  right: 5%;
+  top: 15.5%;
+  animation: raining 3s linear infinite both;
+}
+
+.rain10 {
+  left: 24%;
+  top: -4%;
+  animation: raining 2s linear infinite both -3s;
+}
+
+.drop11 {
+  right: 17%;
+  top: 20%;
+  animation: raining 3s linear infinite both;
+}
+
+.drop12 {
+  right: 15%;
+  top: 50%;
+  animation: raining 4s linear infinite both -1s;
+}
+
+.rain11 {
+  left: 45%;
+  top: 15%;
+  animation: raining 2.5s linear infinite both;
+  opacity: 0.05;
+}
+
+.rain12 {
+  right: 40%;
+  top: 25%;
+  animation: raining 3.5s linear infinite both -1.5s;
+  opacity: 0.05;
+}
+
+.rain13 {
+  left: 60%;
+  top: 5%;
+  animation: raining 2.2s linear infinite both -0.5s;
+  opacity: 0.05;
+}
+
+@keyframes raining {
+  from {
+    transform: translateY(-200px);
+  }
+
+  to {
+    transform: translateY(800px);
+  }
+}

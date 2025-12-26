@@ -10,7 +10,7 @@ const OrderPage = () => {
         email: '',
         phone: '',
         company: '',
-        package: 'basic',
+        package: 'starter',
         websiteType: '',
         techStack: '',
         message: '',
@@ -93,9 +93,9 @@ const OrderPage = () => {
 
         // Format data untuk WhatsApp
         const packageNames = {
-            hemat: 'Paket Hemat - Rp 100rb',
-            custom: 'Custom / UMKM - Harga Fleksibel',
-            fullcustom: 'Full Custom - Harga Diskusi'
+            starter: 'Starter / Landing Page - Rp 100rb',
+            professional: 'Professional / UMKM - Rp 1 Juta',
+            enterprise: 'Enterprise / Full Custom - Harga Diskusi'
         };
 
         const websiteTypes = {
@@ -155,7 +155,7 @@ const OrderPage = () => {
                 email: '',
                 phone: '',
                 company: '',
-                package: 'hemat',
+                package: 'starter',
                 websiteType: '',
                 techStack: '',
                 message: '',
@@ -389,9 +389,9 @@ const OrderPage = () => {
                                                 required
                                                 className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
                                             >
-                                                <option value="hemat">Paket Hemat - Rp 100rb</option>
-                                                <option value="custom">Custom / UMKM - Harga Fleksibel</option>
-                                                <option value="fullcustom">Full Custom - Harga Diskusi</option>
+                                                <option value="starter">Starter / Landing Page - Rp 100rb</option>
+                                                <option value="professional">Professional / UMKM - Rp 1 Juta</option>
+                                                <option value="enterprise">Enterprise / Full Custom - Harga Diskusi</option>
                                             </select>
                                         </div>
 

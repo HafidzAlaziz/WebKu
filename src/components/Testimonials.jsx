@@ -61,7 +61,7 @@ const Testimonials = () => {
     };
 
     return (
-        <section id="testimonials" className="py-20 bg-white dark:bg-slate-900 overflow-hidden">
+        <section id="testimonials" className="py-20 bg-slate-50 dark:bg-slate-800 relative z-10 overflow-hidden">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">Apa Kata Mereka?</h2>
@@ -71,11 +71,11 @@ const Testimonials = () => {
                 </div>
 
                 <div className="max-w-4xl mx-auto relative">
-                    <div className="absolute top-0 left-0 -translate-x-4 -translate-y-4 text-blue-100 dark:text-blue-900/50">
+                    <div className="absolute top-0 left-0 -translate-x-4 -translate-y-4 text-white/5 dark:text-blue-900/20">
                         <Quote size={120} />
                     </div>
 
-                    <div className="relative z-10 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 p-8 md:p-12 min-h-[300px] flex items-center justify-center">
+                    <div className="relative z-10 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 p-8 md:p-12 min-h-[300px] flex items-center justify-center">
                         <AnimatePresence mode='wait'>
                             <motion.div
                                 key={currentIndex}
