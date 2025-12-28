@@ -7,12 +7,31 @@ import ProjectModal from './ProjectModal';
 const projectsData = [
     {
         id: 0,
+        name: "Vayana",
+        type: "Company Profile",
+        thumbnail: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop",
+        shortDescription: "Website premium untuk hotel dan resort mewah dengan desain minimalis elegan.",
+        fullDescription: "Landing page premium untuk Vayana Hotel & Resort yang menampilkan kamar mewah, fasilitas eksklusif, dan pengalaman menginap kelas dunia. Desain menggunakan pendekatan luxury minimalist dengan fokus pada visual berkualitas tinggi.",
+        duration: "1 Hari",
+        client: "Create",
+        demoLink: "https://vayana-hazel.vercel.app/",
+        technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
+        features: [
+            "Luxury Visual Design",
+            "Room Showcase",
+            "Amenities Highlight",
+            "Responsive Header",
+            "Smooth Transitions"
+        ]
+    },
+    {
+        id: 1,
         name: "Aura Visuals",
         type: "Company Profile",
         thumbnail: "https://company-profile-xi-indol.vercel.app/images/portfolio-1.jpg",
         shortDescription: "Website company profile profesional untuk layanan fotografi",
         fullDescription: "Website company profile modern untuk Aura Visuals yang menampilkan layanan fotografi, portfolio, dan daftar harga. Desain elegan dengan nuansa monokrom dan emas, dilengkapi animasi yang halus.",
-        duration: "1 Minggu",
+        duration: "1 Hari",
         client: "Create",
         demoLink: "https://company-profile-xi-indol.vercel.app/",
         technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
@@ -26,7 +45,7 @@ const projectsData = [
         ]
     },
     {
-        id: 1,
+        id: 2,
         name: "E-Commerce Fashion Store",
         type: "Toko Online",
         thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
@@ -48,7 +67,7 @@ const projectsData = [
         ]
     },
     {
-        id: 2,
+        id: 3,
         name: "Company Profile Tech Startup",
         type: "Company Profile",
         thumbnail: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
@@ -70,7 +89,7 @@ const projectsData = [
         ]
     },
     {
-        id: 3,
+        id: 4,
         name: "Landing Page SaaS Product",
         type: "Landing Page",
         thumbnail: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
@@ -92,7 +111,7 @@ const projectsData = [
         ]
     },
     {
-        id: 4,
+        id: 5,
         name: "Restaurant Menu & Ordering",
         type: "Toko Online",
         thumbnail: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
@@ -114,7 +133,7 @@ const projectsData = [
         ]
     },
     {
-        id: 5,
+        id: 6,
         name: "Portfolio Photographer",
         type: "Portfolio",
         thumbnail: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop",
@@ -136,7 +155,7 @@ const projectsData = [
         ]
     },
     {
-        id: 6,
+        id: 7,
         name: "Educational Platform",
         type: "Learning Management System",
         thumbnail: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=600&fit=crop",
@@ -158,13 +177,13 @@ const projectsData = [
         ]
     },
     {
-        id: 7,
+        id: 8,
         name: "Smart AI Chatbot",
         type: "Web Application",
         thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
         shortDescription: "Asisten virtual cerdas berbasis AI untuk layanan pelanggan otomatis",
         fullDescription: "Aplikasi chatbot cerdas yang menggunakan teknologi AI untuk merespons pertanyaan pengguna secara natural dan real-time. Cocok untuk customer service 24 jam dengan integrasi mudah ke berbagai platform.",
-        duration: "2 Minggu",
+        duration: "1 Hari",
         client: "Create",
         demoLink: "https://chatbot-dusky-eta-13.vercel.app/",
         technologies: ["React", "Tailwind CSS", "OpenAI API", "Vercel"],
@@ -179,13 +198,13 @@ const projectsData = [
         ]
     },
     {
-        id: 8,
+        id: 9,
         name: "Handara Golf & Resort Bali",
         type: "Company Profile",
         thumbnail: "https://images.unsplash.com/photo-1582653291997-079a1c04e5a1?w=800&h=600&fit=crop",
         shortDescription: "Website resmi resort mewah di Bali dengan pemandangan golf yang indah",
         fullDescription: "Website company profile premium untuk Handara Golf & Resort Bali. Menampilkan keindahan resort, layanan golf, fasilitas penginapan, dan informasi booking dengan desain elegan dan visual yang memukau.",
-        duration: "3 Minggu",
+        duration: "1 Hari",
         client: "Create",
         demoLink: "https://handara-bali.vercel.app/",
         technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "React Leaflet"],

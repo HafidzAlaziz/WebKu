@@ -14,7 +14,7 @@ const Pricing = () => {
                 'Desain Rapih & Modern',
                 'Mobile Responsive',
                 'Tombol ke WhatsApp/Sosmed',
-                'Pengerjaan Cepat (48 Jam)',
+                'Pengerjaan Cepat (24 Jam)',
                 'Gratis Hosting (Subdomain)',
             ],
             recommended: false,
