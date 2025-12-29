@@ -43,30 +43,42 @@ const OrderPage = () => {
     const validateForm = () => {
         const newErrors = {};
 
+        // Validasi Nama
         if (!formData.name.trim()) {
             newErrors.name = 'Nama lengkap wajib diisi';
+        } else if (formData.name.trim().length < 3) {
+            newErrors.name = 'Nama minimal 3 karakter';
         }
 
+        // Validasi Email
         if (!formData.email.trim()) {
             newErrors.email = 'Email wajib diisi';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Format email tidak valid';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            newErrors.email = 'Format email tidak valid (contoh: nama@gmail.com)';
         }
 
+        // Validasi WhatsApp
+        const cleanPhone = formData.phone.replace(/[\s-]/g, '');
         if (!formData.phone.trim()) {
             newErrors.phone = 'Nomor WhatsApp wajib diisi';
-        } else if (!/^[0-9]{10,15}$/.test(formData.phone.replace(/[\s-]/g, ''))) {
-            newErrors.phone = 'Nomor telepon tidak valid (10-15 digit)';
+        } else if (!/^[0-9]+$/.test(cleanPhone)) {
+            newErrors.phone = 'Nomor WhatsApp hanya boleh berisi angka';
+        } else if (cleanPhone.length < 10) {
+            newErrors.phone = 'Nomor WhatsApp terlalu pendek (minimal 10 digit)';
+        } else if (cleanPhone.length > 15) {
+            newErrors.phone = 'Nomor WhatsApp terlalu panjang (maksimal 15 digit)';
         }
 
+        // Validasi Jenis Website
         if (!formData.websiteType) {
-            newErrors.websiteType = 'Pilih jenis website terlebih dahulu';
+            newErrors.websiteType = 'Silakan pilih jenis website yang Anda butuhkan';
         }
 
+        // Validasi Pesan/Deskripsi
         if (!formData.message.trim()) {
-            newErrors.message = 'Deskripsi kebutuhan wajib diisi';
+            newErrors.message = 'Deskripsi kebutuhan wajib diisi agar kami bisa memahami keinginan Anda';
         } else if (formData.message.trim().length < 20) {
-            newErrors.message = 'Deskripsi minimal 20 karakter';
+            newErrors.message = 'Deskripsi terlalu singkat, mohon berikan detail minimal 20 karakter';
         }
 
         return newErrors;
@@ -85,6 +97,15 @@ const OrderPage = () => {
                 error: true,
                 message: 'Mohon lengkapi semua field yang wajib diisi dengan benar',
             });
+
+            // Auto-focus ke input pertama yang error
+            const firstErrorKey = Object.keys(formErrors)[0];
+            const errorElement = document.getElementById(firstErrorKey);
+            if (errorElement) {
+                errorElement.focus();
+                // Smooth scroll ke elemen yang error agar terlihat jelas
+                errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
             return;
         }
 
@@ -283,7 +304,7 @@ const OrderPage = () => {
                                     <p className="text-blue-100">Lengkapi informasi di bawah ini dengan detail</p>
                                 </div>
 
-                                <form onSubmit={handleSubmit} className="p-8 md:p-12 space-y-6">
+                                <form onSubmit={handleSubmit} noValidate className="p-8 md:p-12 space-y-6">
                                     {/* Nama Lengkap */}
                                     <div>
                                         <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
@@ -295,6 +316,7 @@ const OrderPage = () => {
                                             name="name"
                                             value={formData.name}
                                             onChange={handleChange}
+                                            required
                                             className={`w-full px-4 py-3 rounded-lg border-2 ${errors.name
                                                 ? 'border-red-500 dark:border-red-500'
                                                 : 'border-slate-200 dark:border-slate-600'
@@ -321,6 +343,7 @@ const OrderPage = () => {
                                                 name="email"
                                                 value={formData.email}
                                                 onChange={handleChange}
+                                                required
                                                 className={`w-full px-4 py-3 rounded-lg border-2 ${errors.email
                                                     ? 'border-red-500 dark:border-red-500'
                                                     : 'border-slate-200 dark:border-slate-600'
@@ -344,6 +367,7 @@ const OrderPage = () => {
                                                 name="phone"
                                                 value={formData.phone}
                                                 onChange={handleChange}
+                                                required
                                                 className={`w-full px-4 py-3 rounded-lg border-2 ${errors.phone
                                                     ? 'border-red-500 dark:border-red-500'
                                                     : 'border-slate-200 dark:border-slate-600'

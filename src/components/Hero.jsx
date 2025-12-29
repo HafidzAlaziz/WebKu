@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Hero = () => {
     return (
-        <section id="home" className="relative pt-24 pb-12 lg:pt-32 lg:pb-16 overflow-hidden">
+        <section id="home" className="relative pt-20 pb-12 lg:pt-28 lg:pb-16 overflow-hidden">
             {/* Background Elements */}
             <div className="absolute top-0 right-0 -z-10 w-1/2 h-full bg-gradient-to-bl from-blue-50 dark:from-blue-950/30 to-transparent rounded-bl-[100px]" />
             <div className="absolute bottom-0 left-0 -z-10 w-1/3 h-1/2 bg-gradient-to-tr from-indigo-50 dark:from-indigo-950/30 to-transparent rounded-tr-[100px]" />
@@ -18,7 +18,7 @@ const Hero = () => {
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="lg:w-1/2"
+                        className="lg:w-1/2 text-center lg:text-left flex flex-col items-center lg:items-start"
                     >
                         <div className="inline-flex items-center px-4 py-2 bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold mb-6">
                             <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
@@ -27,11 +27,11 @@ const Hero = () => {
                         <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-tight mb-6">
                             Website <span className="text-blue-600 dark:text-blue-400">Premium</span> Untuk Bisnis Anda
                         </h1>
-                        <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
+                        <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed max-w-xl lg:max-w-none">
                             Kami menciptakan website modern yang tidak hanya cantik, tapi juga fungsional dan dikerjakan secara profesional untuk meningkatkan kredibilitas bisnis Anda.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row gap-4 mb-10">
+                        <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full sm:w-auto">
                             <Link
                                 to="/portfolio"
                                 className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-2"
@@ -47,12 +47,12 @@ const Hero = () => {
                         </div>
 
                         {/* Quick Professional Stats */}
-                        <div className="flex flex-wrap items-center gap-6 lg:gap-10 border-t border-slate-100 dark:border-slate-800 pt-8">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 lg:gap-10 border-t border-slate-100 dark:border-slate-800 pt-8 w-full">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg text-yellow-600 dark:text-yellow-400">
                                     <Star size={20} fill="currentColor" />
                                 </div>
-                                <div>
+                                <div className="text-left">
                                     <p className="text-xl font-bold text-slate-900 dark:text-white">5.0</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Rating Bintang</p>
                                 </div>
@@ -62,7 +62,7 @@ const Hero = () => {
                                 <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
                                     <Award size={20} />
                                 </div>
-                                <div>
+                                <div className="text-left">
                                     <p className="text-xl font-bold text-slate-900 dark:text-white">50+</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Project Selesai</p>
                                 </div>
@@ -72,7 +72,7 @@ const Hero = () => {
                                 <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400">
                                     <Zap size={20} fill="currentColor" />
                                 </div>
-                                <div>
+                                <div className="text-left">
                                     <p className="text-xl font-bold text-slate-900 dark:text-white">24/7</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Fast Response</p>
                                 </div>
