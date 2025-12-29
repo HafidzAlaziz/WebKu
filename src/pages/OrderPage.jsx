@@ -129,9 +129,9 @@ const OrderPage = () => {
             'other': 'Lainnya'
         };
 
-        // Buat pesan WhatsApp
-        let waMessage = `*FORM PEMESANAN WEBSITE - WebKuu*\n\n`;
-        waMessage += `📝 *Data Pemesan:*\n`;
+        // Buat pesan WhatsApp dengan emoji paling standar (High Compatibility)
+        let waMessage = `✨ *WEB KUU - PREMIUM ORDER* ✨\n\n`;
+        waMessage += `📝 *IDENTITAS PEMESAN:*\n`;
         waMessage += `Nama: ${formData.name}\n`;
         waMessage += `Email: ${formData.email}\n`;
         waMessage += `WhatsApp: ${formData.phone}\n`;
@@ -140,7 +140,7 @@ const OrderPage = () => {
         }
         waMessage += `\n`;
 
-        waMessage += `📦 *Detail Pesanan:*\n`;
+        waMessage += `📦 *DETAIL PESANAN:*\n`;
         waMessage += `Paket: ${packageNames[formData.package]}\n`;
         waMessage += `Jenis Website: ${websiteTypes[formData.websiteType] || formData.websiteType}\n`;
         if (formData.techStack) {
@@ -148,15 +148,16 @@ const OrderPage = () => {
         }
         waMessage += `\n`;
 
-        waMessage += `💬 *Deskripsi Kebutuhan:*\n`;
+        waMessage += `🚀 *KEBUTUHAN KHUSUS:*\n`;
         waMessage += `${formData.message}\n`;
         waMessage += `\n`;
-        waMessage += `---\n`;
-        waMessage += `Dikirim via Form Order WebKuu`;
+        waMessage += `-----------------------------------\n`;
+        waMessage += `*Sent via WebKuu Official Form*`;
 
         // Encode untuk URL
         const encodedMessage = encodeURIComponent(waMessage);
-        const whatsappUrl = `https://wa.me/6285122959690?text=${encodedMessage}`;
+        // Menggunakan api.whatsapp.com untuk kompatibilitas lebih baik di desktop
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=6285122959690&text=${encodedMessage}`;
 
         // Tampilkan success message sebentar sebelum redirect
         setStatus({
