@@ -7,6 +7,25 @@ import ProjectModal from './ProjectModal';
 const projectsData = [
     {
         id: 0,
+        name: "UMKM Store",
+        type: "Toko Online",
+        thumbnail: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2070&auto=format&fit=crop",
+        shortDescription: "Platform e-commerce modern untuk mendukung produk UMKM lokal.",
+        fullDescription: "Website e-commerce yang dirancang untuk membantu UMKM lokal memasarkan produk mereka secara online. Dilengkapi dengan katalog produk yang menarik, sistem kategori, dan integrasi WhatsApp untuk transaksi yang mudah.",
+        duration: "1 Hari",
+        client: "Create",
+        demoLink: "https://umkm-ivory.vercel.app/",
+        technologies: ["React", "Tailwind CSS", "Framer Motion", "Vercel"],
+        features: [
+            "Katalog Produk UMKM",
+            "Filter Kategori",
+            "Pencarian Produk",
+            "WhatsApp Integration",
+            "Responsive Design"
+        ]
+    },
+    {
+        id: 1,
         name: "Vayana",
         type: "Company Profile",
         thumbnail: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop",
@@ -25,7 +44,7 @@ const projectsData = [
         ]
     },
     {
-        id: 1,
+        id: 2,
         name: "Aura Visuals",
         type: "Company Profile",
         thumbnail: "https://company-profile-xi-indol.vercel.app/images/portfolio-1.jpg",
@@ -45,12 +64,12 @@ const projectsData = [
         ]
     },
     {
-        id: 2,
+        id: 3,
         name: "E-Commerce Fashion Store",
         type: "Toko Online",
         thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
         shortDescription: "Platform e-commerce modern untuk toko fashion dengan sistem pembayaran terintegrasi",
-        fullDescription: "Website e-commerce lengkap dengan fitur keranjang belanja, checkout, payment gateway, dan admin dashboard untuk mengelola produk dan pesanan. Desain modern dan responsif dengan performa tinggi.",
+        fullDescription: "Website e-commerce lengkap dengan fitur keranjang belanja, checkout, payment gateway, and admin dashboard untuk mengelola produk dan pesanan. Desain modern dan responsif dengan performa tinggi.",
         duration: "3 Minggu",
         client: "Client",
         demoLink: "",
@@ -67,7 +86,7 @@ const projectsData = [
         ]
     },
     {
-        id: 3,
+        id: 4,
         name: "Company Profile Tech Startup",
         type: "Company Profile",
         thumbnail: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
@@ -89,7 +108,7 @@ const projectsData = [
         ]
     },
     {
-        id: 4,
+        id: 5,
         name: "Landing Page SaaS Product",
         type: "Landing Page",
         thumbnail: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
@@ -111,7 +130,7 @@ const projectsData = [
         ]
     },
     {
-        id: 5,
+        id: 6,
         name: "Restaurant Menu & Ordering",
         type: "Toko Online",
         thumbnail: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
@@ -133,7 +152,7 @@ const projectsData = [
         ]
     },
     {
-        id: 6,
+        id: 7,
         name: "Portfolio Photographer",
         type: "Portfolio",
         thumbnail: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop",
@@ -155,7 +174,7 @@ const projectsData = [
         ]
     },
     {
-        id: 7,
+        id: 8,
         name: "Educational Platform",
         type: "Learning Management System",
         thumbnail: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=600&fit=crop",
@@ -177,7 +196,7 @@ const projectsData = [
         ]
     },
     {
-        id: 8,
+        id: 9,
         name: "Smart AI Chatbot",
         type: "Web Application",
         thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
@@ -198,7 +217,7 @@ const projectsData = [
         ]
     },
     {
-        id: 9,
+        id: 10,
         name: "Handara Golf & Resort Bali",
         type: "Company Profile",
         thumbnail: "https://images.unsplash.com/photo-1582653291997-079a1c04e5a1?w=800&h=600&fit=crop",
