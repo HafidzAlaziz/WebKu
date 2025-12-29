@@ -15,7 +15,7 @@ const projectsData = [
         duration: "1 Hari",
         client: "Create",
         demoLink: "https://umkm-ivory.vercel.app/",
-        technologies: ["React", "Tailwind CSS", "Framer Motion", "Vercel"],
+        technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
         features: [
             "Katalog Produk UMKM",
             "Filter Kategori",
