@@ -1,13 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import ProjectCard from './ProjectCard';
-import ProjectModal from './ProjectModal';
 
 // Sample project data - you can replace this with your actual projects
 const projectsData = [
     {
+        id: -1,
+        name: "Professional Service",
+        type: "Landing Page",
+        thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2026&auto=format&fit=crop",
+        shortDescription: "Solusi profesional untuk pertumbuhan bisnis dengan strategi terukur dan hasil nyata.",
+        fullDescription: "Website landing page untuk layanan profesional yang fokus pada hasil kerja nyata, transformasi tantangan bisnis, dan dedikasi pada kepuasan mitra.",
+        duration: "1 Hari",
+        client: "Create",
+        demoLink: "https://professional-service-topaz.vercel.app/",
+        technologies: ["React", "Tailwind CSS", "Framer Motion", "Vercel"],
+        features: [
+            "Premium Business Layout",
+            "Strategy & Results Showcase",
+            "Client Testimonials",
+            "Responsive Design",
+            "Smooth Animations"
+        ]
+    },
+    {
         id: 0,
         name: "UMKM Store",
+        // ... (rest of the projects remained but I'll keep the list manageable)
         type: "Toko Online",
         thumbnail: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2070&auto=format&fit=crop",
         shortDescription: "Platform e-commerce modern untuk mendukung produk UMKM lokal.",
@@ -240,59 +259,6 @@ const projectsData = [
 ];
 
 const ProjectGallery = () => {
-    const [selectedProject, setSelectedProject] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [sourceFilter, setSourceFilter] = useState('All'); // 'All' | 'Client' | 'Create'
-    const [filter, setFilter] = useState('All');
-    const [visibleCount, setVisibleCount] = useState(3);
-
-    const categories = ['All', 'Web Application', 'Company Profile', 'Toko Online', 'Landing Page', 'Portfolio'];
-
-    // 1. Filter by Category
-    const categoryFiltered = filter === 'All'
-        ? projectsData
-        : projectsData.filter(project => project.type === filter);
-
-    // 2. Filter by Source (Client vs Create)
-    const finalFilteredProjects = sourceFilter === 'All'
-        ? categoryFiltered
-        : categoryFiltered.filter(project => {
-            if (sourceFilter === 'Create') return project.client === 'Create';
-            return project.client !== 'Create'; // Assuming anything not 'Create' is a Client project
-        });
-
-    // 3. Pagination Logic
-    const displayedProjects = finalFilteredProjects.slice(0, visibleCount);
-    const hasMoreProjects = finalFilteredProjects.length > visibleCount;
-
-    const handleFilterChange = (category) => {
-        setFilter(category);
-        setVisibleCount(3); // Reset pagination on filter change
-    };
-
-    const handleSourceFilterChange = (source) => {
-        setSourceFilter(source);
-        setVisibleCount(3); // Reset pagination on filter change
-    };
-
-    const handleShowMore = () => {
-        if (hasMoreProjects) {
-            setVisibleCount(finalFilteredProjects.length); // Show All
-        } else {
-            setVisibleCount(3); // Show Less (Reset)
-        }
-    };
-
-    const handleProjectClick = (project) => {
-        setSelectedProject(project);
-        setIsModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
-        setTimeout(() => setSelectedProject(null), 300);
-    };
-
     return (
         <section id="project-gallery" className="py-20 bg-slate-50 dark:bg-slate-900">
             <div className="container mx-auto px-6">
@@ -302,7 +268,7 @@ const ProjectGallery = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4 }}
-                    className="text-center mb-12"
+                    className="text-center mb-16"
                 >
                     <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
                         Project Gallery
@@ -312,111 +278,21 @@ const ProjectGallery = () => {
                     </p>
                 </motion.div>
 
-                {/* Source Filter (Top Level) */}
-                <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="flex justify-center mb-8"
-                >
-                    <div className="bg-white dark:bg-slate-800 p-1.5 rounded-full inline-flex shadow-sm border border-slate-200 dark:border-slate-700">
-                        {['All', 'Client', 'Create'].map((source) => (
-                            <button
-                                key={source}
-                                onClick={() => handleSourceFilterChange(source)}
-                                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${sourceFilter === source
-                                    ? 'bg-blue-600 text-white shadow-md'
-                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                                    }`}
-                            >
-                                {source}
-                            </button>
-                        ))}
-                    </div>
-                </motion.div>
-
-                {/* Category Filter Buttons */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.1 }}
-                    className="flex flex-wrap justify-center gap-3 mb-12"
-                >
-                    {categories.map((category) => (
-                        <motion.button
-                            key={category}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => handleFilterChange(category)}
-                            className={`px-6 py-2.5 rounded-full font-medium transition-all ${filter === category
-                                ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg'
-                                : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
-                                }`}
-                        >
-                            {category}
-                        </motion.button>
-                    ))}
-                </motion.div>
-
                 {/* Projects Grid */}
-                <motion.div
-                    layout
-                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
-                >
-                    {displayedProjects.map((project, index) => (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {projectsData.map((project, index) => (
                         <motion.div
                             key={project.id}
-                            layout
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ delay: index * 0.05, duration: 0.3 }}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1, duration: 0.5 }}
                         >
-                            <ProjectCard
-                                project={project}
-                                onClick={handleProjectClick}
-                            />
+                            <ProjectCard project={project} />
                         </motion.div>
                     ))}
-                </motion.div>
-
-                {/* Show More / Show Less Button */}
-                {finalFilteredProjects.length > 3 && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        className="flex justify-center"
-                    >
-                        <button
-                            onClick={handleShowMore}
-                            className="px-8 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-200 font-semibold rounded-full hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm"
-                        >
-                            {hasMoreProjects ? "Lihat Selengkapnya" : "Lebih Sedikit"}
-                        </button>
-                    </motion.div>
-                )}
-
-                {/* Empty State */}
-                {finalFilteredProjects.length === 0 && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-center py-20"
-                    >
-                        <p className="text-slate-500 dark:text-slate-400 text-lg">
-                            Tidak ada project dalam kategori ini
-                        </p>
-                    </motion.div>
-                )}
+                </div>
             </div>
-
-            {/* Project Modal */}
-            <ProjectModal
-                project={selectedProject}
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
-            />
         </section>
     );
 };

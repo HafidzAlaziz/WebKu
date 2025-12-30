@@ -7,6 +7,13 @@ const PortfolioPreview = () => {
     // Featured projects - showing the most recent/impressive ones
     const featuredProjects = [
         {
+            id: -1,
+            name: "Professional Service",
+            type: "Landing Page",
+            thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2026&auto=format&fit=crop",
+            demoLink: "https://professional-service-topaz.vercel.app/"
+        },
+        {
             id: 0,
             name: "Vayana",
             type: "Company Profile",
@@ -26,13 +33,6 @@ const PortfolioPreview = () => {
             type: "Web Application",
             thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
             demoLink: "https://chatbot-dusky-eta-13.vercel.app/"
-        },
-        {
-            id: 9,
-            name: "Handara Golf & Resort Bali",
-            type: "Company Profile",
-            thumbnail: "https://images.unsplash.com/photo-1582653291997-079a1c04e5a1?w=800&h=600&fit=crop",
-            demoLink: "https://handara-bali.vercel.app/"
         }
     ];
 
