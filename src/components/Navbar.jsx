@@ -4,39 +4,6 @@ import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
-const Logo = () => (
-    <div className="flex items-center gap-3 group">
-        <div className="relative w-11 h-11">
-            <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-indigo-600/20 rounded-xl blur-md"
-            />
-            <div className="relative h-full w-full bg-white dark:bg-slate-900 rounded-xl border-2 border-slate-100 dark:border-slate-800 shadow-xl flex items-center justify-center group-hover:border-blue-500/50 transition-all duration-500 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10">
-                    <path d="M4 8L7 17L12 9L17 17L20 8" stroke="url(#logo-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M12 9L12 17" stroke="url(#logo-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="opacity-30" />
-                    <defs>
-                        <linearGradient id="logo-gradient" x1="4" y1="8" x2="20" y2="17" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#2563EB" />
-                            <stop offset="1" stopColor="#7C3AED" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-        </div>
-        <div className="flex flex-col -space-y-1">
-            <span className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white transition-colors">
-                WEB<span className="text-blue-600">KUU</span>
-            </span>
-            <span className="text-[10px] font-bold text-blue-600/80 dark:text-blue-400/80 uppercase tracking-widest leading-none">
-                Digital Solutions
-            </span>
-        </div>
-    </div>
-);
-
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -121,13 +88,13 @@ const Navbar = () => {
     return (
         <nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-                ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md py-3'
-                : 'bg-transparent py-5'
+                ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md py-4'
+                : 'bg-transparent py-6'
                 }`}
         >
             <div className="container mx-auto px-6 flex justify-between items-center">
-                <Link to="/" className="flex-shrink-0">
-                    <Logo />
+                <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    WebKuu
                 </Link>
 
                 {/* Desktop Menu */}

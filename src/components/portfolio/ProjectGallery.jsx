@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import ProjectCard from './ProjectCard';
+import ProjectModal from './ProjectModal';
 
 // Sample project data - you can replace this with your actual projects
 const projectsData = [
@@ -23,6 +24,7 @@ const projectsData = [
             "Smooth Animations"
         ]
     },
+    // ... rest of the same projectsData
     {
         id: 0,
         name: "UMKM Store",
@@ -259,6 +261,8 @@ const projectsData = [
 ];
 
 const ProjectGallery = () => {
+    const [selectedProject, setSelectedProject] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [sourceFilter, setSourceFilter] = useState('All'); // 'All' | 'Client' | 'Create'
     const [filter, setFilter] = useState('All');
     const [visibleCount, setVisibleCount] = useState(3);
@@ -298,6 +302,16 @@ const ProjectGallery = () => {
         } else {
             setVisibleCount(3); // Show Less (Reset)
         }
+    };
+
+    const handleProjectClick = (project) => {
+        setSelectedProject(project);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setTimeout(() => setSelectedProject(null), 300);
     };
 
     return (
@@ -380,7 +394,10 @@ const ProjectGallery = () => {
                             exit={{ opacity: 0 }}
                             transition={{ delay: index * 0.05, duration: 0.3 }}
                         >
-                            <ProjectCard project={project} />
+                            <ProjectCard
+                                project={project}
+                                onClick={handleProjectClick}
+                            />
                         </motion.div>
                     ))}
                 </motion.div>
@@ -414,6 +431,13 @@ const ProjectGallery = () => {
                     </motion.div>
                 )}
             </div>
+
+            {/* Project Modal */}
+            <ProjectModal
+                project={selectedProject}
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            />
         </section>
     );
 };
