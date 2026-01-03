@@ -615,5 +615,20 @@
         "footer": {
             "note": "Ce tableau de bord affiche des analyses simples basées sur le suivi des événements. Les \"Vues\" sont les chargements de page et les \"Commandes\" sont les clics sur les boutons WhatsApp. Les données sont synchronisées en temps réel."
         }
+    },
+    "login": {
+        "title": "Accès Administrateur",
+        "subtitle": "Veuillez vous connecter pour accéder au tableau de bord",
+        "username": "Nom d'utilisateur",
+        "password": "Mot de passe",
+        "username_placeholder": "Entrez le nom d'utilisateur",
+        "password_placeholder": "Entrez le mot de passe",
+        "submit": "Se connecter au Tableau de Bord",
+        "error": "Nom d'utilisateur ou mot de passe invalide",
+        "error_user_not_found": "Nom d'utilisateur non trouvé",
+        "error_wrong_password": "Mot de passe incorrect",
+        "error_empty_username": "Veuillez entrer votre nom d'utilisateur",
+        "error_empty_password": "Veuillez entrer votre mot de passe",
+        "success_message": "Connexion réussie ! Redirection vers le tableau de bord..."
     }
 }

@@ -613,7 +613,22 @@
             "new_order_label": "Clic de Nuevo Pedido"
         },
         "footer": {
-            "note": "Este panel muestra análisis simples basados en el seguimiento de eventos. Las \"Vistas\" son cargas de página y los \"Pedidos\" son clics en botones de WhatsApp. Los datos se sincronizan en tiempo real."
+            "note": "Este panel muestra análisis simples basados en el seguimiento de eventos. Las \"Vistas\" son cargas de página y los \"Pedidos\" son clics en los botones de WhatsApp. Los datos se sincronizan en tiempo real."
         }
+    },
+    "login": {
+        "title": "Acceso de Administrador",
+        "subtitle": "Inicie sesión para acceder al panel",
+        "username": "Nombre de usuario",
+        "password": "Contraseña",
+        "username_placeholder": "Ingrese el nombre de usuario",
+        "password_placeholder": "Ingrese la contraseña",
+        "submit": "Entrar al Panel",
+        "error": "Nombre de usuario o contraseña incorrectos",
+        "error_user_not_found": "Nombre de usuario no encontrado",
+        "error_wrong_password": "Contraseña incorrecta",
+        "error_empty_username": "Por favor ingrese su nombre de usuario",
+        "error_empty_password": "Por favor ingrese su contraseña",
+        "success_message": "¡Inicio de sesión exitoso! Redirigiendo al panel..."
     }
 }

@@ -55,8 +55,8 @@ const TrafficChart = ({ data }) => {
                 >
                     <defs>
                         <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.1} />
-                            <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
+                            <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.4} />
+                            <stop offset="95%" stopColor="#3B82F6" stopOpacity={0.1} />
                         </linearGradient>
                     </defs>
 
@@ -64,7 +64,7 @@ const TrafficChart = ({ data }) => {
                         strokeDasharray="3 3"
                         vertical={false}
                         stroke="#E2E8F0"
-                        opacity={0.3}
+                        opacity={0.1}
                     />
 
                     <XAxis
@@ -73,7 +73,7 @@ const TrafficChart = ({ data }) => {
                         tickLine={false}
                         tick={{ fill: '#94A3B8', fontSize: 12 }}
                         dy={10}
-                        interval="preserveEnd" // or use a number if too crowded
+                        interval="preserveStartEnd"
                         tickFormatter={(value) => formatDate(value)}
                     />
 
@@ -82,10 +82,9 @@ const TrafficChart = ({ data }) => {
                         tickLine={false}
                         tick={{ fill: '#94A3B8', fontSize: 12 }}
                         allowDecimals={false}
-                        // Simple domain logic: Start at 0, let max be auto (or at least 5)
-                        domain={[0, dataMax => (dataMax < 5 ? 5 : 'auto')]}
-                        width={80} // Keep wide width for numbers
-                        tickMargin={10}
+                        domain={[0, 'auto']}
+                        width={40}
+                        tickMargin={8}
                     />
 
                     <Tooltip
@@ -98,9 +97,9 @@ const TrafficChart = ({ data }) => {
                         }}
                         itemStyle={{ color: '#fff' }}
                         cursor={{ stroke: '#3B82F6', strokeWidth: 1, strokeDasharray: '4 4' }}
-                        isAnimationActive={false} // No tooltip animation
+                        isAnimationActive={false}
                         labelFormatter={(value) => formatDate(value)}
-                        formatter={(value, name) => [value, t('dashboard.stats.total_views').replace('Total ', '')]}
+                        formatter={(value) => [value, t('dashboard.stats.total_views').replace('Total ', '')]}
                     />
 
                     <Area
@@ -108,16 +107,16 @@ const TrafficChart = ({ data }) => {
                         dataKey="views"
                         name={t('dashboard.stats.total_views')}
                         stroke="#3B82F6"
-                        strokeWidth={3}
+                        strokeWidth={4}
                         fillOpacity={1}
                         fill="url(#colorViews)"
                         isAnimationActive={true}
-                        animationDuration={2500}
+                        animationDuration={1500}
                         animationEasing="ease-in-out"
                     />
                 </AreaChart>
             </ResponsiveContainer>
-        </div>
+        </div >
     );
 };
 

@@ -615,5 +615,20 @@
         "footer": {
             "note": "このダッシュボードは、イベント追跡に基づいた単純な分析を表示します。「ビュー」はページの読み込み、「注文」はWhatsAppボタンのクリックです。データはリアルタイムで同期されます。"
         }
+    },
+    "login": {
+        "title": "管理者アクセス",
+        "subtitle": "ダッシュボードにアクセスするにはログインしてください",
+        "username": "ユーザー名",
+        "password": "パスワード",
+        "username_placeholder": "ユーザー名を入力してください",
+        "password_placeholder": "パスワードを入力してください",
+        "submit": "ダッシュボードにログイン",
+        "error": "ユーザー名またはパスワードが無効です",
+        "error_user_not_found": "ユーザー名が見つかりません",
+        "error_wrong_password": "パスワードが正しくありません",
+        "error_empty_username": "ユーザー名を入力してください",
+        "error_empty_password": "パスワードを入力してください",
+        "success_message": "ログインに成功しました！ダッシュボードに移動しています..."
     }
 }

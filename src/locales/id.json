@@ -613,7 +613,22 @@
             "new_order_label": "Klik Pesanan Baru"
         },
         "footer": {
-            "note": "Dashboard ini menampilkan analitik sederhana berdasarkan pelacakan event. \"Kunjungan\" adalah jumlah halaman dimuat, dan \"Pesanan\" adalah klik pada tombol WhatsApp. Data disinkronkan secara real-time."
+            "note": "Dashboard ini menampilkan analitik sederhana berdasarkan pelacakan peristiwa. \"Views\" adalah pemuatan halaman dan \"Orders\" adalah klik pada tombol WhatsApp. Data disinkronkan secara real-time."
         }
+    },
+    "login": {
+        "title": "Akses Admin",
+        "subtitle": "Silakan login untuk mengakses dashboard",
+        "username": "Username",
+        "password": "Password",
+        "username_placeholder": "Masukkan username",
+        "password_placeholder": "Masukkan password",
+        "submit": "Login ke Dashboard",
+        "error": "Username atau password salah",
+        "error_user_not_found": "Username tidak ditemukan",
+        "error_wrong_password": "Password salah",
+        "error_empty_username": "Silakan masukkan username Anda",
+        "error_empty_password": "Silakan masukkan password Anda",
+        "success_message": "Login berhasil! Mengalihkan ke dashboard..."
     }
 }

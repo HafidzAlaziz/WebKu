@@ -615,5 +615,20 @@
         "footer": {
             "note": "This dashboard shows simple analytics based on event tracking. \"Views\" are page loads and \"Orders\" are clicks on WhatsApp buttons. Data is synced in real-time."
         }
+    },
+    "login": {
+        "title": "Admin Access",
+        "subtitle": "Please login to access the dashboard",
+        "username": "Username",
+        "password": "Password",
+        "username_placeholder": "Enter username",
+        "password_placeholder": "Enter password",
+        "submit": "Login to Dashboard",
+        "error": "Invalid username or password",
+        "error_user_not_found": "Username not found",
+        "error_wrong_password": "Incorrect password",
+        "error_empty_username": "Please enter your username",
+        "error_empty_password": "Please enter your password",
+        "success_message": "Login successful! Redirecting to dashboard..."
     }
 }

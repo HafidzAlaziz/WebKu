@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     BarChart3,
@@ -7,8 +8,10 @@ import {
     TrendingUp,
     Clock,
     AlertCircle,
-    RefreshCcw
+    LogOut
 } from 'lucide-react';
+
+
 import { useTracker } from '../hooks/useTracker';
 import TrafficChart from '../components/TrafficChart';
 import Navbar from '../components/Navbar';
@@ -16,17 +19,17 @@ import { useTranslation } from 'react-i18next';
 
 const DashboardPage = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { stats, loading, refresh } = useTracker();
 
     // Filter State
     const [filterType, setFilterType] = useState('7d'); // 7d, 30d, month, year
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
-    const [isRefreshing, setIsRefreshing] = useState(false);
-    const [refreshKey, setRefreshKey] = useState(0);
+
+
 
     const refreshData = async () => {
-        setIsRefreshing(true);
         let filter = { type: 'days', value: 7 };
 
         if (filterType === '7d') filter = { type: 'days', value: 7 };
@@ -34,13 +37,7 @@ const DashboardPage = () => {
         else if (filterType === 'month') filter = { type: 'month', value: { year: selectedYear, month: selectedMonth } };
         else if (filterType === 'year') filter = { type: 'year', value: selectedYear };
 
-        // Force chart re-render by updating key
-        setRefreshKey(prev => prev + 1);
-
         await refresh(filter);
-
-        // Add a small delay for visual feedback if it's too fast
-        setTimeout(() => setIsRefreshing(false), 500);
     };
 
     useEffect(() => {
@@ -113,20 +110,21 @@ const DashboardPage = () => {
                             )}
 
                             <button
-                                onClick={() => refreshData()}
-                                disabled={isRefreshing}
-                                className={`px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors flex items-center gap-2 ${isRefreshing ? 'opacity-75 cursor-not-allowed' : ''}`}
+                                onClick={() => {
+                                    sessionStorage.removeItem('isAuthenticated');
+                                    navigate('/login');
+                                }}
+                                className="px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors flex items-center gap-2"
+                                title="Logout"
                             >
-                                <RefreshCcw size={18} className={isRefreshing ? 'animate-spin' : ''} />
-                                <span className="hidden sm:inline">
-                                    {isRefreshing ? t('dashboard.actions.refreshing') || 'Refreshing...' : t('dashboard.actions.refresh')}
-                                </span>
+                                <LogOut size={18} />
+                                <span className="hidden sm:inline">Logout</span>
                             </button>
                         </div>
                     </div>
 
-                    {/* Content Wrapper for Refresh Animation */}
-                    <div className={`transition-opacity duration-300 ${isRefreshing ? 'opacity-50' : 'opacity-100'}`}>
+                    {/* Content Wrapper */}
+                    <div className="transition-opacity duration-300 opacity-100">
                         {/* Stats Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                             {/* Total Views */}
@@ -198,14 +196,17 @@ const DashboardPage = () => {
 
                         {/* Main Chart */}
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            <div
-                                className={`lg:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 ${isRefreshing ? 'animate-pulse' : ''}`}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4 }}
+                                className="lg:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
                             >
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                                     {t('dashboard.charts.traffic_overview')}
                                 </h3>
-                                <TrafficChart key={refreshKey} data={stats.viewsHistory} />
-                            </div>
+                                <TrafficChart data={stats.viewsHistory} />
+                            </motion.div>
 
                             {/* Recent Activity */}
                             <motion.div
@@ -256,7 +257,7 @@ const DashboardPage = () => {
                         </p>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };

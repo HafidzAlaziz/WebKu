@@ -20,8 +20,10 @@ const PageTracker = ({ children }) => {
 const HomePage = lazy(() => import('./pages/HomePage'));
 const OrderPage = lazy(() => import('./pages/OrderPage'));
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
-const ChatbotWidget = lazy(() => import('./components/ChatbotWidget'));
+
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
 
 // Loading component
 const PageLoader = () => (
@@ -42,9 +44,14 @@ function App() {
                 <Route path="/order" element={<OrderPage />} />
                 <Route path="/portfolio" element={<PortfolioPage />} />
                 <Route path="/portofolio" element={<PortfolioPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/dashboard" element={
+                  <ProtectedRoute>
+                    <DashboardPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/login" element={<LoginPage />} />
               </Routes>
-              <ChatbotWidget />
+
             </Suspense>
           </PageTracker>
         </div>
