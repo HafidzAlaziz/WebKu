@@ -2,14 +2,19 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const ChatbotWidget = () => {
     const { t, i18n } = useTranslation();
+    const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
     const [showBubble, setShowBubble] = useState(true);
     const [isBlinking, setIsBlinking] = useState(false);
     const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
+
+    // Hide chatbot on dashboard
+    if (location.pathname === '/dashboard') return null;
 
     // Initialize/Reset messages on language change
     useEffect(() => {

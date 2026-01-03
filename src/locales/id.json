@@ -586,5 +586,34 @@
             "responsive": "Semua website yang kami buat PASTI mobile-friendly! 📱💻\n\n✅ Responsive Design\n   → Tampil sempurna di semua device\n   → HP, tablet, laptop, desktop\n\n✅ Fast Loading\n   → Optimasi kecepatan maksimal\n   → User experience terbaik\n\n✅ Touch-Friendly\n   → Tombol dan menu mudah diklik\n   → Navigasi smooth di touchscreen\n\nDi era sekarang, 70% pengunjung dari mobile. Jadi responsive design itu WAJIB! 🎯",
             "seo": "SEO adalah salah satu fokus utama kami! 🔍\n\n✅ SEO-Friendly Structure\n   → Kode yang clean dan terstruktur\n   → Meta tags yang optimal\n\n✅ Fast Loading Speed\n   → Google suka website cepat\n   → Kami optimasi maksimal\n\n✅ Mobile Optimization\n   → Google prioritaskan mobile-first\n   → Website kami pasti responsive\n\n✅ Content Optimization\n   → Heading structure yang benar\n   → Alt text untuk gambar\n\n✅ Sitemap & Analytics\n   → Submit ke Google Search Console\n   → Tracking dengan Google Analytics\n\nWebsite bagus tapi gak keliatan di Google = percuma! Makanya kami pastikan website Anda SEO-friendly! 📈"
         }
+    },
+    "dashboard": {
+        "header": {
+            "title": "Ringkasan Dashboard",
+            "subtitle": "Analisis real-time untuk website portofolio Anda"
+        },
+        "actions": {
+            "refresh": "Segarkan Data"
+        },
+        "filters": {
+            "days": "Hari"
+        },
+        "stats": {
+            "live": "+ Langsung",
+            "total_views": "Total Kunjungan",
+            "total_orders": "Total Pesanan (WhatsApp)",
+            "conversion_rate": "Tingkat Konversi"
+        },
+        "charts": {
+            "traffic_overview": "Trafik (7 Hari Terakhir)"
+        },
+        "recent_orders": {
+            "title": "Pesanan Terbaru",
+            "empty": "Belum ada pesanan terbaru",
+            "new_order_label": "Klik Pesanan Baru"
+        },
+        "footer": {
+            "note": "Dashboard ini menampilkan analitik sederhana berdasarkan pelacakan event. \"Kunjungan\" adalah jumlah halaman dimuat, dan \"Pesanan\" adalah klik pada tombol WhatsApp. Data disinkronkan secara real-time."
+        }
     }
 }

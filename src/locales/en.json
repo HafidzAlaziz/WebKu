@@ -586,5 +586,34 @@
             "responsive": "All websites we make MUST be mobile-friendly! 📱💻\n\n✅ Responsive Design\n   → Appears perfect on all devices\n   → HP, tablet, laptop, desktop\n\n✅ Fast Loading\n   → Maximum speed optimization\n   → Best user experience\n\n✅ Touch-Friendly\n   → Buttons and menus easy to click\n   → Smooth navigation on touchscreen\n\nIn this era, 70% of visitors from mobile. So responsive design is MANDATORY! 🎯",
             "seo": "SEO is one of our main focuses! 🔍\n\n✅ SEO-Friendly Structure\n   → Clean and structured code\n   → Optimal meta tags\n\n✅ Fast Loading Speed\n   → Google likes fast websites\n   → We optimize maximally\n\n✅ Mobile Optimization\n   → Google prioritizes mobile-first\n   → Our website definitely responsive\n\n✅ Content Optimization\n   → Correct heading structure\n   → Alt text for images\n\n✅ Sitemap & Analytics\n   → Submit to Google Search Console\n   → Tracking with Google Analytics\n\nGood website but not visible on Google = useless! So we ensure your website is SEO-friendly! 📈"
         }
+    },
+    "dashboard": {
+        "header": {
+            "title": "Dashboard Overview",
+            "subtitle": "Real-time analytics for your portfolio website"
+        },
+        "actions": {
+            "refresh": "Refresh Data"
+        },
+        "filters": {
+            "days": "Days"
+        },
+        "stats": {
+            "live": "+ Live",
+            "total_views": "Total Page Views",
+            "total_orders": "Total Orders (WhatsApp)",
+            "conversion_rate": "Conversion Rate"
+        },
+        "charts": {
+            "traffic_overview": "Traffic Overview (Last 7 Days)"
+        },
+        "recent_orders": {
+            "title": "Recent Orders",
+            "empty": "No recent orders",
+            "new_order_label": "New Order Click"
+        },
+        "footer": {
+            "note": "This dashboard shows simple analytics based on event tracking. \"Views\" are page loads and \"Orders\" are clicks on WhatsApp buttons. Data is synced in real-time."
+        }
     }
 }

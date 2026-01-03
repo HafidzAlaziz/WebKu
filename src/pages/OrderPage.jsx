@@ -4,9 +4,11 @@ import { Send, CheckCircle, AlertCircle, Sparkles, Code, Palette, Zap, Shield, H
 import emailjs from '@emailjs/browser';
 import Navbar from '../components/Navbar';
 import { useTranslation } from 'react-i18next';
+import { useTracker } from '../hooks/useTracker';
 
 const OrderPage = () => {
     const { t } = useTranslation();
+    const { trackOrder } = useTracker();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -168,6 +170,9 @@ const OrderPage = () => {
             error: false,
             message: t('order_page.form.success.redirect'),
         });
+
+        // Track Order
+        trackOrder(`Order Form: ${formData.package} - ${formData.websiteType}`);
 
         // Redirect ke WhatsApp setelah 1.5 detik
         setTimeout(() => {

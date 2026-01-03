@@ -586,5 +586,34 @@
             "responsive": "¡Todos los sitios web que hacemos DEBEN ser amigables con móviles! 📱💻\n\n✅ Diseño Responsivo\n   → Aparece perfecto en todos los dispositivos\n   → Celular, tableta, laptop, escritorio\n\n✅ Carga Rápida\n   → Optimización de velocidad máxima\n   → Mejor experiencia de usuario\n\n✅ Amigable al Tacto\n   → Botones y menús fáciles de hacer clic\n   → Navegación suave en pantalla táctil\n\nEn esta era, el 70% de los visitantes son desde móviles. ¡Así que el diseño responsivo es OBLIGATORIO! 🎯",
             "seo": "¡El SEO es uno de nuestros principales enfoques! 🔍\n\n✅ Estructura Amigable con SEO\n   → Código limpio y estructurado\n   → Meta etiquetas óptimas\n\n✅ Velocidad de Carga Rápida\n   → A Google le gustan los sitios web rápidos\n   → Optimizamos al máximo\n\n✅ Optimización Móvil\n   → Google prioriza mobile-first\n   → Nuestro sitio web es definitivamente responsivo\n\n✅ Optimización de Contenido\n   → Estructura correcta de encabezados\n   → Texto alternativo para imágenes\n\n✅ Mapa del sitio y Analítica\n   → Enviar a Google Search Console\n   → Rastrear con Google Analytics\n\n¡Buen sitio web pero no visible en Google = inútil! ¡Así que nos aseguramos de que tu sitio web sea amigable con SEO! 📈"
         }
+    },
+    "dashboard": {
+        "header": {
+            "title": "Resumen del Panel",
+            "subtitle": "Análisis en tiempo real para tu sitio web de portafolio"
+        },
+        "actions": {
+            "refresh": "Actualizar Datos"
+        },
+        "filters": {
+            "days": "Días"
+        },
+        "stats": {
+            "live": "+ En Vivo",
+            "total_views": "Vistas Totales",
+            "total_orders": "Pedidos Totales (WhatsApp)",
+            "conversion_rate": "Tasa de Conversión"
+        },
+        "charts": {
+            "traffic_overview": "Resumen de Tráfico (Últimos 7 Días)"
+        },
+        "recent_orders": {
+            "title": "Pedidos Recientes",
+            "empty": "No hay pedidos recientes",
+            "new_order_label": "Clic de Nuevo Pedido"
+        },
+        "footer": {
+            "note": "Este panel muestra análisis simples basados en el seguimiento de eventos. Las \"Vistas\" son cargas de página y los \"Pedidos\" son clics en botones de WhatsApp. Los datos se sincronizan en tiempo real."
+        }
     }
 }

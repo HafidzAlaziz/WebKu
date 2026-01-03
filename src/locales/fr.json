@@ -586,5 +586,34 @@
             "responsive": "Tous les sites Web que nous créons DOIVENT être compatibles avec les mobiles ! 📱💻\n\n✅ Design Réactif\n   → Apparaît parfait sur tous les appareils\n   → Mobile, tablette, ordinateur portable, bureau\n\n✅ Chargement Rapide\n   → Optimisation de la vitesse maximale\n   → Meilleure expérience utilisateur\n\n✅ Tactile Convivial\n   → Boutons et menus faciles à cliquer\n   → Navigation fluide sur écran tactile\n\nÀ cette époque, 70% des visiteurs viennent du mobile. Donc le design réactif est OBLIGATOIRE ! 🎯",
             "seo": "Le SEO est l'un de nos principaux objectifs ! 🔍\n\n✅ Structure Compatible SEO\n   → Code propre et structuré\n   → Balises méta optimales\n\n✅ Vitesse de Chargement Rapide\n   → Google aime les sites Web rapides\n   → Nous optimisons au maximum\n\n✅ Optimisation Mobile\n   → Google priorise le mobile-first\n   → Notre site Web est certainement réactif\n\n✅ Optimisation de Contenu\n   → Structure de titre correcte\n   → Texte alternatif pour les images\n\n✅ Plan du site et Analyse\n   → Soumettre à Google Search Console\n   → Suivi avec Google Analytics\n\nBon site Web mais pas visible sur Google = inutile ! Nous nous assurons donc que votre site Web est compatible SEO ! 📈"
         }
+    },
+    "dashboard": {
+        "header": {
+            "title": "Aperçu du Tableau de Bord",
+            "subtitle": "Analytique en temps réel pour votre site portfolio"
+        },
+        "actions": {
+            "refresh": "Actualiser les Données"
+        },
+        "filters": {
+            "days": "Jours"
+        },
+        "stats": {
+            "live": "+ En Direct",
+            "total_views": "Vues Totales",
+            "total_orders": "Commandes Totales (WhatsApp)",
+            "conversion_rate": "Taux de Conversion"
+        },
+        "charts": {
+            "traffic_overview": "Aperçu du Trafic (7 Derniers Jours)"
+        },
+        "recent_orders": {
+            "title": "Commandes Récentes",
+            "empty": "Aucune commande récente",
+            "new_order_label": "Clic Nouvelle Commande"
+        },
+        "footer": {
+            "note": "Ce tableau de bord affiche des analyses simples basées sur le suivi des événements. Les \"Vues\" sont les chargements de page et les \"Commandes\" sont les clics sur les boutons WhatsApp. Les données sont synchronisées en temps réel."
+        }
     }
 }

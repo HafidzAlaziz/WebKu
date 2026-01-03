@@ -3,13 +3,19 @@ import { motion } from 'framer-motion';
 import { MessageCircle, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useTracker } from '../hooks/useTracker';
 
 const CTA = () => {
     const { t } = useTranslation();
+    const { trackOrder } = useTracker();
 
     // WhatsApp message template from translation
     const whatsappMessage = t('cta.whatsapp_template');
     const encodedMessage = encodeURIComponent(whatsappMessage);
+
+    const handleWhatsAppClick = () => {
+        trackOrder('CTA WhatsApp Button');
+    };
 
     return (
         <section id="order" className="py-20 bg-primary relative z-10 overflow-hidden">
@@ -49,6 +55,7 @@ const CTA = () => {
                             href={`https://wa.me/6285122959690?text=${encodedMessage}`}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={handleWhatsAppClick}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="inline-flex items-center gap-3 px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-green-500/30 transition-all"
