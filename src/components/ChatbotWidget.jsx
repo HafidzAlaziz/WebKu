@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send } from 'lucide-react';
 
 const ChatbotWidget = () => {
+    const { t, i18n } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [showBubble, setShowBubble] = useState(true);
     const [isBlinking, setIsBlinking] = useState(false);
-    const [messages, setMessages] = useState([
-        {
-            type: 'bot',
-            text: 'Halo! 👋 Saya RoboBot, asisten virtual WebKuu. Ada yang bisa saya bantu tentang layanan Website Custom kami?',
-            timestamp: new Date(),
-        }
-    ]);
+    const [messages, setMessages] = useState([]);
     const [inputText, setInputText] = useState('');
+
+    // Initialize/Reset messages on language change
+    useEffect(() => {
+        setMessages([
+            {
+                type: 'bot',
+                text: t('chatbot.initial_message'),
+                timestamp: new Date(),
+            }
+        ]);
+    }, [t, i18n.language]);
 
     // Blinking animation
     useEffect(() => {
@@ -31,64 +38,64 @@ const ChatbotWidget = () => {
     }, []);
 
     // FAQ Database
-    const faqDatabase = [
+    const faqDatabase = useMemo(() => [
         {
-            keywords: ['halo', 'hai', 'hello', 'hi', 'pagi', 'siang', 'sore', 'malam'],
-            response: 'Halo! 👋 Senang bertemu dengan Anda! Saya RoboBot, asisten virtual WebKuu yang siap membantu Anda.\n\nAda yang ingin Anda tanyakan tentang layanan website kami? Saya bisa bantu jelaskan tentang harga, fitur, proses pembuatan, atau apapun yang Anda butuhkan! 😊'
+            keywords: ['halo', 'hai', 'hello', 'hi', 'pagi', 'siang', 'sore', 'malam', 'greeting', 'pucuk'],
+            response: t('chatbot.faq.greeting')
         },
         {
-            keywords: ['apa itu', 'website custom', 'custom website', 'pengertian', 'jelaskan'],
-            response: 'Website Custom adalah layanan pembuatan website yang dibuat khusus sesuai kebutuhan Anda. Bukan template! 🎨\n\nKeuntungannya:\n✨ Desain unik sesuai brand Anda\n✨ Fitur yang Anda mau, bukan yang sudah jadi\n✨ Teknologi modern dan terkini\n✨ Lebih fleksibel untuk dikembangkan\n\nJadi website Anda benar-benar mencerminkan bisnis Anda, bukan copy-paste dari orang lain! 💪'
+            keywords: ['apa itu', 'website custom', 'custom website', 'pengertian', 'jelaskan', 'what is', 'definition'],
+            response: t('chatbot.faq.what_is')
         },
         {
-            keywords: ['harga', 'biaya', 'berapa', 'tarif', 'price', 'mahal'],
-            response: 'Harga layanan kami sangat terjangkau dan fleksibel! 💰\n\n📌 Paket Hemat: Mulai Rp 100.000\n   → Landing page sederhana\n   → Cocok untuk portfolio atau promosi\n\n📌 Custom/UMKM: Harga Fleksibel\n   → Sesuai fitur yang Anda butuhkan\n   → Desain custom 100%\n\n📌 Full Custom: Harga Diskusi\n   → Sistem kompleks dengan database\n   → Backend + Admin panel\n\nHarga final tergantung fitur yang Anda mau. Konsultasi gratis dulu yuk, kita diskusikan kebutuhan Anda! 😊'
+            keywords: ['harga', 'biaya', 'berapa', 'tarif', 'price', 'mahal', 'cost', 'expensive'],
+            response: t('chatbot.faq.price')
         },
         {
-            keywords: ['fitur', 'request', 'bisa', 'dapat', 'tersedia', 'ada'],
-            response: 'Anda bisa request berbagai fitur sesuai kebutuhan! 🚀\n\n✅ Desain custom 100% (sesuai brand Anda)\n✅ Sistem booking/reservasi online\n✅ Payment gateway (terima pembayaran online)\n✅ Dashboard admin (kelola konten sendiri)\n✅ Integrasi API (Google Maps, sosmed, dll)\n✅ E-commerce lengkap (toko online)\n✅ Multi-bahasa\n✅ SEO optimization\n✅ Dan masih banyak lagi!\n\nPunya ide fitur tertentu? Ceritakan aja, kami bantu wujudkan! 💡'
+            keywords: ['fitur', 'request', 'bisa', 'dapat', 'tersedia', 'ada', 'feature', 'can I', 'available'],
+            response: t('chatbot.faq.features')
         },
         {
-            keywords: ['lama', 'pengerjaan', 'waktu', 'berapa lama', 'durasi', 'cepat'],
-            response: 'Kami kerja cepat tapi tetap berkualitas! ⚡\n\n⏱️ Landing Page Sederhana: 3-5 hari kerja\n⏱️ Website UMKM/Company Profile: 5-7 hari kerja\n⏱️ Toko Online/E-commerce: 1-2 minggu\n⏱️ Sistem Kompleks (Custom): 2-4 minggu\n\nWaktu bisa lebih cepat atau lambat tergantung:\n• Kompleksitas fitur yang diminta\n• Kecepatan feedback dari Anda\n• Ketersediaan konten (teks, gambar, dll)\n\nYang pasti, kami selalu prioritaskan kualitas! 🎯'
+            keywords: ['lama', 'pengerjaan', 'waktu', 'berapa lama', 'durasi', 'cepat', 'how long', 'duration', 'time'],
+            response: t('chatbot.faq.duration')
         },
         {
-            keywords: ['teknologi', 'tech stack', 'react', 'next', 'framework', 'bahasa'],
-            response: 'Kami pakai teknologi modern dan terkini! 💻\n\n🔧 Frontend:\n   • React.js + Tailwind CSS\n   • Next.js (untuk SEO maksimal)\n   • Vue.js (jika diminta)\n\n🔧 Backend:\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\n🔧 CMS:\n   • WordPress (jika Anda prefer)\n   • Custom CMS\n\n🔧 Database:\n   • MySQL, PostgreSQL, MongoDB\n\nAnda juga bisa request tech stack tertentu sesuai kebutuhan! Kami fleksibel kok! 😊'
+            keywords: ['teknologi', 'tech stack', 'react', 'next', 'framework', 'bahasa', 'technology', 'stack'],
+            response: t('chatbot.faq.tech')
         },
         {
-            keywords: ['order', 'pesan', 'cara', 'bagaimana', 'proses', 'mulai'],
-            response: 'Cara order sangat mudah dan simple! 📝\n\n1️⃣ Konsultasi Gratis\n   → Hubungi kami via WhatsApp/Email\n   → Ceritakan kebutuhan website Anda\n\n2️⃣ Diskusi & Penawaran\n   → Kami bantu tentukan fitur yang tepat\n   → Sepakati harga dan timeline\n\n3️⃣ Pengerjaan\n   → Kami mulai kerjakan website Anda\n   → Update progress secara berkala\n\n4️⃣ Review & Revisi\n   → Anda cek hasilnya\n   → Revisi GRATIS sampai puas!\n\n5️⃣ Launching! 🎉\n   → Website siap online\n   → Dapat support selamanya\n\nMau mulai? Hubungi kami sekarang! 📱'
+            keywords: ['order', 'pesan', 'cara', 'bagaimana', 'proses', 'mulai', 'how to order', 'process', 'start'],
+            response: t('chatbot.faq.order')
         },
         {
-            keywords: ['paket', 'pilihan', 'tersedia', 'rekomendasi'],
-            response: 'Kami punya 3 paket yang bisa disesuaikan! 📦\n\n💼 Paket Hemat (Mulai Rp 100rb)\n   • Landing page 1-3 halaman\n   • Desain modern & responsive\n   • Cocok untuk: Portfolio, promosi produk\n\n🏢 Custom/UMKM (Harga Fleksibel)\n   • Desain custom sesuai brand\n   • Fitur sesuai kebutuhan\n   • Cocok untuk: Company profile, UMKM\n\n🚀 Full Custom (Harga Diskusi)\n   • Sistem kompleks + database\n   • Backend & admin panel\n   • Cocok untuk: E-commerce, booking system\n\nBingung pilih yang mana? Konsultasi gratis aja, kami bantu tentukan yang paling cocok! 😊'
+            keywords: ['paket', 'pilihan', 'tersedia', 'rekomendasi', 'package', 'option', 'recommendation'],
+            response: t('chatbot.faq.packages')
         },
         {
-            keywords: ['revisi', 'gratis', 'garansi', 'support', 'maintenance'],
-            response: 'Kami berikan jaminan terbaik untuk Anda! 🌟\n\n✅ Revisi GRATIS sampai puas\n   → Tidak ada batasan jumlah revisi\n   → Sampai Anda benar-benar puas!\n\n✅ Garansi Bug Fix\n   → Gratis perbaikan jika ada error\n   → Berlaku selamanya\n\n✅ Support Selamanya\n   → Konsultasi gratis kapanpun\n   → Bantuan teknis jika ada masalah\n\n✅ Update Konten\n   → Kami ajari cara update sendiri\n   → Atau bisa request ke kami (gratis!)\n\nKepuasan dan kesuksesan Anda adalah prioritas kami! 💪'
+            keywords: ['revisi', 'gratis', 'garansi', 'support', 'maintenance', 'revision', 'warranty', 'guarantee'],
+            response: t('chatbot.faq.guarantee')
         },
         {
-            keywords: ['kontak', 'hubungi', 'whatsapp', 'contact', 'email', 'telepon'],
-            response: 'Yuk hubungi kami sekarang! 📞\n\n📱 WhatsApp: +62 851 2295 9690\n   → Chat langsung dengan tim kami\n   → Konsultasi gratis!\n\n📧 Email: web.kuu@gmail.com\n   → Untuk pertanyaan detail\n   → Kirim brief project Anda\n\n🌐 Website: Anda sedang di sini! 😊\n\n⏰ Jam Operasional:\n   → Siap melayani 24/7 (24 jam setiap hari)\n   → Fast response!\n\nKami siap membantu Anda kapan saja! 💬'
+            keywords: ['kontak', 'hubungi', 'whatsapp', 'contact', 'email', 'telepon', 'call', 'phone'],
+            response: t('chatbot.faq.contact')
         },
         {
-            keywords: ['portfolio', 'contoh', 'hasil', 'karya', 'project'],
-            response: 'Kami sudah banyak mengerjakan berbagai project! 🎨\n\nAnda bisa lihat portfolio kami di halaman Portfolio website ini. Ada berbagai jenis website yang sudah kami buat:\n\n✨ Company Profile\n✨ Toko Online\n✨ Landing Page\n✨ Website UMKM\n✨ Sistem Booking\n✨ Dan masih banyak lagi!\n\nSetiap project dikerjakan dengan detail dan sesuai kebutuhan klien. Mau lihat? Klik menu Portfolio di atas! 👆'
+            keywords: ['portfolio', 'contoh', 'hasil', 'karya', 'project', 'sample', 'work'],
+            response: t('chatbot.faq.portfolio')
         },
         {
-            keywords: ['terima kasih', 'thanks', 'makasih', 'ok', 'oke', 'siap'],
-            response: 'Sama-sama! 😊🙏\n\nSenang bisa membantu Anda! Kalau ada pertanyaan lain, jangan ragu untuk tanya ya.\n\nKalau sudah siap untuk mulai project, langsung hubungi kami via WhatsApp atau email. Kami tunggu kabar baiknya! 💙\n\nSemoga harimu menyenangkan! ✨'
+            keywords: ['terima kasih', 'thanks', 'makasih', 'ok', 'oke', 'siap', 'thank you', 'good'],
+            response: t('chatbot.faq.thanks')
         },
         {
-            keywords: ['responsive', 'mobile', 'hp', 'handphone', 'tablet'],
-            response: 'Semua website yang kami buat PASTI mobile-friendly! 📱💻\n\n✅ Responsive Design\n   → Tampil sempurna di semua device\n   → HP, tablet, laptop, desktop\n\n✅ Fast Loading\n   → Optimasi kecepatan maksimal\n   → User experience terbaik\n\n✅ Touch-Friendly\n   → Tombol dan menu mudah diklik\n   → Navigasi smooth di touchscreen\n\nDi era sekarang, 70% pengunjung dari mobile. Jadi responsive design itu WAJIB! 🎯'
+            keywords: ['responsive', 'mobile', 'hp', 'handphone', 'tablet', 'gadget'],
+            response: t('chatbot.faq.responsive')
         },
         {
-            keywords: ['seo', 'google', 'ranking', 'optimasi', 'pencarian'],
-            response: 'SEO adalah salah satu fokus utama kami! 🔍\n\n✅ SEO-Friendly Structure\n   → Kode yang clean dan terstruktur\n   → Meta tags yang optimal\n\n✅ Fast Loading Speed\n   → Google suka website cepat\n   → Kami optimasi maksimal\n\n✅ Mobile Optimization\n   → Google prioritaskan mobile-first\n   → Website kami pasti responsive\n\n✅ Content Optimization\n   → Heading structure yang benar\n   → Alt text untuk gambar\n\n✅ Sitemap & Analytics\n   → Submit ke Google Search Console\n   → Tracking dengan Google Analytics\n\nWebsite bagus tapi gak keliatan di Google = percuma! Makanya kami pastikan website Anda SEO-friendly! 📈'
+            keywords: ['seo', 'google', 'ranking', 'optimasi', 'pencarian', 'search'],
+            response: t('chatbot.faq.seo')
         }
-    ];
+    ], [t]);
 
     const quickActions = [
         { text: '💰 Lihat Harga', query: 'harga' },
@@ -106,10 +113,10 @@ const ChatbotWidget = () => {
             }
         }
 
-        return 'Hmm, saya belum sepenuhnya mengerti pertanyaan Anda. 😅\n\nTapi tenang! Saya bisa bantu jelaskan tentang:\n\n💡 Harga & Paket Layanan\n💡 Fitur yang Bisa Direquest\n💡 Cara Order & Proses Kerja\n💡 Teknologi yang Digunakan\n💡 Waktu Pengerjaan\n💡 Portfolio & Contoh Karya\n💡 Garansi & Support\n💡 SEO & Mobile Optimization\n\nCoba tanyakan salah satu topik di atas, atau langsung hubungi kami via WhatsApp untuk konsultasi lebih detail! 📱\n\nAtau gunakan tombol pertanyaan cepat di bawah untuk mulai! 👇';
+        return t('chatbot.fallback_response');
     };
 
-    const handleSendMessage = (text = inputText) => {
+    const handleSendMessage = (text = inputText, queryOverride = null) => {
         if (!text.trim()) return;
 
         const userMessage = {
@@ -123,15 +130,15 @@ const ChatbotWidget = () => {
         setTimeout(() => {
             const botResponse = {
                 type: 'bot',
-                text: findResponse(text),
+                text: findResponse(queryOverride || text),
                 timestamp: new Date(),
             };
             setMessages(prev => [...prev, botResponse]);
         }, 800);
     };
 
-    const handleQuickAction = (query) => {
-        handleSendMessage(query);
+    const handleQuickAction = (text, query) => {
+        handleSendMessage(text, query);
     };
 
     // Robot SVG Component
@@ -217,7 +224,7 @@ const ChatbotWidget = () => {
                             exit={{ opacity: 0, scale: 0.8, x: 20 }}
                             className="absolute bottom-full right-0 mb-4 bg-white dark:bg-slate-800 text-slate-800 dark:text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 whitespace-nowrap"
                         >
-                            <p className="text-sm font-medium">Ada yang bisa saya bantu?</p>
+                            <p className="text-sm font-medium">{t('chatbot.bubble_text')}</p>
                             <div className="absolute bottom-0 right-8 transform translate-y-1/2 rotate-45 w-3 h-3 bg-white dark:bg-slate-800 border-r border-b border-slate-200 dark:border-slate-700"></div>
                         </motion.div>
                     )}
@@ -277,8 +284,8 @@ const ChatbotWidget = () => {
                                 <RobotCharacter isBlinking={false} />
                             </div>
                             <div className="flex-1 relative z-10">
-                                <h3 className="font-bold text-lg">RoboBot</h3>
-                                <p className="text-xs text-brand-emerald-50">Asisten WebKuu • Online</p>
+                                <h3 className="font-bold text-lg">{t('chatbot.header_title')}</h3>
+                                <p className="text-xs text-brand-emerald-50">{t('chatbot.header_subtitle')}</p>
                             </div>
                         </div>
 
@@ -306,12 +313,17 @@ const ChatbotWidget = () => {
                         {/* Quick Actions */}
                         {messages.length <= 2 && (
                             <div className="p-3 bg-white dark:bg-slate-800 border-t border-brand-emerald-100 dark:border-slate-700">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-bold uppercase tracking-wider">Pertanyaan cepat:</p>
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-bold uppercase tracking-wider">{t('chatbot.quick_actions.label')}</p>
                                 <div className="grid grid-cols-2 gap-2">
-                                    {quickActions.map((action, index) => (
+                                    {[
+                                        { text: t('chatbot.quick_actions.price'), query: 'harga' },
+                                        { text: t('chatbot.quick_actions.order'), query: 'cara order' },
+                                        { text: t('chatbot.quick_actions.features'), query: 'fitur' },
+                                        { text: t('chatbot.quick_actions.contact'), query: 'kontak' },
+                                    ].map((action, index) => (
                                         <button
                                             key={index}
-                                            onClick={() => handleQuickAction(action.query)}
+                                            onClick={() => handleQuickAction(action.text, action.query)}
                                             className="text-xs px-3 py-2 bg-brand-emerald-50 dark:bg-slate-700 hover:bg-primary hover:text-white dark:hover:bg-primary-dark text-slate-700 dark:text-slate-200 rounded-lg transition-all text-left border border-brand-emerald-100 dark:border-slate-600 font-medium"
                                         >
                                             {action.text}
@@ -336,7 +348,7 @@ const ChatbotWidget = () => {
                                     type="text"
                                     value={inputText}
                                     onChange={(e) => setInputText(e.target.value)}
-                                    placeholder="Ketik pertanyaan Anda..."
+                                    placeholder={t('chatbot.input_placeholder')}
                                     className="flex-1 px-4 py-3 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-sm"
                                 />
                                 <button

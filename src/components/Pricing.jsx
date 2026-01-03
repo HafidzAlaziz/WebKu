@@ -2,48 +2,35 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Pricing = () => {
+    const { t } = useTranslation();
+
     const plans = [
         {
-            name: 'Starter / Landing Page',
-            price: '100rb',
-            description: 'Solusi hemat untuk landing page sederhana atau profil usaha.',
-            features: [
-                '1 Halaman Website',
-                'Desain Rapih & Modern',
-                'Mobile Responsive',
-                'Tombol ke WhatsApp/Sosmed',
-                'Pengerjaan Cepat (24 Jam)',
-                'Gratis Hosting (Subdomain)',
-            ],
+            name: t('pricing.plans.starter.name'),
+            price: t('pricing.plans.starter.price'),
+            description: t('pricing.plans.starter.desc'),
+            features: t('pricing.plans.starter.features', { returnObjects: true }),
             recommended: false,
+            isStarter: true
         },
         {
-            name: 'Enterprise / Full Custom',
-            price: 'Diskusi',
-            description: 'Harga menyesuaikan fitur dan tingkat kesulitan website.',
-            features: [
-                'Fitur Sesuai Request & Budget',
-                'Konsultasi Teknis Mendalam',
-                'Prioritas Support & Garansi',
-            ],
+            name: t('pricing.plans.custom.name'),
+            price: t('pricing.plans.custom.price'),
+            description: t('pricing.plans.custom.desc'),
+            features: t('pricing.plans.custom.features', { returnObjects: true }),
             recommended: true,
+            isStarter: false
         },
         {
-            name: 'Professional / UMKM',
-            price: '1 Juta',
-            description: 'Website bisnis profesional untuk meningkatkan kredibilitas.',
-            features: [
-                'Desain Eksklusif (Bukan Template)',
-                'Hingga 5 Halaman (Home, About, dll)',
-                'Gratis Domain .com (1 Tahun)',
-                'Optimasi SEO Dasar (Google)',
-                'Integrasi Maps & Form Kontak',
-                'Revisi Desain 3x',
-                'Gratis Maintenance 1 Bulan',
-            ],
+            name: t('pricing.plans.umkm.name'),
+            price: t('pricing.plans.umkm.price'),
+            description: t('pricing.plans.umkm.desc'),
+            features: t('pricing.plans.umkm.features', { returnObjects: true }),
             recommended: false,
+            isStarter: true
         },
     ];
 
@@ -51,9 +38,9 @@ const Pricing = () => {
         <section id="pricing" className="py-20 bg-slate-50 dark:bg-slate-800">
             <div className="container mx-auto px-6">
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">Pilihan Paket Harga</h2>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">{t('pricing.title')}</h2>
                     <p className="text-slate-600 dark:text-slate-300 text-lg">
-                        Transparan, tanpa biaya tersembunyi. Pilih paket yang sesuai dengan budget Anda.
+                        {t('pricing.subtitle')}
                     </p>
                 </div>
 
@@ -70,7 +57,7 @@ const Pricing = () => {
                         >
                             {plan.recommended && (
                                 <div className="absolute top-0 right-0 bg-accent text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
-                                    Terlaris
+                                    {t('pricing.bestseller')}
                                 </div>
                             )}
 
@@ -79,16 +66,16 @@ const Pricing = () => {
                                 <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">{plan.description}</p>
                                 <div className="mb-6">
                                     <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">
-                                        {(plan.price === '100rb' || plan.price === '1 Juta') ? 'Mulai dari' : 'Harga'}
+                                        {plan.isStarter ? t('pricing.labels.starting_from') : t('pricing.labels.price')}
                                     </p>
                                     <div className="flex items-baseline">
-                                        {(plan.price === '100rb' || plan.price === '1 Juta') && <span className="text-sm text-slate-500 dark:text-slate-400 font-semibold">Rp</span>}
+                                        {plan.isStarter && <span className="text-sm text-slate-500 dark:text-slate-400 font-semibold">{t('pricing.labels.rp')}</span>}
                                         <span className="text-4xl font-bold text-slate-900 dark:text-white mx-1">{plan.price}</span>
                                     </div>
                                 </div>
 
                                 <ul className="space-y-4 mb-8">
-                                    {plan.features.map((feature, idx) => (
+                                    {Array.isArray(plan.features) && plan.features.map((feature, idx) => (
                                         <li key={idx} className="flex items-start gap-3 text-slate-600 dark:text-slate-300 text-sm">
                                             <Check size={18} className="text-accent flex-shrink-0 mt-0.5" />
                                             <span>{feature}</span>
@@ -105,7 +92,7 @@ const Pricing = () => {
                                         : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
                                         }`}
                                 >
-                                    Pesan Paket Ini
+                                    {t('pricing.cta')}
                                 </Link>
                             </div>
                         </motion.div>

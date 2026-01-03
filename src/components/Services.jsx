@@ -1,55 +1,65 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Building2, ShoppingBag, Globe, Layout, Smartphone, Search } from 'lucide-react';
-
-const services = [
-    {
-        icon: <Layout size={32} />,
-        title: 'Full Custom Design',
-        description: 'Desain website unik sesuai brand identity Anda, bukan template pasaran.',
-        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
-    },
-    {
-        icon: <Smartphone size={32} />,
-        title: 'Mobile Friendly',
-        description: 'Tampilan responsif yang sempurna di semua perangkat (HP, Tablet, Desktop).',
-        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
-    },
-    {
-        icon: <Globe size={32} />,
-        title: 'Bebas Request Fitur',
-        description: 'Butuh fitur khusus? Kami buatkan sesuai permintaan (Booking, Payment, dll).',
-        color: 'bg-brand-gold-100 dark:bg-brand-gold-900/30 text-accent dark:text-accent-light',
-    },
-    {
-        icon: <Building2 size={32} />,
-        title: 'Modern Tech Stack',
-        description: 'Dibuat dengan teknologi terbaru: React, Next.js, Tailwind, Node.js, dll.',
-        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
-    },
-    {
-        icon: <Search size={32} />,
-        title: 'SEO Optimized',
-        description: 'Struktur kode yang rapi dan cepat, disukai oleh mesin pencari Google.',
-        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
-    },
-    {
-        icon: <ShoppingBag size={32} />,
-        title: 'Support & Maintenance',
-        description: 'Kami tidak lari setelah project selesai. Support penuh jika ada kendala.',
-        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
-    },
-];
+import { useTranslation } from 'react-i18next';
 
 const Services = () => {
+    const { t } = useTranslation();
+
+    const services = [
+        {
+            icon: <Layout size={32} />,
+            title: t('services.items.design.title'),
+            description: t('services.items.design.desc'),
+            color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
+        },
+        {
+            icon: <Smartphone size={32} />,
+            title: t('services.items.mobile.title'),
+            description: t('services.items.mobile.desc'),
+            color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
+        },
+        {
+            icon: <Globe size={32} />,
+            title: t('services.items.features.title'),
+            description: t('services.items.features.desc'),
+            color: 'bg-brand-gold-100 dark:bg-brand-gold-900/30 text-accent dark:text-accent-light',
+        },
+        {
+            icon: <Building2 size={32} />,
+            title: t('services.items.tech.title'),
+            description: t('services.items.tech.desc'),
+            color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
+        },
+        {
+            icon: <Search size={32} />,
+            title: t('services.items.seo.title'),
+            description: t('services.items.seo.desc'),
+            color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
+        },
+        {
+            icon: <ShoppingBag size={32} />,
+            title: t('services.items.support.title'),
+            description: t('services.items.support.desc'),
+            color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
+        },
+    ];
+
+    const flowSteps = [
+        { step: '01', title: t('services.flow.steps.consult.title'), desc: t('services.flow.steps.consult.desc') },
+        { step: '02', title: t('services.flow.steps.deal.title'), desc: t('services.flow.steps.deal.desc') },
+        { step: '03', title: t('services.flow.steps.work.title'), desc: t('services.flow.steps.work.desc') },
+        { step: '04', title: t('services.flow.steps.done.title'), desc: t('services.flow.steps.done.desc') },
+    ];
+
     return (
         <section id="services" className="py-20 bg-white dark:bg-slate-900 relative z-10">
             <div className="container mx-auto px-6">
                 {/* Services Grid */}
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">Kenapa Memilih Jasa Kami?</h2>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">{t('services.title')}</h2>
                     <p className="text-slate-600 dark:text-slate-300 text-lg">
-                        Solusi website custom terbaik untuk UMKM, Personal, hingga Perusahaan.
+                        {t('services.subtitle')}
                     </p>
                 </div>
 
@@ -78,9 +88,9 @@ const Services = () => {
                 {/* Alur Pemesanan */}
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Alur Pemesanan Mudah</h2>
+                        <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{t('services.flow.title')}</h2>
                         <p className="text-slate-600 dark:text-slate-300">
-                            4 Langkah mudah memiliki website impian Anda.
+                            {t('services.flow.subtitle')}
                         </p>
                     </div>
 
@@ -88,12 +98,7 @@ const Services = () => {
                         {/* Connecting Line (Desktop) */}
                         <div className="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-slate-200 dark:bg-slate-700 -z-10" />
 
-                        {[
-                            { step: '01', title: 'Konsultasi', desc: 'Hubungi kami & diskusikan kebutuhan website Anda.' },
-                            { step: '02', title: 'Deal Harga', desc: 'Sepakati fitur dan harga yang sesuai budget.' },
-                            { step: '03', title: 'Pengerjaan', desc: 'Kami kerjakan website Anda dengan cepat & rapi.' },
-                            { step: '04', title: 'Website Jadi', desc: 'Review, revisi (jika ada), dan website siap online!' },
-                        ].map((item, idx) => (
+                        {flowSteps.map((item, idx) => (
                             <motion.div
                                 key={idx}
                                 initial={{ opacity: 0, y: 20 }}

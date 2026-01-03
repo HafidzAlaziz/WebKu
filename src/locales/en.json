@@ -1,0 +1,590 @@
+{
+    "nav": {
+        "home": "Home",
+        "services": "Services",
+        "portfolio": "Portfolio",
+        "pricing": "Pricing",
+        "testimonials": "Testimonials",
+        "order": "Order Now",
+        "tagline": "Digital Solutions"
+    },
+    "hero": {
+        "badge": "Premium Custom Website Solutions",
+        "title_part1": "Manifest Your",
+        "title_part2": "Dream Website",
+        "subtitle": "Professional, modern, and high-performance websites tailored perfectly for your business and brand.",
+        "cta_start": "Start Consultation",
+        "cta_portfolio": "View Portfolio",
+        "stats": {
+            "rating": "Star Rating",
+            "projects": "Projects Done",
+            "response": "Fast Response",
+            "satisfaction": "Client Satisfaction",
+            "very_satisfied": "Very Satisfied"
+        }
+    },
+    "services": {
+        "title": "Our Main Services",
+        "subtitle": "We offer various digital solutions to help your business compete and thrive in the modern era.",
+        "items": {
+            "design": {
+                "title": "UI/UX Design",
+                "desc": "Modern and intuitive interface design focused on optimal user experience."
+            },
+            "web": {
+                "title": "Web Development",
+                "desc": "Creation of fast, responsive, and SEO-friendly websites using the latest technology."
+            },
+            "custom": {
+                "title": "Custom System",
+                "desc": "Development of internal systems or complex features tailored to your specific business needs."
+            },
+            "mobile": {
+                "title": "Mobile Responsive",
+                "desc": "Websites that look perfect and function smoothly on all devices and screen sizes."
+            },
+            "features": {
+                "title": "Rich Features",
+                "desc": "Integration of advanced features like payment gateways, maps, and dynamic forms."
+            },
+            "tech": {
+                "title": "Latest Tech",
+                "desc": "Built with modern technologies like React, Next.js, and Framer Motion for speed."
+            },
+            "seo": {
+                "title": "SEO Optimized",
+                "desc": "Ensuring your website ranks high on Google search results to attract more customers."
+            },
+            "support": {
+                "title": "Ongoing Support",
+                "desc": "We provide maintenance and technical support to keep your website running perfectly."
+            }
+        },
+        "flow": {
+            "title": "How We Work",
+            "subtitle": "Streamlined process from initial idea to a fully functional website.",
+            "steps": {
+                "consult": {
+                    "title": "Consultation",
+                    "desc": "Shaping the concept and requirements according to your business goals."
+                },
+                "deal": {
+                    "title": "Agreement",
+                    "desc": "Confirming scope, timeline, and professional agreement for the project."
+                },
+                "work": {
+                    "title": "Development",
+                    "desc": "Building the website with clean, optimized, and modern code."
+                },
+                "done": {
+                    "title": "Launch & Support",
+                    "desc": "Final testing, deployment, and ongoing maintenance support."
+                }
+            }
+        }
+    },
+    "pricing": {
+        "title": "Pricing Options",
+        "subtitle": "Transparent, no hidden fees. Choose a package that fits your budget.",
+        "bestseller": "Bestseller",
+        "cta": "Order This Package",
+        "labels": {
+            "starting_from": "Starting from",
+            "price": "Price",
+            "rp": "Rp"
+        },
+        "plans": {
+            "starter": {
+                "name": "Starter / Landing Page",
+                "price": "100k",
+                "desc": "Cost-effective solution for a simple landing page or business profile.",
+                "features": [
+                    "1 Page Website",
+                    "Clean & Modern Design",
+                    "Mobile Responsive",
+                    "WhatsApp/Social Media Buttons",
+                    "Fast Delivery (24 Hours)",
+                    "Free Hosting (Subdomain)"
+                ]
+            },
+            "umkm": {
+                "name": "Professional / SME",
+                "price": "1 Million",
+                "desc": "Professional business website to increase credibility.",
+                "features": [
+                    "Exclusive Design (Not Template)",
+                    "Up to 5 Pages (Home, About, etc)",
+                    "Free .com Domain (1 Year)",
+                    "Basic SEO Optimization (Google)",
+                    "Maps & Contact Form Integration",
+                    "3x Design Revisions",
+                    "Free 1 Month Maintenance"
+                ]
+            },
+            "custom": {
+                "name": "Enterprise / Full Custom",
+                "price": "Discuss",
+                "desc": "Price adjusts according to features and website complexity.",
+                "features": [
+                    "Features as per Request & Budget",
+                    "In-depth Technical Consultation",
+                    "Priority Support & Warranty"
+                ]
+            }
+        }
+    },
+    "testimonials": {
+        "title": "What They Say?",
+        "subtitle": "Client satisfaction is our top priority.",
+        "items": [
+            {
+                "name": "Budi Santoso",
+                "role": "CEO PT Maju Jaya",
+                "content": "I requested custom features for an internal company system, and the results were very satisfying! The developer team understands technicalities and is very solution-oriented."
+            },
+            {
+                "name": "Siti Aminah",
+                "role": "Owner Batik Cantik",
+                "content": "Initially hesitant because the price was affordable, turns out the result is very premium. My online store website looks very professional."
+            },
+            {
+                "name": "Rizky Pratama",
+                "role": "Founder Startup Tech",
+                "content": "The tech stack used is modern (Next.js), website performance is very fast. Revisions were also served patiently until it was really right."
+            },
+            {
+                "name": "Dewi Lestari",
+                "role": "Marketing Manager",
+                "content": "The consultation service is very helpful. As someone unfamiliar with IT, I became understanding of what kind of website is suitable for my business. Recommended!"
+            }
+        ]
+    },
+    "cta": {
+        "title": "Ready to Manifest Your Dream Website?",
+        "subtitle": "Don't delay! Consult your website needs right now. You can order directly on this website.",
+        "buttons": {
+            "order": "Order Now!!!",
+            "whatsapp": "Consult via WhatsApp"
+        },
+        "footer": "Fast Response 24/7 • Free Consultation",
+        "whatsapp_template": "Hello WebKuu! 👋\n\nI want to consult about website creation.\n\n📋 *Initial Information:*\n• Website Type: [Fill in desired website type]\n• Budget: [Fill in available budget]\n• Deadline: [Fill in expected deadline]\n\nI am interested in knowing more about custom website creation services from WebKuu.\n\nThank you! 🙏"
+    },
+    "footer": {
+        "desc": "Trusted professional website creation service. We help your business grow in the digital era with the best website solutions.",
+        "nav_title": "Quick Navigation",
+        "services_title": "Services",
+        "contact_title": "Contact Us",
+        "services_list": [
+            "Company Profile",
+            "Online Store",
+            "Landing Page",
+            "SME Website",
+            "Maintenance"
+        ],
+        "made_by": "Made by the WebKuu team",
+        "location": "West Java, Indonesia",
+        "rights": "All rights reserved."
+    },
+    "portfolio": {
+        "gallery": {
+            "title": "Project Gallery",
+            "subtitle": "A collection of custom websites we have worked on using various modern technologies",
+            "filters": {
+                "all": "All",
+                "client": "Client",
+                "create": "Create",
+                "all_categories": "All Categories"
+            },
+            "categories": {
+                "web_app": "Web Application",
+                "company_profile": "Company Profile",
+                "online_store": "Online Store",
+                "landing_page": "Landing Page",
+                "portfolio": "Portfolio"
+            },
+            "buttons": {
+                "show_more": "Show More",
+                "show_less": "Show Less",
+                "view_details": "View Details"
+            },
+            "empty": "No projects in this category"
+        },
+        "card": {
+            "view_details": "View Details"
+        },
+        "modal": {
+            "description": "Project Description",
+            "duration": "Duration",
+            "demo_link": "Demo Link",
+            "visit_website": "Visit Website",
+            "private_project": "Internal / Private Project",
+            "features": "Key Features",
+            "technologies": "Technologies Used"
+        },
+        "projects": {
+            "professional_service": {
+                "name": "Professional Service",
+                "type": "Landing Page",
+                "short_desc": "Professional solutions for business growth with measurable strategies and real results.",
+                "full_desc": "Website landing page for professional services focused on real work results, business challenge transformation, and dedication to partner satisfaction.",
+                "features": [
+                    "Premium Business Layout",
+                    "Strategy & Results Showcase",
+                    "Client Testimonials",
+                    "Responsive Design",
+                    "Smooth Animations"
+                ]
+            },
+            "umkm_store": {
+                "name": "UMKM Store",
+                "type": "Online Store",
+                "short_desc": "Modern e-commerce platform to support local SME products.",
+                "full_desc": "E-commerce website designed to help local SMEs market their products online. Equipped with an attractive product catalog, category system, and WhatsApp integration for easy transactions.",
+                "features": [
+                    "SME Product Catalog",
+                    "Category Filter",
+                    "Product Search",
+                    "WhatsApp Integration",
+                    "Responsive Design"
+                ]
+            },
+            "vayana": {
+                "name": "Vayana",
+                "type": "Company Profile",
+                "short_desc": "Premium website for luxury hotels and resorts with elegant minimalist design.",
+                "full_desc": "Premium landing page for Vayana Hotel & Resort displaying luxury rooms, exclusive facilities, and world-class stay experiences. Design uses a luxury minimalist approach with a focus on high-quality visuals.",
+                "features": [
+                    "Luxury Visual Design",
+                    "Room Showcase",
+                    "Amenities Highlight",
+                    "Responsive Header",
+                    "Smooth Transitions"
+                ]
+            },
+            "aura_visuals": {
+                "name": "Aura Visuals",
+                "type": "Company Profile",
+                "short_desc": "Professional company profile website for photography services",
+                "full_desc": "Modern company profile website for Aura Visuals displaying photography services, portfolio, and price lists. Elegant design with monochrome and gold nuances, equipped with smooth animations.",
+                "features": [
+                    "Modern & Elegant Design",
+                    "Responsive Gallery",
+                    "Pricing Tables",
+                    "Contact Form",
+                    "Smooth Animations",
+                    "SEO Optimized"
+                ]
+            },
+            "fashion_store": {
+                "name": "E-Commerce Fashion Store",
+                "type": "Online Store",
+                "short_desc": "Modern e-commerce platform for fashion stores with integrated payment systems",
+                "full_desc": "Complete e-commerce website with shopping cart features, checkout, payment gateway, and admin dashboard to manage products and orders. Modern and responsive design with high performance.",
+                "features": [
+                    "Dynamic shopping cart",
+                    "Integrated payment gateway",
+                    "Complete admin dashboard",
+                    "Order tracking system",
+                    "Category and product search",
+                    "Responsive design",
+                    "SEO optimized",
+                    "Fast loading performance"
+                ]
+            },
+            "tech_startup": {
+                "name": "Company Profile Tech Startup",
+                "type": "Company Profile",
+                "short_desc": "Professional company profile website with modern animations and interactive content",
+                "full_desc": "Company profile website displaying company information, services, portfolio, and team with a clean and professional design. Equipped with a contact form and social media integration.",
+                "features": [
+                    "Smooth and modern animation",
+                    "Portfolio showcase",
+                    "Team member profiles",
+                    "Contact form with validation",
+                    "Blog section",
+                    "Multi-language support",
+                    "Dark mode",
+                    "Mobile responsive"
+                ]
+            },
+            "saas_product": {
+                "name": "Landing Page SaaS Product",
+                "type": "Landing Page",
+                "short_desc": "High conversion landing page for SaaS products with strong CTA",
+                "full_desc": "Landing page specifically designed to increase conversion with persuasive copywriting, attractive design, and clear call-to-action. Equipped with analytics tracking.",
+                "features": [
+                    "High conversion design",
+                    "A/B testing ready",
+                    "Analytics integration",
+                    "Lead capture forms",
+                    "Pricing tables",
+                    "Testimonials section",
+                    "FAQ accordion",
+                    "Fast page load"
+                ]
+            },
+            "restaurant": {
+                "name": "Restaurant Menu & Ordering",
+                "type": "Online Store",
+                "short_desc": "Online ordering system for restaurants with interactive digital menu",
+                "full_desc": "Online food ordering platform with interactive digital menu, cart system, and WhatsApp integration for order confirmation. Appetizing and user-friendly design.",
+                "features": [
+                    "Interactive digital menu",
+                    "Shopping cart",
+                    "WhatsApp integration",
+                    "Real-time order updates",
+                    "Table reservation",
+                    "Customer reviews",
+                    "Promo management",
+                    "Mobile-first design"
+                ]
+            },
+            "photographer": {
+                "name": "Portfolio Photographer",
+                "type": "Portfolio",
+                "short_desc": "Portfolio website for photographers with stunning photo gallery",
+                "full_desc": "Portfolio website displaying photography work with beautiful gallery, lightbox for viewing, and organized categories. Minimalist design that highlights photography work.",
+                "features": [
+                    "Image gallery with lightbox",
+                    "Category filtering",
+                    "Lazy loading images",
+                    "Contact form",
+                    "Social media integration",
+                    "Blog section",
+                    "SEO optimized",
+                    "Fast image loading"
+                ]
+            },
+            "edu_platform": {
+                "name": "Educational Platform",
+                "type": "Learning Management System",
+                "short_desc": "Online learning platform with video courses and interactive quizzes",
+                "full_desc": "Complete e-learning platform with course management system, video player, interactive quizzes, progress tracking, and digital certificates. Supports various learning content formats.",
+                "features": [
+                    "Video course player",
+                    "Interactive quizzes",
+                    "Progress tracking",
+                    "Digital certificates",
+                    "Discussion forums",
+                    "Student dashboard",
+                    "Instructor panel",
+                    "Payment integration"
+                ]
+            },
+            "ai_chatbot": {
+                "name": "Smart AI Chatbot",
+                "type": "Web Application",
+                "short_desc": "Smart AI-based virtual assistant for automated customer service",
+                "full_desc": "Smart chatbot application that uses AI technology to respond to user questions naturally and in real-time. Suitable for 24-hour customer service with easy integration into various platforms.",
+                "features": [
+                    "Natural Language Processing",
+                    "Real-time Response",
+                    "Mobile Responsive Chat UI",
+                    "Custom Personality",
+                    "History Chat",
+                    "Dark Mode Support",
+                    "Fast & Lightweight"
+                ]
+            },
+            "handara": {
+                "name": "Handara Golf & Resort Bali",
+                "type": "Company Profile",
+                "short_desc": "Official website for luxury resort in Bali with beautiful golf views",
+                "full_desc": "Premium company profile website for Handara Golf & Resort Bali. Displays the beauty of the resort, golf services, lodging facilities, and booking information with elegant design and memoriable visuals.",
+                "features": [
+                    "Luxury Visual Design",
+                    "Interactive Map Integration",
+                    "Room & Golf Showcase",
+                    "Booking Information",
+                    "Smooth Page Transitions",
+                    "SEO Optimized for Travel",
+                    "Responsive Mobile View"
+                ]
+            }
+        },
+        "testimonials": {
+            "section_title": "Client Testimonials",
+            "section_subtitle": "What they say who have trusted us to create their dream website",
+            "items": {
+                "budi": {
+                    "text": "The result is very satisfying! My online store website has become more professional and sales increased by 200%. The team is very responsive and understands my business needs."
+                },
+                "siti": {
+                    "text": "Service is very good and fast. Our company profile website looks very modern and professional. Our clients also gave positive feedback!"
+                },
+                "ahmad": {
+                    "text": "My landing page conversion rate increased drastically after redesign. Modern design, fast loading, and mobile-friendly. Highly recommended!"
+                },
+                "dewi": {
+                    "text": "The ordering website for my restaurant is very helpful! Customers find it easier to order and the system is integrated with WhatsApp. Great!"
+                },
+                "rudi": {
+                    "text": "My portfolio website has become more attractive and professional. The photo gallery is very smooth and my clients are impressed with the presentation of my work."
+                },
+                "linda": {
+                    "text": "The created e-learning platform has very complete features. My students enjoy learning with a user-friendly system. Worth every penny!"
+                }
+            }
+        },
+        "cta": {
+            "title": "Want a Custom Website Like This?",
+            "subtitle_template": "Prices start from <0>100 thousand</0> and can be requested according to your business needs.",
+            "buttons": {
+                "order": "Order Now",
+                "chat": "Chat Admin"
+            },
+            "features": {
+                "free_consultation": "Free Consultation",
+                "unlimited_revision": "Unlimited Revision",
+                "support_24_7": "Support 24/7"
+            }
+        }
+    },
+    "order_page": {
+        "header": {
+            "badge": "Premium Website Order Form",
+            "title_part1": "Manifest Your",
+            "title_part2": "Dream Website",
+            "subtitle": "Fill out the form below and get a FREE consultation from our expert team for credible results"
+        },
+        "advantages": {
+            "title": "Why Choose WebKuu?",
+            "items": {
+                "tech_stack": {
+                    "title": "Freedom to Choose Tech Stack",
+                    "desc": "React, Vue, Next.js, WordPress, or other frameworks according to your needs"
+                },
+                "custom_design": {
+                    "title": "100% Custom Design",
+                    "desc": "No templates! Design created specifically for your brand identity"
+                },
+                "fast_delivery": {
+                    "title": "Fast Delivery",
+                    "desc": "Completion in a short time, without reducing quality"
+                },
+                "warranty": {
+                    "title": "Warranty & Maintenance",
+                    "desc": "30-day bug fix warranty + free maintenance according to package"
+                },
+                "support": {
+                    "title": "24/7 Support",
+                    "desc": "Support team ready to help you anytime via WhatsApp"
+                },
+                "seo": {
+                    "title": "SEO Ready",
+                    "desc": "Website optimized for Google search engine"
+                }
+            }
+        },
+        "form": {
+            "title": "Order Details",
+            "subtitle": "Complete the information below to start your project",
+            "labels": {
+                "name": "Full Name",
+                "email": "Email",
+                "phone": "WhatsApp Number",
+                "company": "Company/Business Name (Optional)",
+                "package": "Select Service Package",
+                "website_type": "Website Type",
+                "tech_stack": "Technology Preference (Optional)",
+                "message": "Tell Us Your Needs"
+            },
+            "placeholders": {
+                "name": "Enter full name",
+                "email": "email@example.com",
+                "phone": "Example: 081234567890",
+                "company": "Enter company name",
+                "website_type": "Select website category",
+                "tech_stack": "Let us recommend the best",
+                "message": "Explain in detail:\n- What is the purpose of your website?\n- What features must be there?\n- Do you have design references?\n- How long is the desired processing time?"
+            },
+            "options": {
+                "package_starter": "Starter / Landing Page - Rp 100k",
+                "package_professional": "Professional / SME - Rp 1 Million",
+                "package_enterprise": "Enterprise / Full Custom - Discuss Price",
+                "type_landing": "Landing Page",
+                "type_company": "Company Profile",
+                "type_ecommerce": "Online Store / E-commerce",
+                "type_portfolio": "Portfolio",
+                "type_umkm": "SME Website",
+                "type_custom": "Custom System (Booking, CRM, etc)",
+                "type_other": "Other",
+                "tech_react": "React.js + Tailwind (Modern & Fast)",
+                "tech_next": "Next.js (High Performance + SEO)",
+                "tech_vue": "Vue.js",
+                "tech_wordpress": "WordPress (CMS Ready)",
+                "tech_laravel": "Laravel + PHP (Robust System)",
+                "tech_html": "HTML/CSS/JS (Static Content)",
+                "tech_other": "Other Needs (Write in description)"
+            },
+            "submit": {
+                "default": "Send Order Now",
+                "processing": "Processing..."
+            },
+            "validation": {
+                "name_required": "Full name is required",
+                "name_min": "Name minimum 3 characters",
+                "email_required": "Email is required",
+                "email_invalid": "Invalid email format (example: name@gmail.com)",
+                "phone_required": "WhatsApp number is required",
+                "phone_numeric": "WhatsApp number must only contain numbers",
+                "phone_min": "WhatsApp number too short (minimum 10 digits)",
+                "phone_max": "WhatsApp number too long (maximum 15 digits)",
+                "type_required": "Please select the type of website you need",
+                "message_required": "Need description is required so we can understand your wishes",
+                "message_min": "Description too short, please provide details minimum 20 characters",
+                "form_invalid": "Please complete all required fields correctly"
+            },
+            "success": {
+                "redirect": "Redirecting to WhatsApp...",
+                "sent": "Order successfully sent via WhatsApp! Please continue chat on WhatsApp."
+            }
+        }
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Something went wrong",
+        "back": "Back",
+        "day": "Day",
+        "day_plural": "Days",
+        "week": "Week",
+        "week_plural": "Weeks"
+    },
+    "portfolio_preview": {
+        "title": "Our Latest Portfolio",
+        "subtitle": "See the professional website works we have created for various clients",
+        "view_all": "View All Portfolio",
+        "live_demo": "Live Demo"
+    },
+    "chatbot": {
+        "initial_message": "Hello! 👋 I'm RoboBot, WebKuu's virtual assistant. Is there anything I can help you with regarding our Custom Website services?",
+        "bubble_text": "Can I help you with something?",
+        "header_title": "RoboBot",
+        "header_subtitle": "WebKuu Assistant • Online",
+        "input_placeholder": "Type your question...",
+        "quick_actions": {
+            "price": "💰 Check Price",
+            "order": "🚀 How to Order",
+            "features": "⚡ What Features?",
+            "contact": "📞 Contact",
+            "label": "QUICK QUESTIONS:"
+        },
+        "fallback_response": "Hmm, I don't fully understand your question yet. 😅\n\nBut don't worry! I can explain about:\n\n💡 Prices & Service Packages\n💡 Requestable Features\n💡 Ordering Method & Work Process\n💡 Technology Used\n💡 Processing Time\n💡 Portfolio & Sample Works\n💡 Warranty & Support\n💡 SEO & Mobile Optimization\n\nTry asking one of the topics above, or contact us directly via WhatsApp for a more detailed consultation! 📱\n\nOr use the quick question button below to start! 👇",
+        "faq": {
+            "greeting": "Hello! 👋 Nice to meet you! I'm RoboBot, WebKuu's virtual assistant ready to help you.\n\nIs there anything you want to ask about our website services? I can explain about prices, features, the creation process, or anything you need! 😊",
+            "what_is": "Custom Website is a website creation service made specifically according to your needs. Not a template! 🎨\n\nThe advantages:\n✨ Unique design according to your brand\n✨ Features you want, not ready-made ones\n✨ Modern and latest technology\n✨ More flexible for development\n\nSo your website really reflects your business, not a copy-paste from someone else! 💪",
+            "price": "Our service prices are very affordable and flexible! 💰\n\n📌 Detailed Package: Starting from Rp 100,000\n   → Simple landing page\n   → Suitable for portfolio or promotion\n\n📌 Custom/SME: Flexible Price\n   → According to the features you need\n   → 100% custom design\n\n📌 Full Custom: Price Discussed\n   → Complex system with database\n   → Backend + Admin panel\n\nThe final price depends on the features you want. Let's have a free consultation first, we discuss your needs! 😊",
+            "features": "You can request various features according to your needs! 🚀\n\n✅ 100% custom design (according to your brand)\n✅ Online booking/reservation system\n✅ Payment gateway (accept online payments)\n✅ Admin dashboard (manage content yourself)\n✅ API Integration (Google Maps, social media, etc.)\n✅ Complete E-commerce (online store)\n✅ Multi-language\n✅ SEO optimization\n✅ And much more!\n\nHave a specific feature idea? Just tell us, we'll help make it happen! 💡",
+            "duration": "We work fast but maintain quality! ⚡\n\n⏱️ Simple Landing Page: 3-5 working days\n⏱️ SME Website/Company Profile: 5-7 working days\n⏱️ Online Store/E-commerce: 1-2 weeks\n⏱️ Complex System (Custom): 2-4 weeks\n\nTime can be faster or slower dependent on:\n• Complexity of requested features\n• Feedback speed from you\n• Content availability (text, images, etc.)\n\nIdeally, we always prioritize quality! 🎯",
+            "tech": "We use modern and latest technology! 💻\n\n🔧 Frontend:\n   • React.js + Tailwind CSS\n   • Next.js (for maximum SEO)\n   • Vue.js (if requested)\n\n🔧 Backend:\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\n🔧 CMS:\n   • WordPress (if you prefer)\n   • Custom CMS\n\n🔧 Database:\n   • MySQL, PostgreSQL, MongoDB\n\nYou can also request a specific tech stack according to your needs! We are flexible! 😊",
+            "order": "Ordering method is very easy and simple! 📝\n\n1️⃣ Free Consultation\n   → Contact us via WhatsApp/Email\n   → Tell us your website needs\n\n2️⃣ Discussion & Offer\n   → We help determine the right features\n   → Agree on price and timeline\n\n3️⃣ Production\n   → We start working on your website\n   → Regular progress updates\n\n4️⃣ Review & Revision\n   → You check the results\n   → FREE Revision until satisfied!\n\n5️⃣ Launching! 🎉\n   → Website ready online\n   → Get support forever\n\nWant to start? Contact us now! 📱",
+            "packages": "We have 3 packages that can be customized! 📦\n\n💼 Saver Package (Starting Rp 100k)\n   • Landing page 1-3 pages\n   • Modern & responsive design\n   • Suitable for: Portfolio, product promotion\n\n🏢 Custom/SME (Flexible Price)\n   • Custom design according to brand\n   • Features according to needs\n   • Suitable for: Company profile, SME\n\n🚀 Full Custom (Price Discussed)\n   • Complex system + database\n   • Backend & admin panel\n   • Suitable for: E-commerce, booking system\n\nConfused which to choose? Just free consultation, we help determine the most suitable! 😊",
+            "guarantee": "We provide the best guarantee for you! 🌟\n\n✅ FREE Revision until satisfied\n   → No limit on revision count\n   → Until you are really satisfied!\n\n✅ Bug Fix Warranty\n   → Free repair if there is an error\n   → Valid forever\n\n✅ Support Forever\n   → Free consultation anytime\n   → Technical assistance if there is a problem\n\n✅ Content Update\n   → We teach how to update yourself\n   → Or can request to us (free!)\n\nYour satisfaction and success is our priority! 💪",
+            "contact": "Let's contact us now! 📞\n\n📱 WhatsApp: +62 851 2295 9690\n   → Chat directly with our team\n   → Free consultation!\n\n📧 Email: web.kuu@gmail.com\n   → For detailed questions\n   → Send your project brief\n\n🌐 Website: You are here! 😊\n\n⏰ Operational Hours:\n   → Ready to serve 24/7 (24 hours every day)\n   → Fast response!\n\nWe are ready to help you anytime! 💬",
+            "portfolio": "We have worked on many various projects! 🎨\n\nYou can see our portfolio on the Portfolio page of this website. There are various types of websites we have made:\n\n✨ Company Profile\n✨ Online Store\n✨ Landing Page\n✨ SME Website\n✨ Booking System\n✨ And much more!\n\nEach project is done with detail and according to client needs. Want to see? Click the Portfolio menu above! 👆",
+            "thanks": "You're welcome! 😊🙏\n\nGlad to be able to help you! If there are other questions, don't hesitate to ask.\n\nIf you are ready to start the project, immediately contact us via WhatsApp or email. We wait for the good news! 💙\n\nHave a nice day! ✨",
+            "responsive": "All websites we make MUST be mobile-friendly! 📱💻\n\n✅ Responsive Design\n   → Appears perfect on all devices\n   → HP, tablet, laptop, desktop\n\n✅ Fast Loading\n   → Maximum speed optimization\n   → Best user experience\n\n✅ Touch-Friendly\n   → Buttons and menus easy to click\n   → Smooth navigation on touchscreen\n\nIn this era, 70% of visitors from mobile. So responsive design is MANDATORY! 🎯",
+            "seo": "SEO is one of our main focuses! 🔍\n\n✅ SEO-Friendly Structure\n   → Clean and structured code\n   → Optimal meta tags\n\n✅ Fast Loading Speed\n   → Google likes fast websites\n   → We optimize maximally\n\n✅ Mobile Optimization\n   → Google prioritizes mobile-first\n   → Our website definitely responsive\n\n✅ Content Optimization\n   → Correct heading structure\n   → Alt text for images\n\n✅ Sitemap & Analytics\n   → Submit to Google Search Console\n   → Tracking with Google Analytics\n\nGood website but not visible on Google = useless! So we ensure your website is SEO-friendly! 📈"
+        }
+    }
+}

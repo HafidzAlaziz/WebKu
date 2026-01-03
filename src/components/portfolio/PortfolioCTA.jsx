@@ -2,22 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 
 const PortfolioCTA = () => {
-    // Template pesan WhatsApp
-    const whatsappMessage = `Halo WebKuu! 👋
+    const { t } = useTranslation();
 
-Saya ingin konsultasi tentang pembuatan website.
-
-📋 *Informasi Awal:*
-• Jenis Website: [Isi jenis website yang diinginkan]
-• Budget: [Isi budget yang tersedia]
-• Deadline: [Isi deadline yang diharapkan]
-
-Saya tertarik untuk mengetahui lebih lanjut tentang layanan pembuatan website custom dari WebKuu.
-
-Terima kasih! 🙏`;
-
+    // Template pesan WhatsApp dari i18n
+    const whatsappMessage = t('cta.whatsapp_template');
     const encodedMessage = encodeURIComponent(whatsappMessage);
 
     return (
@@ -81,7 +72,7 @@ Terima kasih! 🙏`;
                         transition={{ delay: 0.15, duration: 0.5 }}
                         className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
                     >
-                        Ingin Website Custom Seperti Ini?
+                        {t('portfolio.cta.title')}
                     </motion.h2>
 
                     {/* Subtitle */}
@@ -92,7 +83,9 @@ Terima kasih! 🙏`;
                         transition={{ delay: 0.2, duration: 0.5 }}
                         className="text-xl md:text-2xl text-brand-emerald-50 mb-12 leading-relaxed"
                     >
-                        Harga mulai dari <span className="font-bold text-accent-light underline decoration-accent-dark decoration-4 underline-offset-4">100 ribu</span> dan bisa request sesuai kebutuhan bisnis kamu.
+                        <Trans i18nKey="portfolio.cta.subtitle_template">
+                            Harga mulai dari <span className="font-bold text-accent-light underline decoration-accent-dark decoration-4 underline-offset-4">100 ribu</span> dan bisa request sesuai kebutuhan bisnis kamu.
+                        </Trans>
                     </motion.p>
 
                     {/* CTA Buttons */}
@@ -111,7 +104,7 @@ Terima kasih! 🙏`;
                                 className="px-8 py-4 bg-white text-primary font-bold text-lg rounded-full shadow-2xl hover:shadow-white/20 transition-all flex items-center gap-2"
                             >
                                 <Sparkles size={24} />
-                                Order Sekarang
+                                {t('portfolio.cta.buttons.order')}
                             </motion.button>
                         </Link>
 
@@ -125,7 +118,7 @@ Terima kasih! 🙏`;
                             className="px-8 py-4 bg-green-600 hover:bg-green-700 text-white font-bold text-lg rounded-full shadow-2xl transition-all flex items-center gap-2"
                         >
                             <MessageCircle size={24} />
-                            Chat Admin
+                            {t('portfolio.cta.buttons.chat')}
                         </motion.a>
                     </motion.div>
 
@@ -139,15 +132,15 @@ Terima kasih! 🙏`;
                     >
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                            <span>Konsultasi Gratis</span>
+                            <span>{t('portfolio.cta.features.free_consultation')}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                            <span>Revisi Unlimited</span>
+                            <span>{t('portfolio.cta.features.unlimited_revision')}</span>
                         </div>
                         <div className="flex items-center gap-2">
                             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                            <span>Support 24/7</span>
+                            <span>{t('portfolio.cta.features.support_24_7')}</span>
                         </div>
                     </motion.div>
                 </motion.div>

@@ -2,35 +2,38 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const PortfolioPreview = () => {
+    const { t } = useTranslation();
+
     // Featured projects - showing the most recent/impressive ones
     const featuredProjects = [
         {
             id: -1,
-            name: "Professional Service",
-            type: "Landing Page",
+            name: t('portfolio.projects.professional_service.name'),
+            type: t('portfolio.projects.professional_service.type'),
             thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2026&auto=format&fit=crop",
             demoLink: "https://professional-service-topaz.vercel.app/"
         },
         {
             id: 0,
-            name: "Vayana",
-            type: "Company Profile",
+            name: t('portfolio.projects.vayana.name'),
+            type: t('portfolio.projects.vayana.type'),
             thumbnail: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop",
             demoLink: "https://vayana-hazel.vercel.app/"
         },
         {
             id: 1,
-            name: "Aura Visuals",
-            type: "Company Profile",
+            name: t('portfolio.projects.aura_visuals.name'),
+            type: t('portfolio.projects.aura_visuals.type'),
             thumbnail: "https://company-profile-xi-indol.vercel.app/images/portfolio-1.jpg",
             demoLink: "https://company-profile-xi-indol.vercel.app/"
         },
         {
             id: 8,
-            name: "Smart AI Chatbot",
-            type: "Web Application",
+            name: t('portfolio.projects.ai_chatbot.name'),
+            type: t('portfolio.projects.ai_chatbot.type'),
             thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
             demoLink: "https://chatbot-dusky-eta-13.vercel.app/"
         }
@@ -48,10 +51,10 @@ const PortfolioPreview = () => {
                     className="text-center mb-12"
                 >
                     <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-3">
-                        Portfolio Terbaru Kami
+                        {t('portfolio_preview.title')}
                     </h2>
                     <p className="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto">
-                        Lihat hasil karya website profesional yang telah kami buat untuk berbagai klien
+                        {t('portfolio_preview.subtitle')}
                     </p>
                 </motion.div>
 
@@ -84,7 +87,7 @@ const PortfolioPreview = () => {
                                             className="px-4 py-2 bg-white text-slate-900 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-blue-500 hover:text-white transition-colors"
                                             onClick={(e) => e.stopPropagation()}
                                         >
-                                            Live Demo <ExternalLink size={14} />
+                                            {t('portfolio_preview.live_demo')} <ExternalLink size={14} />
                                         </a>
                                     )}
                                 </div>
@@ -115,7 +118,7 @@ const PortfolioPreview = () => {
                         to="/portfolio"
                         className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-lg hover:shadow-blue-500/30 transition-all"
                     >
-                        Lihat Semua Portfolio <ArrowRight size={20} />
+                        {t('portfolio_preview.view_all')} <ArrowRight size={20} />
                     </Link>
                 </motion.div>
             </div>

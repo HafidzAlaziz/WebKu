@@ -1,57 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-
-const testimonials = [
-    {
-        id: 1,
-        name: 'Budi Santoso',
-        role: 'CEO PT Maju Jaya',
-        image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        content: 'Saya request fitur custom untuk sistem internal perusahaan, hasilnya sangat memuaskan! Tim developer sangat paham teknis dan solutif.',
-    },
-    {
-        id: 2,
-        name: 'Siti Aminah',
-        role: 'Owner Batik Cantik',
-        image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        content: 'Awalnya ragu karena harganya terjangkau, ternyata hasilnya premium banget. Website toko online saya jadi terlihat sangat profesional.',
-    },
-    {
-        id: 3,
-        name: 'Rizky Pratama',
-        role: 'Founder Startup Tech',
-        image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        content: 'Tech stack yang digunakan modern (Next.js), performa website jadi sangat cepat. Revisi juga dilayani dengan sabar sampai benar-benar pas.',
-    },
-    {
-        id: 4,
-        name: 'Dewi Lestari',
-        role: 'Marketing Manager',
-        image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        content: 'Layanan konsultasinya sangat membantu. Saya yang awam IT jadi paham website seperti apa yang cocok untuk bisnis saya. Recommended!',
-    },
-];
+import { useTranslation } from 'react-i18next';
 
 const Testimonials = () => {
+    const { t } = useTranslation();
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    const testimonialsData = t('testimonials.items', { returnObjects: true });
+
     useEffect(() => {
+        if (!Array.isArray(testimonialsData)) return;
         const timer = setInterval(() => {
             nextSlide();
-        }, 3000);
+        }, 5000);
         return () => clearInterval(timer);
-    }, [currentIndex]);
+    }, [currentIndex, testimonialsData]);
 
     const nextSlide = () => {
-        setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+        if (!Array.isArray(testimonialsData)) return;
+        setCurrentIndex((prev) => (prev + 1) % testimonialsData.length);
     };
 
     const prevSlide = () => {
-        setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+        if (!Array.isArray(testimonialsData)) return;
+        setCurrentIndex((prev) => (prev - 1 + testimonialsData.length) % testimonialsData.length);
     };
 
     const getInitials = (name) => {
+        if (!name) return '??';
         return name
             .split(' ')
             .map((n) => n[0])
@@ -60,13 +37,15 @@ const Testimonials = () => {
             .substring(0, 2);
     };
 
+    if (!Array.isArray(testimonialsData)) return null;
+
     return (
         <section id="testimonials" className="py-20 bg-slate-50 dark:bg-slate-800 relative z-10 overflow-hidden">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">Apa Kata Mereka?</h2>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">{t('testimonials.title')}</h2>
                     <p className="text-slate-600 dark:text-slate-300 text-lg">
-                        Kepuasan klien adalah prioritas utama kami.
+                        {t('testimonials.subtitle')}
                     </p>
                 </div>
 
@@ -86,15 +65,15 @@ const Testimonials = () => {
                                 className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left w-full"
                             >
                                 <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-3xl font-bold border-4 border-brand-emerald-50 dark:border-primary-dark/50 shadow-md shrink-0">
-                                    {getInitials(testimonials[currentIndex].name)}
+                                    {getInitials(testimonialsData[currentIndex]?.name)}
                                 </div>
                                 <div>
                                     <p className="text-xl text-slate-700 dark:text-slate-300 italic mb-6 leading-relaxed">
-                                        "{testimonials[currentIndex].content}"
+                                        "{testimonialsData[currentIndex]?.content}"
                                     </p>
                                     <div>
-                                        <h4 className="text-lg font-bold text-slate-900 dark:text-white">{testimonials[currentIndex].name}</h4>
-                                        <p className="text-primary dark:text-brand-emerald-400 font-medium">{testimonials[currentIndex].role}</p>
+                                        <h4 className="text-lg font-bold text-slate-900 dark:text-white">{testimonialsData[currentIndex]?.name}</h4>
+                                        <p className="text-primary dark:text-brand-emerald-400 font-medium">{testimonialsData[currentIndex]?.role}</p>
                                     </div>
                                 </div>
                             </motion.div>

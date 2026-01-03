@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, Calendar, Code, CheckCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
+    const { t } = useTranslation();
     if (!project) return null;
 
     return (
@@ -62,7 +64,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                         {/* Description */}
                                         <div className="mb-8">
                                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 border-l-4 border-accent pl-4">
-                                                Deskripsi Project
+                                                {t('portfolio.modal.description')}
                                             </h3>
                                             <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
                                                 {project.fullDescription}
@@ -78,7 +80,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-                                                        Lama Pengerjaan
+                                                        {t('portfolio.modal.duration')}
                                                     </p>
                                                     <p className="font-bold text-slate-900 dark:text-white text-lg">
                                                         {project.duration}
@@ -93,7 +95,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                                 </div>
                                                 <div className="flex-1">
                                                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-                                                        Link Demo
+                                                        {t('portfolio.modal.demo_link')}
                                                     </p>
                                                     {project.demoLink ? (
                                                         <a
@@ -102,11 +104,11 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                                             rel="noopener noreferrer"
                                                             className="font-bold text-primary dark:text-brand-emerald-400 hover:text-accent transition-colors break-all text-lg"
                                                         >
-                                                            Kunjungi Website
+                                                            {t('portfolio.modal.visit_website')}
                                                         </a>
                                                     ) : (
                                                         <p className="font-semibold text-slate-500 dark:text-slate-400 italic">
-                                                            Project Internal / Privat
+                                                            {t('portfolio.modal.private_project')}
                                                         </p>
                                                     )}
                                                 </div>
@@ -116,7 +118,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                         {/* Features */}
                                         <div className="mb-8">
                                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 border-l-4 border-accent pl-4">
-                                                Fitur-Fitur Unggulan
+                                                {t('portfolio.modal.features')}
                                             </h3>
                                             <div className="grid md:grid-cols-2 gap-3">
                                                 {project.features.map((feature, index) => (
@@ -137,7 +139,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                         <div>
                                             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3 border-l-4 border-accent pl-4">
                                                 <Code size={28} className="text-primary" />
-                                                Teknologi yang Digunakan
+                                                {t('portfolio.modal.technologies')}
                                             </h3>
                                             <div className="flex flex-wrap gap-3">
                                                 {project.technologies.map((tech, index) => (

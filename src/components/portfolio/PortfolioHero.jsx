@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const PortfolioHero = () => {
+    const { t } = useTranslation();
+
     return (
         <section id="portfolio-hero" className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-dark via-primary to-primary-dark pt-20">
             {/* Animated Background Elements */}
@@ -42,7 +45,7 @@ const PortfolioHero = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    Portfolio Project Kami
+                    {t('portfolio.gallery.title')}
                 </motion.h1>
                 <motion.p
                     className="text-xl md:text-2xl text-slate-300 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed"
@@ -50,7 +53,7 @@ const PortfolioHero = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1, duration: 0.5 }}
                 >
-                    Lihat berbagai website custom yang sudah kami buat untuk klien dari berbagai bidang.
+                    {t('portfolio.gallery.subtitle')}
                 </motion.p>
             </div>
         </section>

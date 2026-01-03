@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import { Send, CheckCircle, AlertCircle, Sparkles, Code, Palette, Zap, Shield, HeadphonesIcon, Rocket } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Navbar from '../components/Navbar';
+import { useTranslation } from 'react-i18next';
 
 const OrderPage = () => {
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -45,40 +47,40 @@ const OrderPage = () => {
 
         // Validasi Nama
         if (!formData.name.trim()) {
-            newErrors.name = 'Nama lengkap wajib diisi';
+            newErrors.name = t('order_page.form.validation.name_required');
         } else if (formData.name.trim().length < 3) {
-            newErrors.name = 'Nama minimal 3 karakter';
+            newErrors.name = t('order_page.form.validation.name_min');
         }
 
         // Validasi Email
         if (!formData.email.trim()) {
-            newErrors.email = 'Email wajib diisi';
+            newErrors.email = t('order_page.form.validation.email_required');
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = 'Format email tidak valid (contoh: nama@gmail.com)';
+            newErrors.email = t('order_page.form.validation.email_invalid');
         }
 
         // Validasi WhatsApp
         const cleanPhone = formData.phone.replace(/[\s-]/g, '');
         if (!formData.phone.trim()) {
-            newErrors.phone = 'Nomor WhatsApp wajib diisi';
+            newErrors.phone = t('order_page.form.validation.phone_required');
         } else if (!/^[0-9]+$/.test(cleanPhone)) {
-            newErrors.phone = 'Nomor WhatsApp hanya boleh berisi angka';
+            newErrors.phone = t('order_page.form.validation.phone_numeric');
         } else if (cleanPhone.length < 10) {
-            newErrors.phone = 'Nomor WhatsApp terlalu pendek (minimal 10 digit)';
+            newErrors.phone = t('order_page.form.validation.phone_min');
         } else if (cleanPhone.length > 15) {
-            newErrors.phone = 'Nomor WhatsApp terlalu panjang (maksimal 15 digit)';
+            newErrors.phone = t('order_page.form.validation.phone_max');
         }
 
         // Validasi Jenis Website
         if (!formData.websiteType) {
-            newErrors.websiteType = 'Silakan pilih jenis website yang Anda butuhkan';
+            newErrors.websiteType = t('order_page.form.validation.type_required');
         }
 
         // Validasi Pesan/Deskripsi
         if (!formData.message.trim()) {
-            newErrors.message = 'Deskripsi kebutuhan wajib diisi agar kami bisa memahami keinginan Anda';
+            newErrors.message = t('order_page.form.validation.message_required');
         } else if (formData.message.trim().length < 20) {
-            newErrors.message = 'Deskripsi terlalu singkat, mohon berikan detail minimal 20 karakter';
+            newErrors.message = t('order_page.form.validation.message_min');
         }
 
         return newErrors;
@@ -95,7 +97,7 @@ const OrderPage = () => {
                 loading: false,
                 success: false,
                 error: true,
-                message: 'Mohon lengkapi semua field yang wajib diisi dengan benar',
+                message: t('order_page.form.validation.form_invalid'),
             });
 
             // Auto-focus ke input pertama yang error
@@ -114,19 +116,19 @@ const OrderPage = () => {
 
         // Format data untuk WhatsApp
         const packageNames = {
-            starter: 'Starter / Landing Page - Rp 100rb',
-            professional: 'Professional / UMKM - Rp 1 Juta',
-            enterprise: 'Enterprise / Full Custom - Harga Diskusi'
+            starter: t('order_page.form.options.package_starter'),
+            professional: t('order_page.form.options.package_professional'),
+            enterprise: t('order_page.form.options.package_enterprise')
         };
 
         const websiteTypes = {
-            'landing-page': 'Landing Page',
-            'company-profile': 'Company Profile',
-            'ecommerce': 'Toko Online / E-commerce',
-            'portfolio': 'Portfolio',
-            'umkm': 'Website UMKM',
-            'custom-system': 'Sistem Custom (Booking, CRM, dll)',
-            'other': 'Lainnya'
+            'landing-page': t('order_page.form.options.type_landing'),
+            'company-profile': t('order_page.form.options.type_company'),
+            'ecommerce': t('order_page.form.options.type_ecommerce'),
+            'portfolio': t('order_page.form.options.type_portfolio'),
+            'umkm': t('order_page.form.options.type_umkm'),
+            'custom-system': t('order_page.form.options.type_custom'),
+            'other': t('order_page.form.options.type_other')
         };
 
         // Buat pesan WhatsApp dengan emoji paling standar (High Compatibility)
@@ -164,7 +166,7 @@ const OrderPage = () => {
             loading: false,
             success: true,
             error: false,
-            message: 'Mengarahkan ke WhatsApp...',
+            message: t('order_page.form.success.redirect'),
         });
 
         // Redirect ke WhatsApp setelah 1.5 detik
@@ -187,7 +189,7 @@ const OrderPage = () => {
                 loading: false,
                 success: true,
                 error: false,
-                message: 'Pesanan berhasil dikirim via WhatsApp! Silakan lanjutkan chat di WhatsApp.',
+                message: t('order_page.form.success.sent'),
             });
         }, 1500);
     };
@@ -195,38 +197,38 @@ const OrderPage = () => {
     const advantages = [
         {
             icon: <Code className="w-6 h-6" />,
-            title: 'Bebas Pilih Tech Stack',
-            description: 'React, Vue, Next.js, WordPress, atau framework lainnya sesuai kebutuhan Anda',
+            title: t('order_page.advantages.items.tech_stack.title'),
+            description: t('order_page.advantages.items.tech_stack.desc'),
             color: 'from-blue-500 to-cyan-500',
         },
         {
             icon: <Palette className="w-6 h-6" />,
-            title: 'Desain Custom 100%',
-            description: 'Tidak pakai template! Desain dibuat khusus sesuai brand identity Anda',
+            title: t('order_page.advantages.items.custom_design.title'),
+            description: t('order_page.advantages.items.custom_design.desc'),
             color: 'from-purple-500 to-pink-500',
         },
         {
             icon: <Zap className="w-6 h-6" />,
-            title: 'Pengerjaan Cepat',
-            description: 'Pengerjaan dalam waktu singkat, tanpa mengurangi kualitas',
+            title: t('order_page.advantages.items.fast_delivery.title'),
+            description: t('order_page.advantages.items.fast_delivery.desc'),
             color: 'from-yellow-500 to-orange-500',
         },
         {
             icon: <Shield className="w-6 h-6" />,
-            title: 'Garansi & Maintenance',
-            description: 'Garansi bug fix 30 hari + maintenance gratis sesuai paket',
+            title: t('order_page.advantages.items.warranty.title'),
+            description: t('order_page.advantages.items.warranty.desc'),
             color: 'from-green-500 to-emerald-500',
         },
         {
             icon: <HeadphonesIcon className="w-6 h-6" />,
-            title: 'Support 24/7',
-            description: 'Tim support siap membantu Anda kapan saja via WhatsApp',
+            title: t('order_page.advantages.items.support.title'),
+            description: t('order_page.advantages.items.support.desc'),
             color: 'from-red-500 to-rose-500',
         },
         {
             icon: <Rocket className="w-6 h-6" />,
-            title: 'SEO Ready',
-            description: 'Website sudah dioptimasi untuk mesin pencari Google',
+            title: t('order_page.advantages.items.seo.title'),
+            description: t('order_page.advantages.items.seo.desc'),
             color: 'from-indigo-500 to-blue-500',
         },
     ];
@@ -252,13 +254,13 @@ const OrderPage = () => {
                             >
                                 <div className="inline-flex items-center gap-2 px-6 py-2 bg-brand-emerald-100 dark:bg-primary-dark/50 text-primary dark:text-brand-emerald-400 rounded-full text-sm font-bold mb-4 border border-brand-emerald-200 dark:border-primary-light/20">
                                     <Sparkles size={16} />
-                                    Form Pemesanan Website Premium
+                                    {t('order_page.header.badge')}
                                 </div>
                                 <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
-                                    Wujudkan Website <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Impian Anda</span>
+                                    {t('order_page.header.title_part1')} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">{t('order_page.header.title_part2')}</span>
                                 </h1>
                                 <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
-                                    Isi form di bawah ini dan dapatkan konsultasi GRATIS dari tim expert kami untuk hasil yang kredibel
+                                    {t('order_page.header.subtitle')}
                                 </p>
                             </motion.div>
 
@@ -270,7 +272,7 @@ const OrderPage = () => {
                                 className="mb-16"
                             >
                                 <h2 className="text-3xl font-bold text-slate-900 dark:text-white text-center mb-10 border-b-2 border-accent w-fit mx-auto pb-2">
-                                    🌟 Mengapa Memilih WebKuu?
+                                    🌟 {t('order_page.advantages.title')}
                                 </h2>
                                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                                     {advantages.map((advantage, index) => (
@@ -303,9 +305,9 @@ const OrderPage = () => {
                                 <div className="bg-gradient-to-r from-primary via-primary-light to-primary-dark p-10 text-white relative">
                                     <h2 className="text-3xl font-bold mb-3 flex items-center gap-3">
                                         <Rocket className="text-accent" />
-                                        Detail Pemesanan
+                                        {t('order_page.form.title')}
                                     </h2>
-                                    <p className="text-brand-emerald-50 text-lg opacity-90">Lengkapi informasi di bawah ini untuk memulai project Anda</p>
+                                    <p className="text-brand-emerald-50 text-lg opacity-90">{t('order_page.form.subtitle')}</p>
                                     <div className="absolute top-0 right-0 p-10 opacity-10">
                                         <Sparkles size={120} />
                                     </div>
@@ -315,7 +317,7 @@ const OrderPage = () => {
                                     {/* Nama Lengkap */}
                                     <div>
                                         <label htmlFor="name" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                            Nama Lengkap <span className="text-accent">*</span>
+                                            {t('order_page.form.labels.name')} <span className="text-accent">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -328,7 +330,7 @@ const OrderPage = () => {
                                                 ? 'border-red-500'
                                                 : 'border-slate-100 dark:border-slate-700'
                                                 } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg`}
-                                            placeholder="Masukkan nama lengkap"
+                                            placeholder={t('order_page.form.placeholders.name')}
                                         />
                                         {errors.name && (
                                             <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
@@ -342,7 +344,7 @@ const OrderPage = () => {
                                     <div className="grid md:grid-cols-2 gap-8">
                                         <div>
                                             <label htmlFor="email" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                                Email <span className="text-accent">*</span>
+                                                {t('order_page.form.labels.email')} <span className="text-accent">*</span>
                                             </label>
                                             <input
                                                 type="email"
@@ -355,7 +357,7 @@ const OrderPage = () => {
                                                     ? 'border-red-500'
                                                     : 'border-slate-100 dark:border-slate-700'
                                                     } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg`}
-                                                placeholder="email@example.com"
+                                                placeholder={t('order_page.form.placeholders.email')}
                                             />
                                             {errors.email && (
                                                 <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
@@ -366,7 +368,7 @@ const OrderPage = () => {
                                         </div>
                                         <div>
                                             <label htmlFor="phone" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                                No. WhatsApp <span className="text-accent">*</span>
+                                                {t('order_page.form.labels.phone')} <span className="text-accent">*</span>
                                             </label>
                                             <input
                                                 type="tel"
@@ -379,7 +381,7 @@ const OrderPage = () => {
                                                     ? 'border-red-500'
                                                     : 'border-slate-100 dark:border-slate-700'
                                                     } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg`}
-                                                placeholder="Contoh: 081234567890"
+                                                placeholder={t('order_page.form.placeholders.phone')}
                                             />
                                             {errors.phone && (
                                                 <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
@@ -393,7 +395,7 @@ const OrderPage = () => {
                                     {/* Nama Perusahaan */}
                                     <div>
                                         <label htmlFor="company" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                            Nama Perusahaan/Bisnis (Opsional)
+                                            {t('order_page.form.labels.company')}
                                         </label>
                                         <input
                                             type="text"
@@ -402,7 +404,7 @@ const OrderPage = () => {
                                             value={formData.company}
                                             onChange={handleChange}
                                             className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg"
-                                            placeholder="Masukkan nama perusahaan"
+                                            placeholder={t('order_page.form.placeholders.company')}
                                         />
                                     </div>
 
@@ -410,7 +412,7 @@ const OrderPage = () => {
                                     <div className="grid md:grid-cols-2 gap-8">
                                         <div>
                                             <label htmlFor="package" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                                Pilih Paket Layanan <span className="text-accent">*</span>
+                                                {t('order_page.form.labels.package')} <span className="text-accent">*</span>
                                             </label>
                                             <div className="relative">
                                                 <select
@@ -421,9 +423,9 @@ const OrderPage = () => {
                                                     required
                                                     className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer"
                                                 >
-                                                    <option value="starter">Starter / Landing Page - Rp 100rb</option>
-                                                    <option value="professional">Professional / UMKM - Rp 1 Juta</option>
-                                                    <option value="enterprise">Enterprise / Full Custom - Harga Diskusi</option>
+                                                    <option value="starter">{t('order_page.form.options.package_starter')}</option>
+                                                    <option value="professional">{t('order_page.form.options.package_professional')}</option>
+                                                    <option value="enterprise">{t('order_page.form.options.package_enterprise')}</option>
                                                 </select>
                                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                                                     <Zap size={20} />
@@ -433,7 +435,7 @@ const OrderPage = () => {
 
                                         <div>
                                             <label htmlFor="websiteType" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                                Jenis Website <span className="text-accent">*</span>
+                                                {t('order_page.form.labels.website_type')} <span className="text-accent">*</span>
                                             </label>
                                             <div className="relative">
                                                 <select
@@ -446,14 +448,14 @@ const OrderPage = () => {
                                                         : 'border-slate-100 dark:border-slate-700'
                                                         } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer`}
                                                 >
-                                                    <option value="">Pilih kategori website</option>
-                                                    <option value="landing-page">Landing Page</option>
-                                                    <option value="company-profile">Company Profile</option>
-                                                    <option value="ecommerce">Toko Online / E-commerce</option>
-                                                    <option value="portfolio">Portfolio</option>
-                                                    <option value="umkm">Website UMKM</option>
-                                                    <option value="custom-system">Sistem Custom (Booking, CRM, dll)</option>
-                                                    <option value="other">Lainnya</option>
+                                                    <option value="">{t('order_page.form.placeholders.website_type')}</option>
+                                                    <option value="landing-page">{t('order_page.form.options.type_landing')}</option>
+                                                    <option value="company-profile">{t('order_page.form.options.type_company')}</option>
+                                                    <option value="ecommerce">{t('order_page.form.options.type_ecommerce')}</option>
+                                                    <option value="portfolio">{t('order_page.form.options.type_portfolio')}</option>
+                                                    <option value="umkm">{t('order_page.form.options.type_umkm')}</option>
+                                                    <option value="custom-system">{t('order_page.form.options.type_custom')}</option>
+                                                    <option value="other">{t('order_page.form.options.type_other')}</option>
                                                 </select>
                                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                                                     <Palette size={20} />
@@ -471,7 +473,7 @@ const OrderPage = () => {
                                     {/* Tech Stack */}
                                     <div>
                                         <label htmlFor="techStack" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                            Preferensi Teknologi (Opsional)
+                                            {t('order_page.form.labels.tech_stack')}
                                         </label>
                                         <div className="relative">
                                             <select
@@ -481,14 +483,14 @@ const OrderPage = () => {
                                                 onChange={handleChange}
                                                 className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer"
                                             >
-                                                <option value="">Biarkan kami merekomendasikan yang terbaik</option>
-                                                <option value="react">React.js + Tailwind (Modern & Fast)</option>
-                                                <option value="nextjs">Next.js (High Performance + SEO)</option>
-                                                <option value="vue">Vue.js</option>
-                                                <option value="wordpress">WordPress (CMS Ready)</option>
-                                                <option value="laravel">Laravel + PHP (Robust System)</option>
-                                                <option value="html-css-js">HTML/CSS/JS (Static Content)</option>
-                                                <option value="other">Kebutuhan Lain (Tulis di deskripsi)</option>
+                                                <option value="">{t('order_page.form.placeholders.tech_stack')}</option>
+                                                <option value="react">{t('order_page.form.options.tech_react')}</option>
+                                                <option value="nextjs">{t('order_page.form.options.tech_next')}</option>
+                                                <option value="vue">{t('order_page.form.options.tech_vue')}</option>
+                                                <option value="wordpress">{t('order_page.form.options.tech_wordpress')}</option>
+                                                <option value="laravel">{t('order_page.form.options.tech_laravel')}</option>
+                                                <option value="html-css-js">{t('order_page.form.options.tech_html')}</option>
+                                                <option value="other">{t('order_page.form.options.tech_other')}</option>
                                             </select>
                                             <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                                                 <Code size={20} />
@@ -499,7 +501,7 @@ const OrderPage = () => {
                                     {/* Pesan */}
                                     <div>
                                         <label htmlFor="message" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                            Ceritakan Kebutuhan Anda <span className="text-accent">*</span>
+                                            {t('order_page.form.labels.message')} <span className="text-accent">*</span>
                                         </label>
                                         <textarea
                                             id="message"
@@ -511,7 +513,7 @@ const OrderPage = () => {
                                                 ? 'border-red-500'
                                                 : 'border-slate-100 dark:border-slate-700'
                                                 } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all resize-none text-lg`}
-                                            placeholder="Jelaskan secara detail:&#10;- Apa tujuan website Anda?&#10;- Fitur apa saja yang harus ada?&#10;- Apakah Anda punya referensi desain?&#10;- Berapa lama pengerjaan yang diinginkan?"
+                                            placeholder={t('order_page.form.placeholders.message')}
                                         />
                                         {errors.message && (
                                             <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
@@ -553,12 +555,12 @@ const OrderPage = () => {
                                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                                 </svg>
-                                                Sedang Memproses...
+                                                {t('order_page.form.submit.processing')}
                                             </span>
                                         ) : (
                                             <span className="flex items-center justify-center gap-3">
                                                 <Send size={24} />
-                                                Kirim Pesanan Sekarang
+                                                {t('order_page.form.submit.default')}
                                             </span>
                                         )}
                                     </motion.button>

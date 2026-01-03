@@ -2,8 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Star, Award, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Hero = () => {
+    const { t } = useTranslation();
+
     return (
         <section id="home" className="relative pt-20 pb-12 lg:pt-28 lg:pb-16 overflow-hidden">
             {/* Background Elements */}
@@ -22,13 +25,13 @@ const Hero = () => {
                     >
                         <div className="inline-flex items-center px-4 py-2 bg-brand-emerald-50 dark:bg-primary-dark/50 text-primary-light dark:text-brand-emerald-300 rounded-full text-sm font-semibold mb-6">
                             <span className="w-2 h-2 bg-primary rounded-full mr-2"></span>
-                            Jasa Pembuatan Website Profesional
+                            {t('hero.badge')}
                         </div>
                         <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-tight mb-6">
-                            Website <span className="text-primary dark:text-brand-emerald-400">Premium</span> Untuk Bisnis Anda
+                            {t('hero.title_part1')} <span className="text-primary dark:text-brand-emerald-400">{t('hero.title_part2')}</span>
                         </h1>
                         <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed max-w-xl lg:max-w-none">
-                            Kami menciptakan website modern yang tidak hanya cantik, tapi juga fungsional dan dikerjakan secara profesional untuk meningkatkan kredibilitas bisnis Anda.
+                            {t('hero.subtitle')}
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full sm:w-auto">
@@ -36,13 +39,13 @@ const Hero = () => {
                                 to="/portfolio"
                                 className="px-8 py-4 bg-primary hover:bg-primary-light text-white font-semibold rounded-full shadow-lg hover:shadow-primary/30 transition-all flex items-center justify-center gap-2"
                             >
-                                Lihat Portofolio <ArrowRight size={20} />
+                                {t('hero.cta_portfolio')} <ArrowRight size={20} />
                             </Link>
                             <a
                                 href="#pricing"
                                 className="px-8 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-brand-emerald-200 dark:hover:border-primary hover:bg-brand-emerald-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold rounded-full transition-all flex items-center justify-center"
                             >
-                                Paket Harga
+                                {t('nav.pricing')}
                             </a>
                         </div>
 
@@ -54,7 +57,7 @@ const Hero = () => {
                                 </div>
                                 <div className="text-left">
                                     <p className="text-xl font-bold text-slate-900 dark:text-white">5.0</p>
-                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Rating Bintang</p>
+                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.rating')}</p>
                                 </div>
                             </div>
 
@@ -64,7 +67,7 @@ const Hero = () => {
                                 </div>
                                 <div className="text-left">
                                     <p className="text-xl font-bold text-slate-900 dark:text-white">50+</p>
-                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Project Selesai</p>
+                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.projects')}</p>
                                 </div>
                             </div>
 
@@ -74,7 +77,7 @@ const Hero = () => {
                                 </div>
                                 <div className="text-left">
                                     <p className="text-xl font-bold text-slate-900 dark:text-white">24/7</p>
-                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Fast Response</p>
+                                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.response')}</p>
                                 </div>
                             </div>
                         </div>
@@ -105,8 +108,8 @@ const Hero = () => {
                                     98%
                                 </div>
                                 <div>
-                                    <p className="text-xs text-slate-500">Kepuasan Klien</p>
-                                    <p className="font-bold text-slate-800">Sangat Puas</p>
+                                    <p className="text-xs text-slate-500">{t('hero.stats.satisfaction')}</p>
+                                    <p className="font-bold text-slate-800">{t('hero.stats.very_satisfied')}</p>
                                 </div>
                             </motion.div>
                         </div>

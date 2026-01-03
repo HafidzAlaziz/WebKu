@@ -1,8 +1,9 @@
-import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ExternalLink, Code, Clock, Star } from 'lucide-react';
+import { ExternalLink, Star, Code, Clock } from 'lucide-react';
 
 const ProjectCard = ({ project, onClick }) => {
+    const { t } = useTranslation();
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -45,7 +46,7 @@ const ProjectCard = ({ project, onClick }) => {
                             : 'bg-brand-gold-100 dark:bg-brand-gold-900/30 text-accent-dark dark:text-brand-gold-400'
                             }`}>
                             <Star size={12} fill="currentColor" />
-                            {project.client}
+                            {project.client === 'Create' ? t('portfolio.gallery.filters.create') : t('portfolio.gallery.filters.client')}
                         </span>
                     )}
                 </div>
@@ -88,7 +89,7 @@ const ProjectCard = ({ project, onClick }) => {
                     whileTap={{ scale: 0.98 }}
                     className="w-full py-2.5 bg-primary text-white font-semibold rounded-lg transition-colors shadow-md hover:shadow-primary/20"
                 >
-                    Lihat Detail
+                    {t('portfolio.card.view_details')}
                 </motion.button>
             </div>
         </motion.div>

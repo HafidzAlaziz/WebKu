@@ -1,0 +1,590 @@
+{
+    "nav": {
+        "home": "Accueil",
+        "services": "Services",
+        "portfolio": "Portefeuille",
+        "pricing": "Tarification",
+        "testimonials": "Témoignages",
+        "order": "Commander",
+        "tagline": "Solutions Numériques"
+    },
+    "hero": {
+        "badge": "Solutions de Site Web Personnalisées Premium",
+        "title_part1": "Manifestez Votre",
+        "title_part2": "Site Web de Rêve",
+        "subtitle": "Sites Web professionnels, modernes et performants adaptés parfaitement à votre entreprise et à votre marque.",
+        "cta_start": "Commencer la Consultation",
+        "cta_portfolio": "Voir le Portefeuille",
+        "stats": {
+            "rating": "Évaluation",
+            "projects": "Projets Réalisés",
+            "response": "Réponse Rapide",
+            "satisfaction": "Satisfaction Client",
+            "very_satisfied": "Très Satisfait"
+        }
+    },
+    "services": {
+        "title": "Nos Services Principaux",
+        "subtitle": "Nous proposons diverses solutions numériques pour aider votre entreprise à être compétitive et à prospérer à l'ère moderne.",
+        "items": {
+            "design": {
+                "title": "Conception UI/UX",
+                "desc": "Conception d'interface moderne et intuitive axée sur une expérience utilisateur optimale."
+            },
+            "web": {
+                "title": "Développement Web",
+                "desc": "Création de sites Web rapides, réactifs et optimisés pour le référencement (SEO) utilisant les dernières technologies."
+            },
+            "custom": {
+                "title": "Système Personnalisé",
+                "desc": "Développement de systèmes internes ou de fonctionnalités complexes adaptées à vos besoins commerciaux spécifiques."
+            },
+            "mobile": {
+                "title": "Mobile Responsive",
+                "desc": "Sites Web qui ont l'air parfaits et fonctionnent sans problème sur tous les appareils et tailles d'écran."
+            },
+            "features": {
+                "title": "Fonctionnalités Riches",
+                "desc": "Intégration de fonctionnalités avancées telles que les passerelles de paiement, les cartes et les formulaires dynamiques."
+            },
+            "tech": {
+                "title": "Dernière Technologie",
+                "desc": "Construit avec des technologies modernes comme React, Next.js et Framer Motion pour la vitesse."
+            },
+            "seo": {
+                "title": "Optimisé pour le SEO",
+                "desc": "S'assurer que votre site Web se classe haut dans les résultats de recherche Google pour attirer plus de clients."
+            },
+            "support": {
+                "title": "Support Continu",
+                "desc": "Nous fournissons une maintenance et un support technique pour assurer le bon fonctionnement de votre site Web."
+            }
+        },
+        "flow": {
+            "title": "Comment Nous Travaillons",
+            "subtitle": "Processus rationalisé de l'idée initiale à un site Web entièrement fonctionnel.",
+            "steps": {
+                "consult": {
+                    "title": "Consultation",
+                    "desc": "Façonner le concept et les exigences en fonction de vos objectifs commerciaux."
+                },
+                "deal": {
+                    "title": "Accord",
+                    "desc": "Confirmation de la portée, du calendrier et de l'accord professionnel pour le projet."
+                },
+                "work": {
+                    "title": "Développement",
+                    "desc": "Construction du site Web avec un code propre, optimisé et moderne."
+                },
+                "done": {
+                    "title": "Lancement et Support",
+                    "desc": "Tests finaux, déploiement et support de maintenance continu."
+                }
+            }
+        }
+    },
+    "pricing": {
+        "title": "Options de Tarification",
+        "subtitle": "Transparent, pas de frais cachés. Choisissez un forfait qui correspond à votre budget.",
+        "bestseller": "Meilleure Vente",
+        "cta": "Commander Ce Forfait",
+        "labels": {
+            "starting_from": "À partir de",
+            "price": "Prix",
+            "rp": "Rp"
+        },
+        "plans": {
+            "starter": {
+                "name": "Starter / Page de Destination",
+                "price": "100k",
+                "desc": "Solution rentable pour une simple page de destination ou un profil d'entreprise.",
+                "features": [
+                    "Site Web d'une page",
+                    "Design propre et moderne",
+                    "Mobile Responsive",
+                    "Boutons WhatsApp/Réseaux Sociaux",
+                    "Livraison rapide (24 heures)",
+                    "Hébergement gratuit (Sous-domaine)"
+                ]
+            },
+            "umkm": {
+                "name": "Professionnel / PME",
+                "price": "1 Million",
+                "desc": "Site Web professionnel pour augmenter la crédibilité.",
+                "features": [
+                    "Design exclusif (pas de modèle)",
+                    "Jusqu'à 5 pages (Accueil, À propos, etc.)",
+                    "Domaine .com gratuit (1 an)",
+                    "Optimisation SEO de base (Google)",
+                    "Intégration de cartes et formulaire de contact",
+                    "3 révisions de conception",
+                    "1 mois de maintenance gratuite"
+                ]
+            },
+            "custom": {
+                "name": "Entreprise / Entièrement Personnalisé",
+                "price": "Discuter",
+                "desc": "Le prix s'ajuste en fonction des fonctionnalités et de la complexité du site Web.",
+                "features": [
+                    "Fonctionnalités selon demande et budget",
+                    "Consultation technique approfondie",
+                    "Support prioritaire et garantie"
+                ]
+            }
+        }
+    },
+    "testimonials": {
+        "title": "Ce Qu'ils Disent ?",
+        "subtitle": "La satisfaction du client est notre priorité absolue.",
+        "items": [
+            {
+                "name": "Budi Santoso",
+                "role": "PDG PT Maju Jaya",
+                "content": "J'ai demandé des fonctionnalités personnalisées pour un système interne de l'entreprise, et les résultats ont été très satisfaisants ! L'équipe de développeurs comprend les aspects techniques et est très orientée solutions."
+            },
+            {
+                "name": "Siti Aminah",
+                "role": "Propriétaire Batik Cantik",
+                "content": "Initialement hésitant car le prix était abordable, il s'avère que le résultat est très premium. Le site Web de ma boutique en ligne a l'air très professionnel."
+            },
+            {
+                "name": "Rizky Pratama",
+                "role": "Fondateur Startup Tech",
+                "content": "La pile technologique utilisée est moderne (Next.js), les performances du site Web sont très rapides. Les révisions ont également été traitées patiemment jusqu'à ce que ce soit vraiment correct."
+            },
+            {
+                "name": "Dewi Lestari",
+                "role": "Responsable Marketing",
+                "content": "Le service de consultation est très utile. En tant que personne peu familière avec l'informatique, j'ai fini par comprendre quel type de site Web convient à mon entreprise. Recommandé !"
+            }
+        ]
+    },
+    "cta": {
+        "title": "Prêt à Manifester Votre Site Web de Rêve ?",
+        "subtitle": "Ne tardez pas ! Consultez vos besoins en site Web dès maintenant. Vous pouvez commander directement sur ce site Web.",
+        "buttons": {
+            "order": "Commander Maintenant !!!",
+            "whatsapp": "Consulter via WhatsApp"
+        },
+        "footer": "Réponse Rapide 24/7 • Consultation Gratuite",
+        "whatsapp_template": "Bonjour WebKuu! 👋\n\nJe souhaite consulter sur la création de site Web.\n\n📋 *Informations Initiales :*\n• Type de Site Web : [Remplir le type de site Web souhaité]\n• Budget : [Remplir le budget disponible]\n• Date Limite : [Remplir la date limite prévue]\n\nJe suis intéressé à en savoir plus sur les services de création de sites Web personnalisés de WebKuu.\n\nMerci ! 🙏"
+    },
+    "footer": {
+        "desc": "Service de création de site Web professionnel de confiance. Nous aidons votre entreprise à croître à l'ère numérique avec les meilleures solutions de site Web.",
+        "nav_title": "Navigation Rapide",
+        "services_title": "Services",
+        "contact_title": "Contactez-Nous",
+        "services_list": [
+            "Profil de l'Entreprise",
+            "Boutique en Ligne",
+            "Page de Destination",
+            "Site Web PME",
+            "Maintenance"
+        ],
+        "made_by": "Fait par l'équipe WebKuu",
+        "location": "Java Occidental, Indonésie",
+        "rights": "Tous droits réservés."
+    },
+    "portfolio": {
+        "gallery": {
+            "title": "Galerie de Projets",
+            "subtitle": "Une collection de sites Web personnalisés sur lesquels nous avons travaillé en utilisant diverses technologies modernes",
+            "filters": {
+                "all": "Tout",
+                "client": "Client",
+                "create": "Créer",
+                "all_categories": "Toutes Catégories"
+            },
+            "categories": {
+                "web_app": "Application Web",
+                "company_profile": "Profil de l'Entreprise",
+                "online_store": "Boutique en Ligne",
+                "landing_page": "Page de Destination",
+                "portfolio": "Portefeuille"
+            },
+            "buttons": {
+                "show_more": "Montrer Plus",
+                "show_less": "Montrer Moins",
+                "view_details": "Voir Détails"
+            },
+            "empty": "Aucun projet dans cette catégorie"
+        },
+        "card": {
+            "view_details": "Voir Détails"
+        },
+        "modal": {
+            "description": "Description du Projet",
+            "duration": "Durée",
+            "demo_link": "Lien de Démo",
+            "visit_website": "Visiter le Site Web",
+            "private_project": "Projet Interne / Privé",
+            "features": "Caractéristiques Clés",
+            "technologies": "Technologies Utilisées"
+        },
+        "projects": {
+            "professional_service": {
+                "name": "Service Professionnel",
+                "type": "Page de Destination",
+                "short_desc": "Solutions professionnelles pour la croissance des entreprises avec des stratégies mesurables et des résultats réels.",
+                "full_desc": "Page de destination du site Web pour les services professionnels axée sur les résultats réels du travail, la transformation des défis commerciaux et le dévouement à la satisfaction des partenaires.",
+                "features": [
+                    "Mise en Page Commerciale Premium",
+                    "Stratégie et Présentation des Résultats",
+                    "Témoignages de Clients",
+                    "Design Réactif",
+                    "Animations Fluides"
+                ]
+            },
+            "umkm_store": {
+                "name": "Magasin PME",
+                "type": "Boutique en Ligne",
+                "short_desc": "Plateforme de commerce électronique moderne pour soutenir les produits locaux des PME.",
+                "full_desc": "Site Web de commerce électronique conçu pour aider les PME locales à commercialiser leurs produits en ligne. Équipé d'un catalogue de produits attrayant, d'un système de catégories et d'une intégration WhatsApp pour des transactions faciles.",
+                "features": [
+                    "Catalogue de Produits PME",
+                    "Filtre de Catégorie",
+                    "Recherche de Produits",
+                    "Intégration WhatsApp",
+                    "Design Réactif"
+                ]
+            },
+            "vayana": {
+                "name": "Vayana",
+                "type": "Profil de l'Entreprise",
+                "short_desc": "Site Web premium pour hôtels et complexes de luxe avec un design minimaliste élégant.",
+                "full_desc": "Page de destination premium pour Vayana Hotel & Resort affichant des chambres de luxe, des installations exclusives et des expériences de séjour de classe mondiale. Le design utilise une approche minimaliste de luxe axée sur des visuels de haute qualité.",
+                "features": [
+                    "Design Visuel de Luxe",
+                    "Présentation des Chambres",
+                    "Mise en Évidence des Équipements",
+                    "En-tête Réactif",
+                    "Transitions Fluides"
+                ]
+            },
+            "aura_visuals": {
+                "name": "Aura Visuals",
+                "type": "Profil de l'Entreprise",
+                "short_desc": "Site Web de profil d'entreprise professionnel pour services de photographie",
+                "full_desc": "Site Web de profil d'entreprise moderne pour Aura Visuals affichant des services de photographie, un portefeuille et des listes de prix. Design élégant avec des nuances monochromes et dorées, équipé d'animations fluides.",
+                "features": [
+                    "Design Moderne et Élégant",
+                    "Galerie Réactive",
+                    "Tableaux de Prix",
+                    "Formulaire de Contact",
+                    "Animations Fluides",
+                    "Optimisé pour le SEO"
+                ]
+            },
+            "fashion_store": {
+                "name": "Magasin de Mode E-Commerce",
+                "type": "Boutique en Ligne",
+                "short_desc": "Plateforme de commerce électronique moderne pour magasins de mode avec systèmes de paiement intégrés",
+                "full_desc": "Site Web de commerce électronique complet avec fonctions de panier d'achat, de paiement, de passerelle de paiement et tableau de bord d'administration pour gérer les produits et les commandes. Design moderne et réactif avec des performances élevées.",
+                "features": [
+                    "Panier d'achat dynamique",
+                    "Passerelle de paiement intégrée",
+                    "Tableau de bord d'administration complet",
+                    "Système de suivi des commandes",
+                    "Recherche de catégories et de produits",
+                    "Design Réactif",
+                    "Optimisé pour le SEO",
+                    "Performance de chargement rapide"
+                ]
+            },
+            "tech_startup": {
+                "name": "Profil d'Entreprise Tech Startup",
+                "type": "Profil de l'Entreprise",
+                "short_desc": "Site Web de profil d'entreprise professionnel avec animations modernes et contenu interactif",
+                "full_desc": "Site Web de profil d'entreprise affichant des informations sur l'entreprise, des services, un portefeuille et une équipe avec un design propre et professionnel. Équipé d'un formulaire de contact et d'une intégration des réseaux sociaux.",
+                "features": [
+                    "Animation fluide et moderne",
+                    "Présentation de portefeuille",
+                    "Profils des membres de l'équipe",
+                    "Formulaire de contact avec validation",
+                    "Section blog",
+                    "Support multilingue",
+                    "Mode sombre",
+                    "Mobile Réactif"
+                ]
+            },
+            "saas_product": {
+                "name": "Page de Destination Produit SaaS",
+                "type": "Page de Destination",
+                "short_desc": "Page de destination à haute conversion pour produits SaaS avec CTA fort",
+                "full_desc": "Page de destination spécialement conçue pour augmenter la conversion avec une rédaction persuasive, un design attrayant et un appel à l'action clair. Équipé d'un suivi analytique.",
+                "features": [
+                    "Design à haute conversion",
+                    "Prêt pour les tests A/B",
+                    "Intégration analytique",
+                    "Formulaires de capture de leads",
+                    "Tableaux de prix",
+                    "Section de témoignages",
+                    "Accordéon FAQ",
+                    "Chargement de page rapide"
+                ]
+            },
+            "restaurant": {
+                "name": "Menu et Commande de Restaurant",
+                "type": "Boutique en Ligne",
+                "short_desc": "Système de commande en ligne pour restaurants avec menu numérique interactif",
+                "full_desc": "Plateforme de commande de nourriture en ligne avec menu numérique interactif, système de panier et intégration WhatsApp pour la confirmation de commande. Design appétissant et convivial.",
+                "features": [
+                    "Menu numérique interactif",
+                    "Panier d'achat",
+                    "Intégration WhatsApp",
+                    "Mises à jour de commande en temps réel",
+                    "Réservation de table",
+                    "Avis clients",
+                    "Gestion des promotions",
+                    "Design mobile d'abord"
+                ]
+            },
+            "photographer": {
+                "name": "Portefeuille Photographe",
+                "type": "Portefeuille",
+                "short_desc": "Site Web de portefeuille pour photographes avec superbe galerie photo",
+                "full_desc": "Site Web de portefeuille affichant des travaux de photographie avec une belle galerie, une lightbox pour la visualisation et des catégories organisées. Design minimaliste qui met en valeur le travail photographique.",
+                "features": [
+                    "Galerie d'images avec lightbox",
+                    "Filtrage par catégorie",
+                    "Chargement différé d'images",
+                    "Formulaire de contact",
+                    "Intégration des réseaux sociaux",
+                    "Section blog",
+                    "Optimisé pour le SEO",
+                    "Chargement rapide des images"
+                ]
+            },
+            "edu_platform": {
+                "name": "Plateforme Éducative",
+                "type": "Système de Gestion de l'Apprentissage",
+                "short_desc": "Plateforme d'apprentissage en ligne avec cours vidéo et quiz interactifs",
+                "full_desc": "Plateforme e-learning complète avec système de gestion de cours, lecteur vidéo, quiz interactifs, suivi des progrès et certificats numériques. Prend en charge divers formats de contenu d'apprentissage.",
+                "features": [
+                    "Lecteur de cours vidéo",
+                    "Quiz interactifs",
+                    "Suivi des progrès",
+                    "Certificats numériques",
+                    "Forums de discussion",
+                    "Tableau de bord étudiant",
+                    "Panneau instructeur",
+                    "Intégration de paiement"
+                ]
+            },
+            "ai_chatbot": {
+                "name": "Chatbot IA Intelligent",
+                "type": "Application Web",
+                "short_desc": "Assistant virtuel intelligent basé sur l'IA pour le service client automatisé",
+                "full_desc": "Application de chatbot intelligent qui utilise la technologie de l'IA pour répondre aux questions des utilisateurs naturellement et en temps réel. Convient pour le service client 24h/24 avec une intégration facile dans diverses plateformes.",
+                "features": [
+                    "Traitement du Langage Naturel",
+                    "Réponse en temps réel",
+                    "Interface de chat mobile réactive",
+                    "Personnalité personnalisée",
+                    "Historique du chat",
+                    "Support du mode sombre",
+                    "Rapide et léger"
+                ]
+            },
+            "handara": {
+                "name": "Handara Golf & Resort Bali",
+                "type": "Profil de l'Entreprise",
+                "short_desc": "Site Web officiel pour complexe de luxe à Bali avec de belles vues sur le golf",
+                "full_desc": "Site Web de profil d'entreprise premium pour Handara Golf & Resort Bali. Affiche la beauté du complexe, les services de golf, les installations d'hébergement et les informations de réservation avec un design élégant et des visuels mémorables.",
+                "features": [
+                    "Design Visuel de Luxe",
+                    "Intégration de Carte Interactive",
+                    "Présentation des Chambres et du Golf",
+                    "Informations de Réservation",
+                    "Transitions de Page Fluides",
+                    "Optimisé pour le SEO pour les Voyages",
+                    "Vue Mobile Réactive"
+                ]
+            }
+        },
+        "testimonials": {
+            "section_title": "Témoignages de Clients",
+            "section_subtitle": "Ce que disent ceux qui nous ont fait confiance pour créer le site Web de leurs rêves",
+            "items": {
+                "budi": {
+                    "text": "Le résultat est très satisfaisant ! Le site Web de ma boutique en ligne est devenu plus professionnel et les ventes ont augmenté de 200%. L'équipe est très réactive et comprend mes besoins commerciaux."
+                },
+                "siti": {
+                    "text": "Le service est très bon et rapide. Notre site Web de profil d'entreprise a l'air très moderne et professionnel. Nos clients ont également donné des commentaires positifs !"
+                },
+                "ahmad": {
+                    "text": "Mon taux de conversion de page de destination a considérablement augmenté après la refonte. Design moderne, chargement rapide et mobile-friendly. Hautement recommandé !"
+                },
+                "dewi": {
+                    "text": "Le site Web de commande pour mon restaurant est très utile ! Les clients trouvent plus facile de commander et le système est intégré à WhatsApp. Génial !"
+                },
+                "rudi": {
+                    "text": "Mon site Web de portefeuille est devenu plus attrayant et professionnel. La galerie photo est très fluide et mes clients sont impressionnés par la présentation de mon travail."
+                },
+                "linda": {
+                    "text": "La plateforme e-learning créée a des fonctionnalités très complètes. Mes étudiants aiment apprendre avec un système convivial. Vaut chaque centime !"
+                }
+            }
+        },
+        "cta": {
+            "title": "Vous Voulez un Site Web Personnalisé Comme Ça ?",
+            "subtitle_template": "Les prix commencent à partir de <0>100 mille</0> et peuvent être demandés selon vos besoins commerciaux.",
+            "buttons": {
+                "order": "Commander Maintenant",
+                "chat": "Chat Admin"
+            },
+            "features": {
+                "free_consultation": "Consultation Gratuite",
+                "unlimited_revision": "Révision Illimitée",
+                "support_24_7": "Support 24/7"
+            }
+        }
+    },
+    "order_page": {
+        "header": {
+            "badge": "Formulaire de Commande de Site Web Premium",
+            "title_part1": "Manifestez Votre",
+            "title_part2": "Site Web de Rêve",
+            "subtitle": "Remplissez le formulaire ci-dessous et obtenez une consultation GRATUITE de notre équipe d'experts pour des résultats crédibles"
+        },
+        "advantages": {
+            "title": "Pourquoi Choisir WebKuu ?",
+            "items": {
+                "tech_stack": {
+                    "title": "Liberté de Choisir la Pile Technologique",
+                    "desc": "React, Vue, Next.js, WordPress ou autres frameworks selon vos besoins"
+                },
+                "custom_design": {
+                    "title": "Design 100% Personnalisé",
+                    "desc": "Pas de modèles ! Design créé spécifiquement pour votre identité de marque"
+                },
+                "fast_delivery": {
+                    "title": "Livraison Rapide",
+                    "desc": "Achèvement en peu de temps, sans réduire la qualité"
+                },
+                "warranty": {
+                    "title": "Garantie et Maintenance",
+                    "desc": "Garantie de correction de bugs de 30 jours + maintenance gratuite selon le forfait"
+                },
+                "support": {
+                    "title": "Support 24/7",
+                    "desc": "Équipe de support prête à vous aider à tout moment via WhatsApp"
+                },
+                "seo": {
+                    "title": "Prêt pour le SEO",
+                    "desc": "Site Web optimisé pour le moteur de recherche Google"
+                }
+            }
+        },
+        "form": {
+            "title": "Détails de la Commande",
+            "subtitle": "Complétez les informations ci-dessous pour démarrer votre projet",
+            "labels": {
+                "name": "Nom Complet",
+                "email": "Email",
+                "phone": "Numéro WhatsApp",
+                "company": "Nom de l'Entreprise/Commerce (Optionnel)",
+                "package": "Sélectionner le Forfait de Service",
+                "website_type": "Type de Site Web",
+                "tech_stack": "Préférence Technologique (Optionnel)",
+                "message": "Dites-nous Vos Besoins"
+            },
+            "placeholders": {
+                "name": "Entrez le nom complet",
+                "email": "email@exemple.com",
+                "phone": "Exemple : 081234567890",
+                "company": "Entrez le nom de l'entreprise",
+                "website_type": "Sélectionner la catégorie de site Web",
+                "tech_stack": "Laissez-nous recommander le meilleur",
+                "message": "Expliquez en détail :\n- Quel est le but de votre site Web ?\n- Quelles fonctionnalités doivent être présentes ?\n- Avez-vous des références de design ?\n- Combien de temps de traitement souhaitez-vous ?"
+            },
+            "options": {
+                "package_starter": "Starter / Page de Destination - 100k Rp",
+                "package_professional": "Professionnel / PME - 1 Million Rp",
+                "package_enterprise": "Entreprise / Entièrement Personnalisé - Discuter Prix",
+                "type_landing": "Page de Destination",
+                "type_company": "Profil de l'Entreprise",
+                "type_ecommerce": "Boutique en Ligne / E-commerce",
+                "type_portfolio": "Portefeuille",
+                "type_umkm": "Site Web PME",
+                "type_custom": "Système Personnalisé (Réservation, CRM, etc.)",
+                "type_other": "Autre",
+                "tech_react": "React.js + Tailwind (Moderne et Rapide)",
+                "tech_next": "Next.js (Haute Performance + SEO)",
+                "tech_vue": "Vue.js",
+                "tech_wordpress": "WordPress (Prêt pour CMS)",
+                "tech_laravel": "Laravel + PHP (Système Robuste)",
+                "tech_html": "HTML/CSS/JS (Contenu Statique)",
+                "tech_other": "Autres Besoins (Écrire dans la description)"
+            },
+            "submit": {
+                "default": "Envoyer la Commande Maintenant",
+                "processing": "Traitement..."
+            },
+            "validation": {
+                "name_required": "Le nom complet est requis",
+                "name_min": "Nom minimum 3 caractères",
+                "email_required": "L'email est requis",
+                "email_invalid": "Format d'email invalide (exemple : nom@gmail.com)",
+                "phone_required": "Le numéro WhatsApp est requis",
+                "phone_numeric": "Le numéro WhatsApp ne doit contenir que des chiffres",
+                "phone_min": "Numéro WhatsApp trop court (minimum 10 chiffres)",
+                "phone_max": "Numéro WhatsApp trop long (maximum 15 chiffres)",
+                "type_required": "Veuillez sélectionner le type de site Web dont vous avez besoin",
+                "message_required": "Une description du besoin est requise pour que nous puissions comprendre vos souhaits",
+                "message_min": "Description trop courte, veuillez fournir des détails minimum 20 caractères",
+                "form_invalid": "Veuillez remplir tous les champs obligatoires correctement"
+            },
+            "success": {
+                "redirect": "Redirection vers WhatsApp...",
+                "sent": "Commande envoyée avec succès via WhatsApp ! Veuillez continuer le chat sur WhatsApp."
+            }
+        }
+    },
+    "common": {
+        "loading": "Chargement...",
+        "error": "Quelque chose a mal tourné",
+        "back": "Retour",
+        "day": "Jour",
+        "day_plural": "Jours",
+        "week": "Semaine",
+        "week_plural": "Semaines"
+    },
+    "portfolio_preview": {
+        "title": "Notre Dernier Portfolio",
+        "subtitle": "Découvrez les travaux de sites Web professionnels que nous avons créés pour divers clients",
+        "view_all": "Voir Tout le Portfolio",
+        "live_demo": "Démo en direct"
+    },
+    "chatbot": {
+        "initial_message": "Bonjour ! 👋 Je suis RoboBot, l'assistant virtuel de WebKuu. Puis-je vous aider concernant nos services de sites Web personnalisés ?",
+        "bubble_text": "Puis-je vous aider pour quelque chose ?",
+        "header_title": "RoboBot",
+        "header_subtitle": "Assistant WebKuu • En ligne",
+        "input_placeholder": "Tapez votre question...",
+        "quick_actions": {
+            "price": "💰 Vérifier le prix",
+            "order": "🚀 Comment commander",
+            "features": "⚡ Quelles fonctionnalités ?",
+            "contact": "📞 Contact",
+            "label": "QUESTIONS RAPIDES :"
+        },
+        "fallback_response": "Hmm, je ne comprends pas encore tout à fait votre question. 😅\n\nMais ne vous inquiétez pas ! Je peux vous expliquer :\n\n💡 Prix et forfaits de services\n💡 Fonctionnalités demandables\n💡 Méthode de commande et processus de travail\n💡 Technologie utilisée\n💡 Temps de traitement\n💡 Portfolio et exemples de travaux\n💡 Garantie et support\n💡 SEO et optimisation mobile\n\nEssayez de demander l'un des sujets ci-dessus, ou contactez-nous directement via WhatsApp pour une consultation plus détaillée ! 📱\n\nOu utilisez le bouton de question rapide ci-dessous pour commencer ! 👇",
+        "faq": {
+            "greeting": "Bonjour ! 👋 Ravi de vous rencontrer ! Je suis RoboBot, l'assistant virtuel de WebKuu prêt à vous aider.\n\nY a-t-il quelque chose que vous voulez demander sur nos services de site Web ? Je peux expliquer les prix, les fonctionnalités, le processus de création ou tout ce dont vous avez besoin ! 😊",
+            "what_is": "Site Web Personnalisé est un service de création de site Web fait spécifiquement selon vos besoins. Pas un modèle ! 🎨\n\nLes avantages :\n✨ Design unique selon votre marque\n✨ Fonctionnalités que vous voulez, pas celles déjà faites\n✨ Technologie moderne et récente\n✨ Plus flexible pour le développement\n\nAinsi, votre site Web reflète vraiment votre entreprise, pas un copier-coller de quelqu'un d'autre ! 💪",
+            "price": "Nos prix de service sont très abordables et flexibles ! 💰\n\n📌 Forfait Détaillé : À partir de Rp 100,000\n   → Page de destination simple\n   → Convient pour portfolio ou promotion\n\n📌 Personnalisé/PME : Prix Flexible\n   → Selon les fonctionnalités dont vous avez besoin\n   → Design 100% personnalisé\n\n📌 Entièrement Personnalisé : Prix à Discuter\n   → Système complexe avec base de données\n   → Backend + Panneau d'administration\n\nLe prix final dépend des fonctionnalités que vous voulez. Ayons d'abord une consultation gratuite, discutons de vos besoins ! 😊",
+            "features": "Vous pouvez demander diverses fonctionnalités selon vos besoins ! 🚀\n\n✅ Design 100% personnalisé (selon votre marque)\n✅ Système de réservation en ligne\n✅ Passerelle de paiement (accepter les paiements en ligne)\n✅ Tableau de bord administrateur (gérez le contenu vous-même)\n✅ Intégration API (Google Maps, réseaux sociaux, etc.)\n✅ E-commerce complet (boutique en ligne)\n✅ Multi-langue\n✅ Optimisation SEO\n✅ Et bien plus encore !\n\nVous avez une idée de fonctionnalité spécifique ? Dites-le-nous simplement, nous vous aiderons à la réaliser ! 💡",
+            "duration": "Nous travaillons vite mais maintenons la qualité ! ⚡\n\n⏱️ Page de Destination Simple : 3-5 jours ouvrables\n⏱️ Site Web PME/Profil d'Entreprise : 5-7 jours ouvrables\n⏱️ Boutique en Ligne/E-commerce : 1-2 semaines\n⏱️ Système Complexe (Personnalisé) : 2-4 semaines\n\nLe temps peut être plus rapide ou plus lent selon :\n• La complexité des fonctionnalités demandées\n• La vitesse de retour de votre part\n• La disponibilité du contenu (texte, images, etc.)\n\nIdéalement, nous privilégions toujours la qualité ! 🎯",
+            "tech": "Nous utilisons une technologie moderne et récente ! 💻\n\n🔧 Frontend :\n   • React.js + Tailwind CSS\n   • Next.js (pour un référencement maximal)\n   • Vue.js (si demandé)\n\n🔧 Backend :\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\n🔧 CMS :\n   • WordPress (si vous préférez)\n   • CMS Personnalisé\n\n🔧 Base de données :\n   • MySQL, PostgreSQL, MongoDB\n\nVous pouvez également demander une pile technologique spécifique selon vos besoins ! Nous sommes flexibles ! 😊",
+            "order": "La méthode de commande est très facile et simple ! 📝\n\n1️⃣ Consultation Gratuite\n   → Contactez-nous via WhatsApp/Email\n   → Dites-nous vos besoins en site Web\n\n2️⃣ Discussion et Offre\n   → Nous aidons à déterminer les bonnes fonctionnalités\n   → Accord sur le prix et le calendrier\n\n3️⃣ Production\n   → Nous commençons à travailler sur votre site Web\n   → Mises à jour régulières des progrès\n\n4️⃣ Révision et Correction\n   → Vous vérifiez les résultats\n   → Révision GRATUITE jusqu'à satisfaction !\n\n5️⃣ Lancement ! 🎉\n   → Site Web prêt en ligne\n   → Obtenez un support pour toujours\n\nVous voulez commencer ? Contactez-nous maintenant ! 📱",
+            "packages": "Nous avons 3 forfaits qui peuvent être personnalisés ! 📦\n\n💼 Forfait Économique (À partir de Rp 100k)\n   → Page de destination 1-3 pages\n   → Design moderne et réactif\n   → Convient pour : Portfolio, promotion de produits\n\n🏢 Personnalisé/PME (Prix Flexible)\n   → Design personnalisé selon la marque\n   → Fonctionnalités selon les besoins\n   → Convient pour : Profil d'entreprise, PME\n\n🚀 Entièrement Personnalisé (Prix à Discuter)\n   → Système complexe + base de données\n   → Backend et panneau d'administration\n   → Convient pour : E-commerce, système de réservation\n\nConfus sur lequel choisir ? Juste une consultation gratuite, nous vous aidons à déterminer le plus approprié ! 😊",
+            "guarantee": "Nous vous offrons la meilleure garantie ! 🌟\n\n✅ Révision GRATUITE jusqu'à satisfaction\n   → Pas de limite sur le nombre de révisions\n   → Jusqu'à ce que vous soyez vraiment satisfait !\n\n✅ Garantie de Correction de Bugs\n   → Réparation gratuite s'il y a une erreur\n   → Valable pour toujours\n\n✅ Support Pour Toujours\n   → Consultation gratuite à tout moment\n   → Assistance technique s'il y a un problème\n\n✅ Mise à Jour de Contenu\n   → Nous enseignons comment mettre à jour vous-même\n   → Ou vous pouvez nous demander (gratuit !)\n\nVotre satisfaction et votre succès sont notre priorité ! 💪",
+            "contact": "Contactez-nous maintenant ! 📞\n\n📱 WhatsApp : +62 851 2295 9690\n   → Discutez directement avec notre équipe\n   → Consultation gratuite !\n\n📧 Email : web.kuu@gmail.com\n   → Pour des questions détaillées\n   → Envoyez le brief de votre projet\n\n🌐 Site Web : Vous êtes ici ! 😊\n\n⏰ Heures d'Ouverture :\n   → Prêt à servir 24/7 (24 heures tous les jours)\n   → Réponse rapide !\n\nNous sommes prêts à vous aider à tout moment ! 💬",
+            "portfolio": "Nous avons travaillé sur de nombreux projets variés ! 🎨\n\nVous pouvez voir notre portfolio sur la page Portfolio de ce site Web. Il y a différents types de sites Web que nous avons créés :\n\n✨ Profil d'Entreprise\n✨ Boutique en Ligne\n✨ Page de Destination\n✨ Site Web PME\n✨ Système de Réservation\n✨ Et bien plus encore !\n\nChaque projet est réalisé avec détail et selon les besoins du client. Vous voulez voir ? Cliquez sur le menu Portfolio ci-dessus ! 👆",
+            "thanks": "De rien ! 😊🙏\n\nRavi de pouvoir vous aider ! S'il y a d'autres questions, n'hésitez pas à demander.\n\nSi vous êtes prêt à commencer le projet, contactez-nous immédiatement via WhatsApp ou par email. Nous attendons les bonnes nouvelles ! 💙\n\nPassez une bonne journée ! ✨",
+            "responsive": "Tous les sites Web que nous créons DOIVENT être compatibles avec les mobiles ! 📱💻\n\n✅ Design Réactif\n   → Apparaît parfait sur tous les appareils\n   → Mobile, tablette, ordinateur portable, bureau\n\n✅ Chargement Rapide\n   → Optimisation de la vitesse maximale\n   → Meilleure expérience utilisateur\n\n✅ Tactile Convivial\n   → Boutons et menus faciles à cliquer\n   → Navigation fluide sur écran tactile\n\nÀ cette époque, 70% des visiteurs viennent du mobile. Donc le design réactif est OBLIGATOIRE ! 🎯",
+            "seo": "Le SEO est l'un de nos principaux objectifs ! 🔍\n\n✅ Structure Compatible SEO\n   → Code propre et structuré\n   → Balises méta optimales\n\n✅ Vitesse de Chargement Rapide\n   → Google aime les sites Web rapides\n   → Nous optimisons au maximum\n\n✅ Optimisation Mobile\n   → Google priorise le mobile-first\n   → Notre site Web est certainement réactif\n\n✅ Optimisation de Contenu\n   → Structure de titre correcte\n   → Texte alternatif pour les images\n\n✅ Plan du site et Analyse\n   → Soumettre à Google Search Console\n   → Suivi avec Google Analytics\n\nBon site Web mais pas visible sur Google = inutile ! Nous nous assurons donc que votre site Web est compatible SEO ! 📈"
+        }
+    }
+}

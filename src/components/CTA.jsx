@@ -2,22 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const CTA = () => {
-    // Template pesan WhatsApp
-    const whatsappMessage = `Halo WebKuu! 👋
+    const { t } = useTranslation();
 
-Saya ingin konsultasi tentang pembuatan website.
-
-📋 *Informasi Awal:*
-• Jenis Website: [Isi jenis website yang diinginkan]
-• Budget: [Isi budget yang tersedia]
-• Deadline: [Isi deadline yang diharapkan]
-
-Saya tertarik untuk mengetahui lebih lanjut tentang layanan pembuatan website custom dari WebKuu.
-
-Terima kasih! 🙏`;
-
+    // WhatsApp message template from translation
+    const whatsappMessage = t('cta.whatsapp_template');
     const encodedMessage = encodeURIComponent(whatsappMessage);
 
     return (
@@ -36,10 +27,10 @@ Terima kasih! 🙏`;
                     viewport={{ once: true }}
                 >
                     <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6">
-                        Siap Mewujudkan Website Impian Anda?
+                        {t('cta.title')}
                     </h2>
                     <p className="text-brand-emerald-50 text-lg lg:text-xl max-w-2xl mx-auto mb-10">
-                        Jangan tunda lagi! Konsultasikan kebutuhan website Anda sekarang juga. Selengkapnya bisa order langsung di website ini.
+                        {t('cta.subtitle')}
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -50,7 +41,7 @@ Terima kasih! 🙏`;
                                 className="inline-flex items-center gap-3 px-8 py-4 bg-white hover:bg-slate-50 text-primary font-bold text-lg rounded-full shadow-lg hover:shadow-xl transition-all"
                             >
                                 <ShoppingCart size={24} />
-                                Order Sekarang!!!
+                                {t('cta.buttons.order')}
                             </motion.button>
                         </Link>
 
@@ -63,12 +54,12 @@ Terima kasih! 🙏`;
                             className="inline-flex items-center gap-3 px-8 py-4 bg-green-500 hover:bg-green-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-green-500/30 transition-all"
                         >
                             <MessageCircle size={24} />
-                            Konsultasi via WhatsApp
+                            {t('cta.buttons.whatsapp')}
                         </motion.a>
                     </div>
 
                     <p className="mt-6 text-brand-emerald-200 text-sm">
-                        Respon Cepat 24/7 • Konsultasi Gratis
+                        {t('cta.footer')}
                     </p>
                 </motion.div>
             </div>

@@ -1,63 +1,65 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
-
-// Sample testimonials data
-const testimonialsData = [
-    {
-        id: 1,
-        name: "Budi Santoso",
-        project: "E-Commerce Fashion Store",
-        rating: 5,
-        avatar: "https://ui-avatars.com/api/?name=Budi+Santoso&background=3b82f6&color=fff&size=128",
-        testimonial: "Hasilnya sangat memuaskan! Website toko online saya jadi lebih profesional dan penjualan meningkat 200%. Tim sangat responsif dan memahami kebutuhan bisnis saya."
-    },
-    {
-        id: 2,
-        name: "Siti Nurhaliza",
-        project: "Company Profile",
-        rating: 5,
-        avatar: "https://ui-avatars.com/api/?name=Siti+Nurhaliza&background=8b5cf6&color=fff&size=128",
-        testimonial: "Pelayanan sangat baik dan cepat. Website company profile kami terlihat sangat modern dan profesional. Klien-klien kami juga memberikan feedback positif!"
-    },
-    {
-        id: 3,
-        name: "Ahmad Fauzi",
-        project: "Landing Page SaaS",
-        rating: 5,
-        avatar: "https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=10b981&color=fff&size=128",
-        testimonial: "Conversion rate landing page saya naik drastis setelah redesign. Desainnya modern, loading cepat, dan mobile-friendly. Highly recommended!"
-    },
-    {
-        id: 4,
-        name: "Dewi Lestari",
-        project: "Restaurant Menu & Ordering",
-        rating: 5,
-        avatar: "https://ui-avatars.com/api/?name=Dewi+Lestari&background=f59e0b&color=fff&size=128",
-        testimonial: "Website pemesanan untuk restoran saya sangat membantu! Pelanggan jadi lebih mudah order dan sistem terintegrasi dengan WhatsApp. Mantap!"
-    },
-    {
-        id: 5,
-        name: "Rudi Hermawan",
-        project: "Portfolio Photographer",
-        rating: 5,
-        avatar: "https://ui-avatars.com/api/?name=Rudi+Hermawan&background=ef4444&color=fff&size=128",
-        testimonial: "Portfolio website saya jadi lebih menarik dan profesional. Galeri fotonya smooth banget dan klien saya impressed dengan presentasi karya saya."
-    },
-    {
-        id: 6,
-        name: "Linda Wijaya",
-        project: "Educational Platform",
-        rating: 5,
-        avatar: "https://ui-avatars.com/api/?name=Linda+Wijaya&background=ec4899&color=fff&size=128",
-        testimonial: "Platform e-learning yang dibuat sangat lengkap fiturnya. Siswa-siswa saya senang belajar dengan sistem yang user-friendly. Worth every penny!"
-    }
-];
+import { useTranslation } from 'react-i18next';
 
 const ClientTestimonials = () => {
+    const { t } = useTranslation();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(0);
     const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+    // Get testimonials from translations
+    const testimonialsData = useMemo(() => [
+        {
+            id: 1,
+            name: "Budi Santoso",
+            project: t('portfolio.projects.fashion_store.name'),
+            rating: 5,
+            avatar: "https://ui-avatars.com/api/?name=Budi+Santoso&background=3b82f6&color=fff&size=128",
+            testimonial: t('portfolio.testimonials.items.budi.text')
+        },
+        {
+            id: 2,
+            name: "Siti Nurhaliza",
+            project: t('portfolio.projects.tech_startup.name'),
+            rating: 5,
+            avatar: "https://ui-avatars.com/api/?name=Siti+Nurhaliza&background=8b5cf6&color=fff&size=128",
+            testimonial: t('portfolio.testimonials.items.siti.text')
+        },
+        {
+            id: 3,
+            name: "Ahmad Fauzi",
+            project: t('portfolio.projects.saas_product.name'),
+            rating: 5,
+            avatar: "https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=10b981&color=fff&size=128",
+            testimonial: t('portfolio.testimonials.items.ahmad.text')
+        },
+        {
+            id: 4,
+            name: "Dewi Lestari",
+            project: t('portfolio.projects.restaurant.name'),
+            rating: 5,
+            avatar: "https://ui-avatars.com/api/?name=Dewi+Lestari&background=f59e0b&color=fff&size=128",
+            testimonial: t('portfolio.testimonials.items.dewi.text')
+        },
+        {
+            id: 5,
+            name: "Rudi Hermawan",
+            project: t('portfolio.projects.photographer.name'),
+            rating: 5,
+            avatar: "https://ui-avatars.com/api/?name=Rudi+Hermawan&background=ef4444&color=fff&size=128",
+            testimonial: t('portfolio.testimonials.items.rudi.text')
+        },
+        {
+            id: 6,
+            name: "Linda Wijaya",
+            project: t('portfolio.projects.edu_platform.name'),
+            rating: 5,
+            avatar: "https://ui-avatars.com/api/?name=Linda+Wijaya&background=ec4899&color=fff&size=128",
+            testimonial: t('portfolio.testimonials.items.linda.text')
+        }
+    ], [t]);
 
     // Auto-play carousel
     useEffect(() => {
@@ -68,7 +70,7 @@ const ClientTestimonials = () => {
         }, 5000); // Change slide every 5 seconds
 
         return () => clearInterval(interval);
-    }, [currentIndex, isAutoPlaying]);
+    }, [currentIndex, isAutoPlaying, testimonialsData.length]);
 
     const handleNext = () => {
         setDirection(1);
@@ -116,10 +118,10 @@ const ClientTestimonials = () => {
                     className="text-center mb-16"
                 >
                     <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
-                        Testimoni Klien
+                        {t('portfolio.testimonials.section_title')}
                     </h2>
                     <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-                        Apa kata mereka yang sudah mempercayai kami untuk membuat website impian mereka
+                        {t('portfolio.testimonials.section_subtitle')}
                     </p>
                 </motion.div>
 
