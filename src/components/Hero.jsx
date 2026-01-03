@@ -92,6 +92,7 @@ const Hero = () => {
                                 src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                                 alt="Website Dashboard"
                                 className="rounded-xl w-full h-auto"
+                                loading="lazy"
                             />
 
                             {/* Floating Badge */}

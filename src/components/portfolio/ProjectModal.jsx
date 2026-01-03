@@ -44,6 +44,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                             src={project.thumbnail}
                                             alt={project.name}
                                             className="w-full h-full object-cover"
+                                            loading="lazy"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                                         <div className="absolute bottom-6 left-6 right-6">

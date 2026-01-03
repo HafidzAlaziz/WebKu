@@ -177,6 +177,7 @@ const ClientTestimonials = () => {
                                             src={currentTestimonial.avatar}
                                             alt={currentTestimonial.name}
                                             className="w-20 h-20 rounded-full mb-4 border-4 border-white dark:border-slate-800 shadow-lg"
+                                            loading="lazy"
                                         />
                                         <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
                                             {currentTestimonial.name}
