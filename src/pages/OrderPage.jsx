@@ -5,9 +5,10 @@ import emailjs from '@emailjs/browser';
 import Navbar from '../components/Navbar';
 import { useTranslation } from 'react-i18next';
 import { useTracker } from '../hooks/useTracker';
+import { formatCurrency } from '../utils/currencyUtils';
 
 const OrderPage = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { trackOrder } = useTracker();
     const [formData, setFormData] = useState({
         name: '',
@@ -172,7 +173,13 @@ const OrderPage = () => {
         });
 
         // Track Order
-        trackOrder(`Order Form: ${formData.package} - ${formData.websiteType}`);
+        trackOrder({
+            customerName: formData.name,
+            orderPackage: formData.package,
+            orderType: formData.websiteType,
+            total: formData.package === 'starter' ? 100000 : formData.package === 'professional' ? 1000000 : 0, // Using numbers for consistency, 0 for enterprise (discussion)
+            status: 'pending'
+        });
 
         // Redirect ke WhatsApp setelah 1.5 detik
         setTimeout(() => {
@@ -428,9 +435,15 @@ const OrderPage = () => {
                                                     required
                                                     className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer"
                                                 >
-                                                    <option value="starter">{t('order_page.form.options.package_starter')}</option>
-                                                    <option value="professional">{t('order_page.form.options.package_professional')}</option>
-                                                    <option value="enterprise">{t('order_page.form.options.package_enterprise')}</option>
+                                                    <option value="starter">
+                                                        {t('order_page.form.options.package_starter')} - {formatCurrency(100000, i18n.language, t)}
+                                                    </option>
+                                                    <option value="professional">
+                                                        {t('order_page.form.options.package_professional')} - {formatCurrency(1000000, i18n.language, t)}
+                                                    </option>
+                                                    <option value="enterprise">
+                                                        {t('order_page.form.options.package_enterprise')} - {formatCurrency('discussion', i18n.language, t)}
+                                                    </option>
                                                 </select>
                                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
                                                     <Zap size={20} />

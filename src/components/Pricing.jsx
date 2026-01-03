@@ -3,34 +3,35 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { formatCurrency } from '../utils/currencyUtils';
 
 const Pricing = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const plans = [
         {
             name: t('pricing.plans.starter.name'),
-            price: t('pricing.plans.starter.price'),
+            priceIdr: t('pricing.plans.starter.price'),
             description: t('pricing.plans.starter.desc'),
             features: t('pricing.plans.starter.features', { returnObjects: true }),
             recommended: false,
             isStarter: true
         },
         {
-            name: t('pricing.plans.custom.name'),
-            price: t('pricing.plans.custom.price'),
-            description: t('pricing.plans.custom.desc'),
-            features: t('pricing.plans.custom.features', { returnObjects: true }),
-            recommended: true,
-            isStarter: false
-        },
-        {
             name: t('pricing.plans.umkm.name'),
-            price: t('pricing.plans.umkm.price'),
+            priceIdr: t('pricing.plans.umkm.price'),
             description: t('pricing.plans.umkm.desc'),
             features: t('pricing.plans.umkm.features', { returnObjects: true }),
             recommended: false,
             isStarter: true
+        },
+        {
+            name: t('pricing.plans.custom.name'),
+            priceIdr: t('pricing.plans.custom.price'),
+            description: t('pricing.plans.custom.desc'),
+            features: t('pricing.plans.custom.features', { returnObjects: true }),
+            recommended: true,
+            isStarter: false
         },
     ];
 
@@ -69,8 +70,9 @@ const Pricing = () => {
                                         {plan.isStarter ? t('pricing.labels.starting_from') : t('pricing.labels.price')}
                                     </p>
                                     <div className="flex items-baseline">
-                                        {plan.isStarter && <span className="text-sm text-slate-500 dark:text-slate-400 font-semibold">{t('pricing.labels.rp')}</span>}
-                                        <span className="text-4xl font-bold text-slate-900 dark:text-white mx-1">{plan.price}</span>
+                                        <span className="text-4xl font-bold text-slate-900 dark:text-white">
+                                            {formatCurrency(plan.priceIdr, i18n.language, t)}
+                                        </span>
                                     </div>
                                 </div>
 

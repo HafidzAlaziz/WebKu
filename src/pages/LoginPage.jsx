@@ -76,7 +76,7 @@ const LoginPage = () => {
                             <CheckCircle2 size={24} />
                         </div>
                         <div>
-                            <p className="font-bold text-lg leading-tight">Success!</p>
+                            <p className="font-bold text-lg leading-tight">{t('login.success_title')}</p>
                             <p className="text-white/90 text-sm">
                                 {t('login.success_message')}
                             </p>

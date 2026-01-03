@@ -91,12 +91,14 @@
         "labels": {
             "starting_from": "開始価格",
             "price": "価格",
-            "rp": "Rp"
+            "rp": "Rp",
+            "negotiation": "交渉",
+            "discussion": "要相談"
         },
         "plans": {
             "starter": {
                 "name": "スターター / ランディングページ",
-                "price": "100k",
+                "price": 100000,
                 "desc": "シンプルなランディングページやビジネスプロフィールに最適な費用対効果の高いソリューション。",
                 "features": [
                     "1ページのウェブサイト",
@@ -109,7 +111,7 @@
             },
             "umkm": {
                 "name": "プロフェッショナル / 中小企業",
-                "price": "100万",
+                "price": 1000000,
                 "desc": "信頼性を高めるためのプロフェッショナルなビジネスウェブサイト。",
                 "features": [
                     "排他的なデザイン（テンプレートなし）",
@@ -123,7 +125,7 @@
             },
             "custom": {
                 "name": "エンタープライズ / フルカスタム",
-                "price": "要相談",
+                "price": "discussion",
                 "desc": "機能とウェブサイトの複雑さに応じて価格が調整されます。",
                 "features": [
                     "リクエストと予算に応じた機能",
@@ -192,7 +194,7 @@
             "filters": {
                 "all": "すべて",
                 "client": "クライアント",
-                "create": "作成",
+                "create": "社内プロジェクト",
                 "all_categories": "すべてのカテゴリ"
             },
             "categories": {
@@ -589,28 +591,195 @@
     },
     "dashboard": {
         "header": {
-            "title": "ダッシュボード概要",
-            "subtitle": "ポートフォリオウェブサイトのリアルタイム分析"
+            "title": "管理ダッシュボード",
+            "subtitle": "店舗のアクティビティと注文を監視する",
+            "logout": "ログアウト",
+            "logout_confirm": {
+                "title": "ログアウトの確認",
+                "message": "ダッシュボードからログアウトしてもよろしいですか？",
+                "confirm": "はい、ログアウトします",
+                "cancel": "キャンセル"
+            }
         },
         "actions": {
             "refresh": "データを更新"
         },
         "filters": {
-            "days": "日間"
+            "days": "日間",
+            "last_7_days": "過去7日間",
+            "last_30_days": "過去30日間",
+            "specific_month": "特定の月",
+            "specific_year": "特定の年",
+            "status_all": "すべてのステータス",
+            "status_pending": "保留中",
+            "status_completed": "完了",
+            "status_cancelled": "キャンセル"
         },
+        "months": [
+            "1月",
+            "2月",
+            "3月",
+            "4月",
+            "5月",
+            "6月",
+            "7月",
+            "8月",
+            "9月",
+            "10月",
+            "11月",
+            "12月"
+        ],
         "stats": {
             "live": "+ ライブ",
             "total_views": "総ページビュー数",
             "total_orders": "総注文数 (WhatsApp)",
-            "conversion_rate": "コンバージョン率"
+            "total_revenue": "総売上",
+            "conversion_rate": "コンバージョン率",
+            "cancelled_orders": "キャンセルされた注文",
+            "orders_suffix": "注文"
         },
         "charts": {
-            "traffic_overview": "トラフィック概要 (過去7日間)"
+            "traffic_overview": "トラフィックと収益",
+            "views": "閲覧数",
+            "orders": "注文数",
+            "revenue": "収益",
+            "cancelled_revenue": "キャンセルされた収益"
+        },
+        "portfolio": {
+            "title": "ポートフォリオ管理",
+            "subtitle": "ウェブサイトのポートフォリオプロジェクトを動的に管理します",
+            "tabs": {
+                "overview": "概要",
+                "portfolio": "ポートフォリオ"
+            },
+            "migrate_button": "データを移行",
+            "add_button": "プロジェクトを追加",
+            "search_placeholder": "名前でプロジェクトを検索...",
+            "table": {
+                "project": "プロジェクト",
+                "category": "カテゴリー",
+                "client_type": "クライアントタイプ",
+                "actions": "アクション",
+                "empty": "プロジェクトが見つかりません。最初のプロジェクトを追加しましょう！"
+            },
+            "form": {
+                "add_title": "新しいプロジェクトを追加",
+                "edit_title": "プロジェクトを編集",
+                "sections": {
+                    "basic": "基本情報",
+                    "content": "コンテンツとローカリゼーション",
+                    "meta": "メタおよび追加情報"
+                },
+                "labels": {
+                    "name_id": "プロジェクト名 (インドネシア語)",
+                    "name_en": "プロジェクト名 (英語)",
+                    "category": "カテゴリー",
+                    "client_type": "クライアントタイプ",
+                    "thumbnail": "サムネイルURL",
+                    "tech": "技術",
+                    "demo": "デモ/ウェブサイトリンク",
+                    "features_id": "機能 (インドネシア語)",
+                    "features_en": "機能 (英語)"
+                },
+                "placeholders": {
+                    "name": "プロジェクト名を入力してください...",
+                    "type": "例: Webアプリケーション",
+                    "short_desc": "簡単な概要...",
+                    "full_desc": "プロジェクトの全詳細...",
+                    "duration": "例: 1週間",
+                    "features": "機能1, 機能2, ...",
+                    "tech": "React, Next.js, Tailwind...",
+                    "demo": "https://..."
+                },
+                "client_types": {
+                    "create": "社内プロジェクト",
+                    "client": "クライアントプロジェクト"
+                },
+                "buttons": {
+                    "save": "プロジェクトを保存",
+                    "update": "プロジェクトを更新",
+                    "cancel": "キャンセル"
+                },
+                "validation": {
+                    "required": "この項目は必須です",
+                    "invalid_url": "有効なURLを入力してください（http://またはhttps://で始まる）",
+                    "at_least_one": "少なくとも1つの項目を入力してください",
+                    "save_error": "プロジェクトの保存エラー: "
+                },
+                "unsaved_changes": {
+                    "title": "変更を破棄しますか？",
+                    "message": "保存されていない変更があります。このフォームを閉じてもよろしいですか？",
+                    "confirm": "はい、破棄します",
+                    "cancel": "編集を続ける"
+                },
+                "success": {
+                    "project_saved": "プロジェクトが正常に保存されました！",
+                    "project_updated": "プロジェクトが正常に更新されました！"
+                }
+            },
+            "migration": {
+                "title": "既存のプロジェクトを移行",
+                "description": "ソースコードにある12のプロジェクトをSupabaseデータベースに移動します。これは1回だけ行う必要があります。",
+                "button": "移行を開始",
+                "success_message": "{{count}}件のプロジェクトの移行に成功しました！",
+                "error_prefix": "移行に失敗しました: "
+            },
+            "delete_confirm": {
+                "title": "プロジェクトを削除しますか？",
+                "message": "このプロジェクトはポートフォリオから完全に削除されます。よろしいですか？",
+                "confirm": "はい、削除します",
+                "cancel": "キャンセル"
+            },
+            "stats": {
+                "total_projects": "総プロジェクト数",
+                "client_projects": "クライアントプロジェクト",
+                "create_projects": "社内プロジェクト"
+            },
+            "pagination": {
+                "showing": "表示中",
+                "to": "から",
+                "of": "件中",
+                "projects": "プロジェクト",
+                "per_page": "ページあたり"
+            }
         },
         "recent_orders": {
             "title": "最近の注文",
             "empty": "最近の注文はありません",
-            "new_order_label": "新規注文クリック"
+            "search_placeholder": "名前または日付を検索...",
+            "new_order_label": "新規注文",
+            "order_form_prefix": "注文フォーム",
+            "status": {
+                "pending": "保留中",
+                "completed": "完了",
+                "cancelled": "キャンセル"
+            },
+            "actions": {
+                "edit": "注文を編集",
+                "save": "変更を保存",
+                "cancel": "キャンセル",
+                "delete": "削除",
+                "delete_confirm": {
+                    "title": "注文を削除しますか？",
+                    "message": "この注文はシステムから永久に削除されます。よろしいですか？",
+                    "confirm": "はい、削除します",
+                    "cancel": "キャンセル"
+                },
+                "update_success": "注文が正常に更新されました！",
+                "logout_success": "ログアウトに成功しました！リダイレクト中...",
+                "edit_confirm": {
+                    "title": "変更を破棄しますか？",
+                    "message": "加えられた変更は保存されていません。終了してもよろしいですか？",
+                    "confirm": "はい、破棄します",
+                    "cancel": "編集を続ける"
+                }
+            }
+        },
+        "fields": {
+            "customer": "顧客名",
+            "details": "注文詳細",
+            "total": "合計金額",
+            "status": "ステータス"
         },
         "footer": {
             "note": "このダッシュボードは、イベント追跡に基づいた単純な分析を表示します。「ビュー」はページの読み込み、「注文」はWhatsAppボタンのクリックです。データはリアルタイムで同期されます。"
@@ -619,6 +788,7 @@
     "login": {
         "title": "管理者アクセス",
         "subtitle": "ダッシュボードにアクセスするにはログインしてください",
+        "success_title": "成功！",
         "username": "ユーザー名",
         "password": "パスワード",
         "username_placeholder": "ユーザー名を入力してください",

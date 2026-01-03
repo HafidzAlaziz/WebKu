@@ -91,12 +91,14 @@
         "labels": {
             "starting_from": "À partir de",
             "price": "Prix",
-            "rp": "Rp"
+            "rp": "Rp",
+            "negotiation": "Négociation",
+            "discussion": "Discuter"
         },
         "plans": {
             "starter": {
                 "name": "Starter / Page de Destination",
-                "price": "100k",
+                "price": 100000,
                 "desc": "Solution rentable pour une simple page de destination ou un profil d'entreprise.",
                 "features": [
                     "Site Web d'une page",
@@ -109,7 +111,7 @@
             },
             "umkm": {
                 "name": "Professionnel / PME",
-                "price": "1 Million",
+                "price": 1000000,
                 "desc": "Site Web professionnel pour augmenter la crédibilité.",
                 "features": [
                     "Design exclusif (pas de modèle)",
@@ -123,7 +125,7 @@
             },
             "custom": {
                 "name": "Entreprise / Entièrement Personnalisé",
-                "price": "Discuter",
+                "price": "discussion",
                 "desc": "Le prix s'ajuste en fonction des fonctionnalités et de la complexité du site Web.",
                 "features": [
                     "Fonctionnalités selon demande et budget",
@@ -192,7 +194,7 @@
             "filters": {
                 "all": "Tout",
                 "client": "Client",
-                "create": "Créer",
+                "create": "Projets Internes",
                 "all_categories": "Toutes Catégories"
             },
             "categories": {
@@ -589,28 +591,195 @@
     },
     "dashboard": {
         "header": {
-            "title": "Aperçu du Tableau de Bord",
-            "subtitle": "Analytique en temps réel pour votre site portfolio"
+            "title": "Tableau de Bord Admin",
+            "subtitle": "Surveillez l'activité de votre boutique et vos commandes",
+            "logout": "Déconnexion",
+            "logout_confirm": {
+                "title": "Confirmer la déconnexion",
+                "message": "Êtes-vous sûr de vouloir vous déconnecter du tableau de bord ?",
+                "confirm": "Oui, se déconnecter",
+                "cancel": "Annuler"
+            }
         },
         "actions": {
             "refresh": "Actualiser les Données"
         },
         "filters": {
-            "days": "Jours"
+            "days": "Jours",
+            "last_7_days": "7 Derniers Jours",
+            "last_30_days": "30 Derniers Jours",
+            "specific_month": "Mois Spécifique",
+            "specific_year": "Année Spécifique",
+            "status_all": "Tous les Statuts",
+            "status_pending": "En Attente",
+            "status_completed": "Terminé",
+            "status_cancelled": "Annulé"
         },
+        "months": [
+            "Janvier",
+            "Février",
+            "Mars",
+            "Avril",
+            "Mai",
+            "Juin",
+            "Juillet",
+            "Août",
+            "Septembre",
+            "Octobre",
+            "Novembre",
+            "Décembre"
+        ],
         "stats": {
             "live": "+ En Direct",
             "total_views": "Vues Totales",
             "total_orders": "Commandes Totales (WhatsApp)",
-            "conversion_rate": "Taux de Conversion"
+            "total_revenue": "Revenu Total",
+            "conversion_rate": "Taux de Conversion",
+            "cancelled_orders": "Commandes Annulées",
+            "orders_suffix": "Commandes"
         },
         "charts": {
-            "traffic_overview": "Aperçu du Trafic (7 Derniers Jours)"
+            "traffic_overview": "Trafic et Revenu",
+            "views": "Vues",
+            "orders": "Commandes",
+            "revenue": "Revenu",
+            "cancelled_revenue": "Revenu Annulé"
+        },
+        "portfolio": {
+            "title": "Gestion du Portefeuille",
+            "subtitle": "Gérez vos projets de portefeuille de sites Web de manière dynamique",
+            "tabs": {
+                "overview": "Aperçu",
+                "portfolio": "Portefeuille"
+            },
+            "migrate_button": "Migrer les Données",
+            "add_button": "Ajouter un Projet",
+            "search_placeholder": "Rechercher des projets par nom...",
+            "table": {
+                "project": "Projet",
+                "category": "Catégorie",
+                "client_type": "Type de Client",
+                "actions": "Actions",
+                "empty": "Aucun projet trouvé. Ajoutez votre premier projet !"
+            },
+            "form": {
+                "add_title": "Ajouter un Nouveau Projet",
+                "edit_title": "Modifier le Projet",
+                "sections": {
+                    "basic": "Informations de Base",
+                    "content": "Contenu et Localisation",
+                    "meta": "Méta et Infos Supplémentaires"
+                },
+                "labels": {
+                    "name_id": "Nom du Projet (Indo)",
+                    "name_en": "Nom du Projet (Anglais)",
+                    "category": "Catégorie",
+                    "client_type": "Type de Client",
+                    "thumbnail": "URL de la Miniature",
+                    "tech": "Technologies",
+                    "demo": "Lien Démo/Site Web",
+                    "features_id": "Fonctionnalités (Indo)",
+                    "features_en": "Fonctionnalités (Anglais)"
+                },
+                "placeholders": {
+                    "name": "Entrez le nom du projet...",
+                    "type": "ex. Application Web",
+                    "short_desc": "Bref résumé...",
+                    "full_desc": "Détails complets du projet...",
+                    "duration": "ex. 1 Semaine",
+                    "features": "Fonctionnalité 1, Fonctionnalité 2, ...",
+                    "tech": "React, Next.js, Tailwind...",
+                    "demo": "https://..."
+                },
+                "client_types": {
+                    "create": "Projet Interne",
+                    "client": "Projet Client"
+                },
+                "buttons": {
+                    "save": "Enregistrer le Projet",
+                    "update": "Mettre à Jour le Projet",
+                    "cancel": "Annuler"
+                },
+                "validation": {
+                    "required": "Ce champ est obligatoire",
+                    "invalid_url": "Veuillez entrer une URL valide (commençant par http:// ou https://)",
+                    "at_least_one": "Veuillez entrer au moins un élément",
+                    "save_error": "Erreur lors de l'enregistrement du projet : "
+                },
+                "unsaved_changes": {
+                    "title": "Abandonner les Modifications ?",
+                    "message": "Vous avez des modifications non enregistrées. Êtes-vous sûr de vouloir fermer ce formulaire ?",
+                    "confirm": "Oui, Abandonner",
+                    "cancel": "Continuer à Éditer"
+                },
+                "success": {
+                    "project_saved": "Projet enregistré avec succès !",
+                    "project_updated": "Projet mis à jour avec succès !"
+                }
+            },
+            "migration": {
+                "title": "Migrer les Projets Existants",
+                "description": "Cela déplacera les 12 projets actuellement dans le code source vers votre base de données Supabase. Cela ne doit être fait qu'une seule fois.",
+                "button": "Démarrer la Migration",
+                "success_message": "{{count}} projets migrés avec succès!",
+                "error_prefix": "Échec de la migration : "
+            },
+            "delete_confirm": {
+                "title": "Supprimer le Projet ?",
+                "message": "Ce projet sera définitivement supprimé de votre portefeuille. Êtes-vous sûr ?",
+                "confirm": "Oui, Supprimer",
+                "cancel": "Annuler"
+            },
+            "stats": {
+                "total_projects": "Total des Projets",
+                "client_projects": "Projets Client",
+                "create_projects": "Projets Internes"
+            },
+            "pagination": {
+                "showing": "Affichage",
+                "to": "à",
+                "of": "sur",
+                "projects": "projets",
+                "per_page": "Par page"
+            }
         },
         "recent_orders": {
             "title": "Commandes Récentes",
             "empty": "Aucune commande récente",
-            "new_order_label": "Clic Nouvelle Commande"
+            "search_placeholder": "Chercher nom ou date...",
+            "new_order_label": "Nouvelle Commande",
+            "order_form_prefix": "Formulaire de Commande",
+            "status": {
+                "pending": "En attente",
+                "completed": "Terminé",
+                "cancelled": "Annulé"
+            },
+            "actions": {
+                "edit": "Modifier la Commande",
+                "delete": "Supprimer",
+                "save": "Enregistrer les modifications",
+                "cancel": "Annuler",
+                "delete_confirm": {
+                    "title": "Supprimer la commande ?",
+                    "message": "Cette commande sera définitivement supprimée du système. Êtes-vous sûr ?",
+                    "confirm": "Oui, Supprimer",
+                    "cancel": "Annuler"
+                },
+                "update_success": "Commande mise à jour avec succès !",
+                "logout_success": "Déconnexion réussie ! Retour à l'accueil...",
+                "edit_confirm": {
+                    "title": "Abandonner les modifications ?",
+                    "message": "Les modifications que vous avez apportées n'ont pas été enregistrées. Êtes-vous sûr de vouloir quitter ?",
+                    "confirm": "Oui, abandonner",
+                    "cancel": "Continuer l'édition"
+                }
+            },
+            "fields": {
+                "customer": "Nom du Client",
+                "details": "Détails de la Commande",
+                "total": "Prix Total",
+                "status": "Statut"
+            }
         },
         "footer": {
             "note": "Ce tableau de bord affiche des analyses simples basées sur le suivi des événements. Les \"Vues\" sont les chargements de page et les \"Commandes\" sont les clics sur les boutons WhatsApp. Les données sont synchronisées en temps réel."
@@ -619,6 +788,7 @@
     "login": {
         "title": "Accès Administrateur",
         "subtitle": "Veuillez vous connecter pour accéder au tableau de bord",
+        "success_title": "Succès !",
         "username": "Nom d'utilisateur",
         "password": "Mot de passe",
         "username_placeholder": "Entrez le nom d'utilisateur",

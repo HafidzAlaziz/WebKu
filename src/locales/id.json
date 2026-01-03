@@ -91,12 +91,14 @@
         "labels": {
             "starting_from": "Mulai dari",
             "price": "Harga",
-            "rp": "Rp"
+            "rp": "Rp",
+            "negotiation": "Negosiasi",
+            "discussion": "Harga Diskusi"
         },
         "plans": {
             "starter": {
                 "name": "Starter / Landing Page",
-                "price": "100rb",
+                "price": 100000,
                 "desc": "Solusi hemat untuk landing page sederhana atau profil usaha.",
                 "features": [
                     "1 Halaman Website",
@@ -109,7 +111,7 @@
             },
             "umkm": {
                 "name": "Professional / UMKM",
-                "price": "1 Juta",
+                "price": 1000000,
                 "desc": "Website bisnis profesional untuk meningkatkan kredibilitas.",
                 "features": [
                     "Desain Eksklusif (Bukan Template)",
@@ -123,7 +125,7 @@
             },
             "custom": {
                 "name": "Enterprise / Full Custom",
-                "price": "Diskusi",
+                "price": "discussion",
                 "desc": "Harga menyesuaikan fitur dan tingkat kesulitan website.",
                 "features": [
                     "Fitur Sesuai Request & Budget",
@@ -192,7 +194,7 @@
             "filters": {
                 "all": "Semua",
                 "client": "Klien",
-                "create": "Create",
+                "create": "Proyek Internal",
                 "all_categories": "Semua Kategori"
             },
             "categories": {
@@ -589,28 +591,195 @@
     },
     "dashboard": {
         "header": {
-            "title": "Ringkasan Dashboard",
-            "subtitle": "Analisis real-time untuk website portofolio Anda"
+            "title": "Dashboard Admin",
+            "subtitle": "Pantau aktivitas toko dan pesanan Anda",
+            "logout": "Keluar",
+            "logout_confirm": {
+                "title": "Konfirmasi Keluar",
+                "message": "Apakah Anda yakin ingin keluar dari dashboard?",
+                "confirm": "Ya, Keluar",
+                "cancel": "Batal"
+            }
         },
         "actions": {
             "refresh": "Segarkan Data"
         },
         "filters": {
-            "days": "Hari"
+            "days": "Hari",
+            "last_7_days": "7 Hari Terakhir",
+            "last_30_days": "30 Hari Terakhir",
+            "specific_month": "Bulan Tertentu",
+            "specific_year": "Tahun Terentu",
+            "status_all": "Semua Status",
+            "status_pending": "Menunggu",
+            "status_completed": "Selesai",
+            "status_cancelled": "Dibatalkan"
         },
+        "months": [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+        ],
         "stats": {
-            "live": "+ Langsung",
-            "total_views": "Total Kunjungan",
-            "total_orders": "Total Pesanan (WhatsApp)",
-            "conversion_rate": "Tingkat Konversi"
+            "total_views": "Total Pengunjung",
+            "total_orders": "Total Pesanan",
+            "conversion_rate": "Tingkat Konversi",
+            "total_revenue": "Total Pendapatan",
+            "cancelled_orders": "Pesanan Dibatalkan",
+            "orders_suffix": "Pesanan",
+            "live": "LIVE"
         },
         "charts": {
-            "traffic_overview": "Trafik (7 Hari Terakhir)"
+            "traffic_overview": "Trafik & Pendapatan",
+            "views": "Kunjungan",
+            "orders": "Pesanan",
+            "revenue": "Pendapatan",
+            "cancelled_revenue": "Dibatalkan"
+        },
+        "portfolio": {
+            "title": "Manajemen Portofolio",
+            "subtitle": "Kelola proyek portofolio situs web Anda secara dinamis",
+            "tabs": {
+                "overview": "Ikhtisar",
+                "portfolio": "Portofolio"
+            },
+            "migrate_button": "Migrasi Data",
+            "add_button": "Tambah Proyek",
+            "search_placeholder": "Cari proyek berdasarkan nama...",
+            "table": {
+                "project": "Proyek",
+                "category": "Kategori",
+                "client_type": "Tipe Klien",
+                "actions": "Aksi",
+                "empty": "Proyek tidak ditemukan. Tambah proyek pertama Anda!"
+            },
+            "form": {
+                "add_title": "Tambah Proyek Baru",
+                "edit_title": "Edit Proyek",
+                "sections": {
+                    "basic": "Informasi Dasar",
+                    "content": "Konten & Lokalisasi",
+                    "meta": "Meta & Info Tambahan"
+                },
+                "labels": {
+                    "name_id": "Nama Proyek (Indo)",
+                    "name_en": "Nama Proyek (Inggris)",
+                    "category": "Kategori",
+                    "client_type": "Tipe Klien",
+                    "thumbnail": "URL Gambar",
+                    "tech": "Teknologi",
+                    "demo": "Link Demo/Situs Web",
+                    "features_id": "Fitur (Indo)",
+                    "features_en": "Fitur (Inggris)"
+                },
+                "placeholders": {
+                    "name": "Masukkan nama proyek...",
+                    "type": "mis. Aplikasi Web",
+                    "short_desc": "Ringkasan singkat...",
+                    "full_desc": "Detail proyek lengkap...",
+                    "duration": "mis. 1 Minggu",
+                    "features": "Fitur 1, Fitur 2, ...",
+                    "tech": "React, Next.js, Tailwind...",
+                    "demo": "https://..."
+                },
+                "client_types": {
+                    "create": "Proyek Internal",
+                    "client": "Proyek Klien"
+                },
+                "buttons": {
+                    "save": "Simpan Proyek",
+                    "update": "Perbarui Proyek",
+                    "cancel": "Batal"
+                },
+                "validation": {
+                    "required": "Bidang ini wajib diisi",
+                    "invalid_url": "Masukkan URL yang valid (dimulai dengan http:// atau https://)",
+                    "at_least_one": "Masukkan setidaknya satu item",
+                    "save_error": "Gagal menyimpan proyek: "
+                },
+                "unsaved_changes": {
+                    "title": "Buang Perubahan?",
+                    "message": "Anda memiliki perubahan yang belum disimpan. Yakin ingin menutup formulir ini?",
+                    "confirm": "Ya, Buang",
+                    "cancel": "Lanjut Edit"
+                },
+                "success": {
+                    "project_saved": "Proyek berhasil disimpan!",
+                    "project_updated": "Proyek berhasil diperbarui!"
+                }
+            },
+            "migration": {
+                "title": "Migrasi Proyek yang Ada",
+                "description": "Ini akan memindahkan 12 proyek yang saat ini ada di kode sumber ke database Supabase Anda. Ini hanya boleh dilakukan sekali.",
+                "button": "Mulai Migrasi",
+                "success_message": "Berhasil memigrasi {{count}} proyek!",
+                "error_prefix": "Migrasi gagal: "
+            },
+            "delete_confirm": {
+                "title": "Hapus Proyek?",
+                "message": "Proyek ini akan dihapus secara permanen dari portofolio Anda. Apakah Anda yakin?",
+                "confirm": "Ya, Hapus",
+                "cancel": "Batal"
+            },
+            "stats": {
+                "total_projects": "Total Proyek",
+                "client_projects": "Proyek Client",
+                "create_projects": "Proyek Internal"
+            },
+            "pagination": {
+                "showing": "Menampilkan",
+                "to": "sampai",
+                "of": "dari",
+                "projects": "proyek",
+                "per_page": "Per halaman"
+            }
         },
         "recent_orders": {
             "title": "Pesanan Terbaru",
             "empty": "Belum ada pesanan terbaru",
-            "new_order_label": "Klik Pesanan Baru"
+            "search_placeholder": "Cari nama atau tanggal...",
+            "new_order_label": "Pesanan Baru",
+            "order_form_prefix": "Formulir Pesanan",
+            "status": {
+                "pending": "Menunggu",
+                "completed": "Selesai",
+                "cancelled": "Dibatalkan"
+            },
+            "actions": {
+                "edit": "Edit Pesanan",
+                "delete": "Hapus",
+                "save": "Simpan Perubahan",
+                "cancel": "Batal",
+                "delete_confirm": {
+                    "title": "Hapus Pesanan?",
+                    "message": "Pesanan ini akan dihapus secara permanen dari sistem. Anda yakin?",
+                    "confirm": "Ya, Hapus",
+                    "cancel": "Batal"
+                },
+                "update_success": "Pesanan berhasil diperbarui!",
+                "logout_success": "Berhasil keluar! Kembali ke Beranda...",
+                "edit_confirm": {
+                    "title": "Batalkan Perubahan?",
+                    "message": "Perubahan yang Anda buat belum disimpan. Yakin ingin keluar?",
+                    "confirm": "Ya, Batalkan",
+                    "cancel": "Lanjutkan Edit"
+                }
+            },
+            "fields": {
+                "customer": "Nama Pelanggan",
+                "details": "Detail Pesanan",
+                "total": "Total Harga",
+                "status": "Status"
+            }
         },
         "footer": {
             "note": "Dashboard ini menampilkan analitik sederhana berdasarkan pelacakan peristiwa. \"Views\" adalah pemuatan halaman dan \"Orders\" adalah klik pada tombol WhatsApp. Data disinkronkan secara real-time."
@@ -619,6 +788,7 @@
     "login": {
         "title": "Akses Admin",
         "subtitle": "Silakan login untuk mengakses dashboard",
+        "success_title": "Berhasil!",
         "username": "Username",
         "password": "Password",
         "username_placeholder": "Masukkan username",

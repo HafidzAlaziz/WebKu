@@ -1,188 +1,46 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { usePortfolio } from '../../hooks/usePortfolio';
 import ProjectCard from './ProjectCard';
 import ProjectModal from './ProjectModal';
 
 const ProjectGallery = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const [selectedProject, setSelectedProject] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [sourceFilter, setSourceFilter] = useState('All');
     const [filter, setFilter] = useState('All');
     const [visibleCount, setVisibleCount] = useState(3);
 
-    // Get projects data from translations
-    const projectsData = useMemo(() => [
-        {
-            id: -1,
-            name: t('portfolio.projects.professional_service.name'),
-            category: 'landing_page',
-            type: t('portfolio.projects.professional_service.type'),
-            thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2026&auto=format&fit=crop",
-            shortDescription: t('portfolio.projects.professional_service.short_desc'),
-            fullDescription: t('portfolio.projects.professional_service.full_desc'),
-            duration: "1 " + t('common.day', { count: 1 }),
-            client: "Create",
-            demoLink: "https://professional-service-topaz.vercel.app/",
-            technologies: ["React", "Tailwind CSS", "Framer Motion", "Vercel"],
-            features: t('portfolio.projects.professional_service.features', { returnObjects: true })
-        },
-        {
-            id: 0,
-            name: t('portfolio.projects.umkm_store.name'),
-            category: 'online_store',
-            type: t('portfolio.projects.umkm_store.type'),
-            thumbnail: "https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=2070&auto=format&fit=crop",
-            shortDescription: t('portfolio.projects.umkm_store.short_desc'),
-            fullDescription: t('portfolio.projects.umkm_store.full_desc'),
-            duration: "1 " + t('common.day', { count: 1 }),
-            client: "Create",
-            demoLink: "https://umkm-ivory.vercel.app/",
-            technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
-            features: t('portfolio.projects.umkm_store.features', { returnObjects: true })
-        },
-        {
-            id: 1,
-            name: t('portfolio.projects.vayana.name'),
-            category: 'company_profile',
-            type: t('portfolio.projects.vayana.type'),
-            thumbnail: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop",
-            shortDescription: t('portfolio.projects.vayana.short_desc'),
-            fullDescription: t('portfolio.projects.vayana.full_desc'),
-            duration: "1 " + t('common.day', { count: 1 }),
-            client: "Create",
-            demoLink: "https://vayana-hazel.vercel.app/",
-            technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
-            features: t('portfolio.projects.vayana.features', { returnObjects: true })
-        },
-        {
-            id: 2,
-            name: t('portfolio.projects.aura_visuals.name'),
-            category: 'company_profile',
-            type: t('portfolio.projects.aura_visuals.type'),
-            thumbnail: "https://company-profile-xi-indol.vercel.app/images/portfolio-1.jpg",
-            shortDescription: t('portfolio.projects.aura_visuals.short_desc'),
-            fullDescription: t('portfolio.projects.aura_visuals.full_desc'),
-            duration: "1 " + t('common.day', { count: 1 }),
-            client: "Create",
-            demoLink: "https://company-profile-xi-indol.vercel.app/",
-            technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "Vercel"],
-            features: t('portfolio.projects.aura_visuals.features', { returnObjects: true })
-        },
-        {
-            id: 3,
-            name: t('portfolio.projects.fashion_store.name'),
-            category: 'online_store',
-            type: t('portfolio.projects.fashion_store.type'),
-            thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-            shortDescription: t('portfolio.projects.fashion_store.short_desc'),
-            fullDescription: t('portfolio.projects.fashion_store.full_desc'),
-            duration: "3 " + t('common.week', { count: 3 }),
-            client: "Client",
-            demoLink: "",
-            technologies: ["React", "Tailwind CSS", "Node.js", "MongoDB", "Stripe"],
-            features: t('portfolio.projects.fashion_store.features', { returnObjects: true })
-        },
-        {
-            id: 4,
-            name: t('portfolio.projects.tech_startup.name'),
-            category: 'company_profile',
-            type: t('portfolio.projects.tech_startup.type'),
-            thumbnail: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop",
-            shortDescription: t('portfolio.projects.tech_startup.short_desc'),
-            fullDescription: t('portfolio.projects.tech_startup.full_desc'),
-            duration: "2 " + t('common.week', { count: 2 }),
-            client: "Client",
-            demoLink: "",
-            technologies: ["Next.js", "Tailwind CSS", "Framer Motion", "EmailJS"],
-            features: t('portfolio.projects.tech_startup.features', { returnObjects: true })
-        },
-        {
-            id: 5,
-            name: t('portfolio.projects.saas_product.name'),
-            category: 'landing_page',
-            type: t('portfolio.projects.saas_product.type'),
-            thumbnail: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
-            shortDescription: t('portfolio.projects.saas_product.short_desc'),
-            fullDescription: t('portfolio.projects.saas_product.full_desc'),
-            duration: "1 " + t('common.week', { count: 1 }),
-            client: "Client",
-            demoLink: "",
-            technologies: ["React", "Tailwind CSS", "Vite", "Google Analytics"],
-            features: t('portfolio.projects.saas_product.features', { returnObjects: true })
-        },
-        {
-            id: 6,
-            name: t('portfolio.projects.restaurant.name'),
-            category: 'online_store',
-            type: t('portfolio.projects.restaurant.type'),
-            thumbnail: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
-            shortDescription: t('portfolio.projects.restaurant.short_desc'),
-            fullDescription: t('portfolio.projects.restaurant.full_desc'),
-            duration: "2 " + t('common.week', { count: 2 }),
-            client: "Client",
-            demoLink: "",
-            technologies: ["React", "Tailwind CSS", "Firebase", "WhatsApp API"],
-            features: t('portfolio.projects.restaurant.features', { returnObjects: true })
-        },
-        {
-            id: 7,
-            name: t('portfolio.projects.photographer.name'),
-            category: 'portfolio',
-            type: t('portfolio.projects.photographer.type'),
-            thumbnail: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=800&h=600&fit=crop",
-            shortDescription: t('portfolio.projects.photographer.short_desc'),
-            fullDescription: t('portfolio.projects.photographer.full_desc'),
-            duration: "1.5 " + t('common.week', { count: 1.5 }),
-            client: "Client",
-            demoLink: "",
-            technologies: ["Next.js", "Tailwind CSS", "Cloudinary", "Lightbox"],
-            features: t('portfolio.projects.photographer.features', { returnObjects: true })
-        },
-        {
-            id: 8,
-            name: t('portfolio.projects.edu_platform.name'),
-            category: 'web_app',
-            type: t('portfolio.projects.edu_platform.type'),
-            thumbnail: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&h=600&fit=crop",
-            shortDescription: t('portfolio.projects.edu_platform.short_desc'),
-            fullDescription: t('portfolio.projects.edu_platform.full_desc'),
-            duration: "4 " + t('common.week', { count: 4 }),
-            client: "Client",
-            demoLink: "",
-            technologies: ["React", "Node.js", "MongoDB", "Video.js", "PDF.js"],
-            features: t('portfolio.projects.edu_platform.features', { returnObjects: true })
-        },
-        {
-            id: 9,
-            name: t('portfolio.projects.ai_chatbot.name'),
-            category: 'web_app',
-            type: t('portfolio.projects.ai_chatbot.type'),
-            thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
-            shortDescription: t('portfolio.projects.ai_chatbot.short_desc'),
-            fullDescription: t('portfolio.projects.ai_chatbot.full_desc'),
-            duration: "1 " + t('common.day', { count: 1 }),
-            client: "Create",
-            demoLink: "https://chatbot-dusky-eta-13.vercel.app/",
-            technologies: ["React", "Tailwind CSS", "OpenAI API", "Vercel"],
-            features: t('portfolio.projects.ai_chatbot.features', { returnObjects: true })
-        },
-        {
-            id: 10,
-            name: t('portfolio.projects.handara.name'),
-            category: 'company_profile',
-            type: t('portfolio.projects.handara.type'),
-            thumbnail: "https://images.unsplash.com/photo-1582653291997-079a1c04e5a1?w=800&h=600&fit=crop",
-            shortDescription: t('portfolio.projects.handara.short_desc'),
-            fullDescription: t('portfolio.projects.handara.full_desc'),
-            duration: "1 " + t('common.day', { count: 1 }),
-            client: "Create",
-            demoLink: "https://handara-bali.vercel.app/",
-            technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "React Leaflet"],
-            features: t('portfolio.projects.handara.features', { returnObjects: true })
-        }
-    ], [t]);
+    const {
+        projects: dbProjects,
+        loading,
+        fetchProjects
+    } = usePortfolio();
+
+    useEffect(() => {
+        fetchProjects();
+    }, [fetchProjects]);
+
+    // Map DB projects to the format used by the component
+    const projectsData = useMemo(() => {
+        const lang = i18n.language || 'en';
+        return dbProjects.map(p => ({
+            id: p.id,
+            name: p[`name_${lang}`] || p.name_en,
+            category: p.category,
+            type: p[`type_${lang}`] || p.type_en,
+            thumbnail: p.thumbnail,
+            shortDescription: p[`short_desc_${lang}`] || p.short_desc_en,
+            fullDescription: p[`full_desc_${lang}`] || p.full_desc_en,
+            duration: p[`duration_${lang}`] || p.duration_en,
+            client: p.client_type,
+            demoLink: p.demo_link,
+            technologies: p.technologies || [],
+            features: p[`features_${lang}`] || p.features_en || []
+        }));
+    }, [dbProjects, i18n.language]);
 
     const categories = [
         { key: 'All', label: t('portfolio.gallery.filters.all_categories') },
@@ -308,26 +166,35 @@ const ProjectGallery = () => {
                 </motion.div>
 
                 {/* Projects Grid */}
-                <motion.div
-                    layout
-                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
-                >
-                    {displayedProjects.map((project, index) => (
+                {loading ? (
+                    <div className="flex flex-col items-center justify-center py-20">
+                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium">{t('common.loading')}</p>
+                    </div>
+                ) : (
+                    <>
                         <motion.div
-                            key={project.id}
                             layout
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            transition={{ delay: index * 0.05, duration: 0.3 }}
+                            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"
                         >
-                            <ProjectCard
-                                project={project}
-                                onClick={handleProjectClick}
-                            />
+                            {displayedProjects.map((project, index) => (
+                                <motion.div
+                                    key={project.id}
+                                    layout
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                                >
+                                    <ProjectCard
+                                        project={project}
+                                        onClick={handleProjectClick}
+                                    />
+                                </motion.div>
+                            ))}
                         </motion.div>
-                    ))}
-                </motion.div>
+                    </>
+                )}
 
                 {/* Show More / Show Less Button */}
                 {finalFilteredProjects.length > 3 && (
