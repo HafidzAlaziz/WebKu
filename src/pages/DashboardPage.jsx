@@ -6,7 +6,8 @@ import {
     ShoppingCart,
     TrendingUp,
     Clock,
-    AlertCircle
+    AlertCircle,
+    RefreshCcw
 } from 'lucide-react';
 import { useTracker } from '../hooks/useTracker';
 import TrafficChart from '../components/TrafficChart';
@@ -21,8 +22,10 @@ const DashboardPage = () => {
     const [filterType, setFilterType] = useState('7d'); // 7d, 30d, month, year
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+    const [isRefreshing, setIsRefreshing] = useState(false);
 
-    const refreshData = () => {
+    const refreshData = async () => {
+        setIsRefreshing(true);
         let filter = { type: 'days', value: 7 };
 
         if (filterType === '7d') filter = { type: 'days', value: 7 };
@@ -30,7 +33,10 @@ const DashboardPage = () => {
         else if (filterType === 'month') filter = { type: 'month', value: { year: selectedYear, month: selectedMonth } };
         else if (filterType === 'year') filter = { type: 'year', value: selectedYear };
 
-        refresh(filter);
+        await refresh(filter);
+
+        // Add a small delay for visual feedback if it's too fast
+        setTimeout(() => setIsRefreshing(false), 500);
     };
 
     useEffect(() => {
@@ -104,132 +110,138 @@ const DashboardPage = () => {
 
                             <button
                                 onClick={() => refreshData()}
-                                className="px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors flex items-center gap-2"
+                                disabled={isRefreshing}
+                                className={`px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors flex items-center gap-2 ${isRefreshing ? 'opacity-75 cursor-not-allowed' : ''}`}
                             >
-                                <TrendingUp size={18} />
-                                <span className="hidden sm:inline">{t('dashboard.actions.refresh')}</span>
+                                <RefreshCcw size={18} className={isRefreshing ? 'animate-spin' : ''} />
+                                <span className="hidden sm:inline">
+                                    {isRefreshing ? t('dashboard.actions.refreshing') || 'Refreshing...' : t('dashboard.actions.refresh')}
+                                </span>
                             </button>
                         </div>
                     </div>
 
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                        {/* Total Views */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
-                        >
-                            <div className="flex justify-between items-start mb-4">
-                                <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl text-blue-600 dark:text-blue-400">
-                                    <Users size={24} />
+                    {/* Content Wrapper for Refresh Animation */}
+                    <div className={`transition-opacity duration-300 ${isRefreshing ? 'opacity-50' : 'opacity-100'}`}>
+                        {/* Stats Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                            {/* Total Views */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
+                            >
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl text-blue-600 dark:text-blue-400">
+                                        <Users size={24} />
+                                    </div>
+                                    <span className="text-xs font-semibold text-green-500 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">
+                                        {t('dashboard.stats.live')}
+                                    </span>
                                 </div>
-                                <span className="text-xs font-semibold text-green-500 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">
-                                    {t('dashboard.stats.live')}
-                                </span>
-                            </div>
-                            <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
-                                {stats.totalViews}
-                            </h3>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">
-                                {t('dashboard.stats.total_views')}
-                            </p>
-                        </motion.div>
+                                <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+                                    {stats.totalViews}
+                                </h3>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+                                    {t('dashboard.stats.total_views')}
+                                </p>
+                            </motion.div>
 
-                        {/* Total Orders */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
-                        >
-                            <div className="flex justify-between items-start mb-4">
-                                <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl text-purple-600 dark:text-purple-400">
-                                    <ShoppingCart size={24} />
+                            {/* Total Orders */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
+                            >
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl text-purple-600 dark:text-purple-400">
+                                        <ShoppingCart size={24} />
+                                    </div>
                                 </div>
-                            </div>
-                            <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
-                                {stats.totalOrders}
-                            </h3>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">
-                                {t('dashboard.stats.total_orders')}
-                            </p>
-                        </motion.div>
+                                <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+                                    {stats.totalOrders}
+                                </h3>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+                                    {t('dashboard.stats.total_orders')}
+                                </p>
+                            </motion.div>
 
-                        {/* Conversion Rate */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
-                        >
-                            <div className="flex justify-between items-start mb-4">
-                                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl text-amber-600 dark:text-amber-400">
-                                    <BarChart3 size={24} />
+                            {/* Conversion Rate */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3 }}
+                                className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
+                            >
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl text-amber-600 dark:text-amber-400">
+                                        <BarChart3 size={24} />
+                                    </div>
                                 </div>
-                            </div>
-                            <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
-                                {stats.totalViews > 0
-                                    ? ((stats.totalOrders / stats.totalViews) * 100).toFixed(1)
-                                    : 0
-                                }%
-                            </h3>
-                            <p className="text-sm text-slate-500 dark:text-slate-400">
-                                {t('dashboard.stats.conversion_rate')}
-                            </p>
-                        </motion.div>
-                    </div>
-
-                    {/* Main Chart */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <div
-                            className="lg:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
-                        >
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-                                {t('dashboard.charts.traffic_overview')}
-                            </h3>
-                            <TrafficChart data={stats.viewsHistory} />
+                                <h3 className="text-3xl font-bold text-slate-900 dark:text-white mb-1">
+                                    {stats.totalViews > 0
+                                        ? ((stats.totalOrders / stats.totalViews) * 100).toFixed(1)
+                                        : 0
+                                    }%
+                                </h3>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+                                    {t('dashboard.stats.conversion_rate')}
+                                </p>
+                            </motion.div>
                         </div>
 
-                        {/* Recent Activity */}
-                        <motion.div
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.5 }}
-                            className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
-                        >
-                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-                                <Clock size={20} className="text-slate-400" />
-                                {t('dashboard.recent_orders.title')}
-                            </h3>
-                            <div className="space-y-4">
-                                {stats.recentOrders.length === 0 ? (
-                                    <div className="text-center py-8 text-slate-400">
-                                        {t('dashboard.recent_orders.empty')}
-                                    </div>
-                                ) : (
-                                    stats.recentOrders.map((order) => (
-                                        <div key={order.id} className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
-                                            <div className="p-2 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-lg shrink-0">
-                                                <ShoppingCart size={16} />
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-medium text-slate-900 dark:text-white">
-                                                    {t('dashboard.recent_orders.new_order_label')}
-                                                </p>
-                                                <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                    {order.details}
-                                                </p>
-                                                <p className="text-[10px] text-slate-400 mt-1">
-                                                    {order.date}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    ))
-                                )}
+                        {/* Main Chart */}
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div
+                                className="lg:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
+                            >
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
+                                    {t('dashboard.charts.traffic_overview')}
+                                </h3>
+                                <TrafficChart data={stats.viewsHistory} />
                             </div>
-                        </motion.div>
+
+                            {/* Recent Activity */}
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.5 }}
+                                className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
+                            >
+                                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                                    <Clock size={20} className="text-slate-400" />
+                                    {t('dashboard.recent_orders.title')}
+                                </h3>
+                                <div className="space-y-4">
+                                    {stats.recentOrders.length === 0 ? (
+                                        <div className="text-center py-8 text-slate-400">
+                                            {t('dashboard.recent_orders.empty')}
+                                        </div>
+                                    ) : (
+                                        stats.recentOrders.map((order) => (
+                                            <div key={order.id} className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl">
+                                                <div className="p-2 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-lg shrink-0">
+                                                    <ShoppingCart size={16} />
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-medium text-slate-900 dark:text-white">
+                                                        {t('dashboard.recent_orders.new_order_label')}
+                                                    </p>
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                                                        {order.details}
+                                                    </p>
+                                                    <p className="text-[10px] text-slate-400 mt-1">
+                                                        {order.date}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
 
                     {/* Note */}

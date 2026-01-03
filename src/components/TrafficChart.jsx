@@ -8,14 +8,38 @@ import {
     Tooltip,
     ResponsiveContainer
 } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 const TrafficChart = ({ data }) => {
+    const { t, i18n } = useTranslation();
+
     // 1. Memoize data to prevent unnecessary re-processing
     // Ensure we always have an array
     const chartData = useMemo(() => {
         if (!Array.isArray(data)) return [];
-        return data; // Assume data is already formatted correctly by the hook
+        return data;
     }, [data]);
+
+    const formatDate = (dateStr) => {
+        if (!dateStr) return '';
+        const date = new Date(dateStr);
+
+        // Map app language codes to standard locale strings
+        const localeMap = {
+            'en': 'en-US',
+            'id': 'id-ID',
+            'es': 'es-ES',
+            'fr': 'fr-FR',
+            'ja': 'ja-JP'
+        };
+
+        const locale = localeMap[i18n.language] || 'en-US';
+
+        return new Intl.DateTimeFormat(locale, {
+            day: 'numeric',
+            month: 'short'
+        }).format(date);
+    };
 
     return (
         // Container with explicit height constraints
@@ -49,7 +73,8 @@ const TrafficChart = ({ data }) => {
                         tickLine={false}
                         tick={{ fill: '#94A3B8', fontSize: 12 }}
                         dy={10}
-                        interval="preserveEnd"
+                        interval="preserveEnd" // or use a number if too crowded
+                        tickFormatter={(value) => formatDate(value)}
                     />
 
                     <YAxis
@@ -74,11 +99,14 @@ const TrafficChart = ({ data }) => {
                         itemStyle={{ color: '#fff' }}
                         cursor={{ stroke: '#3B82F6', strokeWidth: 1, strokeDasharray: '4 4' }}
                         isAnimationActive={false} // No tooltip animation
+                        labelFormatter={(value) => formatDate(value)}
+                        formatter={(value, name) => [value, t('dashboard.stats.total_views').replace('Total ', '')]}
                     />
 
                     <Area
                         type="monotone"
                         dataKey="views"
+                        name={t('dashboard.stats.total_views')}
                         stroke="#3B82F6"
                         strokeWidth={3}
                         fillOpacity={1}

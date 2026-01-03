@@ -49,10 +49,8 @@ export const useTracker = () => {
                 const dateStr = date.toISOString().split('T')[0];
 
                 // Format date (e.g., "Jan 1" or "01/01" depending on days)
-                const displayDate = date.toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric'
-                });
+                // Use raw date for localized formatting in component
+                const displayDate = dateStr;
 
                 const dayViews = views.filter(v => v.created_at.startsWith(dateStr)).length;
                 const dayOrders = orders.filter(o => o.created_at.startsWith(dateStr)).length;
