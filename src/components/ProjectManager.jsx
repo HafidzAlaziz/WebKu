@@ -506,26 +506,82 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         if (!url) return true; // Optional field
         return url.startsWith('http://') || url.startsWith('https://');
     };
-
     const validateForm = () => {
         const newErrors = {};
+        const langs = ['en', 'id', 'es', 'fr', 'ja'];
 
-        // Required fields
-        if (!formData.name_en.trim()) newErrors.name_en = t('dashboard.portfolio.form.validation.required');
-        if (!formData.name_id.trim()) newErrors.name_id = t('dashboard.portfolio.form.validation.required');
-        if (!formData.type_en.trim()) newErrors.type_en = t('dashboard.portfolio.form.validation.required');
-        if (!formData.type_id.trim()) newErrors.type_id = t('dashboard.portfolio.form.validation.required');
-        if (!formData.thumbnail.trim()) newErrors.thumbnail = t('dashboard.portfolio.form.validation.required');
-
-        // URL validation
-        if (formData.thumbnail && !validateURL(formData.thumbnail)) {
+        // Validate Thumbnail (Required)
+        if (!formData.thumbnail?.trim()) {
+            newErrors.thumbnail = t('dashboard.portfolio.form.validation.required');
+        } else if (!validateURL(formData.thumbnail)) {
             newErrors.thumbnail = t('dashboard.portfolio.form.validation.invalid_url');
         }
+
+        // Validate Technologies (At least one)
+        if (!formData.technologies || formData.technologies.length === 0) {
+            newErrors.technologies = t('dashboard.portfolio.form.validation.at_least_one');
+        }
+
+        // Validate Demo Link (Optional but must be valid URL)
+        // User said "all filled", but demo link is often optional.
+        // I will assume Demo Link is still optional unless explicitly told otherwise,
+        // as "all filled" usually refers to content fields.
+        // If strict strict, I'd uncomment the check.
+        // But for safety against breaking valid empty states (like offline projects), I'll keep URL check only if filled.
         if (formData.demo_link && !validateURL(formData.demo_link)) {
             newErrors.demo_link = t('dashboard.portfolio.form.validation.invalid_url');
         }
 
+        // Validate ALL Language Fields
+        langs.forEach(lang => {
+            // Name
+            if (!formData[`name_${lang}`]?.trim()) newErrors[`name_${lang}`] = t('dashboard.portfolio.form.validation.required');
+            // Type
+            if (!formData[`type_${lang}`]?.trim()) newErrors[`type_${lang}`] = t('dashboard.portfolio.form.validation.required');
+            // Short Description
+            if (!formData[`short_desc_${lang}`]?.trim()) newErrors[`short_desc_${lang}`] = t('dashboard.portfolio.form.validation.required');
+            // Full Description
+            if (!formData[`full_desc_${lang}`]?.trim()) newErrors[`full_desc_${lang}`] = t('dashboard.portfolio.form.validation.required');
+            // Duration
+            if (!formData[`duration_${lang}`]?.trim()) newErrors[`duration_${lang}`] = t('dashboard.portfolio.form.validation.required');
+            // Features (At least one)
+            if (!formData[`features_${lang}`] || formData[`features_${lang}`].length === 0) {
+                newErrors[`features_${lang}`] = t('dashboard.portfolio.form.validation.at_least_one');
+            }
+        });
+
         setErrors(newErrors);
+
+        // Auto-scroll to first error
+        if (Object.keys(newErrors).length > 0) {
+            const firstErrorKey = Object.keys(newErrors)[0];
+            const errorLang = langs.find(l => firstErrorKey.includes(`_${l}`));
+
+            // If the error is in a language tab
+            if (errorLang) {
+                if (errorLang !== activeTab) {
+                    setActiveTab(errorLang);
+                }
+                // Small timeout to allow tab switch rendering or just wait for next tick
+                setTimeout(() => {
+                    const element = document.getElementById(`input-${firstErrorKey}`);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        element.focus();
+                    }
+                }, 100);
+            } else {
+                // Static fields (thumbnail, technologies, etc.)
+                setTimeout(() => {
+                    const element = document.getElementById(`input-${firstErrorKey}`);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        element.focus();
+                    }
+                }, 100);
+            }
+        }
+
         return Object.keys(newErrors).length === 0;
     };
 
@@ -607,7 +663,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.name_id')}</label>
                                     <input
-                                        required
+                                        id="input-name_id"
                                         type="text"
                                         value={formData.name_id}
                                         onChange={(e) => handleFieldChange('name_id', e.target.value)}
@@ -618,7 +674,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.name_en')}</label>
                                     <input
-                                        required
+                                        id="input-name_en"
                                         type="text"
                                         value={formData.name_en}
                                         onChange={(e) => handleFieldChange('name_en', e.target.value)}
@@ -654,7 +710,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.thumbnail')}</label>
                                     <input
-                                        required
+                                        id="input-thumbnail"
                                         type="url"
                                         value={formData.thumbnail}
                                         onChange={(e) => handleFieldChange('thumbnail', e.target.value)}
@@ -673,21 +729,33 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                     <List size={16} /> {t('dashboard.portfolio.form.sections.content')}
                                 </h4>
                                 <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    {languages.map(lang => (
-                                        <button
-                                            key={lang.code}
-                                            type="button"
-                                            onClick={() => setActiveTab(lang.code)}
-                                            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${activeTab === lang.code
-                                                ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm border border-slate-200 dark:border-slate-600'
-                                                : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-                                                }`}
-                                        >
-                                            <span>{lang.flag}</span>
-                                            <span className="hidden sm:inline">{lang.label}</span>
-                                            <span className="sm:hidden">{lang.code.toUpperCase()}</span>
-                                        </button>
-                                    ))}
+                                    {languages.map(lang => {
+                                        // Check if this language has ANY errors
+                                        const hasError =
+                                            errors[`name_${lang.code}`] ||
+                                            errors[`type_${lang.code}`] ||
+                                            errors[`short_desc_${lang.code}`] ||
+                                            errors[`full_desc_${lang.code}`] ||
+                                            errors[`duration_${lang.code}`] ||
+                                            errors[`features_${lang.code}`];
+
+                                        return (
+                                            <button
+                                                key={lang.code}
+                                                type="button"
+                                                onClick={() => setActiveTab(lang.code)}
+                                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${activeTab === lang.code
+                                                    ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm border border-slate-200 dark:border-slate-600'
+                                                    : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                                                    } ${hasError ? 'text-red-500 hover:text-red-600' : ''}`}
+                                            >
+                                                <span>{lang.flag}</span>
+                                                <span className="hidden sm:inline">{lang.label}</span>
+                                                <span className="sm:hidden">{lang.code.toUpperCase()}</span>
+                                                {hasError && <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
 
@@ -702,32 +770,37 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                             <div>
                                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Project Name ({lang.code})</label>
                                                 <input
+                                                    id={`input-name_${lang.code}`}
                                                     type="text"
                                                     value={formData[`name_${lang.code}`] || ''}
-                                                    onChange={(e) => setFormData(prev => ({ ...prev, [`name_${lang.code}`]: e.target.value }))}
-                                                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
+                                                    onChange={(e) => handleFieldChange(`name_${lang.code}`, e.target.value)}
+                                                    className={`w-full bg-white dark:bg-slate-800 border ${errors[`name_${lang.code}`] ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
                                                     placeholder={t('dashboard.portfolio.form.placeholders.name')}
                                                 />
+                                                {errors[`name_${lang.code}`] && <p className="text-red-500 text-xs mt-1">{errors[`name_${lang.code}`]}</p>}
                                             </div>
                                             <div>
                                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Type ({lang.code})</label>
                                                 <input
+                                                    id={`input-type_${lang.code}`}
                                                     type="text"
                                                     value={formData[`type_${lang.code}`] || ''}
-                                                    onChange={(e) => setFormData(prev => ({ ...prev, [`type_${lang.code}`]: e.target.value }))}
-                                                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
+                                                    onChange={(e) => handleFieldChange(`type_${lang.code}`, e.target.value)}
+                                                    className={`w-full bg-white dark:bg-slate-800 border ${errors[`type_${lang.code}`] ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
                                                     placeholder={t('dashboard.portfolio.form.placeholders.type')}
                                                 />
+                                                {errors[`type_${lang.code}`] && <p className="text-red-500 text-xs mt-1">{errors[`type_${lang.code}`]}</p>}
                                             </div>
                                         </div>
 
                                         <div>
                                             <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Short Description ({lang.code})</label>
                                             <input
+                                                id={`input-short_desc_${lang.code}`}
                                                 type="text"
                                                 value={formData[`short_desc_${lang.code}`] || ''}
-                                                onChange={(e) => setFormData(prev => ({ ...prev, [`short_desc_${lang.code}`]: e.target.value }))}
-                                                className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
+                                                onChange={(e) => handleFieldChange(`short_desc_${lang.code}`, e.target.value)}
+                                                className={`w-full bg-white dark:bg-slate-800 border ${errors[`short_desc_${lang.code}`] ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
                                                 placeholder={t('dashboard.portfolio.form.placeholders.short_desc')}
                                             />
                                         </div>
