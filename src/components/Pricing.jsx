@@ -65,11 +65,11 @@ const Pricing = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            className={`relative bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden border ${plan.recommended ? 'border-blue-500 ring-4 ring-blue-500/20' : 'border-slate-100 dark:border-slate-700'
+                            className={`relative bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden border ${plan.recommended ? 'border-primary ring-4 ring-primary/10' : 'border-slate-100 dark:border-slate-700'
                                 } flex flex-col`}
                         >
                             {plan.recommended && (
-                                <div className="absolute top-0 right-0 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
+                                <div className="absolute top-0 right-0 bg-accent text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
                                     Terlaris
                                 </div>
                             )}
@@ -90,7 +90,7 @@ const Pricing = () => {
                                 <ul className="space-y-4 mb-8">
                                     {plan.features.map((feature, idx) => (
                                         <li key={idx} className="flex items-start gap-3 text-slate-600 dark:text-slate-300 text-sm">
-                                            <Check size={18} className="text-green-500 flex-shrink-0 mt-0.5" />
+                                            <Check size={18} className="text-accent flex-shrink-0 mt-0.5" />
                                             <span>{feature}</span>
                                         </li>
                                     ))}
@@ -101,7 +101,7 @@ const Pricing = () => {
                                 <Link
                                     to="/order"
                                     className={`block w-full py-4 text-center rounded-xl font-semibold transition-all ${plan.recommended
-                                        ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-blue-500/30'
+                                        ? 'bg-primary hover:bg-primary-light text-white shadow-lg hover:shadow-primary/30'
                                         : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
                                         }`}
                                 >

@@ -193,8 +193,8 @@ const ChatbotWidget = () => {
             {/* Gradient Definition */}
             <defs>
                 <linearGradient id="robotGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#3B82F6" />
-                    <stop offset="100%" stopColor="#06B6D4" />
+                    <stop offset="0%" stopColor="#059669" />
+                    <stop offset="100%" stopColor="#047857" />
                 </linearGradient>
             </defs>
         </svg>
@@ -231,7 +231,7 @@ const ChatbotWidget = () => {
                     }}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    className="relative w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full shadow-2xl flex items-center justify-center hover:shadow-blue-500/50 transition-all"
+                    className="relative w-20 h-20 bg-gradient-to-br from-primary to-primary-light rounded-full shadow-2xl flex items-center justify-center hover:shadow-primary/50 transition-all border-2 border-white/20"
                     aria-label="Toggle chatbot"
                 >
                     <AnimatePresence mode="wait">
@@ -266,21 +266,24 @@ const ChatbotWidget = () => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 20, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed bottom-32 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-10rem)] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden border-2 border-blue-200 dark:border-blue-900"
+                        className="fixed bottom-32 right-6 z-50 w-96 max-w-[calc(100vw-3rem)] h-[600px] max-h-[calc(100vh-10rem)] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden border-2 border-brand-emerald-100 dark:border-primary-dark"
                     >
                         {/* Header */}
-                        <div className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-5 flex items-center gap-3">
-                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                        <div className="bg-gradient-to-r from-primary via-primary-light to-primary-dark text-white p-5 flex items-center gap-3 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-4 opacity-10 rotate-12">
+                                <Send size={80} />
+                            </div>
+                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30">
                                 <RobotCharacter isBlinking={false} />
                             </div>
-                            <div className="flex-1">
+                            <div className="flex-1 relative z-10">
                                 <h3 className="font-bold text-lg">RoboBot</h3>
-                                <p className="text-xs text-blue-100">Asisten WebKuu • Online</p>
+                                <p className="text-xs text-brand-emerald-50">Asisten WebKuu • Online</p>
                             </div>
                         </div>
 
                         {/* Messages */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-blue-50/50 to-cyan-50/50 dark:from-slate-900 dark:to-slate-900">
+                        <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gradient-to-b from-brand-emerald-50/30 to-brand-gold-50/30 dark:from-slate-900 dark:to-slate-900">
                             {messages.map((message, index) => (
                                 <motion.div
                                     key={index}
@@ -290,8 +293,8 @@ const ChatbotWidget = () => {
                                 >
                                     <div
                                         className={`max-w-[80%] rounded-2xl px-4 py-3 ${message.type === 'user'
-                                            ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white rounded-br-sm'
-                                            : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white rounded-bl-sm shadow-md border border-blue-100 dark:border-slate-700'
+                                            ? 'bg-gradient-to-r from-primary to-primary-light text-white rounded-br-sm shadow-md'
+                                            : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white rounded-bl-sm shadow-md border border-brand-emerald-100 dark:border-slate-700'
                                             }`}
                                     >
                                         <p className="text-sm whitespace-pre-line leading-relaxed">{message.text}</p>
@@ -302,14 +305,14 @@ const ChatbotWidget = () => {
 
                         {/* Quick Actions */}
                         {messages.length <= 2 && (
-                            <div className="p-3 bg-white dark:bg-slate-800 border-t border-blue-100 dark:border-slate-700">
-                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">Pertanyaan cepat:</p>
+                            <div className="p-3 bg-white dark:bg-slate-800 border-t border-brand-emerald-100 dark:border-slate-700">
+                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-bold uppercase tracking-wider">Pertanyaan cepat:</p>
                                 <div className="grid grid-cols-2 gap-2">
                                     {quickActions.map((action, index) => (
                                         <button
                                             key={index}
                                             onClick={() => handleQuickAction(action.query)}
-                                            className="text-xs px-3 py-2 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-slate-700 dark:to-slate-600 hover:from-blue-100 hover:to-cyan-100 dark:hover:from-slate-600 dark:hover:to-slate-500 text-slate-700 dark:text-slate-300 rounded-lg transition-all text-left border border-blue-200 dark:border-slate-600"
+                                            className="text-xs px-3 py-2 bg-brand-emerald-50 dark:bg-slate-700 hover:bg-primary hover:text-white dark:hover:bg-primary-dark text-slate-700 dark:text-slate-200 rounded-lg transition-all text-left border border-brand-emerald-100 dark:border-slate-600 font-medium"
                                         >
                                             {action.text}
                                         </button>
@@ -321,7 +324,7 @@ const ChatbotWidget = () => {
 
 
                         {/* Input */}
-                        <div className="p-4 bg-white dark:bg-slate-800 border-t-2 border-blue-100 dark:border-slate-700">
+                        <div className="p-4 bg-white dark:bg-slate-800 border-t-2 border-brand-emerald-100 dark:border-slate-700">
                             <form
                                 onSubmit={(e) => {
                                     e.preventDefault();
@@ -334,11 +337,11 @@ const ChatbotWidget = () => {
                                     value={inputText}
                                     onChange={(e) => setInputText(e.target.value)}
                                     placeholder="Ketik pertanyaan Anda..."
-                                    className="flex-1 px-4 py-3 rounded-xl border-2 border-blue-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-sm"
+                                    className="flex-1 px-4 py-3 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-sm"
                                 />
                                 <button
                                     type="submit"
-                                    className="px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-xl transition-all shadow-lg hover:shadow-blue-500/30"
+                                    className="px-4 py-3 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white rounded-xl transition-all shadow-lg shadow-primary/20"
                                 >
                                     <Send size={18} />
                                 </button>

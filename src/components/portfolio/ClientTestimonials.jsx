@@ -158,41 +158,46 @@ const ClientTestimonials = () => {
                                 }}
                                 className="w-full"
                             >
-                                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-700 dark:to-slate-600 rounded-2xl p-8 md:p-12 shadow-xl">
+                                <div className="bg-gradient-to-br from-brand-emerald-50 to-brand-gold-50 dark:from-primary dark:to-primary-dark rounded-2xl p-8 md:p-12 shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden">
                                     {/* Quote Icon */}
-                                    <div className="flex justify-center mb-6">
-                                        <div className="p-4 bg-blue-600 rounded-full">
+                                    <div className="flex justify-center mb-8">
+                                        <div className="p-5 bg-primary rounded-2xl rotate-3 shadow-lg shadow-primary/20">
                                             <Quote size={32} className="text-white" />
                                         </div>
                                     </div>
 
                                     {/* Testimonial Text */}
-                                    <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-200 text-center mb-8 leading-relaxed italic">
+                                    <p className="text-xl md:text-2xl text-slate-700 dark:text-slate-100 text-center mb-10 leading-relaxed italic font-medium">
                                         "{currentTestimonial.testimonial}"
                                     </p>
 
                                     {/* Client Info */}
                                     <div className="flex flex-col items-center">
-                                        <img
-                                            src={currentTestimonial.avatar}
-                                            alt={currentTestimonial.name}
-                                            className="w-20 h-20 rounded-full mb-4 border-4 border-white dark:border-slate-800 shadow-lg"
-                                            loading="lazy"
-                                        />
-                                        <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+                                        <div className="relative mb-4">
+                                            <img
+                                                src={currentTestimonial.avatar}
+                                                alt={currentTestimonial.name}
+                                                className="w-24 h-24 rounded-full border-4 border-white dark:border-slate-800 shadow-xl"
+                                                loading="lazy"
+                                            />
+                                            <div className="absolute -bottom-2 -right-2 p-2 bg-accent rounded-full text-white shadow-lg">
+                                                <Quote size={12} fill="currentColor" />
+                                            </div>
+                                        </div>
+                                        <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
                                             {currentTestimonial.name}
                                         </h4>
-                                        <p className="text-blue-600 dark:text-blue-400 font-medium mb-3">
+                                        <p className="text-primary dark:text-brand-emerald-400 font-bold mb-4 uppercase tracking-widest text-sm">
                                             {currentTestimonial.project}
                                         </p>
 
                                         {/* Rating Stars */}
-                                        <div className="flex gap-1">
+                                        <div className="flex gap-1.5 p-2 bg-white/50 dark:bg-black/20 rounded-full backdrop-blur-sm">
                                             {[...Array(currentTestimonial.rating)].map((_, i) => (
                                                 <Star
                                                     key={i}
-                                                    size={20}
-                                                    className="text-yellow-400 fill-yellow-400"
+                                                    size={18}
+                                                    className="text-accent fill-accent"
                                                 />
                                             ))}
                                         </div>
@@ -203,15 +208,15 @@ const ClientTestimonials = () => {
                     </div>
 
                     {/* Dots Indicator */}
-                    <div className="flex justify-center gap-2 mt-8">
+                    <div className="flex justify-center gap-3 mt-12">
                         {testimonialsData.map((_, index) => (
                             <button
                                 key={index}
                                 onClick={() => handleDotClick(index)}
-                                className={`transition-all ${index === currentIndex
-                                    ? 'w-8 bg-blue-600'
-                                    : 'w-2 bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500'
-                                    } h-2 rounded-full`}
+                                className={`transition-all duration-300 ${index === currentIndex
+                                    ? 'w-10 bg-primary'
+                                    : 'w-3 bg-slate-300 dark:bg-slate-700 hover:bg-primary-light'
+                                    } h-3 rounded-full`}
                                 aria-label={`Go to testimonial ${index + 1}`}
                             />
                         ))}

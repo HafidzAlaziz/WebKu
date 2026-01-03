@@ -39,19 +39,19 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                 {/* Scrollable Content */}
                                 <div className="overflow-y-auto max-h-[90vh]">
                                     {/* Hero Image */}
-                                    <div className="relative h-80 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-slate-700 dark:to-slate-600">
+                                    <div className="relative h-80 bg-gradient-to-br from-brand-emerald-50 to-brand-gold-50 dark:from-primary-dark dark:to-slate-800">
                                         <img
                                             src={project.thumbnail}
                                             alt={project.name}
                                             className="w-full h-full object-cover"
                                             loading="lazy"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent" />
                                         <div className="absolute bottom-6 left-6 right-6">
                                             <h2 className="text-4xl font-bold text-white mb-2">
                                                 {project.name}
                                             </h2>
-                                            <p className="text-blue-200 text-lg font-medium">
+                                            <p className="text-brand-emerald-50 text-xl font-bold uppercase tracking-wider">
                                                 {project.type}
                                             </p>
                                         </div>
@@ -61,10 +61,10 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                     <div className="p-8">
                                         {/* Description */}
                                         <div className="mb-8">
-                                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+                                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 border-l-4 border-accent pl-4">
                                                 Deskripsi Project
                                             </h3>
-                                            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                                            <p className="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">
                                                 {project.fullDescription}
                                             </p>
                                         </div>
@@ -72,24 +72,24 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                         {/* Project Info Grid */}
                                         <div className="grid md:grid-cols-2 gap-6 mb-8">
                                             {/* Duration */}
-                                            <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                                                <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                                                    <Calendar size={24} className="text-blue-600 dark:text-blue-400" />
+                                            <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+                                                <div className="p-3 bg-brand-emerald-100 dark:bg-primary-dark rounded-xl">
+                                                    <Calendar size={24} className="text-primary dark:text-brand-emerald-400" />
                                                 </div>
                                                 <div>
                                                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
                                                         Lama Pengerjaan
                                                     </p>
-                                                    <p className="font-semibold text-slate-900 dark:text-white">
+                                                    <p className="font-bold text-slate-900 dark:text-white text-lg">
                                                         {project.duration}
                                                     </p>
                                                 </div>
                                             </div>
 
                                             {/* Demo Link */}
-                                            <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl">
-                                                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                                                    <ExternalLink size={24} className="text-green-600 dark:text-green-400" />
+                                            <div className="flex items-start gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700">
+                                                <div className="p-3 bg-brand-gold-100 dark:bg-brand-gold-900/30 rounded-xl">
+                                                    <ExternalLink size={24} className="text-accent dark:text-brand-gold-400" />
                                                 </div>
                                                 <div className="flex-1">
                                                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
@@ -100,13 +100,13 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                                                             href={project.demoLink}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="font-semibold text-blue-600 dark:text-blue-400 hover:underline break-all"
+                                                            className="font-bold text-primary dark:text-brand-emerald-400 hover:text-accent transition-colors break-all text-lg"
                                                         >
-                                                            Lihat Website
+                                                            Kunjungi Website
                                                         </a>
                                                     ) : (
                                                         <p className="font-semibold text-slate-500 dark:text-slate-400 italic">
-                                                            Tidak Tersedia
+                                                            Project Internal / Privat
                                                         </p>
                                                     )}
                                                 </div>
@@ -115,17 +115,17 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
 
                                         {/* Features */}
                                         <div className="mb-8">
-                                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
-                                                Fitur-Fitur
+                                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 border-l-4 border-accent pl-4">
+                                                Fitur-Fitur Unggulan
                                             </h3>
                                             <div className="grid md:grid-cols-2 gap-3">
                                                 {project.features.map((feature, index) => (
                                                     <div
                                                         key={index}
-                                                        className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg"
+                                                        className="flex items-start gap-3 p-4 bg-white dark:bg-slate-700/30 border border-slate-100 dark:border-slate-600 rounded-xl shadow-sm"
                                                     >
-                                                        <CheckCircle size={20} className="text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-                                                        <span className="text-slate-700 dark:text-slate-300">
+                                                        <CheckCircle size={20} className="text-primary dark:text-brand-emerald-400 flex-shrink-0 mt-0.5" />
+                                                        <span className="text-slate-700 dark:text-slate-200 font-medium">
                                                             {feature}
                                                         </span>
                                                     </div>
@@ -135,15 +135,15 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
 
                                         {/* Technologies */}
                                         <div>
-                                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                                                <Code size={28} />
+                                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-3 border-l-4 border-accent pl-4">
+                                                <Code size={28} className="text-primary" />
                                                 Teknologi yang Digunakan
                                             </h3>
                                             <div className="flex flex-wrap gap-3">
                                                 {project.technologies.map((tech, index) => (
                                                     <span
                                                         key={index}
-                                                        className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg shadow-md"
+                                                        className="px-5 py-2.5 bg-gradient-to-r from-primary to-primary-light text-white font-bold rounded-xl shadow-lg shadow-primary/20"
                                                     >
                                                         {tech}
                                                     </span>

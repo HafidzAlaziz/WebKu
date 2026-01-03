@@ -72,6 +72,7 @@ const PortfolioPreview = () => {
                                     src={project.thumbnail}
                                     alt={project.name}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                    loading="lazy"
                                 />
                                 {/* Overlay on Hover */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">

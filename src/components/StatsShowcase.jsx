@@ -8,26 +8,26 @@ const StatsShowcase = () => {
             icon: Award,
             value: "50+",
             label: "Project Selesai",
-            color: "from-blue-500 to-cyan-500"
+            color: "from-primary to-brand-emerald-400"
         },
         {
             icon: Star,
             value: "5.0",
             label: "Rating Bintang",
-            color: "from-yellow-500 to-orange-500",
+            color: "from-accent to-brand-gold-400",
             showStars: true
         },
         {
             icon: Users,
             value: "45+",
             label: "Klien Puas",
-            color: "from-green-500 to-emerald-500"
+            color: "from-brand-emerald-600 to-brand-emerald-400"
         },
         {
             icon: Zap,
             value: "24/7",
             label: "Fast Response",
-            color: "from-purple-500 to-pink-500"
+            color: "from-accent-dark to-accent"
         }
     ];
 
@@ -42,7 +42,7 @@ const StatsShowcase = () => {
                     className="text-center mb-10"
                 >
                     <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                        Dikerjakan Secara <span className="text-blue-600 dark:text-blue-400">Profesional</span> oleh Ahlinya
+                        Dikerjakan Secara <span className="text-primary dark:text-brand-emerald-400">Profesional</span> oleh Ahlinya
                     </h2>
                     <p className="text-slate-600 dark:text-slate-400">
                         Standar kualitas tinggi, dikerjakan langsung oleh ahlinya untuk hasil yang kredibel

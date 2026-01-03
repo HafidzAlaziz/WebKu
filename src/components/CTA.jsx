@@ -21,11 +21,11 @@ Terima kasih! 🙏`;
     const encodedMessage = encodeURIComponent(whatsappMessage);
 
     return (
-        <section id="order" className="py-20 bg-blue-600 relative z-10 overflow-hidden">
+        <section id="order" className="py-20 bg-primary relative z-10 overflow-hidden">
             {/* Background Patterns */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
-                <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white blur-3xl" />
-                <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-white blur-3xl" />
+                <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-brand-gold-100 blur-3xl" />
+                <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-brand-emerald-100 blur-3xl" />
             </div>
 
             <div className="container mx-auto px-6 relative z-10 text-center">
@@ -38,7 +38,7 @@ Terima kasih! 🙏`;
                     <h2 className="text-3xl lg:text-5xl font-bold text-white mb-6">
                         Siap Mewujudkan Website Impian Anda?
                     </h2>
-                    <p className="text-blue-100 text-lg lg:text-xl max-w-2xl mx-auto mb-10">
+                    <p className="text-brand-emerald-50 text-lg lg:text-xl max-w-2xl mx-auto mb-10">
                         Jangan tunda lagi! Konsultasikan kebutuhan website Anda sekarang juga. Selengkapnya bisa order langsung di website ini.
                     </p>
 
@@ -47,7 +47,7 @@ Terima kasih! 🙏`;
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="inline-flex items-center gap-3 px-8 py-4 bg-white hover:bg-slate-50 text-blue-600 font-bold text-lg rounded-full shadow-lg hover:shadow-xl transition-all"
+                                className="inline-flex items-center gap-3 px-8 py-4 bg-white hover:bg-slate-50 text-primary font-bold text-lg rounded-full shadow-lg hover:shadow-xl transition-all"
                             >
                                 <ShoppingCart size={24} />
                                 Order Sekarang!!!
@@ -67,7 +67,7 @@ Terima kasih! 🙏`;
                         </motion.a>
                     </div>
 
-                    <p className="mt-6 text-blue-200 text-sm">
+                    <p className="mt-6 text-brand-emerald-200 text-sm">
                         Respon Cepat 24/7 • Konsultasi Gratis
                     </p>
                 </motion.div>

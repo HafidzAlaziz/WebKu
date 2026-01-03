@@ -4,8 +4,8 @@
     <path d="M32 25L32 46" stroke="url(#logo-gradient)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.3" />
     <defs>
         <linearGradient id="logo-gradient" x1="12" y1="22" x2="52" y2="46" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#2563EB" />
-            <stop offset="1" stop-color="#7C3AED" />
+            <stop stop-color="#064e3b" />
+            <stop offset="1" stop-color="#d97706" />
         </linearGradient>
     </defs>
 </svg>

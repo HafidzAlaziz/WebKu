@@ -7,37 +7,37 @@ const services = [
         icon: <Layout size={32} />,
         title: 'Full Custom Design',
         description: 'Desain website unik sesuai brand identity Anda, bukan template pasaran.',
-        color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
+        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
     },
     {
         icon: <Smartphone size={32} />,
         title: 'Mobile Friendly',
         description: 'Tampilan responsif yang sempurna di semua perangkat (HP, Tablet, Desktop).',
-        color: 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400',
+        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
     },
     {
         icon: <Globe size={32} />,
         title: 'Bebas Request Fitur',
         description: 'Butuh fitur khusus? Kami buatkan sesuai permintaan (Booking, Payment, dll).',
-        color: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400',
+        color: 'bg-brand-gold-100 dark:bg-brand-gold-900/30 text-accent dark:text-accent-light',
     },
     {
         icon: <Building2 size={32} />,
         title: 'Modern Tech Stack',
         description: 'Dibuat dengan teknologi terbaru: React, Next.js, Tailwind, Node.js, dll.',
-        color: 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400',
+        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
     },
     {
         icon: <Search size={32} />,
         title: 'SEO Optimized',
         description: 'Struktur kode yang rapi dan cepat, disukai oleh mesin pencari Google.',
-        color: 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400',
+        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
     },
     {
         icon: <ShoppingBag size={32} />,
         title: 'Support & Maintenance',
         description: 'Kami tidak lari setelah project selesai. Support penuh jika ada kendala.',
-        color: 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400',
+        color: 'bg-brand-emerald-100 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400',
     },
 ];
 
@@ -102,7 +102,7 @@ const Services = () => {
                                 transition={{ delay: idx * 0.2 }}
                                 className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm text-center relative"
                             >
-                                <div className="w-12 h-12 mx-auto bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg mb-4 shadow-lg shadow-blue-500/30">
+                                <div className="w-12 h-12 mx-auto bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg mb-4 shadow-lg shadow-primary/30">
                                     {item.step}
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{item.title}</h3>

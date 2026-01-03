@@ -71,7 +71,7 @@ const Testimonials = () => {
                 </div>
 
                 <div className="max-w-4xl mx-auto relative">
-                    <div className="absolute top-0 left-0 -translate-x-4 -translate-y-4 text-white/5 dark:text-blue-900/20">
+                    <div className="absolute top-0 left-0 -translate-x-4 -translate-y-4 text-white/5 dark:text-brand-emerald-900/20">
                         <Quote size={120} />
                     </div>
 
@@ -85,7 +85,7 @@ const Testimonials = () => {
                                 transition={{ duration: 0.5 }}
                                 className="flex flex-col md:flex-row items-center gap-8 text-center md:text-left w-full"
                             >
-                                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-3xl font-bold border-4 border-blue-50 dark:border-blue-900/50 shadow-md shrink-0">
+                                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-3xl font-bold border-4 border-brand-emerald-50 dark:border-primary-dark/50 shadow-md shrink-0">
                                     {getInitials(testimonials[currentIndex].name)}
                                 </div>
                                 <div>
@@ -94,7 +94,7 @@ const Testimonials = () => {
                                     </p>
                                     <div>
                                         <h4 className="text-lg font-bold text-slate-900 dark:text-white">{testimonials[currentIndex].name}</h4>
-                                        <p className="text-blue-600 dark:text-blue-400 font-medium">{testimonials[currentIndex].role}</p>
+                                        <p className="text-primary dark:text-brand-emerald-400 font-medium">{testimonials[currentIndex].role}</p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -104,13 +104,13 @@ const Testimonials = () => {
                     <div className="flex justify-center gap-4 mt-8">
                         <button
                             onClick={prevSlide}
-                            className="p-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-500 transition-all shadow-sm"
+                            className="p-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-brand-emerald-50 dark:hover:bg-slate-700 hover:text-primary dark:hover:text-brand-emerald-400 hover:border-brand-emerald-200 dark:hover:border-primary transition-all shadow-sm"
                         >
                             <ChevronLeft size={24} />
                         </button>
                         <button
                             onClick={nextSlide}
-                            className="p-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-500 transition-all shadow-sm"
+                            className="p-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-brand-emerald-50 dark:hover:bg-slate-700 hover:text-primary dark:hover:text-brand-emerald-400 hover:border-brand-emerald-200 dark:hover:border-primary transition-all shadow-sm"
                         >
                             <ChevronRight size={24} />
                         </button>

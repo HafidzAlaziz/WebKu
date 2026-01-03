@@ -234,11 +234,11 @@ const OrderPage = () => {
     return (
         <>
             <Navbar />
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-900">
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-brand-emerald-50 to-brand-gold-50 dark:from-slate-900 dark:via-primary-dark dark:to-slate-900">
                 {/* Decorative Background */}
                 <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-blue-200 dark:bg-blue-900/20 rounded-full blur-3xl opacity-20 animate-pulse" />
-                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-200 dark:bg-purple-900/20 rounded-full blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }} />
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-brand-emerald-200 dark:bg-primary-light/10 rounded-full blur-3xl opacity-20 animate-pulse" />
+                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-gold-200 dark:bg-accent/10 rounded-full blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }} />
                 </div>
 
                 <div className="relative z-10 pt-24 pb-16">
@@ -250,15 +250,15 @@ const OrderPage = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="text-center mb-12"
                             >
-                                <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-semibold mb-4">
+                                <div className="inline-flex items-center gap-2 px-6 py-2 bg-brand-emerald-100 dark:bg-primary-dark/50 text-primary dark:text-brand-emerald-400 rounded-full text-sm font-bold mb-4 border border-brand-emerald-200 dark:border-primary-light/20">
                                     <Sparkles size={16} />
-                                    Form Pemesanan Website
+                                    Form Pemesanan Website Premium
                                 </div>
-                                <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4">
-                                    Wujudkan Website <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Impian Anda</span>
+                                <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
+                                    Wujudkan Website <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Impian Anda</span>
                                 </h1>
-                                <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-                                    Isi form di bawah ini dan dapatkan konsultasi gratis dari tim expert kami
+                                <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                                    Isi form di bawah ini dan dapatkan konsultasi GRATIS dari tim expert kami untuk hasil yang kredibel
                                 </p>
                             </motion.div>
 
@@ -267,26 +267,26 @@ const OrderPage = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
-                                className="mb-12"
+                                className="mb-16"
                             >
-                                <h2 className="text-2xl font-bold text-slate-900 dark:text-white text-center mb-8">
-                                    🌟 Keunggulan Kami
+                                <h2 className="text-3xl font-bold text-slate-900 dark:text-white text-center mb-10 border-b-2 border-accent w-fit mx-auto pb-2">
+                                    🌟 Mengapa Memilih WebKuu?
                                 </h2>
-                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                                     {advantages.map((advantage, index) => (
                                         <motion.div
                                             key={index}
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.1 + index * 0.05 }}
-                                            whileHover={{ y: -5 }}
-                                            className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all group"
+                                            whileHover={{ y: -8 }}
+                                            className="bg-white dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border border-slate-100 dark:border-slate-700 hover:shadow-2xl transition-all group"
                                         >
-                                            <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${advantage.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform`}>
+                                            <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${advantage.color === 'from-blue-500 to-cyan-500' ? 'from-primary to-primary-light' : advantage.color === 'from-purple-500 to-pink-500' ? 'from-accent to-accent-light' : advantage.color === 'from-yellow-500 to-orange-500' ? 'from-brand-gold-600 to-brand-gold-400' : advantage.color === 'from-green-500 to-emerald-500' ? 'from-brand-emerald-700 to-brand-emerald-500' : 'from-slate-700 to-slate-500'} flex items-center justify-center text-white mb-6 group-hover:rotate-6 transition-transform shadow-lg`}>
                                                 {advantage.icon}
                                             </div>
-                                            <h3 className="font-bold text-slate-900 dark:text-white mb-2">{advantage.title}</h3>
-                                            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{advantage.description}</p>
+                                            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{advantage.title}</h3>
+                                            <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{advantage.description}</p>
                                         </motion.div>
                                     ))}
                                 </div>
@@ -297,19 +297,25 @@ const OrderPage = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden"
+                                className="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden"
                             >
                                 {/* Form Header */}
-                                <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
-                                    <h2 className="text-2xl font-bold mb-2">📝 Detail Pemesanan</h2>
-                                    <p className="text-blue-100">Lengkapi informasi di bawah ini dengan detail</p>
+                                <div className="bg-gradient-to-r from-primary via-primary-light to-primary-dark p-10 text-white relative">
+                                    <h2 className="text-3xl font-bold mb-3 flex items-center gap-3">
+                                        <Rocket className="text-accent" />
+                                        Detail Pemesanan
+                                    </h2>
+                                    <p className="text-brand-emerald-50 text-lg opacity-90">Lengkapi informasi di bawah ini untuk memulai project Anda</p>
+                                    <div className="absolute top-0 right-0 p-10 opacity-10">
+                                        <Sparkles size={120} />
+                                    </div>
                                 </div>
 
-                                <form onSubmit={handleSubmit} noValidate className="p-8 md:p-12 space-y-6">
+                                <form onSubmit={handleSubmit} noValidate className="p-8 md:p-16 space-y-8">
                                     {/* Nama Lengkap */}
                                     <div>
-                                        <label htmlFor="name" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                            Nama Lengkap <span className="text-red-500">*</span>
+                                        <label htmlFor="name" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
+                                            Nama Lengkap <span className="text-accent">*</span>
                                         </label>
                                         <input
                                             type="text"
@@ -318,14 +324,14 @@ const OrderPage = () => {
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
-                                            className={`w-full px-4 py-3 rounded-lg border-2 ${errors.name
-                                                ? 'border-red-500 dark:border-red-500'
-                                                : 'border-slate-200 dark:border-slate-600'
-                                                } dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all`}
-                                            placeholder="Masukkan nama lengkap Anda"
+                                            className={`w-full px-5 py-4 rounded-xl border-2 ${errors.name
+                                                ? 'border-red-500'
+                                                : 'border-slate-100 dark:border-slate-700'
+                                                } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg`}
+                                            placeholder="Masukkan nama lengkap"
                                         />
                                         {errors.name && (
-                                            <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
+                                            <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
                                                 <AlertCircle size={14} />
                                                 {errors.name}
                                             </p>
@@ -333,10 +339,10 @@ const OrderPage = () => {
                                     </div>
 
                                     {/* Email & Phone */}
-                                    <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="grid md:grid-cols-2 gap-8">
                                         <div>
-                                            <label htmlFor="email" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                                Email <span className="text-red-500">*</span>
+                                            <label htmlFor="email" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
+                                                Email <span className="text-accent">*</span>
                                             </label>
                                             <input
                                                 type="email"
@@ -345,22 +351,22 @@ const OrderPage = () => {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 required
-                                                className={`w-full px-4 py-3 rounded-lg border-2 ${errors.email
-                                                    ? 'border-red-500 dark:border-red-500'
-                                                    : 'border-slate-200 dark:border-slate-600'
-                                                    } dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all`}
+                                                className={`w-full px-5 py-4 rounded-xl border-2 ${errors.email
+                                                    ? 'border-red-500'
+                                                    : 'border-slate-100 dark:border-slate-700'
+                                                    } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg`}
                                                 placeholder="email@example.com"
                                             />
                                             {errors.email && (
-                                                <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
+                                                <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
                                                     <AlertCircle size={14} />
                                                     {errors.email}
                                                 </p>
                                             )}
                                         </div>
                                         <div>
-                                            <label htmlFor="phone" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                                No. WhatsApp <span className="text-red-500">*</span>
+                                            <label htmlFor="phone" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
+                                                No. WhatsApp <span className="text-accent">*</span>
                                             </label>
                                             <input
                                                 type="tel"
@@ -369,14 +375,14 @@ const OrderPage = () => {
                                                 value={formData.phone}
                                                 onChange={handleChange}
                                                 required
-                                                className={`w-full px-4 py-3 rounded-lg border-2 ${errors.phone
-                                                    ? 'border-red-500 dark:border-red-500'
-                                                    : 'border-slate-200 dark:border-slate-600'
-                                                    } dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all`}
-                                                placeholder="08123456789"
+                                                className={`w-full px-5 py-4 rounded-xl border-2 ${errors.phone
+                                                    ? 'border-red-500'
+                                                    : 'border-slate-100 dark:border-slate-700'
+                                                    } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg`}
+                                                placeholder="Contoh: 081234567890"
                                             />
                                             {errors.phone && (
-                                                <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
+                                                <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
                                                     <AlertCircle size={14} />
                                                     {errors.phone}
                                                 </p>
@@ -386,7 +392,7 @@ const OrderPage = () => {
 
                                     {/* Nama Perusahaan */}
                                     <div>
-                                        <label htmlFor="company" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                                        <label htmlFor="company" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
                                             Nama Perusahaan/Bisnis (Opsional)
                                         </label>
                                         <input
@@ -395,56 +401,66 @@ const OrderPage = () => {
                                             name="company"
                                             value={formData.company}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
-                                            placeholder="PT. Contoh Perusahaan"
+                                            className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg"
+                                            placeholder="Masukkan nama perusahaan"
                                         />
                                     </div>
 
                                     {/* Paket & Jenis Website */}
-                                    <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="grid md:grid-cols-2 gap-8">
                                         <div>
-                                            <label htmlFor="package" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                                Pilih Paket <span className="text-red-500">*</span>
+                                            <label htmlFor="package" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
+                                                Pilih Paket Layanan <span className="text-accent">*</span>
                                             </label>
-                                            <select
-                                                id="package"
-                                                name="package"
-                                                value={formData.package}
-                                                onChange={handleChange}
-                                                required
-                                                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
-                                            >
-                                                <option value="starter">Starter / Landing Page - Rp 100rb</option>
-                                                <option value="professional">Professional / UMKM - Rp 1 Juta</option>
-                                                <option value="enterprise">Enterprise / Full Custom - Harga Diskusi</option>
-                                            </select>
+                                            <div className="relative">
+                                                <select
+                                                    id="package"
+                                                    name="package"
+                                                    value={formData.package}
+                                                    onChange={handleChange}
+                                                    required
+                                                    className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer"
+                                                >
+                                                    <option value="starter">Starter / Landing Page - Rp 100rb</option>
+                                                    <option value="professional">Professional / UMKM - Rp 1 Juta</option>
+                                                    <option value="enterprise">Enterprise / Full Custom - Harga Diskusi</option>
+                                                </select>
+                                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                                    <Zap size={20} />
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div>
-                                            <label htmlFor="websiteType" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                                Jenis Website <span className="text-red-500">*</span>
+                                            <label htmlFor="websiteType" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
+                                                Jenis Website <span className="text-accent">*</span>
                                             </label>
-                                            <select
-                                                id="websiteType"
-                                                name="websiteType"
-                                                value={formData.websiteType}
-                                                onChange={handleChange}
-                                                className={`w-full px-4 py-3 rounded-lg border-2 ${errors.websiteType
-                                                    ? 'border-red-500 dark:border-red-500'
-                                                    : 'border-slate-200 dark:border-slate-600'
-                                                    } dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all`}
-                                            >
-                                                <option value="">Pilih jenis website</option>
-                                                <option value="landing-page">Landing Page</option>
-                                                <option value="company-profile">Company Profile</option>
-                                                <option value="ecommerce">Toko Online / E-commerce</option>
-                                                <option value="portfolio">Portfolio</option>
-                                                <option value="umkm">Website UMKM</option>
-                                                <option value="custom-system">Sistem Custom (Booking, CRM, dll)</option>
-                                                <option value="other">Lainnya</option>
-                                            </select>
+                                            <div className="relative">
+                                                <select
+                                                    id="websiteType"
+                                                    name="websiteType"
+                                                    value={formData.websiteType}
+                                                    onChange={handleChange}
+                                                    className={`w-full px-5 py-4 rounded-xl border-2 ${errors.websiteType
+                                                        ? 'border-red-500'
+                                                        : 'border-slate-100 dark:border-slate-700'
+                                                        } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer`}
+                                                >
+                                                    <option value="">Pilih kategori website</option>
+                                                    <option value="landing-page">Landing Page</option>
+                                                    <option value="company-profile">Company Profile</option>
+                                                    <option value="ecommerce">Toko Online / E-commerce</option>
+                                                    <option value="portfolio">Portfolio</option>
+                                                    <option value="umkm">Website UMKM</option>
+                                                    <option value="custom-system">Sistem Custom (Booking, CRM, dll)</option>
+                                                    <option value="other">Lainnya</option>
+                                                </select>
+                                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                                    <Palette size={20} />
+                                                </div>
+                                            </div>
                                             {errors.websiteType && (
-                                                <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
+                                                <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
                                                     <AlertCircle size={14} />
                                                     {errors.websiteType}
                                                 </p>
@@ -454,34 +470,36 @@ const OrderPage = () => {
 
                                     {/* Tech Stack */}
                                     <div>
-                                        <label htmlFor="techStack" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                            Preferensi Tech Stack (Opsional)
+                                        <label htmlFor="techStack" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
+                                            Preferensi Teknologi (Opsional)
                                         </label>
-                                        <select
-                                            id="techStack"
-                                            name="techStack"
-                                            value={formData.techStack}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all"
-                                        >
-                                            <option value="">Pilih tech stack (opsional)</option>
-                                            <option value="react">React.js + Tailwind</option>
-                                            <option value="nextjs">Next.js (SEO Friendly)</option>
-                                            <option value="vue">Vue.js</option>
-                                            <option value="wordpress">WordPress</option>
-                                            <option value="laravel">Laravel + PHP</option>
-                                            <option value="html-css-js">HTML/CSS/JS (Static)</option>
-                                            <option value="other">Lainnya (Tulis di deskripsi)</option>
-                                        </select>
-                                        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                                            💡 Tidak yakin? Biarkan kosong dan kami akan merekomendasikan tech stack terbaik untuk kebutuhan Anda
-                                        </p>
+                                        <div className="relative">
+                                            <select
+                                                id="techStack"
+                                                name="techStack"
+                                                value={formData.techStack}
+                                                onChange={handleChange}
+                                                className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer"
+                                            >
+                                                <option value="">Biarkan kami merekomendasikan yang terbaik</option>
+                                                <option value="react">React.js + Tailwind (Modern & Fast)</option>
+                                                <option value="nextjs">Next.js (High Performance + SEO)</option>
+                                                <option value="vue">Vue.js</option>
+                                                <option value="wordpress">WordPress (CMS Ready)</option>
+                                                <option value="laravel">Laravel + PHP (Robust System)</option>
+                                                <option value="html-css-js">HTML/CSS/JS (Static Content)</option>
+                                                <option value="other">Kebutuhan Lain (Tulis di deskripsi)</option>
+                                            </select>
+                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                                                <Code size={20} />
+                                            </div>
+                                        </div>
                                     </div>
 
                                     {/* Pesan */}
                                     <div>
-                                        <label htmlFor="message" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-                                            Deskripsi Kebutuhan Website <span className="text-red-500">*</span>
+                                        <label htmlFor="message" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
+                                            Ceritakan Kebutuhan Anda <span className="text-accent">*</span>
                                         </label>
                                         <textarea
                                             id="message"
@@ -489,14 +507,14 @@ const OrderPage = () => {
                                             value={formData.message}
                                             onChange={handleChange}
                                             rows="6"
-                                            className={`w-full px-4 py-3 rounded-lg border-2 ${errors.message
-                                                ? 'border-red-500 dark:border-red-500'
-                                                : 'border-slate-200 dark:border-slate-600'
-                                                } dark:bg-slate-700 dark:text-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 outline-none transition-all resize-none`}
-                                            placeholder="Ceritakan tentang website yang Anda inginkan:&#10;- Fitur-fitur yang dibutuhkan&#10;- Referensi website yang Anda suka&#10;- Target audience&#10;- Deadline yang diharapkan&#10;- Informasi lain yang relevan"
+                                            className={`w-full px-6 py-5 rounded-2xl border-2 ${errors.message
+                                                ? 'border-red-500'
+                                                : 'border-slate-100 dark:border-slate-700'
+                                                } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all resize-none text-lg`}
+                                            placeholder="Jelaskan secara detail:&#10;- Apa tujuan website Anda?&#10;- Fitur apa saja yang harus ada?&#10;- Apakah Anda punya referensi desain?&#10;- Berapa lama pengerjaan yang diinginkan?"
                                         />
                                         {errors.message && (
-                                            <p className="mt-1 text-sm text-red-500 flex items-center gap-1">
+                                            <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
                                                 <AlertCircle size={14} />
                                                 {errors.message}
                                             </p>
@@ -506,41 +524,41 @@ const OrderPage = () => {
                                     {/* Status Messages */}
                                     {status.message && (
                                         <motion.div
-                                            initial={{ opacity: 0, y: -10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            className={`p-4 rounded-lg flex items-start gap-3 ${status.success
-                                                ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800'
+                                            initial={{ opacity: 0, scale: 0.95 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            className={`p-6 rounded-2xl flex items-center gap-4 ${status.success
+                                                ? 'bg-brand-emerald-50 dark:bg-primary-dark/30 text-primary dark:text-brand-emerald-400 border border-brand-emerald-200 dark:border-primary-light/20'
                                                 : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800'
                                                 }`}
                                         >
-                                            {status.success ? <CheckCircle className="shrink-0" /> : <AlertCircle className="shrink-0" />}
-                                            <p>{status.message}</p>
+                                            {status.success ? <CheckCircle className="shrink-0 text-primary" size={28} /> : <AlertCircle className="shrink-0 text-red-500" size={28} />}
+                                            <p className="font-bold text-lg">{status.message}</p>
                                         </motion.div>
                                     )}
 
                                     {/* Submit Button */}
                                     <motion.button
-                                        whileHover={{ scale: 1.02 }}
+                                        whileHover={{ scale: 1.02, backgroundColor: '#065f46' }}
                                         whileTap={{ scale: 0.98 }}
                                         type="submit"
                                         disabled={status.loading}
-                                        className={`w-full py-4 rounded-xl font-bold text-lg text-white shadow-xl transition-all ${status.loading
+                                        className={`w-full py-5 rounded-2xl font-extrabold text-xl text-white shadow-2xl transition-all ${status.loading
                                             ? 'bg-slate-400 cursor-not-allowed'
-                                            : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-blue-500/30'
+                                            : 'bg-gradient-to-r from-primary via-primary-light to-primary-dark hover:shadow-primary/40'
                                             }`}
                                     >
                                         {status.loading ? (
-                                            <span className="flex items-center justify-center gap-2">
-                                                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <span className="flex items-center justify-center gap-3">
+                                                <svg className="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                                 </svg>
-                                                Memproses...
+                                                Sedang Memproses...
                                             </span>
                                         ) : (
-                                            <span className="flex items-center justify-center gap-2">
-                                                <Send size={20} />
-                                                Kirim Pesanan
+                                            <span className="flex items-center justify-center gap-3">
+                                                <Send size={24} />
+                                                Kirim Pesanan Sekarang
                                             </span>
                                         )}
                                     </motion.button>

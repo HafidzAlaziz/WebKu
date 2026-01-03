@@ -10,17 +10,17 @@ const Logo = () => (
             <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-indigo-600/20 rounded-xl blur-md"
+                className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-accent/20 rounded-xl blur-md"
             />
-            <div className="relative h-full w-full bg-white dark:bg-slate-900 rounded-xl border-2 border-slate-100 dark:border-slate-800 shadow-xl flex items-center justify-center group-hover:border-blue-500/50 transition-all duration-500 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10">
+            <div className="relative h-full w-full bg-white dark:bg-slate-900 rounded-xl border-2 border-slate-100 dark:border-slate-800 shadow-xl group-hover:border-primary/50 transition-all duration-500 overflow-hidden flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10 transition-transform duration-500 group-hover:scale-110">
                     <path d="M4 8L7 17L12 9L17 17L20 8" stroke="url(#logo-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
                     <path d="M12 9L12 17" stroke="url(#logo-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="opacity-30" />
                     <defs>
                         <linearGradient id="logo-gradient" x1="4" y1="8" x2="20" y2="17" gradientUnits="userSpaceOnUse">
-                            <stop stopColor="#2563EB" />
-                            <stop offset="1" stopColor="#7C3AED" />
+                            <stop stopColor="#064e3b" />
+                            <stop offset="1" stopColor="#d97706" />
                         </linearGradient>
                     </defs>
                 </svg>
@@ -28,9 +28,9 @@ const Logo = () => (
         </div>
         <div className="flex flex-col -space-y-1">
             <span className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white transition-colors">
-                WEB<span className="text-blue-600">KUU</span>
+                WEB<span className="text-primary">KUU</span>
             </span>
-            <span className="text-[10px] font-bold text-blue-600/80 dark:text-blue-400/80 uppercase tracking-widest leading-none">
+            <span className="text-[10px] font-bold text-primary-light dark:text-brand-emerald-400 uppercase tracking-widest leading-none">
                 Digital Solutions
             </span>
         </div>
@@ -137,20 +137,20 @@ const Navbar = () => {
                             <Link
                                 key={link.name}
                                 to={link.href}
-                                className="relative group text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-1"
+                                className="relative group text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-brand-emerald-400 font-medium transition-colors py-1"
                             >
                                 {link.name}
-                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full" />
+                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary dark:bg-brand-emerald-400 transition-all duration-300 group-hover:w-full" />
                             </Link>
                         ) : (
                             <a
                                 key={link.name}
                                 href={link.href}
                                 onClick={(e) => handleScroll(e, link.href)}
-                                className="relative group text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors cursor-pointer py-1"
+                                className="relative group text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-brand-emerald-400 font-medium transition-colors cursor-pointer py-1"
                             >
                                 {link.name}
-                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full" />
+                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary dark:bg-brand-emerald-400 transition-all duration-300 group-hover:w-full" />
                             </a>
                         )
                     ))}
@@ -165,7 +165,7 @@ const Navbar = () => {
                     </motion.button>
                     <Link
                         to="/order"
-                        className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-blue-500/30"
+                        className="px-6 py-2.5 bg-primary hover:bg-primary-light text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-primary/30"
                     >
                         Order Sekarang
                     </Link>
@@ -194,7 +194,7 @@ const Navbar = () => {
 
             {/* Scroll Progress Bar */}
             <motion.div
-                className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 origin-left"
+                className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent origin-left"
                 style={{ scaleX }}
             />
 
@@ -214,27 +214,27 @@ const Navbar = () => {
                                     <Link
                                         key={link.name}
                                         to={link.href}
-                                        className="relative group block w-full py-3 px-4 text-slate-600 dark:text-slate-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors overflow-hidden"
+                                        className="relative group block w-full py-3 px-4 text-slate-600 dark:text-slate-300 font-medium hover:text-primary dark:hover:text-brand-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors overflow-hidden"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         <span className="relative z-10">{link.name}</span>
-                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full" />
+                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary dark:bg-brand-emerald-400 transition-all duration-300 group-hover:w-full" />
                                     </Link>
                                 ) : (
                                     <a
                                         key={link.name}
                                         href={link.href}
                                         onClick={(e) => handleScroll(e, link.href)}
-                                        className="relative group block w-full py-3 px-4 text-slate-600 dark:text-slate-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer overflow-hidden"
+                                        className="relative group block w-full py-3 px-4 text-slate-600 dark:text-slate-300 font-medium hover:text-primary dark:hover:text-brand-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer overflow-hidden"
                                     >
                                         <span className="relative z-10">{link.name}</span>
-                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 dark:bg-blue-400 transition-all duration-300 group-hover:w-full" />
+                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary dark:bg-brand-emerald-400 transition-all duration-300 group-hover:w-full" />
                                     </a>
                                 )
                             ))}
                             <Link
                                 to="/order"
-                                className="block w-full py-3 px-4 mt-2 bg-blue-600 text-white text-center font-semibold rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+                                className="block w-full py-3 px-4 mt-2 bg-primary text-white text-center font-semibold rounded-lg hover:bg-primary-light transition-colors shadow-md"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Order Sekarang

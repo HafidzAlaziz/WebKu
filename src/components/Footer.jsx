@@ -39,12 +39,12 @@ const Footer = () => {
                     <div>
                         <h4 className="text-lg font-bold text-white mb-6">Navigasi Cepat</h4>
                         <ul className="space-y-3">
-                            <li><a href="#home" className="hover:text-blue-400 transition-colors">Home</a></li>
-                            <li><a href="#services" className="hover:text-blue-400 transition-colors">Layanan</a></li>
-                            <li><a href="#pricing" className="hover:text-blue-400 transition-colors">Harga</a></li>
-                            <li><a href="/portfolio" className="hover:text-blue-400 transition-colors">Portfolio</a></li>
-                            <li><a href="#testimonials" className="hover:text-blue-400 transition-colors">Testimoni</a></li>
-                            <li><a href="#order" className="hover:text-blue-400 transition-colors">Order</a></li>
+                            <li><a href="#home" className="hover:text-brand-emerald-400 transition-colors">Home</a></li>
+                            <li><a href="#services" className="hover:text-brand-emerald-400 transition-colors">Layanan</a></li>
+                            <li><a href="#pricing" className="hover:text-brand-emerald-400 transition-colors">Harga</a></li>
+                            <li><a href="/portfolio" className="hover:text-brand-emerald-400 transition-colors">Portfolio</a></li>
+                            <li><a href="#testimonials" className="hover:text-brand-emerald-400 transition-colors">Testimoni</a></li>
+                            <li><a href="#order" className="hover:text-brand-emerald-400 transition-colors">Order</a></li>
                         </ul>
                     </div>
 
@@ -52,11 +52,11 @@ const Footer = () => {
                     <div>
                         <h4 className="text-lg font-bold text-white mb-6">Layanan</h4>
                         <ul className="space-y-3">
-                            <li className="hover:text-blue-400 transition-colors cursor-pointer">Company Profile</li>
-                            <li className="hover:text-blue-400 transition-colors cursor-pointer">Toko Online</li>
-                            <li className="hover:text-blue-400 transition-colors cursor-pointer">Landing Page</li>
-                            <li className="hover:text-blue-400 transition-colors cursor-pointer">Website UMKM</li>
-                            <li className="hover:text-blue-400 transition-colors cursor-pointer">Maintenance</li>
+                            <li className="hover:text-brand-emerald-400 transition-colors cursor-pointer">Company Profile</li>
+                            <li className="hover:text-brand-emerald-400 transition-colors cursor-pointer">Toko Online</li>
+                            <li className="hover:text-brand-emerald-400 transition-colors cursor-pointer">Landing Page</li>
+                            <li className="hover:text-brand-emerald-400 transition-colors cursor-pointer">Website UMKM</li>
+                            <li className="hover:text-brand-emerald-400 transition-colors cursor-pointer">Maintenance</li>
                         </ul>
                     </div>
 
@@ -65,15 +65,15 @@ const Footer = () => {
                         <h4 className="text-lg font-bold text-white mb-6">Hubungi Kami</h4>
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3">
-                                <MapPin size={20} className="text-blue-400 flex-shrink-0 mt-1" />
+                                <MapPin size={20} className="text-brand-emerald-400 flex-shrink-0 mt-1" />
                                 <span>Jawa Barat, Indonesia</span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <Phone size={20} className="text-blue-400 flex-shrink-0" />
+                                <Phone size={20} className="text-brand-emerald-400 flex-shrink-0" />
                                 <span>+62 851 2295 9690</span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <Mail size={20} className="text-blue-400 flex-shrink-0" />
+                                <Mail size={20} className="text-brand-emerald-400 flex-shrink-0" />
                                 <span>web.kuu@gmail.com</span>
                             </li>
                         </ul>

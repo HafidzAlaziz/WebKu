@@ -21,7 +21,7 @@ Terima kasih! 🙏`;
     const encodedMessage = encodeURIComponent(whatsappMessage);
 
     return (
-        <section className="py-20 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 dark:from-blue-800 dark:via-indigo-900 dark:to-purple-900 relative overflow-hidden">
+        <section className="py-20 bg-gradient-to-br from-primary via-primary-light to-primary-dark relative overflow-hidden">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <motion.div
@@ -35,7 +35,7 @@ Terima kasih! 🙏`;
                         repeat: Infinity,
                         ease: "linear"
                     }}
-                    className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"
+                    className="absolute top-0 left-0 w-96 h-96 bg-brand-gold-100/10 rounded-full blur-3xl"
                 />
                 <motion.div
                     animate={{
@@ -48,7 +48,7 @@ Terima kasih! 🙏`;
                         repeat: Infinity,
                         ease: "linear"
                     }}
-                    className="absolute bottom-0 right-0 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl"
+                    className="absolute bottom-0 right-0 w-96 h-96 bg-brand-emerald-400/10 rounded-full blur-3xl"
                 />
             </div>
 
@@ -69,7 +69,7 @@ Terima kasih! 🙏`;
                         className="flex justify-center mb-6"
                     >
                         <div className="p-4 bg-white/20 backdrop-blur-sm rounded-full">
-                            <Sparkles size={48} className="text-white" />
+                            <Sparkles size={48} className="text-accent-light" />
                         </div>
                     </motion.div>
 
@@ -90,9 +90,9 @@ Terima kasih! 🙏`;
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2, duration: 0.5 }}
-                        className="text-xl md:text-2xl text-blue-100 mb-12 leading-relaxed"
+                        className="text-xl md:text-2xl text-brand-emerald-50 mb-12 leading-relaxed"
                     >
-                        Harga mulai dari <span className="font-bold text-yellow-300">100 ribu</span> dan bisa request sesuai kebutuhan bisnis kamu.
+                        Harga mulai dari <span className="font-bold text-accent-light underline decoration-accent-dark decoration-4 underline-offset-4">100 ribu</span> dan bisa request sesuai kebutuhan bisnis kamu.
                     </motion.p>
 
                     {/* CTA Buttons */}
@@ -108,7 +108,7 @@ Terima kasih! 🙏`;
                             <motion.button
                                 whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
                                 whileTap={{ scale: 0.95 }}
-                                className="px-8 py-4 bg-white text-blue-600 font-bold text-lg rounded-full shadow-2xl hover:shadow-white/20 transition-all flex items-center gap-2"
+                                className="px-8 py-4 bg-white text-primary font-bold text-lg rounded-full shadow-2xl hover:shadow-white/20 transition-all flex items-center gap-2"
                             >
                                 <Sparkles size={24} />
                                 Order Sekarang

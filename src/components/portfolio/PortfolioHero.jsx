@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const PortfolioHero = () => {
     return (
-        <section id="portfolio-hero" className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 dark:from-slate-900 dark:via-slate-950 dark:to-black pt-20">
+        <section id="portfolio-hero" className="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-dark via-primary to-primary-dark pt-20">
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <motion.div
@@ -17,7 +17,7 @@ const PortfolioHero = () => {
                         repeat: Infinity,
                         ease: "easeInOut"
                     }}
-                    className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-blue-400/30 to-transparent rounded-full blur-3xl"
+                    className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-brand-emerald-400/30 to-transparent rounded-full blur-3xl"
                 />
                 <motion.div
                     animate={{
@@ -30,7 +30,7 @@ const PortfolioHero = () => {
                         repeat: Infinity,
                         ease: "easeInOut"
                     }}
-                    className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-purple-400/30 to-transparent rounded-full blur-3xl"
+                    className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-brand-gold-400/30 to-transparent rounded-full blur-3xl"
                 />
             </div>
 
