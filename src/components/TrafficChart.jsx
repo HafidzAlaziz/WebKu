@@ -111,7 +111,9 @@ const TrafficChart = ({ data }) => {
                         strokeWidth={3}
                         fillOpacity={1}
                         fill="url(#colorViews)"
-                        isAnimationActive={false} // No chart animation (critical)
+                        isAnimationActive={true}
+                        animationDuration={2500}
+                        animationEasing="ease-in-out"
                     />
                 </AreaChart>
             </ResponsiveContainer>

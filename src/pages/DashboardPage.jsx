@@ -23,6 +23,7 @@ const DashboardPage = () => {
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     const refreshData = async () => {
         setIsRefreshing(true);
@@ -32,6 +33,9 @@ const DashboardPage = () => {
         else if (filterType === '30d') filter = { type: 'days', value: 30 };
         else if (filterType === 'month') filter = { type: 'month', value: { year: selectedYear, month: selectedMonth } };
         else if (filterType === 'year') filter = { type: 'year', value: selectedYear };
+
+        // Force chart re-render by updating key
+        setRefreshKey(prev => prev + 1);
 
         await refresh(filter);
 
@@ -195,12 +199,12 @@ const DashboardPage = () => {
                         {/* Main Chart */}
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                             <div
-                                className="lg:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700"
+                                className={`lg:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 ${isRefreshing ? 'animate-pulse' : ''}`}
                             >
                                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                                     {t('dashboard.charts.traffic_overview')}
                                 </h3>
-                                <TrafficChart data={stats.viewsHistory} />
+                                <TrafficChart key={refreshKey} data={stats.viewsHistory} />
                             </div>
 
                             {/* Recent Activity */}
