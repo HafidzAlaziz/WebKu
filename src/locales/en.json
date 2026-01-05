@@ -202,7 +202,8 @@
                 "company_profile": "Company Profile",
                 "online_store": "Online Store",
                 "landing_page": "Landing Page",
-                "portfolio": "Portfolio"
+                "portfolio": "Portfolio",
+                "others": "Others"
             },
             "buttons": {
                 "show_more": "Show More",
@@ -704,6 +705,7 @@
                     "required": "This field is required",
                     "invalid_url": "Please enter a valid URL (starting with http:// or https://)",
                     "at_least_one": "Please enter at least one item",
+                    "duplicate_name": "Project name already exists. Please use a different name.",
                     "save_error": "Error saving project: "
                 },
                 "unsaved_changes": {

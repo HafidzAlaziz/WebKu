@@ -202,7 +202,8 @@
                 "company_profile": "会社概要",
                 "online_store": "オンラインストア",
                 "landing_page": "ランディングページ",
-                "portfolio": "ポートフォリオ"
+                "portfolio": "ポートフォリオ",
+                "others": "その他"
             },
             "buttons": {
                 "show_more": "もっと見る",
@@ -704,6 +705,7 @@
                     "required": "この項目は必須です",
                     "invalid_url": "有効なURLを入力してください（http://またはhttps://で始まる）",
                     "at_least_one": "少なくとも1つの項目を入力してください",
+                    "duplicate_name": "プロジェクト名は既に存在します。別の名前を使用してください。",
                     "save_error": "プロジェクトの保存エラー: "
                 },
                 "unsaved_changes": {

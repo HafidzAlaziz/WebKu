@@ -48,7 +48,8 @@ const ProjectGallery = () => {
         { key: 'company_profile', label: t('portfolio.gallery.categories.company_profile') },
         { key: 'online_store', label: t('portfolio.gallery.categories.online_store') },
         { key: 'landing_page', label: t('portfolio.gallery.categories.landing_page') },
-        { key: 'portfolio', label: t('portfolio.gallery.categories.portfolio') }
+        { key: 'portfolio', label: t('portfolio.gallery.categories.portfolio') },
+        { key: 'others', label: t('portfolio.gallery.categories.others') }
     ];
 
     const categoryFiltered = filter === 'All'

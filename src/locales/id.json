@@ -202,7 +202,8 @@
                 "company_profile": "Company Profile",
                 "online_store": "Toko Online",
                 "landing_page": "Landing Page",
-                "portfolio": "Portfolio"
+                "portfolio": "Portfolio",
+                "others": "Lainnya"
             },
             "buttons": {
                 "show_more": "Lihat Selengkapnya",
@@ -704,6 +705,7 @@
                     "required": "Bidang ini wajib diisi",
                     "invalid_url": "Masukkan URL yang valid (dimulai dengan http:// atau https://)",
                     "at_least_one": "Masukkan setidaknya satu item",
+                    "duplicate_name": "Nama proyek sudah ada. Gunakan nama yang berbeda.",
                     "save_error": "Gagal menyimpan proyek: "
                 },
                 "unsaved_changes": {

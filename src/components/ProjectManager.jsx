@@ -15,10 +15,13 @@ import {
     Code,
     List,
     ChevronLeft,
-    ChevronRight
+    ChevronRight,
+    Sparkles,
+    RefreshCw
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { translateText } from '../utils/translateUtils';
 
 const ProjectManager = () => {
     const { t, i18n } = useTranslation();
@@ -72,7 +75,8 @@ const ProjectManager = () => {
         { key: 'company_profile', label: t('portfolio.gallery.categories.company_profile') },
         { key: 'online_store', label: t('portfolio.gallery.categories.online_store') },
         { key: 'landing_page', label: t('portfolio.gallery.categories.landing_page') },
-        { key: 'portfolio', label: t('portfolio.gallery.categories.portfolio') }
+        { key: 'portfolio', label: t('portfolio.gallery.categories.portfolio') },
+        { key: 'others', label: t('portfolio.gallery.categories.others') }
     ];
 
     const filteredProjects = projects.filter(p => {
@@ -422,9 +426,11 @@ const DeleteConfirmModal = ({ isOpen, onClose, onConfirm, loading }) => {
 
 const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
     const { t } = useTranslation();
+    const { projects } = usePortfolio(); // Get existing projects for duplicate check
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const [activeTab, setActiveTab] = useState('en');
+    const [isTranslating, setIsTranslating] = useState(false);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
     const [showUnsavedModal, setShowUnsavedModal] = useState(false);
     const [showSuccessToast, setShowSuccessToast] = useState(false);
@@ -452,7 +458,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         duration_en: '', duration_id: '', duration_es: '', duration_fr: '', duration_ja: '',
         client_type: 'Create',
         demo_link: '',
-        technologies: [],
+        technologies: '', // Changed to string
         features_id: [],
         features_en: [],
         features_es: [],
@@ -464,7 +470,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         if (project) {
             const data = {
                 ...project,
-                technologies: project.technologies || [],
+                technologies: Array.isArray(project.technologies) ? project.technologies.join(', ') : (project.technologies || ''),
                 features_id: project.features_id || [],
                 features_en: project.features_en || [],
                 features_es: project.features_es || [],
@@ -484,7 +490,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                 duration_en: '', duration_id: '', duration_es: '', duration_fr: '', duration_ja: '',
                 client_type: 'Create',
                 demo_link: '',
-                technologies: [],
+                technologies: '',
                 features_id: [],
                 features_en: [],
                 features_es: [],
@@ -518,18 +524,23 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         }
 
         // Validate Technologies (At least one)
-        if (!formData.technologies || formData.technologies.length === 0) {
+        const techArray = formData.technologies ? formData.technologies.split(',').map(i => i.trim()).filter(i => i !== '') : [];
+        if (techArray.length === 0) {
             newErrors.technologies = t('dashboard.portfolio.form.validation.at_least_one');
         }
 
         // Validate Demo Link (Optional but must be valid URL)
-        // User said "all filled", but demo link is often optional.
-        // I will assume Demo Link is still optional unless explicitly told otherwise,
-        // as "all filled" usually refers to content fields.
-        // If strict strict, I'd uncomment the check.
-        // But for safety against breaking valid empty states (like offline projects), I'll keep URL check only if filled.
         if (formData.demo_link && !validateURL(formData.demo_link)) {
             newErrors.demo_link = t('dashboard.portfolio.form.validation.invalid_url');
+        }
+
+        // Check for duplicate name_en (only for new projects or if name changed)
+        const isDuplicateName = projects.some(p =>
+            p.name_en?.toLowerCase() === formData.name_en?.toLowerCase().trim() &&
+            p.id !== project?.id
+        );
+        if (isDuplicateName) {
+            newErrors.name_en = t('dashboard.portfolio.form.validation.duplicate_name') || 'Project name already exists';
         }
 
         // Validate ALL Language Fields
@@ -592,8 +603,14 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
             return;
         }
 
+        // Convert technologies string to array before saving
+        const dataToSave = {
+            ...formData,
+            technologies: formData.technologies ? formData.technologies.split(',').map(i => i.trim()).filter(i => i !== '') : []
+        };
+
         setLoading(true);
-        const result = project ? await onSave(project.id, formData) : await onSave(formData);
+        const result = project ? await onSave(project.id, dataToSave) : await onSave(dataToSave);
         if (result.success) {
             setHasUnsavedChanges(false);
             setShowSuccessToast(true);
@@ -602,7 +619,20 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                 onClose();
             }, 2000);
         } else {
-            alert(t('dashboard.portfolio.form.validation.save_error') + result.error);
+            // Check if it's a duplicate key error
+            if (result.error?.includes('duplicate key') || result.error?.includes('name_en_key')) {
+                setErrors({ name_en: t('dashboard.portfolio.form.validation.duplicate_name') || 'Project name already exists' });
+                setActiveTab('en');
+                setTimeout(() => {
+                    const element = document.getElementById('input-name_en');
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        element.focus();
+                    }
+                }, 100);
+            } else {
+                alert(t('dashboard.portfolio.form.validation.save_error') + result.error);
+            }
         }
         setLoading(false);
     };
@@ -628,9 +658,58 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
 
     const handleFieldChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
+        setHasUnsavedChanges(true);
         // Clear error when user starts typing
         if (errors[field]) {
             setErrors(prev => ({ ...prev, [field]: null }));
+        }
+    };
+
+    const handleAutoTranslate = async () => {
+        const sourceLang = activeTab;
+        const targetLangs = languages.map(l => l.code).filter(c => c !== sourceLang);
+
+        const sourceData = {
+            name: formData[`name_${sourceLang}`],
+            type: formData[`type_${sourceLang}`],
+            short_desc: formData[`short_desc_${sourceLang}`],
+            full_desc: formData[`full_desc_${sourceLang}`],
+            duration: formData[`duration_${sourceLang}`],
+            features: formData[`features_${sourceLang}`] || []
+        };
+
+        if (!sourceData.name && !sourceData.full_desc) {
+            alert("Silakan isi nama atau deksripsi dulu sebelum translate.");
+            return;
+        }
+
+        setIsTranslating(true);
+        try {
+            const newFormData = { ...formData };
+
+            await Promise.all(targetLangs.map(async (target) => {
+                // Translate basic fields
+                if (sourceData.name) newFormData[`name_${target}`] = await translateText(sourceData.name, target, sourceLang);
+                if (sourceData.type) newFormData[`type_${target}`] = await translateText(sourceData.type, target, sourceLang);
+                if (sourceData.short_desc) newFormData[`short_desc_${target}`] = await translateText(sourceData.short_desc, target, sourceLang);
+                if (sourceData.full_desc) newFormData[`full_desc_${target}`] = await translateText(sourceData.full_desc, target, sourceLang);
+                if (sourceData.duration) newFormData[`duration_${target}`] = await translateText(sourceData.duration, target, sourceLang);
+
+                // Translate features array
+                if (sourceData.features.length > 0) {
+                    newFormData[`features_${target}`] = await Promise.all(
+                        sourceData.features.map(f => translateText(f, target, sourceLang))
+                    );
+                }
+            }));
+
+            setFormData(newFormData);
+            setHasUnsavedChanges(true);
+        } catch (error) {
+            console.error("Auto-translation failed:", error);
+            alert("Gagal melakukan translasi otomatis. Silakan coba lagi.");
+        } finally {
+            setIsTranslating(false);
         }
     };
 
@@ -728,34 +807,49 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                 <h4 className="text-sm font-bold text-emerald-500 uppercase tracking-widest flex items-center gap-2">
                                     <List size={16} /> {t('dashboard.portfolio.form.sections.content')}
                                 </h4>
-                                <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    {languages.map(lang => {
-                                        // Check if this language has ANY errors
-                                        const hasError =
-                                            errors[`name_${lang.code}`] ||
-                                            errors[`type_${lang.code}`] ||
-                                            errors[`short_desc_${lang.code}`] ||
-                                            errors[`full_desc_${lang.code}`] ||
-                                            errors[`duration_${lang.code}`] ||
-                                            errors[`features_${lang.code}`];
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={handleAutoTranslate}
+                                        disabled={isTranslating}
+                                        className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-[10px] font-bold rounded-lg transition-all shadow-sm shadow-blue-500/20 disabled:opacity-50"
+                                    >
+                                        {isTranslating ? (
+                                            <RefreshCw size={12} className="animate-spin" />
+                                        ) : (
+                                            <Sparkles size={12} />
+                                        )}
+                                        {isTranslating ? 'Translating...' : 'Auto Translate All'}
+                                    </button>
+                                    <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
+                                        {languages.map(lang => {
+                                            // Check if this language has ANY errors
+                                            const hasError =
+                                                errors[`name_${lang.code}`] ||
+                                                errors[`type_${lang.code}`] ||
+                                                errors[`short_desc_${lang.code}`] ||
+                                                errors[`full_desc_${lang.code}`] ||
+                                                errors[`duration_${lang.code}`] ||
+                                                errors[`features_${lang.code}`];
 
-                                        return (
-                                            <button
-                                                key={lang.code}
-                                                type="button"
-                                                onClick={() => setActiveTab(lang.code)}
-                                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${activeTab === lang.code
-                                                    ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm border border-slate-200 dark:border-slate-600'
-                                                    : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-                                                    } ${hasError ? 'text-red-500 hover:text-red-600' : ''}`}
-                                            >
-                                                <span>{lang.flag}</span>
-                                                <span className="hidden sm:inline">{lang.label}</span>
-                                                <span className="sm:hidden">{lang.code.toUpperCase()}</span>
-                                                {hasError && <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>}
-                                            </button>
-                                        );
-                                    })}
+                                            return (
+                                                <button
+                                                    key={lang.code}
+                                                    type="button"
+                                                    onClick={() => setActiveTab(lang.code)}
+                                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${activeTab === lang.code
+                                                        ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm border border-slate-200 dark:border-slate-600'
+                                                        : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                                                        } ${hasError ? 'text-red-500 hover:text-red-600' : ''}`}
+                                                >
+                                                    <span>{lang.flag}</span>
+                                                    <span className="hidden sm:inline">{lang.label}</span>
+                                                    <span className="sm:hidden">{lang.code.toUpperCase()}</span>
+                                                    {hasError && <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
                             </div>
 
@@ -852,12 +946,14 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.tech')}</label>
                                     <input
+                                        id="input-technologies"
                                         type="text"
-                                        value={formData.technologies.join(', ')}
-                                        onChange={(e) => handleArrayInput('technologies', e.target.value)}
-                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
+                                        value={formData.technologies}
+                                        onChange={(e) => handleFieldChange('technologies', e.target.value)}
+                                        className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.technologies ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
                                         placeholder={t('dashboard.portfolio.form.placeholders.tech')}
                                     />
+                                    {errors.technologies && <p className="text-red-500 text-xs mt-1">{errors.technologies}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.demo')}</label>

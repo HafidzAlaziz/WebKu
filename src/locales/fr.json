@@ -202,7 +202,8 @@
                 "company_profile": "Profil de l'Entreprise",
                 "online_store": "Boutique en Ligne",
                 "landing_page": "Page de Destination",
-                "portfolio": "Portefeuille"
+                "portfolio": "Portefeuille",
+                "others": "Autres"
             },
             "buttons": {
                 "show_more": "Montrer Plus",
@@ -704,6 +705,7 @@
                     "required": "Ce champ est obligatoire",
                     "invalid_url": "Veuillez entrer une URL valide (commençant par http:// ou https://)",
                     "at_least_one": "Veuillez entrer au moins un élément",
+                    "duplicate_name": "Le nom du projet existe déjà. Veuillez utiliser un nom différent.",
                     "save_error": "Erreur lors de l'enregistrement du projet : "
                 },
                 "unsaved_changes": {

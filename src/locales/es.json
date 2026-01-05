@@ -202,7 +202,8 @@
                 "company_profile": "Perfil de la Empresa",
                 "online_store": "Tienda en Línea",
                 "landing_page": "Página de Aterrizaje",
-                "portfolio": "Portafolio"
+                "portfolio": "Portafolio",
+                "others": "Otros"
             },
             "buttons": {
                 "show_more": "Mostrar Más",
@@ -704,6 +705,7 @@
                     "required": "Este campo es obligatorio",
                     "invalid_url": "Ingrese una URL válida (que comience con http:// o https://)",
                     "at_least_one": "Ingrese al menos un elemento",
+                    "duplicate_name": "El nombre del proyecto ya existe. Utilice un nombre diferente.",
                     "save_error": "Error al guardar el proyecto: "
                 },
                 "unsaved_changes": {
