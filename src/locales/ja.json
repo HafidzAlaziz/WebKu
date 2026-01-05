@@ -734,7 +734,8 @@
                     "error": {
                         "type": "ファイルは画像（PNG、JPGなど）である必要があります",
                         "size": "写真が大きすぎます！サイトを軽く保つために最大1MBにしてください。",
-                        "bucket": "エラー：Supabaseに 'project-thumbnails' バケットが見つかりません。"
+                        "bucket": "エラー：Supabaseに 'project-thumbnails' バケットが見つかりません。",
+                        "generic": "画像のアップロードに失敗しました。接続またはSupabaseの設定を確認してください。"
                     }
                 },
                 "actions": {

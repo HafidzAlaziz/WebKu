@@ -734,7 +734,8 @@
                     "error": {
                         "type": "File harus berupa gambar (PNG, JPG, dll)",
                         "size": "Ukuran foto terlalu besar! Maksimal 1 MB agar website tetap ringan.",
-                        "bucket": "Gagal: Bucket 'project-thumbnails' tidak ditemukan di Supabase. Silakan buat bucket-nya terlebih dahulu."
+                        "bucket": "Gagal: Bucket 'project-thumbnails' tidak ditemukan di Supabase. Silakan buat bucket-nya terlebih dahulu.",
+                        "generic": "Gagal mengunggah gambar. Silakan periksa koneksi atau pengaturan Supabase Anda."
                     }
                 },
                 "actions": {

@@ -436,8 +436,13 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
     const [isTranslating, setIsTranslating] = useState(false);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
     const [showUnsavedModal, setShowUnsavedModal] = useState(false);
-    const [showSuccessToast, setShowSuccessToast] = useState(false);
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
     const [initialFormData, setInitialFormData] = useState(null);
+
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
+    };
     const languages = [
         { code: 'en', label: 'English', flag: '🇺🇸' },
         { code: 'id', label: 'Indonesia', flag: '🇮🇩' },
@@ -616,9 +621,8 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         const result = project ? await onSave(project.id, dataToSave) : await onSave(dataToSave);
         if (result.success) {
             setHasUnsavedChanges(false);
-            setShowSuccessToast(true);
+            showToast(project ? t('dashboard.portfolio.form.success.project_updated') : t('dashboard.portfolio.form.success.project_saved'), 'success');
             setTimeout(() => {
-                setShowSuccessToast(false);
                 onClose();
             }, 2000);
         } else {
@@ -634,7 +638,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                     }
                 }, 100);
             } else {
-                alert(t('dashboard.portfolio.form.validation.save_error') + result.error);
+                showToast(t('dashboard.portfolio.form.validation.save_error') + result.error, 'error');
             }
         }
         setLoading(false);
@@ -676,14 +680,14 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
 
     const processUpload = async (file) => {
         if (!file.type.startsWith('image/')) {
-            alert(t('dashboard.portfolio.form.upload.error.type'));
+            showToast(t('dashboard.portfolio.form.upload.error.type'), 'error');
             return;
         }
 
         // Limit size to 1MB
         const maxSize = 1 * 1024 * 1024; // 1MB
         if (file.size > maxSize) {
-            alert(t('dashboard.portfolio.form.upload.error.size'));
+            showToast(t('dashboard.portfolio.form.upload.error.size'), 'error');
             return;
         }
 
@@ -693,14 +697,13 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
 
         if (result.success) {
             handleFieldChange('thumbnail', result.url);
-            // Optional: You could add a small success toast here if needed
-            alert(t('dashboard.portfolio.form.upload.success'));
+            showToast(t('dashboard.portfolio.form.upload.success'), 'success');
         } else {
             console.error('Upload error details:', result.error);
             if (result.error.includes('Bucket not found')) {
-                alert(t('dashboard.portfolio.form.upload.error.bucket'));
+                showToast(t('dashboard.portfolio.form.upload.error.bucket'), 'error');
             } else {
-                alert(t('dashboard.portfolio.form.upload.error.generic') || 'Upload failed: ' + result.error);
+                showToast(t('dashboard.portfolio.form.upload.error.generic') || ('Upload failed: ' + result.error), 'error');
             }
         }
     };
@@ -753,7 +756,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         };
 
         if (!sourceData.name && !sourceData.full_desc) {
-            alert(t('dashboard.portfolio.form.actions.translate_empty'));
+            showToast(t('dashboard.portfolio.form.actions.translate_empty'), 'error');
             return;
         }
 
@@ -781,7 +784,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
             setHasUnsavedChanges(true);
         } catch (error) {
             console.error("Auto-translation failed:", error);
-            alert(t('dashboard.portfolio.form.actions.translate_error'));
+            showToast(t('dashboard.portfolio.form.actions.translate_error'), 'error');
         } finally {
             setIsTranslating(false);
         }
@@ -1155,18 +1158,27 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                 </div>
             </div>
 
-            {/* Success Toast */}
+            {/* Premium Toast Notification */}
             <AnimatePresence>
-                {showSuccessToast && (
+                {toast.show && (
                     <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 50 }}
-                        className="fixed bottom-8 right-8 z-[130] bg-emerald-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3"
+                        initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 50, scale: 0.9 }}
+                        className={`fixed bottom-8 right-8 z-[130] ${toast.type === 'success' ? 'bg-emerald-600 shadow-emerald-500/20' : 'bg-red-600 shadow-red-500/20'
+                            } text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10 backdrop-blur-md`}
                     >
-                        <CheckCircle size={24} />
-                        <span className="font-bold">
-                            {project ? t('dashboard.portfolio.form.success.project_updated') : t('dashboard.portfolio.form.success.project_saved')}
+                        {toast.type === 'success' ? (
+                            <div className="bg-white/20 p-1.5 rounded-lg">
+                                <CheckCircle size={20} />
+                            </div>
+                        ) : (
+                            <div className="bg-white/20 p-1.5 rounded-lg">
+                                <AlertCircle size={20} />
+                            </div>
+                        )}
+                        <span className="font-bold text-sm tracking-wide">
+                            {toast.message}
                         </span>
                     </motion.div>
                 )}

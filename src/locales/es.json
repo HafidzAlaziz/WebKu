@@ -734,7 +734,8 @@
                     "error": {
                         "type": "El archivo debe ser una imagen (PNG, JPG, etc.)",
                         "size": "¡Foto demasiado grande! Máximo 1MB para mantener el sitio rápido.",
-                        "bucket": "Error: Bucket 'project-thumbnails' no encontrado en Supabase."
+                        "bucket": "Error: Bucket 'project-thumbnails' no encontrado en Supabase.",
+                        "generic": "Error al subir la imagen. Por favor, verifique su conexión o la configuración de Supabase."
                     }
                 },
                 "actions": {
