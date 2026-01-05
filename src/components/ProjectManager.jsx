@@ -680,14 +680,28 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
             return;
         }
 
+        // Limit size to 1MB
+        const maxSize = 1 * 1024 * 1024; // 1MB
+        if (file.size > maxSize) {
+            alert('Ukuran foto terlalu besar! Maksimal 1 MB agar website tetap ringan.');
+            return;
+        }
+
         setIsUploading(true);
         const result = await uploadThumbnail(file);
         setIsUploading(false);
 
         if (result.success) {
             handleFieldChange('thumbnail', result.url);
+            // Optional: You could add a small success toast here if needed
+            alert('Foto berhasil diunggah! ✨');
         } else {
-            alert('Gagal mengunggah gambar: ' + result.error);
+            console.error('Upload error details:', result.error);
+            if (result.error.includes('Bucket not found')) {
+                alert('Gagal: Bucket "project-thumbnails" tidak ditemukan di Supabase. Silakan buat bucket-nya terlebih dahulu.');
+            } else {
+                alert('Gagal mengunggah gambar: ' + result.error);
+            }
         }
     };
 
