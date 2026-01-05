@@ -964,7 +964,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                         ) : (
                                             <Sparkles size={12} />
                                         )}
-                                        {isTranslating ? 'Translating...' : 'Auto Translate All'}
+                                        {isTranslating ? t('dashboard.portfolio.form.actions.translating') : t('dashboard.portfolio.form.actions.translate')}
                                     </button>
                                     <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
                                         {languages.map(lang => {

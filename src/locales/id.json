@@ -730,7 +730,7 @@
                     "subtitle": "Atau Paste (Ctrl+V)",
                     "placeholder": "Atau tempel URL gambar di sini...",
                     "status": "Mengunggah...",
-                    "success": "Foto berhasil diunggah! ✨",
+                    "success": "Foto berhasil diunggah!",
                     "error": {
                         "type": "File harus berupa gambar (PNG, JPG, dll)",
                         "size": "Ukuran foto terlalu besar! Maksimal 1 MB agar website tetap ringan.",
