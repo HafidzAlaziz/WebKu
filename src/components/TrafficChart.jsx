@@ -11,8 +11,12 @@ import {
 } from 'recharts';
 import { useTranslation } from 'react-i18next';
 
-const TrafficChart = ({ data }) => {
+const TrafficChart = ({ data, stats }) => {
     const { t, i18n } = useTranslation();
+
+    // Safety check for stats
+    const currency = stats?.currency || 'IDR';
+    const locale = stats?.locale || 'id-ID';
 
     // 1. Memoize data to prevent unnecessary re-processing
     // Ensure we always have an array
@@ -34,9 +38,9 @@ const TrafficChart = ({ data }) => {
             'ja': 'ja-JP'
         };
 
-        const locale = localeMap[i18n.language] || 'en-US';
+        const currentLocale = localeMap[i18n.language] || 'en-US';
 
-        return new Intl.DateTimeFormat(locale, {
+        return new Intl.DateTimeFormat(currentLocale, {
             day: 'numeric',
             month: 'short'
         }).format(date);
@@ -142,9 +146,9 @@ const TrafficChart = ({ data }) => {
                         formatter={(value, name) => {
                             if (name === t('dashboard.charts.revenue') || name === t('dashboard.charts.cancelled_revenue')) {
                                 return [
-                                    new Intl.NumberFormat(stats.locale, {
+                                    new Intl.NumberFormat(locale, {
                                         style: 'currency',
-                                        currency: stats.currency,
+                                        currency: currency,
                                         maximumFractionDigits: 0
                                     }).format(value),
                                     name

@@ -521,7 +521,7 @@ const DashboardPage = () => {
                                         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                                             {t('dashboard.charts.traffic_overview')}
                                         </h3>
-                                        <TrafficChart data={stats.viewsHistory} />
+                                        <TrafficChart data={stats.viewsHistory} stats={stats} />
                                     </motion.div>
 
                                     {/* Recent Activity */}
