@@ -112,6 +112,25 @@ export const usePortfolio = () => {
         }
     };
 
+    const migrateProjects = async (projectsList) => {
+        setLoading(true);
+        try {
+            const { data, error: migrationError } = await supabase
+                .from('portfolio_projects')
+                .upsert(projectsList, { onConflict: 'name_en' }) // Basic conflict resolution
+                .select();
+
+            if (migrationError) throw migrationError;
+            await fetchProjects();
+            return { success: true, count: data?.length };
+        } catch (err) {
+            console.error('Migration error:', err);
+            return { success: false, error: err.message };
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return {
         projects,
         loading,
