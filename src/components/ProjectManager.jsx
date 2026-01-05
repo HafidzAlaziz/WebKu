@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Plus,
@@ -17,7 +17,8 @@ import {
     ChevronLeft,
     ChevronRight,
     Sparkles,
-    RefreshCw
+    RefreshCw,
+    Upload
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePortfolio } from '../hooks/usePortfolio';
@@ -426,8 +427,10 @@ const DeleteConfirmModal = ({ isOpen, onClose, onConfirm, loading }) => {
 
 const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
     const { t } = useTranslation();
-    const { projects } = usePortfolio(); // Get existing projects for duplicate check
+    const { projects, uploadThumbnail } = usePortfolio();
+    const fileInputRef = useRef(null);
     const [loading, setLoading] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const [errors, setErrors] = useState({});
     const [activeTab, setActiveTab] = useState('en');
     const [isTranslating, setIsTranslating] = useState(false);
@@ -665,6 +668,63 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         }
     };
 
+    const handleFileUpload = async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        await processUpload(file);
+    };
+
+    const processUpload = async (file) => {
+        if (!file.type.startsWith('image/')) {
+            alert('File harus berupa gambar (PNG, JPG, dll)');
+            return;
+        }
+
+        setIsUploading(true);
+        const result = await uploadThumbnail(file);
+        setIsUploading(false);
+
+        if (result.success) {
+            handleFieldChange('thumbnail', result.url);
+        } else {
+            alert('Gagal mengunggah gambar: ' + result.error);
+        }
+    };
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    const handleDrop = async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const file = e.dataTransfer.files?.[0];
+        if (file) await processUpload(file);
+    };
+
+    const handlePaste = async (e) => {
+        const item = Array.from(e.clipboardData.items).find(i => i.type.startsWith('image/'));
+        if (item) {
+            const file = item.getAsFile();
+            if (file) await processUpload(file);
+        }
+    };
+
+    // Global paste listener when modal is open
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const onGlobalPaste = (e) => {
+            // Check if we are in an input/textarea that isn't the paste target
+            // But usually we want to allow pasting images anywhere in the form
+            handlePaste(e);
+        };
+
+        window.addEventListener('paste', onGlobalPaste);
+        return () => window.removeEventListener('paste', onGlobalPaste);
+    }, [isOpen]);
+
     const handleAutoTranslate = async () => {
         const sourceLang = activeTab;
         const targetLangs = languages.map(l => l.code).filter(c => c !== sourceLang);
@@ -787,14 +847,82 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.thumbnail')}</label>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">
+                                        {t('dashboard.portfolio.form.labels.thumbnail')}
+                                    </label>
+                                    <div
+                                        onDragOver={handleDragOver}
+                                        onDrop={handleDrop}
+                                        onPaste={handlePaste}
+                                        className={`relative group border-2 border-dashed rounded-2xl transition-all h-[120px] flex flex-col items-center justify-center p-4 text-center cursor-pointer overflow-hidden ${formData.thumbnail
+                                            ? 'border-emerald-500/50 bg-emerald-50/10'
+                                            : 'border-slate-200 dark:border-slate-700 hover:border-blue-500/50 hover:bg-slate-50 dark:hover:bg-slate-900/50'
+                                            } ${errors.thumbnail ? 'border-red-500 bg-red-50/10' : ''}`}
+                                        onClick={() => !formData.thumbnail && fileInputRef.current?.click()}
+                                    >
+                                        <input
+                                            type="file"
+                                            ref={fileInputRef}
+                                            className="hidden"
+                                            accept="image/*"
+                                            onChange={handleFileUpload}
+                                        />
+
+                                        {isUploading ? (
+                                            <div className="flex flex-col items-center gap-2">
+                                                <RefreshCw size={24} className="text-blue-500 animate-spin" />
+                                                <span className="text-[10px] font-bold text-blue-500 uppercase tracking-wider">Uploading...</span>
+                                            </div>
+                                        ) : formData.thumbnail ? (
+                                            <>
+                                                <img
+                                                    src={formData.thumbnail}
+                                                    alt="Preview"
+                                                    className="absolute inset-0 w-full h-full object-cover"
+                                                />
+                                                <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            fileInputRef.current?.click();
+                                                        }}
+                                                        className="p-2 bg-white/20 backdrop-blur-md rounded-lg text-white hover:bg-white/30 transition-all"
+                                                    >
+                                                        <Edit2 size={16} />
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            handleFieldChange('thumbnail', '');
+                                                        }}
+                                                        className="p-2 bg-red-500/80 backdrop-blur-md rounded-lg text-white hover:bg-red-500 transition-all"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="w-10 h-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                                    <Upload size={20} className="text-slate-400 group-hover:text-blue-500 transition-colors" />
+                                                </div>
+                                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">
+                                                    Klik atau Seret Foto
+                                                </p>
+                                                <p className="text-[9px] text-slate-400">
+                                                    Atau Paste (Ctrl+V)
+                                                </p>
+                                            </>
+                                        )}
+                                    </div>
                                     <input
-                                        id="input-thumbnail"
                                         type="url"
                                         value={formData.thumbnail}
                                         onChange={(e) => handleFieldChange('thumbnail', e.target.value)}
-                                        className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.thumbnail ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all`}
-                                        placeholder={t('dashboard.portfolio.form.placeholders.demo')}
+                                        placeholder="Atau tempel URL gambar di sini..."
+                                        className="w-full mt-2 text-[10px] bg-transparent border-none focus:ring-0 p-0 text-slate-400 italic placeholder:text-slate-300"
                                     />
                                     {errors.thumbnail && <p className="text-red-500 text-xs mt-1">{errors.thumbnail}</p>}
                                 </div>

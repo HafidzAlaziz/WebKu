@@ -83,19 +83,29 @@ export const usePortfolio = () => {
         }
     };
 
-    const migrateProjects = async (projectsList) => {
+    const uploadThumbnail = async (file) => {
         setLoading(true);
         try {
-            const { data, error: migrationError } = await supabase
-                .from('portfolio_projects')
-                .upsert(projectsList, { onConflict: 'name_en' }) // Basic conflict resolution
-                .select();
+            // Create a unique file name
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+            const filePath = `thumbnails/${fileName}`;
 
-            if (migrationError) throw migrationError;
-            await fetchProjects();
-            return { success: true, count: data?.length };
+            // Upload to Supabase Storage
+            const { error: uploadError } = await supabase.storage
+                .from('project-thumbnails')
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            // Get public URL
+            const { data: { publicUrl } } = supabase.storage
+                .from('project-thumbnails')
+                .getPublicUrl(filePath);
+
+            return { success: true, url: publicUrl };
         } catch (err) {
-            console.error('Migration error:', err);
+            console.error('Error uploading image:', err);
             return { success: false, error: err.message };
         } finally {
             setLoading(false);
@@ -110,6 +120,7 @@ export const usePortfolio = () => {
         addProject,
         updateProject,
         deleteProject,
-        migrateProjects
+        migrateProjects,
+        uploadThumbnail
     };
 };
