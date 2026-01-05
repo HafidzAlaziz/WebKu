@@ -676,14 +676,14 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
 
     const processUpload = async (file) => {
         if (!file.type.startsWith('image/')) {
-            alert('File harus berupa gambar (PNG, JPG, dll)');
+            alert(t('dashboard.portfolio.form.upload.error.type'));
             return;
         }
 
         // Limit size to 1MB
         const maxSize = 1 * 1024 * 1024; // 1MB
         if (file.size > maxSize) {
-            alert('Ukuran foto terlalu besar! Maksimal 1 MB agar website tetap ringan.');
+            alert(t('dashboard.portfolio.form.upload.error.size'));
             return;
         }
 
@@ -694,13 +694,13 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         if (result.success) {
             handleFieldChange('thumbnail', result.url);
             // Optional: You could add a small success toast here if needed
-            alert('Foto berhasil diunggah! ✨');
+            alert(t('dashboard.portfolio.form.upload.success'));
         } else {
             console.error('Upload error details:', result.error);
             if (result.error.includes('Bucket not found')) {
-                alert('Gagal: Bucket "project-thumbnails" tidak ditemukan di Supabase. Silakan buat bucket-nya terlebih dahulu.');
+                alert(t('dashboard.portfolio.form.upload.error.bucket'));
             } else {
-                alert('Gagal mengunggah gambar: ' + result.error);
+                alert(t('dashboard.portfolio.form.upload.error.generic') || 'Upload failed: ' + result.error);
             }
         }
     };
@@ -753,7 +753,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         };
 
         if (!sourceData.name && !sourceData.full_desc) {
-            alert("Silakan isi nama atau deksripsi dulu sebelum translate.");
+            alert(t('dashboard.portfolio.form.actions.translate_empty'));
             return;
         }
 
@@ -781,7 +781,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
             setHasUnsavedChanges(true);
         } catch (error) {
             console.error("Auto-translation failed:", error);
-            alert("Gagal melakukan translasi otomatis. Silakan coba lagi.");
+            alert(t('dashboard.portfolio.form.actions.translate_error'));
         } finally {
             setIsTranslating(false);
         }
@@ -885,7 +885,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                         {isUploading ? (
                                             <div className="flex flex-col items-center gap-2">
                                                 <RefreshCw size={24} className="text-blue-500 animate-spin" />
-                                                <span className="text-[10px] font-bold text-blue-500 uppercase tracking-wider">Uploading...</span>
+                                                <span className="text-[10px] font-bold text-blue-500 uppercase tracking-wider">{t('dashboard.portfolio.form.upload.status')}</span>
                                             </div>
                                         ) : formData.thumbnail ? (
                                             <>
@@ -923,10 +923,10 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                                     <Upload size={20} className="text-slate-400 group-hover:text-blue-500 transition-colors" />
                                                 </div>
                                                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">
-                                                    Klik atau Seret Foto
+                                                    {t('dashboard.portfolio.form.upload.title')}
                                                 </p>
                                                 <p className="text-[9px] text-slate-400">
-                                                    Atau Paste (Ctrl+V)
+                                                    {t('dashboard.portfolio.form.upload.subtitle')}
                                                 </p>
                                             </>
                                         )}
@@ -935,7 +935,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                         type="url"
                                         value={formData.thumbnail}
                                         onChange={(e) => handleFieldChange('thumbnail', e.target.value)}
-                                        placeholder="Atau tempel URL gambar di sini..."
+                                        placeholder={t('dashboard.portfolio.form.upload.placeholder')}
                                         className="w-full mt-2 text-[10px] bg-transparent border-none focus:ring-0 p-0 text-slate-400 italic placeholder:text-slate-300"
                                     />
                                     {errors.thumbnail && <p className="text-red-500 text-xs mt-1">{errors.thumbnail}</p>}
@@ -1004,7 +1004,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Project Name ({lang.code})</label>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.project_name')} ({lang.code})</label>
                                                 <input
                                                     id={`input-name_${lang.code}`}
                                                     type="text"
@@ -1016,7 +1016,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                                 {errors[`name_${lang.code}`] && <p className="text-red-500 text-xs mt-1">{errors[`name_${lang.code}`]}</p>}
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Type ({lang.code})</label>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.type')} ({lang.code})</label>
                                                 <input
                                                     id={`input-type_${lang.code}`}
                                                     type="text"
@@ -1030,7 +1030,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                         </div>
 
                                         <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Short Description ({lang.code})</label>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.short_description')} ({lang.code})</label>
                                             <input
                                                 id={`input-short_desc_${lang.code}`}
                                                 type="text"
@@ -1042,7 +1042,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                         </div>
 
                                         <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Full Description ({lang.code})</label>
+                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.full_description')} ({lang.code})</label>
                                             <textarea
                                                 rows={3}
                                                 value={formData[`full_desc_${lang.code}`] || ''}
@@ -1054,7 +1054,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Duration ({lang.code})</label>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.duration')} ({lang.code})</label>
                                                 <input
                                                     type="text"
                                                     value={formData[`duration_${lang.code}`] || ''}
@@ -1064,7 +1064,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                                 />
                                             </div>
                                             <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Features ({lang.code}) (Comma separated)</label>
+                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.features')} ({lang.code})</label>
                                                 <textarea
                                                     rows={1}
                                                     value={(formData[`features_${lang.code}`] || []).join(', ')}

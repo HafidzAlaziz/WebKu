@@ -679,6 +679,12 @@
                     "thumbnail": "Thumbnail URL",
                     "tech": "Technologies",
                     "demo": "Demo/Website Link",
+                    "project_name": "Project Name",
+                    "type": "Project Type",
+                    "short_description": "Short Description",
+                    "full_description": "Full Description",
+                    "duration": "Duration",
+                    "features": "Features (Comma separated)",
                     "features_id": "Features (Indo)",
                     "features_en": "Features (English)"
                 },
@@ -717,6 +723,25 @@
                 "success": {
                     "project_saved": "Project saved successfully!",
                     "project_updated": "Project updated successfully!"
+                },
+                "upload": {
+                    "label": "Thumbnail Photo",
+                    "title": "Click or Drag Photo",
+                    "subtitle": "Or Paste (Ctrl+V)",
+                    "placeholder": "Or paste image URL here...",
+                    "status": "Uploading...",
+                    "success": "Photo uploaded successfully! ✨",
+                    "error": {
+                        "type": "File must be an image (PNG, JPG, etc.)",
+                        "size": "Photo too large! Maximum 1MB to keep website fast.",
+                        "bucket": "Error: Bucket 'project-thumbnails' not found in Supabase. Please create it first."
+                    }
+                },
+                "actions": {
+                    "translate": "Auto Translate All",
+                    "translating": "Translating...",
+                    "translate_empty": "Please fill name or description first before translating.",
+                    "translate_error": "Auto-translation failed. Please try again."
                 }
             },
             "migration": {

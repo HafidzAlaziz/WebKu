@@ -679,6 +679,12 @@
                     "thumbnail": "URL Gambar",
                     "tech": "Teknologi",
                     "demo": "Link Demo/Situs Web",
+                    "project_name": "Nama Proyek",
+                    "type": "Tipe Proyek",
+                    "short_description": "Deskripsi Singkat",
+                    "full_description": "Deskripsi Lengkap",
+                    "duration": "Durasi",
+                    "features": "Fitur (Pisahkan dengan koma)",
                     "features_id": "Fitur (Indo)",
                     "features_en": "Fitur (Inggris)"
                 },
@@ -717,6 +723,25 @@
                 "success": {
                     "project_saved": "Proyek berhasil disimpan!",
                     "project_updated": "Proyek berhasil diperbarui!"
+                },
+                "upload": {
+                    "label": "Foto Thumbnail",
+                    "title": "Klik atau Seret Foto",
+                    "subtitle": "Atau Paste (Ctrl+V)",
+                    "placeholder": "Atau tempel URL gambar di sini...",
+                    "status": "Mengunggah...",
+                    "success": "Foto berhasil diunggah! ✨",
+                    "error": {
+                        "type": "File harus berupa gambar (PNG, JPG, dll)",
+                        "size": "Ukuran foto terlalu besar! Maksimal 1 MB agar website tetap ringan.",
+                        "bucket": "Gagal: Bucket 'project-thumbnails' tidak ditemukan di Supabase. Silakan buat bucket-nya terlebih dahulu."
+                    }
+                },
+                "actions": {
+                    "translate": "Auto Translate",
+                    "translating": "Menerjemahkan...",
+                    "translate_empty": "Silakan isi nama atau deksripsi dulu sebelum translate.",
+                    "translate_error": "Gagal melakukan translasi otomatis. Silakan coba lagi."
                 }
             },
             "migration": {

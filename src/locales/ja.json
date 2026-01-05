@@ -679,6 +679,12 @@
                     "thumbnail": "サムネイルURL",
                     "tech": "技術",
                     "demo": "デモ/ウェブサイトリンク",
+                    "project_name": "プロジェクト名",
+                    "type": "プロジェクトタイプ",
+                    "short_description": "短い説明",
+                    "full_description": "全体の説明",
+                    "duration": "期間",
+                    "features": "特徴（カンマ区切り）",
                     "features_id": "機能 (インドネシア語)",
                     "features_en": "機能 (英語)"
                 },
@@ -717,6 +723,25 @@
                 "success": {
                     "project_saved": "プロジェクトが正常に保存されました！",
                     "project_updated": "プロジェクトが正常に更新されました！"
+                },
+                "upload": {
+                    "label": "サムネイル写真",
+                    "title": "クリックまたはドラッグ",
+                    "subtitle": "または貼り付け (Ctrl+V)",
+                    "placeholder": "またはここに画像URLを貼り付け...",
+                    "status": "アップロード中...",
+                    "success": "写真のアップロードに成功しました！ ✨",
+                    "error": {
+                        "type": "ファイルは画像（PNG、JPGなど）である必要があります",
+                        "size": "写真が大きすぎます！サイトを軽く保つために最大1MBにしてください。",
+                        "bucket": "エラー：Supabaseに 'project-thumbnails' バケットが見つかりません。"
+                    }
+                },
+                "actions": {
+                    "translate": "すべて自動翻訳",
+                    "translating": "翻訳中...",
+                    "translate_empty": "翻訳する前に名前または説明を入力してください。",
+                    "translate_error": "自動翻訳に失敗しました。もう一度お試しください。"
                 }
             },
             "migration": {

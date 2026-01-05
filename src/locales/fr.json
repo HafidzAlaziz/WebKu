@@ -679,6 +679,12 @@
                     "thumbnail": "URL de la Miniature",
                     "tech": "Technologies",
                     "demo": "Lien Démo/Site Web",
+                    "project_name": "Nom du Projet",
+                    "type": "Type de Projet",
+                    "short_description": "Description Courte",
+                    "full_description": "Description Complète",
+                    "duration": "Durée",
+                    "features": "Caractéristiques (Séparées par des virgules)",
                     "features_id": "Fonctionnalités (Indo)",
                     "features_en": "Fonctionnalités (Anglais)"
                 },
@@ -717,6 +723,25 @@
                 "success": {
                     "project_saved": "Projet enregistré avec succès !",
                     "project_updated": "Projet mis à jour avec succès !"
+                },
+                "upload": {
+                    "label": "Photo Miniature",
+                    "title": "Cliquez ou Glissez la Photo",
+                    "subtitle": "Ou Coller (Ctrl+V)",
+                    "placeholder": "Ou collez l'URL de l'image ici...",
+                    "status": "Téléchargement...",
+                    "success": "Photo téléchargée avec succès ! ✨",
+                    "error": {
+                        "type": "Le fichier doit être une image (PNG, JPG, etc.)",
+                        "size": "Photo trop grande ! Maximum 1 Mo pour rester rapide.",
+                        "bucket": "Erreur : Bucket 'project-thumbnails' introuvable dans Supabase."
+                    }
+                },
+                "actions": {
+                    "translate": "Auto Traduire Tout",
+                    "translating": "Traduction...",
+                    "translate_empty": "Veuillez remplir le nom ou la description en premier.",
+                    "translate_error": "La traduction automatique a échoué. Veuillez réessayer."
                 }
             },
             "migration": {
