@@ -730,7 +730,7 @@
                     "subtitle": "O Pegar (Ctrl+V)",
                     "placeholder": "O pegue la URL de la imagen aquí...",
                     "status": "Subiendo...",
-                    "success": "¡Foto subida con éxito! ✨",
+                    "success": "¡Foto subida con éxito!",
                     "error": {
                         "type": "El archivo debe ser una imagen (PNG, JPG, etc.)",
                         "size": "¡Foto demasiado grande! Máximo 1MB para mantener el sitio rápido.",

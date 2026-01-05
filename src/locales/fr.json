@@ -730,7 +730,7 @@
                     "subtitle": "Ou Coller (Ctrl+V)",
                     "placeholder": "Ou collez l'URL de l'image ici...",
                     "status": "Téléchargement...",
-                    "success": "Photo téléchargée avec succès ! ✨",
+                    "success": "Photo téléchargée avec succès !",
                     "error": {
                         "type": "Le fichier doit être une image (PNG, JPG, etc.)",
                         "size": "Photo trop grande ! Maximum 1 Mo pour rester rapide.",
