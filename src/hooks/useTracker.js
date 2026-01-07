@@ -212,13 +212,21 @@ export const useTracker = () => {
 
     const trackView = async () => {
         try {
-            if (sessionStorage.getItem('view_tracked')) return;
+            const today = new Date().toISOString().split('T')[0];
+            const lastViewDate = localStorage.getItem('last_view_date');
+
+            if (lastViewDate === today) {
+                console.log('View already tracked today for this device.');
+                return;
+            }
 
             await supabase.from('analytics_events').insert([
                 { event_type: 'view', details: { path: window.location.pathname } }
             ]);
 
-            sessionStorage.setItem('view_tracked', 'true');
+            localStorage.setItem('last_view_date', today);
+            // Clear legacy session storage if it exists
+            sessionStorage.removeItem('view_tracked');
         } catch (err) {
             console.error('Error tracking view:', err);
         }
