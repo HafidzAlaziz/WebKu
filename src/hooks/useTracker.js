@@ -213,22 +213,53 @@ export const useTracker = () => {
     const trackView = async () => {
         try {
             const today = new Date().toISOString().split('T')[0];
-            const lastViewDate = localStorage.getItem('last_view_date');
+            const storageKey = `tracked_views_${today}`;
+            const path = window.location.pathname;
 
-            if (lastViewDate === today) {
-                console.log('View already tracked today for this device.');
+            // Jangan hitung views untuk halaman dashboard atau login
+            if (path.startsWith('/dashboard') || path.startsWith('/login')) {
                 return;
             }
 
+            // Gunakan lock sementara di window object untuk mencegah double-trigger dalam satu sesi SPA
+            if (window._isTrackingPath === path) return;
+            window._isTrackingPath = path;
+
+            // Ambil daftar path yang sudah dilacak hari ini
+            let trackedPaths = [];
+            try {
+                trackedPaths = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            } catch (e) {
+                trackedPaths = [];
+            }
+
+            if (trackedPaths.includes(path)) {
+                return;
+            }
+
+            // SIMPAN KE LOCALSTORAGE SEGERA (SECARA SYNC)
+            // Ini sangat penting untuk mencegah race condition dari async await di bawah
+            trackedPaths.push(path);
+            localStorage.setItem(storageKey, JSON.stringify(trackedPaths));
+
+            // Kirim ke database
             await supabase.from('analytics_events').insert([
-                { event_type: 'view', details: { path: window.location.pathname } }
+                { event_type: 'view', details: { path } }
             ]);
 
-            localStorage.setItem('last_view_date', today);
-            // Clear legacy session storage if it exists
+            // Bersihkan data lama
+            Object.keys(localStorage).forEach(key => {
+                if (key.startsWith('tracked_views_') && key !== storageKey) {
+                    localStorage.removeItem(key);
+                }
+            });
+
+            // Hapus sisa-sisa key lama
+            localStorage.removeItem('last_view_date');
             sessionStorage.removeItem('view_tracked');
         } catch (err) {
             console.error('Error tracking view:', err);
+            // Jika gagal, biarkan saja agar tidak terus menerus mencoba dan mengganggu performa
         }
     };
 
