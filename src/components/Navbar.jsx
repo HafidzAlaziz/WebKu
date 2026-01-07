@@ -17,16 +17,11 @@ const Logo = () => {
                 />
                 <div className="relative h-full w-full bg-white dark:bg-slate-900 rounded-xl border-2 border-slate-100 dark:border-slate-800 shadow-xl group-hover:border-primary/50 transition-all duration-500 overflow-hidden flex items-center justify-center">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10 transition-transform duration-500 group-hover:scale-110">
-                        <path d="M4 8L7 17L12 9L17 17L20 8" stroke="url(#logo-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12 9L12 17" stroke="url(#logo-gradient)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="opacity-30" />
-                        <defs>
-                            <linearGradient id="logo-gradient" x1="4" y1="8" x2="20" y2="17" gradientUnits="userSpaceOnUse">
-                                <stop stopColor="#064e3b" />
-                                <stop offset="1" stopColor="#d97706" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                    <img
+                        src="/logo.png"
+                        alt="WebKuu Logo"
+                        className="w-8 h-8 object-contain relative z-10 transition-transform duration-500 group-hover:scale-110"
+                    />
                 </div>
             </div>
             <div className="flex flex-col -space-y-1">
