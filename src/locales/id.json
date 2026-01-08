@@ -631,7 +631,7 @@
             "Desember"
         ],
         "stats": {
-            "total_views": "Total Pengunjung",
+            "total_views": "Pengunjung Hari Ini",
             "total_orders": "Total Pesanan",
             "conversion_rate": "Tingkat Konversi",
             "total_revenue": "Total Pendapatan",
@@ -778,6 +778,7 @@
             "new_order_label": "Pesanan Baru",
             "order_form_prefix": "Formulir Pesanan",
             "status": {
+                "all": "Semua Status",
                 "pending": "Menunggu",
                 "completed": "Selesai",
                 "cancelled": "Dibatalkan"
@@ -794,6 +795,7 @@
                     "cancel": "Batal"
                 },
                 "update_success": "Pesanan berhasil diperbarui!",
+                "delete_success": "Pesanan berhasil dihapus!",
                 "logout_success": "Berhasil keluar! Kembali ke Beranda...",
                 "edit_confirm": {
                     "title": "Batalkan Perubahan?",
@@ -804,8 +806,13 @@
             },
             "fields": {
                 "customer": "Nama Pelanggan",
-                "details": "Detail Pesanan",
-                "total": "Total Harga",
+                "email": "Email",
+                "whatsapp": "WhatsApp",
+                "company": "Perusahaan / Bisnis",
+                "tech_stack": "Tech Stack",
+                "website_type": "Jenis Website",
+                "message": "Pesan / Kebutuhan",
+                "total": "Total Harga (IDR Raw)",
                 "status": "Status"
             }
         },

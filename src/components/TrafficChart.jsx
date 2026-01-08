@@ -48,7 +48,7 @@ const TrafficChart = ({ data, stats }) => {
 
     return (
         // Container with explicit height constraints
-        <div className="w-full h-[300px] min-h-[300px] bg-transparent">
+        <div className="w-full h-full bg-transparent">
             {/* 
                 debounce={200}: Delays resize calculations to prevent thrashing
                 width="99%": Prevents 100% width loop bug

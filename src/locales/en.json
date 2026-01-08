@@ -631,7 +631,7 @@
             "December"
         ],
         "stats": {
-            "total_views": "Total Visitors",
+            "total_views": "Today's Visitors",
             "total_orders": "Total Orders",
             "conversion_rate": "Conversion Rate",
             "total_revenue": "Total Revenue",
@@ -778,6 +778,7 @@
             "new_order_label": "New Order",
             "order_form_prefix": "Order Form",
             "status": {
+                "all": "All Status",
                 "pending": "Pending",
                 "completed": "Completed",
                 "cancelled": "Cancelled"
@@ -794,6 +795,7 @@
                     "cancel": "Cancel"
                 },
                 "update_success": "Order updated successfully!",
+                "delete_success": "Order successfully deleted!",
                 "logout_success": "Logout successful! Redirecting...",
                 "edit_confirm": {
                     "title": "Discard Changes?",
@@ -804,8 +806,13 @@
             },
             "fields": {
                 "customer": "Customer Name",
-                "details": "Order Details",
-                "total": "Total Price",
+                "email": "Email",
+                "whatsapp": "WhatsApp",
+                "company": "Company",
+                "tech_stack": "Tech Stack",
+                "website_type": "Website Type",
+                "message": "Message / Needs",
+                "total": "Total Price (IDR Raw)",
                 "status": "Status"
             }
         },

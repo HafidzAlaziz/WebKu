@@ -632,7 +632,7 @@
         ],
         "stats": {
             "live": "+ En Vivo",
-            "total_views": "Vistas Totales",
+            "total_views": "Vistas de Hoy",
             "total_orders": "Pedidos Totales (WhatsApp)",
             "total_revenue": "Ingresos Totales",
             "conversion_rate": "Tasa de Conversión",
@@ -778,6 +778,7 @@
             "new_order_label": "Nuevo Pedido",
             "order_form_prefix": "Formulario de Pedido",
             "status": {
+                "all": "Todos los estados",
                 "pending": "Pendiente",
                 "completed": "Completado",
                 "cancelled": "Cancelado"
@@ -794,7 +795,8 @@
                     "cancel": "Cancelar"
                 },
                 "update_success": "¡Pedido actualizado con éxito!",
-                "logout_success": "¡Sesión cerrada con éxito! Volviendo al inicio...",
+                "delete_success": "¡Pedido eliminado con éxito!",
+                "logout_success": "¡Sesión cerrada con éxito! Redirigiendo al inicio...",
                 "edit_confirm": {
                     "title": "¿Descartar cambios?",
                     "message": "Los cambios realizados no se han guardado. ¿Estás seguro de que deseas salir?",
@@ -804,8 +806,13 @@
             },
             "fields": {
                 "customer": "Nombre del Cliente",
-                "details": "Detalles del Pedido",
-                "total": "Precio Total",
+                "email": "Correo Electrónico",
+                "whatsapp": "Número de WhatsApp",
+                "company": "Empresa / Negocio",
+                "tech_stack": "Tecnologías",
+                "website_type": "Tipo de Sitio Web",
+                "message": "Mensaje / Necesidades",
+                "total": "Precio Total (IDR Raw)",
                 "status": "Estado"
             }
         },

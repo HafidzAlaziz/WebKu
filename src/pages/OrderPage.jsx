@@ -175,9 +175,14 @@ const OrderPage = () => {
         // Track Order
         trackOrder({
             customerName: formData.name,
+            customerEmail: formData.email,
+            customerPhone: formData.phone,
+            customerCompany: formData.company,
             orderPackage: formData.package,
             orderType: formData.websiteType,
-            total: formData.package === 'starter' ? 100000 : formData.package === 'professional' ? 1000000 : 0, // Using numbers for consistency, 0 for enterprise (discussion)
+            techStack: formData.techStack,
+            message: formData.message,
+            total: formData.package === 'starter' ? 100000 : formData.package === 'professional' ? 1000000 : 0,
             status: 'pending'
         });
 

@@ -6,6 +6,7 @@ export const useTracker = () => {
     const { t, i18n } = useTranslation();
     const [stats, setStats] = useState({
         totalViews: 0,
+        todayViews: 0,
         totalOrders: 0,
         totalRevenue: 0,
         totalCancelled: 0,
@@ -61,6 +62,15 @@ export const useTracker = () => {
         // Remove price/description suffix like " - Rp 100rb"
         return translated.split(' - ')[0];
     };
+    const getVisitorId = () => {
+        let vid = localStorage.getItem('visitor_id');
+        if (!vid) {
+            vid = 'v-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36);
+            localStorage.setItem('visitor_id', vid);
+        }
+        return vid;
+    };
+
     // Fetch data from Supabase
     const fetchStats = async (input = 7) => {
         // Determine days to look back based on input
@@ -114,7 +124,15 @@ export const useTracker = () => {
                 const dateStr = date.toISOString().split('T')[0];
 
                 const dayEvents = data.filter(e => e.created_at.startsWith(dateStr));
-                const dayViews = dayEvents.filter(e => e.event_type === 'view').length;
+                const uniqueDayVisitors = new Set(
+                    dayEvents
+                        .filter(e => e.event_type === 'view' && e.details?.visitor_id)
+                        .map(e => e.details.visitor_id)
+                ).size;
+
+                // Fallback to legacy count if visitor_id is missing for older data
+                const dayViews = uniqueDayVisitors || dayEvents.filter(e => e.event_type === 'view').length;
+
                 const dailyOrders = dayEvents.filter(e => e.event_type === 'order');
 
                 // Convert revenue to active currency
@@ -188,8 +206,17 @@ export const useTracker = () => {
             const totalRevenueIdr = activeOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
             const cancelledRevenueIdr = cancelledOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
 
+            // Calculate Today's Unique Views
+            const todayStr = new Date().toISOString().split('T')[0];
+            const todayViewsCount = new Set(
+                views
+                    .filter(e => e.created_at.split('T')[0] === todayStr && e.details?.visitor_id)
+                    .map(e => e.details.visitor_id)
+            ).size || views.filter(e => e.created_at.split('T')[0] === todayStr).length;
+
             setStats({
                 totalViews: views.length,
+                todayViews: todayViewsCount,
                 totalOrders: orders.length,
                 totalRevenue: totalRevenueIdr / config.rate,
                 totalCancelled: cancelledOrders.length,
@@ -212,54 +239,47 @@ export const useTracker = () => {
 
     const trackView = async () => {
         try {
-            const today = new Date().toISOString().split('T')[0];
-            const storageKey = `tracked_views_${today}`;
             const path = window.location.pathname;
-
             // Jangan hitung views untuk halaman dashboard atau login
             if (path.startsWith('/dashboard') || path.startsWith('/login')) {
                 return;
             }
 
-            // Gunakan lock sementara di window object untuk mencegah double-trigger dalam satu sesi SPA
-            if (window._isTrackingPath === path) return;
-            window._isTrackingPath = path;
+            const today = new Date().toISOString().split('T')[0];
+            const storageKey = 'visitor_tracked_today';
 
-            // Ambil daftar path yang sudah dilacak hari ini
-            let trackedPaths = [];
-            try {
-                trackedPaths = JSON.parse(localStorage.getItem(storageKey) || '[]');
-            } catch (e) {
-                trackedPaths = [];
-            }
+            // Cek apakah sudah dilacak hari ini
+            const lastTrackedDate = localStorage.getItem(storageKey);
 
-            if (trackedPaths.includes(path)) {
+            if (lastTrackedDate === today) {
+                // Sudah dihitung hari ini, abaikan secara visual tapi biarkan ID tetap konsisten
                 return;
             }
 
-            // SIMPAN KE LOCALSTORAGE SEGERA (SECARA SYNC)
-            // Ini sangat penting untuk mencegah race condition dari async await di bawah
-            trackedPaths.push(path);
-            localStorage.setItem(storageKey, JSON.stringify(trackedPaths));
+            // Simpan tanggal hari ini ke localStorage SEGERA (sync)
+            localStorage.setItem(storageKey, today);
 
-            // Kirim ke database
+            // Kirim ke database dengan ID unik
             await supabase.from('analytics_events').insert([
-                { event_type: 'view', details: { path } }
+                {
+                    event_type: 'view',
+                    details: {
+                        path,
+                        visitor_id: getVisitorId()
+                    }
+                }
             ]);
 
-            // Bersihkan data lama
+            // Bersihkan sisa-sisa key lama jika ada
             Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('tracked_views_') && key !== storageKey) {
+                if (key.startsWith('tracked_views_')) {
                     localStorage.removeItem(key);
                 }
             });
-
-            // Hapus sisa-sisa key lama
             localStorage.removeItem('last_view_date');
             sessionStorage.removeItem('view_tracked');
         } catch (err) {
             console.error('Error tracking view:', err);
-            // Jika gagal, biarkan saja agar tidak terus menerus mencoba dan mengganggu performa
         }
     };
 

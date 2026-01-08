@@ -632,7 +632,7 @@
         ],
         "stats": {
             "live": "+ ライブ",
-            "total_views": "総ページビュー数",
+            "total_views": "今日の訪問者",
             "total_orders": "総注文数 (WhatsApp)",
             "total_revenue": "総売上",
             "conversion_rate": "コンバージョン率",
@@ -778,6 +778,7 @@
             "new_order_label": "新規注文",
             "order_form_prefix": "注文フォーム",
             "status": {
+                "all": "すべてのステータス",
                 "pending": "保留中",
                 "completed": "完了",
                 "cancelled": "キャンセル"
@@ -794,20 +795,26 @@
                     "cancel": "キャンセル"
                 },
                 "update_success": "注文が正常に更新されました！",
-                "logout_success": "ログアウトに成功しました！リダイレクト中...",
+                "delete_success": "注文が正常に削除されました！",
+                "logout_success": "ログアウトに成功しました！ホームに戻ります...",
                 "edit_confirm": {
                     "title": "変更を破棄しますか？",
                     "message": "加えられた変更は保存されていません。終了してもよろしいですか？",
                     "confirm": "はい、破棄します",
                     "cancel": "編集を続ける"
                 }
+            },
+            "fields": {
+                "customer": "顧客名",
+                "email": "メールアドレス",
+                "whatsapp": "WhatsApp番号",
+                "company": "会社 / ビジネス名",
+                "tech_stack": "技術スタック",
+                "website_type": "ウェブサイトの種類",
+                "message": "メッセージ / 要望",
+                "total": "合計金額 (IDR Raw)",
+                "status": "ステータス"
             }
-        },
-        "fields": {
-            "customer": "顧客名",
-            "details": "注文詳細",
-            "total": "合計金額",
-            "status": "ステータス"
         },
         "footer": {
             "note": "このダッシュボードは、イベント追跡に基づいた単純な分析を表示します。「ビュー」はページの読み込み、「注文」はWhatsAppボタンのクリックです。データはリアルタイムで同期されます。"
