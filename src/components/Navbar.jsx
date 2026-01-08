@@ -17,11 +17,34 @@ const Logo = () => {
                 />
                 <div className="relative h-full w-full bg-white dark:bg-slate-900 rounded-xl border-2 border-slate-100 dark:border-slate-800 shadow-xl group-hover:border-primary/50 transition-all duration-500 overflow-hidden flex items-center justify-center">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <img
-                        src="/logo.png"
-                        alt="WebKuu Logo"
-                        className="w-8 h-8 object-contain relative z-10 transition-transform duration-500 group-hover:scale-110"
-                    />
+                    <svg
+                        viewBox="0 0 64 64"
+                        className="w-8 h-8 relative z-10 transition-transform duration-500 group-hover:scale-110"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M12 22L20 46L32 25L45 46L52 22"
+                            stroke="url(#logo-gradient-nav)"
+                            strokeWidth="6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                        <path
+                            d="M32 25L32 46"
+                            stroke="url(#logo-gradient-nav)"
+                            strokeWidth="6"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            opacity="0.3"
+                        />
+                        <defs>
+                            <linearGradient id="logo-gradient-nav" x1="12" y1="22" x2="52" y2="46" gradientUnits="userSpaceOnUse">
+                                <stop stopColor="#064e3b" />
+                                <stop offset="1" stopColor="#d97706" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
                 </div>
             </div>
             <div className="flex flex-col -space-y-1">
