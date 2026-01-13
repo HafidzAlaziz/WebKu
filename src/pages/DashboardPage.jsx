@@ -826,8 +826,8 @@ const DashboardPage = () => {
                                                                     {stats.currency} {order.total.toLocaleString(stats.locale)}
                                                                 </td>
                                                                 <td className="py-4 px-4">
-                                                                    <span className={`px - 2 py - 1 rounded - full text - xs font - bold uppercase tracking - wider ${getStatusColor(order.status)} `}>
-                                                                        {t(`dashboard.recent_orders.status.${order.status} `) || order.status}
+                                                                    <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getStatusColor(order.status)}`}>
+                                                                        {t(`dashboard.recent_orders.status.${order.status}`) || order.status}
                                                                     </span>
                                                                 </td>
                                                                 <td className="py-4 px-4">
@@ -966,7 +966,7 @@ const DashboardPage = () => {
                                                         }
 
                                                         return (
-                                                            <ResponsiveContainer width="100%" height="100%">
+                                                            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
                                                                 <PieChart>
                                                                     <Pie
                                                                         data={chartData}
