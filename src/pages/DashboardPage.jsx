@@ -38,6 +38,7 @@ const DashboardPage = () => {
     const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
     const [showActionError, setShowActionError] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
 
     // Notification State
     const [unreadOrdersCount, setUnreadOrdersCount] = useState(0);
@@ -338,23 +339,35 @@ const DashboardPage = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-row px-4 pb-4 pt-2 gap-5">
+            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row px-0 md:px-4 pb-4 md:pt-2 gap-0 md:gap-5">
                 <DashboardSidebar
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
                     portfolioCount={portfolioProjects.length}
+                    isMobileOpen={isSidebarOpen}
+                    setIsMobileOpen={setIsSidebarOpen}
                 />
 
-                <div className="flex-1 flex flex-col min-w-0 py-5">
+                <div className="flex-1 flex flex-col min-w-0 py-5 px-4 md:px-0">
                     {/* Header */}
                     <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 gap-4 shrink-0 transition-opacity duration-300 opacity-100">
-                        <div>
-                            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-0.5 tracking-tight">
-                                {t('dashboard.header.title')}
-                            </h1>
-                            <p className="text-slate-500 dark:text-slate-400 text-[11px] font-medium">
-                                {t('dashboard.header.subtitle')}
-                            </p>
+                        <div className="flex items-center gap-4">
+                            {/* Hamburger Menu (Mobile Only) */}
+                            <button
+                                onClick={() => setIsSidebarOpen(true)}
+                                className="md:hidden p-2 -ml-2 text-slate-600 dark:text-slate-300"
+                            >
+                                <LayoutGrid size={24} />
+                            </button>
+
+                            <div>
+                                <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-0.5 tracking-tight">
+                                    {t('dashboard.header.title')}
+                                </h1>
+                                <p className="text-slate-500 dark:text-slate-400 text-[11px] font-medium hidden sm:block">
+                                    {t('dashboard.header.subtitle')}
+                                </p>
+                            </div>
                         </div>
 
                         <div className="flex items-center gap-4">
@@ -363,8 +376,8 @@ const DashboardPage = () => {
                                 <button
                                     onClick={handleBellClick}
                                     className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all relative ${isNotificationsOpen
-                                            ? 'bg-blue-50 border-blue-200 text-blue-600 dark:bg-blue-900/40 dark:border-blue-700 dark:text-blue-400'
-                                            : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                                        ? 'bg-blue-50 border-blue-200 text-blue-600 dark:bg-blue-900/40 dark:border-blue-700 dark:text-blue-400'
+                                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20'
                                         }`}
                                 >
                                     <Bell size={18} />
