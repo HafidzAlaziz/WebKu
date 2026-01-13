@@ -41,6 +41,8 @@ const DashboardPage = () => {
 
     // Notification State
     const [unreadOrdersCount, setUnreadOrdersCount] = useState(0);
+    const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+    const [unreadOrdersList, setUnreadOrdersList] = useState([]);
     const [lastCheckedOrders, setLastCheckedOrders] = useState(() => {
         return localStorage.getItem('last_orders_check') || 0;
     });
@@ -54,18 +56,28 @@ const DashboardPage = () => {
                 return orderTime > lastCheckTime && order.status !== 'completed' && order.status !== 'cancelled';
             });
             setUnreadOrdersCount(newOrders.length);
+            setUnreadOrdersList(newOrders);
         }
     }, [stats.allOrders, lastCheckedOrders]);
 
-    const handleNotificationClick = () => {
-        // Clear notifications
-        const now = Date.now();
-        localStorage.setItem('last_orders_check', now);
-        setLastCheckedOrders(now);
-        setUnreadOrdersCount(0);
+    const handleBellClick = () => {
+        setIsNotificationsOpen(!isNotificationsOpen);
+        // We don't clear immediate count here if we want the badge to stay until items are viewed
+        // OR we clear it immediately to show "checked". User said "karena udh diliat" -> maybe when dropdown opens?
+        // Let's clear the BADGE when dropdown opens, but keep items in list.
+        if (!isNotificationsOpen && unreadOrdersCount > 0) {
+            const now = Date.now();
+            localStorage.setItem('last_orders_check', now);
+            setLastCheckedOrders(now);
+            setUnreadOrdersCount(0); // Clear badge
+        }
+    };
 
+    const handleNotificationItemClick = (order) => {
         // Navigate to orders
-        setActiveTab('orders'); // or 'analytics' where the table is
+        setActiveTab('orders');
+        setIsNotificationsOpen(false);
+        // Optional: Highlight specific order? keeping it simple for now
     };
     const [showEditConfirm, setShowEditConfirm] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -347,15 +359,89 @@ const DashboardPage = () => {
 
                         <div className="flex items-center gap-4">
                             {/* Notification Bell */}
-                            <button
-                                onClick={handleNotificationClick}
-                                className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all relative"
-                            >
-                                <Bell size={18} />
-                                {unreadOrdersCount > 0 && (
-                                    <span className="absolute top-2.5 right-3 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-slate-800 animate-pulse"></span>
-                                )}
-                            </button>
+                            <div className="relative">
+                                <button
+                                    onClick={handleBellClick}
+                                    className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all relative ${isNotificationsOpen
+                                            ? 'bg-blue-50 border-blue-200 text-blue-600 dark:bg-blue-900/40 dark:border-blue-700 dark:text-blue-400'
+                                            : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                                        }`}
+                                >
+                                    <Bell size={18} />
+                                    {unreadOrdersCount > 0 && (
+                                        <span className="absolute top-2.5 right-3 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-slate-800 animate-pulse"></span>
+                                    )}
+                                </button>
+
+                                {/* Notification Dropdown */}
+                                <AnimatePresence>
+                                    {isNotificationsOpen && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                                            className="absolute right-0 top-12 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50"
+                                        >
+                                            <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
+                                                <h3 className="font-bold text-slate-900 dark:text-white text-sm">Notifikasi</h3>
+                                                <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-full font-bold">
+                                                    {unreadOrdersList.length} Baru
+                                                </span>
+                                            </div>
+
+                                            <div className="max-h-[300px] overflow-y-auto">
+                                                {unreadOrdersList.length > 0 ? (
+                                                    unreadOrdersList.map(order => (
+                                                        <div
+                                                            key={order.id}
+                                                            onClick={() => handleNotificationItemClick(order)}
+                                                            className="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer border-b border-slate-50 dark:border-slate-700/50 last:border-0"
+                                                        >
+                                                            <div className="flex items-start gap-3">
+                                                                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center shrink-0">
+                                                                    <ShoppingCart size={14} />
+                                                                </div>
+                                                                <div>
+                                                                    <p className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">
+                                                                        Pesanan Baru: {order.customerName}
+                                                                    </p>
+                                                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">
+                                                                        {order.details}
+                                                                    </p>
+                                                                    <p className="text-[10px] text-slate-400 mt-2 font-medium">
+                                                                        {order.date}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <div className="p-8 text-center">
+                                                        <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
+                                                            <Bell size={20} />
+                                                        </div>
+                                                        <p className="text-sm text-slate-500 dark:text-slate-400">
+                                                            Tidak ada notifikasi baru
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+
+                                            <div className="p-3 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-700 text-center">
+                                                <button
+                                                    onClick={() => {
+                                                        setActiveTab('orders');
+                                                        setIsNotificationsOpen(false);
+                                                    }}
+                                                    className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline"
+                                                >
+                                                    Lihat Semua Pesanan
+                                                </button>
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
 
                             <div className="flex items-center gap-3 bg-white dark:bg-slate-800 p-1.5 pr-4 rounded-full border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group">
                                 <div className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden border-2 border-slate-200 dark:border-slate-600 group-hover:border-blue-500 transition-colors">
