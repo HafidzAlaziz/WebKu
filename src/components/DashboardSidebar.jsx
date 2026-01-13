@@ -236,15 +236,15 @@ const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobil
             {/* Mobile Bottom Navigation */}
             <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-700 p-2 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
                 <nav className="flex items-center justify-around max-w-md mx-auto">
-                    {menuItems.slice(0, 5).filter(item => item.id !== 'visitors').map((item) => {
+                    {menuSections.menu.slice(0, 5).filter(item => item.id !== 'visitors').map((item) => {
                         const isActive = activeTab === item.id;
                         return (
                             <button
                                 key={item.id}
                                 onClick={() => setActiveTab(item.id)}
                                 className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-200 relative ${isActive
-                                        ? 'text-blue-600 dark:text-blue-400'
-                                        : 'text-slate-500 dark:text-slate-400 inactive'
+                                    ? 'text-blue-600 dark:text-blue-400'
+                                    : 'text-slate-500 dark:text-slate-400 inactive'
                                     }`}
                             >
                                 <div className={`
