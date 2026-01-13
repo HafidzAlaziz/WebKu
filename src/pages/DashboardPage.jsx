@@ -38,6 +38,35 @@ const DashboardPage = () => {
     const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
     const [showActionError, setShowActionError] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+    // Notification State
+    const [unreadOrdersCount, setUnreadOrdersCount] = useState(0);
+    const [lastCheckedOrders, setLastCheckedOrders] = useState(() => {
+        return localStorage.getItem('last_orders_check') || 0;
+    });
+
+    // Check for new orders
+    useEffect(() => {
+        if (stats.allOrders && stats.allOrders.length > 0) {
+            const lastCheckTime = new Date(Number(lastCheckedOrders)).getTime();
+            const newOrders = stats.allOrders.filter(order => {
+                const orderTime = new Date(order.created_at).getTime();
+                return orderTime > lastCheckTime && order.status !== 'completed' && order.status !== 'cancelled';
+            });
+            setUnreadOrdersCount(newOrders.length);
+        }
+    }, [stats.allOrders, lastCheckedOrders]);
+
+    const handleNotificationClick = () => {
+        // Clear notifications
+        const now = Date.now();
+        localStorage.setItem('last_orders_check', now);
+        setLastCheckedOrders(now);
+        setUnreadOrdersCount(0);
+
+        // Navigate to orders
+        setActiveTab('orders'); // or 'analytics' where the table is
+    };
     const [showEditConfirm, setShowEditConfirm] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [orderToDelete, setOrderToDelete] = useState(null);
@@ -318,9 +347,14 @@ const DashboardPage = () => {
 
                         <div className="flex items-center gap-4">
                             {/* Notification Bell */}
-                            <button className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all relative">
+                            <button
+                                onClick={handleNotificationClick}
+                                className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all relative"
+                            >
                                 <Bell size={18} />
-                                <span className="absolute top-2.5 right-3 w-1.5 h-1.5 bg-red-500 rounded-full border border-white dark:border-slate-800"></span>
+                                {unreadOrdersCount > 0 && (
+                                    <span className="absolute top-2.5 right-3 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-slate-800 animate-pulse"></span>
+                                )}
                             </button>
 
                             <div className="flex items-center gap-3 bg-white dark:bg-slate-800 p-1.5 pr-4 rounded-full border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group">
