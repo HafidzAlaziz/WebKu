@@ -644,7 +644,61 @@
             "views": "Kunjungan",
             "orders": "Pesanan",
             "revenue": "Pendapatan",
-            "cancelled_revenue": "Dibatalkan"
+            "cancelled_revenue": "Dibatalkan",
+            "periods": {
+                "weekly": "Mingguan",
+                "monthly": "Bulanan",
+                "yearly": "Tahunan"
+            }
+        },
+        "widgets": {
+            "clock_title": "Jam Digital"
+        },
+        "visitors": {
+            "title": "Data Pengunjung",
+            "subtitle": "Analisis detail pengunjung yang datang ke website Anda.",
+            "table": {
+                "time": "Waktu Kunjungan",
+                "visitor_id": "Visitor ID",
+                "device": "Perangkat",
+                "browser": "Browser",
+                "os": "Sistem Operasi",
+                "page": "Halaman",
+                "empty": "Belum ada data pengunjung yang terekam.",
+                "search_placeholder": "Cari ID atau Perangkat..."
+            }
+        },
+        "sidebar": {
+            "sections": {
+                "menu": "Menu Utama",
+                "general": "Umum",
+                "preferences": "Preferensi"
+            },
+            "items": {
+                "dashboard": "Beranda",
+                "portfolio": "Portofolio",
+                "orders": "Pesanan",
+                "analytics": "Analitik",
+                "team": "Pengunjung",
+                "settings": "Pengaturan",
+                "help": "Bantuan",
+                "logout": "Keluar",
+                "coming_soon": "Segera Hadir",
+                "language": "Bahasa",
+                "theme_light": "Mode Terang",
+                "theme_dark": "Mode Gelap"
+            }
+        },
+        "analytics": {
+            "stats": {
+                "completed": "Pesanan Selesai",
+                "net_revenue": "Pendapatan Bersih",
+                "pending": "Menunggu",
+                "estimated_revenue": "Estimasi Pendapatan",
+                "cancelled": "Dibatalkan",
+                "potential_loss": "Potensi Kehilangan"
+            },
+            "no_active_orders": "Belum ada pesanan aktif saat ini."
         },
         "portfolio": {
             "title": "Manajemen Portofolio",
@@ -794,8 +848,10 @@
                     "confirm": "Ya, Hapus",
                     "cancel": "Batal"
                 },
-                "update_success": "Pesanan berhasil diperbarui!",
+                "update_failed": "Gagal menyimpan perubahan. Silakan periksa koneksi atau izin database Anda.",
+                "action_failed": "Tindakan gagal dilakukan. Silakan coba lagi nanti.",
                 "delete_success": "Pesanan berhasil dihapus!",
+                "update_success": "Data berhasil diperbarui!",
                 "logout_success": "Berhasil keluar! Kembali ke Beranda...",
                 "edit_confirm": {
                     "title": "Batalkan Perubahan?",

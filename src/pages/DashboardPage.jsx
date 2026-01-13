@@ -1,68 +1,103 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    BarChart3,
-    Users,
-    ShoppingCart,
-    TrendingUp,
-    Clock,
-    AlertCircle,
-    LogOut,
-    Trash2,
-    ChevronDown,
-    ExternalLink,
-    Banknote,
-    Briefcase,
-    Mail,
-    Phone,
-    Search
+    LayoutGrid, ListTodo, Calendar, BarChart3, Users, Settings, HelpCircle, LogOut, Sun, Moon,
+    ChevronDown, Languages, Smartphone, ArrowUpRight, ChevronLeft, ChevronRight, Briefcase,
+    ShoppingCart, Bell, Search, Filter, Database, Clock, MoreVertical, Edit, Trash2, Eye,
+    EyeOff, AlertCircle, Banknote, MapPin, Mail, Phone, CheckCircle, XCircle, ExternalLink,
+    Monitor, Tablet, Globe
 } from 'lucide-react';
 
 
 import { useTracker } from '../hooks/useTracker';
+import { usePortfolio } from '../hooks/usePortfolio';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import TrafficChart from '../components/TrafficChart';
 import ProjectManager from '../components/ProjectManager';
 import Navbar from '../components/Navbar';
+import DashboardSidebar from '../components/DashboardSidebar';
 import { useTranslation } from 'react-i18next';
 
 const DashboardPage = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { stats, loading, refresh, deleteOrder, updateOrderStatus, updateOrder } = useTracker();
+    const { projects: portfolioProjects, fetchProjects: fetchPortfolio } = usePortfolio();
 
     // Filter State
-    const [filterType, setFilterType] = useState('7d'); // 7d, 30d, month, year
+    const [filterType, setFilterType] = useState('weekly'); // weekly, monthly, yearly
     const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
     const [isDeleting, setIsDeleting] = useState(null);
     const [editingOrder, setEditingOrder] = useState(null); // The order object being edited
     const [showUpdateSuccess, setShowUpdateSuccess] = useState(false);
+    const [showUpdateError, setShowUpdateError] = useState(false);
     const [showDeleteSuccess, setShowDeleteSuccess] = useState(false);
     const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
+    const [showActionError, setShowActionError] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [showEditConfirm, setShowEditConfirm] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [orderToDelete, setOrderToDelete] = useState(null);
     const [orderStatusFilter, setOrderStatusFilter] = useState('all');
     const [orderSearchQuery, setOrderSearchQuery] = useState('');
-    const [activeTab, setActiveTab] = useState('overview'); // overview, projects
+    const [historySearchQuery, setHistorySearchQuery] = useState('');
+    const [ordersCurrentPage, setOrdersCurrentPage] = useState(1);
+    const [historyCurrentPage, setHistoryCurrentPage] = useState(1);
+    const [visitorsCurrentPage, setVisitorsCurrentPage] = useState(1);
+    const [visitorSearchQuery, setVisitorSearchQuery] = useState('');
+    const [itemsPerPage] = useState(10);
+    const [activeTab, setActiveTab] = useState('dashboard'); // dashboard, tasks, calendar, etc.
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    // Reset pagination when search query changes
+    useEffect(() => {
+        setOrdersCurrentPage(1);
+    }, [orderSearchQuery]);
+
+    useEffect(() => {
+        setHistoryCurrentPage(1);
+    }, [historySearchQuery]);
+
+    useEffect(() => {
+        setVisitorsCurrentPage(1);
+    }, [visitorSearchQuery]);
+
+    // Listener for Sidebar Logout
+    useEffect(() => {
+        const handleForceLogout = () => setShowLogoutConfirm(true);
+        window.addEventListener('trigger-logout-confirm', handleForceLogout);
+        return () => window.removeEventListener('trigger-logout-confirm', handleForceLogout);
+    }, []);
 
     const refreshData = async () => {
-        let filter = { type: 'days', value: 7 };
-
-        if (filterType === '7d') filter = { type: 'days', value: 7 };
-        else if (filterType === '30d') filter = { type: 'days', value: 30 };
-        else if (filterType === 'month') filter = { type: 'month', value: { year: selectedYear, month: selectedMonth } };
-        else if (filterType === 'year') filter = { type: 'year', value: selectedYear };
-
-        await refresh(filter);
+        // Pass filterType directly as string (weekly, monthly, yearly)
+        await refresh(filterType);
     };
 
     const triggerSuccess = () => {
         setShowUpdateSuccess(true);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setTimeout(() => setShowUpdateSuccess(false), 3000);
+    };
+
+    const triggerError = () => {
+        setShowUpdateError(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => setShowUpdateError(false), 3000);
+    };
+
+    const triggerActionError = () => {
+        setShowActionError(true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => setShowActionError(false), 3000);
     };
 
     const triggerDeleteSuccess = () => {
@@ -79,34 +114,38 @@ const DashboardPage = () => {
     const confirmDelete = async () => {
         if (!orderToDelete) return;
         setIsDeleting(orderToDelete);
-        const res = await deleteOrder(orderToDelete);
+        const res = await deleteOrder(orderToDelete, stats.allOrders.find(o => o.id === orderToDelete)?.originTable);
         if (res.success) {
             triggerDeleteSuccess();
             refreshData();
+        } else {
+            triggerActionError();
         }
         setIsDeleting(null);
         setShowDeleteConfirm(false);
         setOrderToDelete(null);
     };
 
-    const handleStatusChange = async (id, status, currentDetails) => {
-        const res = await updateOrderStatus(id, status, currentDetails);
+    const handleStatusChange = async (id, status, currentDetails, originTable) => {
+        const res = await updateOrderStatus(id, status, currentDetails, originTable);
         if (res.success) {
             triggerSuccess();
             refreshData();
+        } else {
+            triggerActionError();
         }
     };
 
     const handleSaveEdit = async (e) => {
         e.preventDefault();
-        const res = await updateOrder(editingOrder.id, editingOrder.rawDetails);
+        const res = await updateOrder(editingOrder.id, editingOrder.rawDetails, editingOrder.originTable);
         if (res.success) {
             setEditingOrder(null);
             setShowEditConfirm(false);
             triggerSuccess();
             refreshData();
         } else {
-            alert(t('dashboard.recent_orders.actions.update_failed') || 'Failed to save changes. Please check your connection or database permissions.');
+            triggerError();
         }
     };
 
@@ -140,6 +179,85 @@ const DashboardPage = () => {
         }));
     };
 
+    // Pagination Component
+    const Pagination = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const startItem = (currentPage - 1) * itemsPerPage + 1;
+        const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+        const getPageNumbers = () => {
+            const pages = [];
+            const maxVisible = 5;
+
+            if (totalPages <= maxVisible) {
+                for (let i = 1; i <= totalPages; i++) {
+                    pages.push(i);
+                }
+            } else {
+                if (currentPage <= 3) {
+                    for (let i = 1; i <= 4; i++) pages.push(i);
+                    pages.push('...');
+                    pages.push(totalPages);
+                } else if (currentPage >= totalPages - 2) {
+                    pages.push(1);
+                    pages.push('...');
+                    for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+                } else {
+                    pages.push(1);
+                    pages.push('...');
+                    pages.push(currentPage - 1);
+                    pages.push(currentPage);
+                    pages.push(currentPage + 1);
+                    pages.push('...');
+                    pages.push(totalPages);
+                }
+            }
+            return pages;
+        };
+
+        if (totalPages <= 1) return null;
+
+        return (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
+                <div className="text-sm text-slate-500 dark:text-slate-400">
+                    Menampilkan <span className="font-bold text-slate-900 dark:text-white">{startItem}</span> - <span className="font-bold text-slate-900 dark:text-white">{endItem}</span> dari <span className="font-bold text-slate-900 dark:text-white">{totalItems}</span> data
+                </div>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => onPageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                        ← Previous
+                    </button>
+                    {getPageNumbers().map((page, idx) => (
+                        page === '...' ? (
+                            <span key={`ellipsis - ${idx} `} className="px-2 text-slate-400">...</span>
+                        ) : (
+                            <button
+                                key={page}
+                                onClick={() => onPageChange(page)}
+                                className={`px - 3 py - 2 rounded - lg text - sm font - medium transition - colors ${currentPage === page
+                                    ? 'bg-blue-600 text-white'
+                                    : 'border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                    } `}
+                            >
+                                {page}
+                            </button>
+                        )
+                    ))}
+                    <button
+                        onClick={() => onPageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                        Next →
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
     const getStatusColor = (status) => {
         switch (status) {
             case 'completed': return 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400';
@@ -148,9 +266,24 @@ const DashboardPage = () => {
         }
     };
 
+    const getDeviceIcon = (device) => {
+        const d = device.toLowerCase();
+        if (d.includes('iphone') || d.includes('samsung') || d.includes('phone') || d.includes('xiaomi') || d.includes('oppo') || d.includes('vivo') || d.includes('mobile')) {
+            return <Smartphone size={14} />;
+        }
+        if (d.includes('ipad') || d.includes('tablet')) {
+            return <Tablet size={14} />;
+        }
+        return <Monitor size={14} />;
+    };
+
     useEffect(() => {
         refreshData();
-        const interval = setInterval(refreshData, 30000);
+        fetchPortfolio();
+        const interval = setInterval(() => {
+            refreshData();
+            fetchPortfolio();
+        }, 30000);
         return () => clearInterval(interval);
     }, [filterType, selectedYear, selectedMonth, i18n.language]);
 
@@ -164,436 +297,844 @@ const DashboardPage = () => {
 
     return (
         <>
-            <Navbar />
-            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pt-24 pb-12 px-6">
-                <div className="container mx-auto max-w-6xl">
+            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-row px-4 pb-4 pt-2 gap-5">
+                <DashboardSidebar
+                    activeTab={activeTab}
+                    setActiveTab={setActiveTab}
+                    portfolioCount={portfolioProjects.length}
+                />
 
+                <div className="flex-1 flex flex-col min-w-0 py-5">
                     {/* Header */}
-                    <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-10 gap-4">
+                    <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 gap-4 shrink-0 transition-opacity duration-300 opacity-100">
                         <div>
-                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-0.5 tracking-tight">
                                 {t('dashboard.header.title')}
                             </h1>
-                            <p className="text-slate-600 dark:text-slate-400">
+                            <p className="text-slate-500 dark:text-slate-400 text-[11px] font-medium">
                                 {t('dashboard.header.subtitle')}
                             </p>
                         </div>
-                        <div className="flex flex-wrap gap-2 items-center">
-                            {/* Filter Type Select */}
-                            <div className="relative group">
-                                <select
-                                    value={filterType}
-                                    onChange={(e) => setFilterType(e.target.value)}
-                                    className="appearance-none bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm rounded-lg pl-3 pr-10 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none hover:border-blue-500 transition-all cursor-pointer"
-                                >
-                                    <option value="7d">{t('dashboard.filters.last_7_days')}</option>
-                                    <option value="30d">{t('dashboard.filters.last_30_days')}</option>
-                                    <option value="month">{t('dashboard.filters.specific_month')}</option>
-                                    <option value="year">{t('dashboard.filters.specific_year')}</option>
-                                </select>
-                                <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-hover:translate-y-[-30%] transition-transform" />
-                            </div>
 
-                            {/* Year Select (Visible for Month/Year modes) */}
-                            {(filterType === 'month' || filterType === 'year') && (
-                                <select
-                                    value={selectedYear}
-                                    onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                                    className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                >
-                                    {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map(year => (
-                                        <option key={year} value={year}>{year}</option>
-                                    ))}
-                                </select>
-                            )}
-
-                            {/* Month Select (Visible for Month mode) */}
-                            {filterType === 'month' && (
-                                <select
-                                    value={selectedMonth}
-                                    onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-                                    className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm rounded-lg p-2.5 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                >
-                                    {t('dashboard.months', { returnObjects: true }).map((m, i) => (
-                                        <option key={i} value={i}>{m}</option>
-                                    ))}
-                                </select>
-                            )}
-
-                            <button
-                                onClick={() => setShowLogoutConfirm(true)}
-                                className="px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors flex items-center gap-2"
-                                title={t('dashboard.header.logout')}
-                            >
-                                <LogOut size={18} />
-                                <span className="hidden sm:inline">{t('dashboard.header.logout')}</span>
+                        <div className="flex items-center gap-4">
+                            {/* Notification Bell */}
+                            <button className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all relative">
+                                <Bell size={18} />
+                                <span className="absolute top-2.5 right-3 w-1.5 h-1.5 bg-red-500 rounded-full border border-white dark:border-slate-800"></span>
                             </button>
+
+                            <div className="flex items-center gap-3 bg-white dark:bg-slate-800 p-1.5 pr-4 rounded-full border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group">
+                                <div className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden border-2 border-slate-200 dark:border-slate-600 group-hover:border-blue-500 transition-colors">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=150&h=150&fit=crop&q=80"
+                                        alt="Profile"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-tight group-hover:text-blue-600 transition-colors">Admin</h4>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Tabs */}
-                    <div className="flex gap-2 mb-8 bg-white dark:bg-slate-800 p-1.5 rounded-2xl w-fit shadow-sm border border-slate-100 dark:border-slate-700">
-                        <button
-                            onClick={() => setActiveTab('overview')}
-                            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'overview'
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
-                                : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900'
-                                }`}
-                        >
-                            <TrendingUp size={18} />
-                            {t('dashboard.portfolio.tabs.overview')}
-                        </button>
-                        <button
-                            onClick={() => setActiveTab('projects')}
-                            className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 ${activeTab === 'projects'
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/20'
-                                : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900'
-                                }`}
-                        >
-                            <Briefcase size={18} />
-                            {t('dashboard.portfolio.tabs.portfolio')}
-                        </button>
-                    </div>
-
-                    {/* Content Wrapper */}
-                    <div className="transition-opacity duration-300 opacity-100">
-                        {activeTab === 'overview' ? (
-                            <>
-                                {/* Stats Grid */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-10">
-                                    {/* Total Views */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.1 }}
-                                        className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow"
-                                    >
-                                        <div className="flex justify-between items-start mb-4">
-                                            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl text-blue-600 dark:text-blue-400">
-                                                <Users size={24} />
-                                            </div>
-                                            <span className="text-xs font-semibold text-green-500 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full animate-pulse">
-                                                {t('dashboard.stats.live')}
-                                            </span>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
-                                            {new Intl.NumberFormat(stats.locale, {
-                                                notation: 'compact',
-                                                compactDisplay: 'short'
-                                            }).format(stats.todayViews || 0)}
-                                        </h3>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">
-                                            {t('dashboard.stats.total_views')}
-                                        </p>
-                                    </motion.div>
-
-                                    {/* Total Orders */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.2 }}
-                                        className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow"
-                                    >
-                                        <div className="flex justify-between items-start mb-4">
-                                            <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl text-purple-600 dark:text-purple-400">
-                                                <ShoppingCart size={24} />
-                                            </div>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
-                                            {new Intl.NumberFormat(stats.locale, {
-                                                notation: 'compact',
-                                                compactDisplay: 'short'
-                                            }).format(stats.totalOrders || 0)}
-                                        </h3>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">
-                                            {t('dashboard.stats.total_orders')}
-                                        </p>
-                                    </motion.div>
-
-                                    {/* Conversion Rate */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.3 }}
-                                        className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow"
-                                    >
-                                        <div className="flex justify-between items-start mb-4">
-                                            <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl text-amber-600 dark:text-amber-400">
-                                                <BarChart3 size={24} />
-                                            </div>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
-                                            {new Intl.NumberFormat(stats.locale, {
-                                                style: 'percent',
-                                                minimumFractionDigits: 1,
-                                                maximumFractionDigits: 1
-                                            }).format(stats.totalViews > 0 ? (stats.totalOrders / stats.totalViews) : 0)}
-                                        </h3>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">
-                                            {t('dashboard.stats.conversion_rate')}
-                                        </p>
-                                    </motion.div>
-
-                                    {/* Total Revenue */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.4 }}
-                                        className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow"
-                                    >
-                                        <div className="flex justify-between items-start mb-4">
-                                            <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-emerald-600 dark:text-emerald-400">
-                                                <Banknote size={24} />
-                                            </div>
-                                        </div>
-                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-1 truncate" title={new Intl.NumberFormat(stats.locale, { style: 'currency', currency: stats.currency }).format(stats.totalRevenue || 0)}>
-                                            {new Intl.NumberFormat(stats.locale, {
-                                                style: 'currency',
-                                                currency: stats.currency,
-                                                notation: 'compact',
-                                                maximumFractionDigits: 1
-                                            }).format(stats.totalRevenue || 0)}
-                                        </h3>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">
-                                            {t('dashboard.stats.total_revenue')}
-                                        </p>
-                                    </motion.div>
-
-                                    {/* Cancelled Orders */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.5 }}
-                                        className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow"
-                                    >
-                                        <div className="flex justify-between items-start mb-4">
-                                            <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-xl text-red-600 dark:text-red-400">
-                                                <Trash2 size={24} />
-                                            </div>
-                                            <span className="text-xs font-semibold text-red-500 bg-red-50 dark:bg-red-900/20 px-2 py-1 rounded-full">
-                                                {stats.totalCancelled || 0} {t('dashboard.stats.orders_suffix')}
-                                            </span>
-                                        </div>
-                                        <h3 className="text-2xl font-bold mb-1 text-red-600 dark:text-red-400 truncate" title={new Intl.NumberFormat(stats.locale, { style: 'currency', currency: stats.currency }).format((stats.cancelledRevenue || 0) * -1)}>
-                                            {new Intl.NumberFormat(stats.locale, {
-                                                style: 'currency',
-                                                currency: stats.currency,
-                                                notation: 'compact',
-                                                maximumFractionDigits: 1
-                                            }).format((stats.cancelledRevenue || 0) * -1)}
-                                        </h3>
-                                        <p className="text-sm text-slate-500 dark:text-slate-400">
-                                            {t('dashboard.stats.cancelled_orders')}
-                                        </p>
-                                    </motion.div>
-                                </div>
-
-                                {/* Traffic and Orders Overview */}
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-                                    {/* Chart Section - Larger height */}
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.4 }}
-                                        className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col h-full min-h-[500px]"
-                                    >
-                                        <div className="flex items-center justify-between mb-6">
-                                            <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                                {t('dashboard.charts.traffic_overview')}
-                                            </h3>
-                                        </div>
-                                        <div className="flex-1 w-full relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/20 rounded-xl">
-                                            <TrafficChart data={stats.viewsHistory} stats={stats} />
-                                        </div>
-                                    </motion.div>
-
-                                    {/* Recent Orders Section - Fixed height for 2 items */}
-                                    <motion.div
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.5 }}
-                                        className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col h-full min-h-[500px]"
-                                    >
-                                        <div className="flex items-center justify-between mb-6">
-                                            <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                                <Clock className="text-blue-500" size={20} />
-                                                {t('dashboard.recent_orders.title')}
-                                            </h3>
-                                        </div>
-
-                                        {/* Search and Filter */}
-                                        <div className="flex gap-2 mb-4">
-                                            <div className="relative flex-1">
-                                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-                                                <input
-                                                    type="text"
-                                                    placeholder={t('dashboard.recent_orders.search_placeholder') || "Search..."}
-                                                    value={orderSearchQuery}
-                                                    onChange={(e) => setOrderSearchQuery(e.target.value)}
-                                                    className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
-                                                />
-                                            </div>
-                                            <div className="relative">
-                                                <select
-                                                    value={orderStatusFilter}
-                                                    onChange={(e) => setOrderStatusFilter(e.target.value)}
-                                                    className="appearance-none px-3 pr-8 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white cursor-pointer"
-                                                >
-                                                    <option value="all">{t('dashboard.recent_orders.status.all') || t('dashboard.filters.status_all')}</option>
-                                                    <option value="pending">{t('dashboard.recent_orders.status.pending')}</option>
-                                                    <option value="completed">{t('dashboard.recent_orders.status.completed')}</option>
-                                                    <option value="cancelled">{t('dashboard.recent_orders.status.cancelled')}</option>
-                                                </select>
-                                                <ChevronDown size={10} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-                                            </div>
-                                        </div>
-
-                                        {/* Orders List Container - Strictly 2 items visibility + scroll */}
-                                        <div className="space-y-4 overflow-y-auto pr-2 custom-scrollbar" style={{ maxHeight: '330px' }}>
-                                            {stats.recentOrders.filter(o => {
-                                                const matchesStatus = orderStatusFilter === 'all' || o.status === orderStatusFilter;
-                                                const matchesSearch = o.customerName.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
-                                                    o.date.toLowerCase().includes(orderSearchQuery.toLowerCase());
-                                                return matchesStatus && matchesSearch;
-                                            }).length === 0 ? (
-                                                <div className="text-center py-12 text-slate-400">
-                                                    <ShoppingCart size={40} className="mx-auto mb-3 opacity-20" />
-                                                    {t('dashboard.recent_orders.empty')}
+                    {/* Main Content Area */}
+                    <main className="flex-1">
+                        <div className="flex flex-col">
+                            {activeTab === 'dashboard' ? (
+                                <>
+                                    {/* Stats Grid */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-5 shrink-0">
+                                        {/* Pengunjung Hari Ini */}
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 15 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            onClick={() => setActiveTab('visitors')}
+                                            className="bg-[#14532D] dark:bg-emerald-900 p-6 rounded-[1.5rem] border border-white/10 shadow-sm relative overflow-hidden group transition-all cursor-pointer hover:scale-[1.02] hover:shadow-lg"
+                                        >
+                                            <div className="flex justify-between items-start mb-6">
+                                                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white">
+                                                    <Users size={20} />
                                                 </div>
-                                            ) : (
-                                                stats.recentOrders
-                                                    .filter(o => {
-                                                        const matchesStatus = orderStatusFilter === 'all' || o.status === orderStatusFilter;
-                                                        const matchesSearch = o.customerName.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
-                                                            o.date.toLowerCase().includes(orderSearchQuery.toLowerCase());
-                                                        return matchesStatus && matchesSearch;
-                                                    })
-                                                    .map((order) => (
-                                                        <div key={order.id} className="group relative flex flex-col p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-all shadow-sm hover:shadow-md">
-                                                            <div className="flex items-start justify-between gap-3 mb-3">
-                                                                <div className="flex items-start gap-3">
-                                                                    <div className="p-2.5 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-xl shrink-0">
-                                                                        <ShoppingCart size={18} />
-                                                                    </div>
-                                                                    <div>
-                                                                        <div className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-bold text-sm mb-0.5">
-                                                                            <Banknote size={14} />
-                                                                            {new Intl.NumberFormat(stats.locale, {
-                                                                                style: 'currency',
-                                                                                currency: stats.currency,
-                                                                                maximumFractionDigits: 0
-                                                                            }).format(order.total)}
-                                                                        </div>
-                                                                        <p className="text-sm font-extrabold text-slate-900 dark:text-white">
-                                                                            {order.customerName !== '-' ? order.customerName : t('dashboard.recent_orders.new_order_label')}
-                                                                        </p>
-                                                                        <div className="mt-1.5 space-y-1">
-                                                                            {order.rawDetails?.customerEmail && (
-                                                                                <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-                                                                                    <div className="p-1 bg-blue-50 dark:bg-blue-900/20 rounded text-blue-500">
-                                                                                        <Mail size={10} />
-                                                                                    </div>
-                                                                                    <span className="truncate">{order.rawDetails.customerEmail}</span>
-                                                                                </div>
-                                                                            )}
-                                                                            {order.rawDetails?.customerPhone && (
-                                                                                <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
-                                                                                    <div className="p-1 bg-green-50 dark:bg-green-900/20 rounded text-green-500">
-                                                                                        <Phone size={10} />
-                                                                                    </div>
-                                                                                    <span>{order.rawDetails.customerPhone}</span>
-                                                                                </div>
-                                                                            )}
-                                                                            {!order.rawDetails?.customerEmail && !order.rawDetails?.customerPhone && (
-                                                                                <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
-                                                                                    {order.details}
-                                                                                </p>
-                                                                            )}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className={`px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border shrink-0 ${order.status === 'completed'
-                                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-400 dark:border-emerald-800'
-                                                                    : order.status === 'cancelled'
-                                                                        ? 'bg-red-50 text-red-600 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800'
-                                                                        : 'bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800'
-                                                                    }`}>
-                                                                    {t(`dashboard.recent_orders.status.${order.status}`)}
-                                                                </div>
-                                                            </div>
+                                                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-900 shadow-sm">
+                                                    <ArrowUpRight size={16} strokeWidth={2.5} />
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h3 className="text-3xl font-black text-white mb-1 tracking-tight">
+                                                    {stats.todayViews || 0}
+                                                </h3>
+                                                <span className="text-white/70 text-[12px] font-bold uppercase tracking-tight">
+                                                    {t('dashboard.stats.total_views')}
+                                                </span>
+                                            </div>
+                                        </motion.div>
 
-                                                            <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-200/50 dark:border-slate-700/50 gap-2">
-                                                                <div className="flex items-center gap-2 text-slate-400 shrink-0">
-                                                                    <div className="p-1.5 bg-slate-50 dark:bg-slate-900/50 rounded-lg">
-                                                                        <Clock size={12} className="text-slate-400" />
+                                        {/* Total Pesanan */}
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 15 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.1 }}
+                                            onClick={() => setActiveTab('orders')}
+                                            className="bg-white dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-md group"
+                                        >
+                                            <div className="flex justify-between items-start mb-6">
+                                                <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
+                                                    <ShoppingCart size={20} />
+                                                </div>
+                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110">
+                                                    <ArrowUpRight size={16} strokeWidth={2.5} />
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-1 tracking-tight">
+                                                    {stats.totalOrders || 0}
+                                                </h3>
+                                                <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
+                                                    {t('dashboard.stats.total_orders')}
+                                                </span>
+                                            </div>
+                                        </motion.div>
+
+                                        {/* Total Pendapatan */}
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 15 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.2 }}
+                                            onClick={() => setActiveTab('analytics')}
+                                            className="bg-white dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-md group"
+                                        >
+                                            <div className="flex justify-between items-start mb-6">
+                                                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                                                    <Banknote size={20} />
+                                                </div>
+                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-emerald-600 group-hover:text-white group-hover:scale-110">
+                                                    <ArrowUpRight size={16} strokeWidth={2.5} />
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-1 truncate">
+                                                    {stats.currency} {Math.round(stats.totalRevenue).toLocaleString(stats.locale)}
+                                                </h3>
+                                                <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
+                                                    Potensi Pendapatan
+                                                </span>
+                                            </div>
+                                        </motion.div>
+
+                                        {/* Pesanan Dibatalkan */}
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 15 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.3 }}
+                                            onClick={() => setActiveTab('analytics')}
+                                            className="bg-white dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-md group"
+                                        >
+                                            <div className="flex justify-between items-start mb-6">
+                                                <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
+                                                    <Trash2 size={20} />
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <div className="px-2 py-0.5 rounded-lg bg-red-500/10 text-red-500 text-[10px] font-bold">
+                                                        {stats.totalCancelled || 0} Pesanan
+                                                    </div>
+                                                    <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-red-600 group-hover:text-white group-hover:scale-110">
+                                                        <ArrowUpRight size={16} strokeWidth={2.5} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <h3 className="text-3xl font-black text-red-500 dark:text-red-400 mb-1 tracking-tight truncate">
+                                                    {stats.currency} {Math.round(stats.cancelledRevenue).toLocaleString(stats.locale)}
+                                                </h3>
+                                                <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
+                                                    {t('dashboard.stats.cancelled_orders')}
+                                                </span>
+                                            </div>
+                                        </motion.div>
+                                    </div>
+
+                                    {/* Content Components Grid (3 Columns: 6:3:3) */}
+                                    <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch mb-6">
+                                        {/* Column 1: Analytics & Team (9 cols) */}
+                                        <div className="xl:col-span-9 flex flex-col gap-6">
+                                            {/* Trafik & Pendapatan (Area Chart) */}
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 15 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.4 }}
+                                                className="bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-200/60 dark:border-slate-700/50 shadow-sm flex-1 flex flex-col min-h-[300px]"
+                                            >
+                                                <div className="flex items-center justify-between mb-6">
+                                                    <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
+                                                        {t('dashboard.charts.traffic_overview')}
+                                                    </h3>
+                                                    <div className="flex items-center gap-2">
+                                                        <select
+                                                            value={filterType}
+                                                            onChange={(e) => setFilterType(e.target.value)}
+                                                            className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-bold rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-blue-500/50 cursor-pointer"
+                                                        >
+                                                            <option value="weekly">{t('dashboard.charts.periods.weekly')}</option>
+                                                            <option value="monthly">{t('dashboard.charts.periods.monthly')}</option>
+                                                            <option value="yearly">{t('dashboard.charts.periods.yearly')}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="flex-1 w-full min-h-[200px]">
+                                                    <TrafficChart data={stats.viewsHistory} stats={stats} />
+                                                </div>
+                                            </motion.div>
+                                        </div>
+
+                                        {/* Column 2: Time Tracker (3 cols) */}
+                                        <div className="xl:col-span-3 flex flex-col gap-6">
+                                            {/* Work Hours / Time Tracker */}
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 15 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.8 }}
+                                                className="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm flex-1 min-h-[160px] h-full flex flex-col justify-center items-center relative overflow-hidden group"
+                                            >
+                                                {/* Background decoration with gradient */}
+                                                <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 z-0" />
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                                                <div className="absolute bottom-0 left-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
+                                                <div className="relative z-10 w-full flex flex-col items-center justify-center h-full">
+                                                    {/* Header */}
+                                                    <div className="flex items-center gap-2 mb-2 opacity-50">
+                                                        <Clock size={14} className="text-slate-500 dark:text-slate-400" />
+                                                        <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                                                            {t('dashboard.widgets.clock_title')}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Main Time with Gradient */}
+                                                    <div className="text-5xl xl:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-900 dark:from-white dark:to-slate-300 tracking-tighter tabular-nums mb-1">
+                                                        {currentTime.toLocaleTimeString(i18n.language, {
+                                                            hour: '2-digit',
+                                                            minute: '2-digit',
+                                                            hour12: false
+                                                        })}
+                                                        <span className="text-2xl xl:text-3xl text-slate-400 dark:text-slate-500 font-bold ml-1">
+                                                            {currentTime.toLocaleTimeString(i18n.language, {
+                                                                second: '2-digit'
+                                                            })}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Date & Day */}
+                                                    <div className="flex flex-col items-center gap-0.5">
+                                                        <h3 className="text-sm font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
+                                                            {currentTime.toLocaleDateString(i18n.language, {
+                                                                weekday: 'long'
+                                                            })}
+                                                        </h3>
+                                                        <p className="text-slate-400 dark:text-slate-500 text-[11px] font-medium bg-slate-100 dark:bg-slate-700/50 px-3 py-1 rounded-full border border-slate-200 dark:border-slate-700/50">
+                                                            {currentTime.toLocaleDateString(i18n.language, {
+                                                                day: 'numeric',
+                                                                month: 'long',
+                                                                year: 'numeric'
+                                                            })}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </div>
+                                    </div>
+                                </>
+                            ) : activeTab === 'orders' ? (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="p-6"
+                                >
+                                    <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
+                                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                                            <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                                <ShoppingCart size={24} className="text-blue-500" />
+                                                Daftar Pesanan Lengkap
+                                            </h2>
+                                            <div className="flex items-center gap-3">
+                                                <div className="relative">
+                                                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Cari pesanan..."
+                                                        value={orderSearchQuery}
+                                                        onChange={(e) => setOrderSearchQuery(e.target.value)}
+                                                        className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-64"
+                                                    />
+                                                </div>
+                                                <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-sm font-bold">
+                                                    {(stats.allOrders || []).filter(o => {
+                                                        const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
+                                                        const matchesSearch = orderSearchQuery === '' ||
+                                                            o.customerName?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                            o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                            o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
+                                                        return matchesStatus && matchesSearch;
+                                                    }).length} Pesanan Aktif
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="overflow-x-auto">
+                                            <table className="w-full">
+                                                <thead>
+                                                    <tr className="border-b border-slate-100 dark:border-slate-700">
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Tanggal</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Pelanggan</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Detail</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Total</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Status</th>
+                                                        <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                                                    {(() => {
+                                                        const filtered = (stats.allOrders || []).filter(o => {
+                                                            const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
+                                                            const matchesSearch = orderSearchQuery === '' ||
+                                                                o.customerName?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                                o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                                o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
+                                                            return matchesStatus && matchesSearch;
+                                                        });
+                                                        const startIndex = (ordersCurrentPage - 1) * itemsPerPage;
+                                                        const endIndex = startIndex + itemsPerPage;
+                                                        return filtered.slice(startIndex, endIndex);
+                                                    })().map((order) => (
+                                                        <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                                                            <td className="py-4 px-4 text-sm text-slate-500 dark:text-slate-400 font-medium">
+                                                                {order.date}
+                                                            </td>
+                                                            <td className="py-4 px-4">
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs uppercase">
+                                                                        {order.customerName.substring(0, 2)}
                                                                     </div>
-                                                                    <span className="text-[10px] font-bold whitespace-nowrap">
-                                                                        {order.date}
+                                                                    <span className="text-sm font-bold text-slate-900 dark:text-white">
+                                                                        {order.customerName}
                                                                     </span>
                                                                 </div>
+                                                            </td>
+                                                            <td className="py-4 px-4 text-sm text-slate-600 dark:text-slate-300">
+                                                                {order.details}
+                                                            </td>
+                                                            <td className="py-4 px-4 text-sm font-bold text-slate-900 dark:text-white">
+                                                                {stats.currency} {order.total.toLocaleString(stats.locale)}
+                                                            </td>
+                                                            <td className="py-4 px-4">
+                                                                <span className={`px - 2 py - 1 rounded - full text - xs font - bold uppercase tracking - wider ${getStatusColor(order.status)} `}>
+                                                                    {t(`dashboard.recent_orders.status.${order.status} `) || order.status}
+                                                                </span>
+                                                            </td>
+                                                            <td className="py-4 px-4">
+                                                                <div className="flex justify-end gap-2">
+                                                                    <button
+                                                                        onClick={() => setEditingOrder(order)}
+                                                                        className="p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-slate-400 hover:text-blue-600 rounded-lg transition-colors"
+                                                                    >
+                                                                        <Edit size={16} />
+                                                                    </button>
+                                                                    <button
+                                                                        onClick={() => handleDelete(order.id)}
+                                                                        className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-600 rounded-lg transition-colors"
+                                                                    >
+                                                                        <Trash2 size={16} />
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                    {((stats.allOrders || []).filter(o => {
+                                                        const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
+                                                        const matchesSearch = orderSearchQuery === '' ||
+                                                            o.customerName?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                            o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                            o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
+                                                        return matchesStatus && matchesSearch;
+                                                    }).length === 0) && (
+                                                            <tr>
+                                                                <td colSpan="6" className="py-12 text-center text-slate-500 dark:text-slate-400 font-medium">
+                                                                    {orderSearchQuery ? 'Tidak ada pesanan yang sesuai dengan pencarian.' : t('dashboard.analytics.no_active_orders')}
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                </tbody>
+                                            </table>
+                                        </div>
 
-                                                                <div className="flex items-center gap-2">
-                                                                    {/* Status Quick Switch */}
-                                                                    <div className="flex items-center bg-white dark:bg-slate-800 rounded-lg p-0.5 border border-slate-200 dark:border-slate-700 shadow-sm shrink-0 relative">
-                                                                        <select
-                                                                            value={order.status}
-                                                                            onChange={(e) => handleStatusChange(order.id, e.target.value, order.rawDetails)}
-                                                                            className="text-[10px] font-black bg-transparent border-none rounded-md pl-2 pr-6 py-1 outline-none cursor-pointer focus:ring-0 appearance-none relative z-10"
-                                                                        >
-                                                                            <option value="pending">{t('dashboard.recent_orders.status.pending')}</option>
-                                                                            <option value="completed">{t('dashboard.recent_orders.status.completed')}</option>
-                                                                            <option value="cancelled">{t('dashboard.recent_orders.status.cancelled')}</option>
-                                                                        </select>
-                                                                        <ChevronDown size={10} className="absolute right-2 opacity-50 pointer-events-none" />
+                                        {/* Pagination */}
+                                        <Pagination
+                                            currentPage={ordersCurrentPage}
+                                            totalItems={(stats.allOrders || []).filter(o => {
+                                                const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
+                                                const matchesSearch = orderSearchQuery === '' ||
+                                                    o.customerName?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                    o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                    o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
+                                                return matchesStatus && matchesSearch;
+                                            }).length}
+                                            itemsPerPage={itemsPerPage}
+                                            onPageChange={(page) => setOrdersCurrentPage(page)}
+                                        />
+                                    </div>
+                                </motion.div>
+                            ) : activeTab === 'analytics' ? (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="p-6"
+                                >
+                                    <div className="space-y-6 p-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                            {/* Completed Stats */}
+                                            <div className="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm">
+                                                <div className="flex items-center gap-4 mb-4">
+                                                    <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center">
+                                                        <CheckCircle size={24} />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{t('dashboard.analytics.stats.completed')}</p>
+                                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white">{stats.completedOrders || 0}</h4>
+                                                    </div>
+                                                </div>
+                                                <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.analytics.stats.net_revenue')}</p>
+                                                    <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
+                                                        {stats.currency} {Math.round(stats.completedRevenue || 0).toLocaleString(stats.locale)}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Pending Stats */}
+                                            <div className="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm">
+                                                <div className="flex items-center gap-4 mb-4">
+                                                    <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center">
+                                                        <Clock size={24} />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{t('dashboard.analytics.stats.pending')}</p>
+                                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white">{stats.pendingOrders || 0}</h4>
+                                                    </div>
+                                                </div>
+                                                <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.analytics.stats.estimated_revenue')}</p>
+                                                    <p className="text-lg font-bold text-amber-600 dark:text-amber-400">
+                                                        {stats.currency} {Math.round(stats.pendingRevenue || 0).toLocaleString(stats.locale)}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Cancelled Stats */}
+                                            <div className="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm">
+                                                <div className="flex items-center gap-4 mb-4">
+                                                    <div className="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center">
+                                                        <Trash2 size={24} />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{t('dashboard.analytics.stats.cancelled')}</p>
+                                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white">{stats.totalCancelled || 0}</h4>
+                                                    </div>
+                                                </div>
+                                                <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400">Total Batal</p>
+                                                    <p className="text-lg font-bold text-red-600 dark:text-red-400">
+                                                        {stats.currency} {Math.round(stats.cancelledRevenue || 0).toLocaleString(stats.locale)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
+                                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                                                <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight uppercase">
+                                                    Riwayat Pesanan
+                                                </h3>
+                                                <div className="flex items-center gap-3">
+                                                    <div className="relative">
+                                                        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                                                        <input
+                                                            type="text"
+                                                            placeholder="Cari riwayat..."
+                                                            value={historySearchQuery}
+                                                            onChange={(e) => setHistorySearchQuery(e.target.value)}
+                                                            className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-64"
+                                                        />
+                                                    </div>
+                                                    <div className="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 rounded-lg text-sm font-bold">
+                                                        {(stats.allOrders || []).filter(o => {
+                                                            const matchesStatus = o.status === 'completed' || o.status === 'cancelled';
+                                                            const matchesSearch = historySearchQuery === '' ||
+                                                                o.customerName?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                                                                o.details?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                                                                o.customerEmail?.toLowerCase().includes(historySearchQuery.toLowerCase());
+                                                            return matchesStatus && matchesSearch;
+                                                        }).length} Pesanan Terarsip
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="overflow-x-auto">
+                                                <table className="w-full">
+                                                    <thead>
+                                                        <tr className="border-b border-slate-100 dark:border-slate-700">
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Tanggal</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Pelanggan</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Detail</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Total</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Status</th>
+                                                            <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Aksi</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                                                        {(() => {
+                                                            const filtered = (stats.allOrders || []).filter(o => {
+                                                                const matchesStatus = o.status === 'completed' || o.status === 'cancelled';
+                                                                const matchesSearch = historySearchQuery === '' ||
+                                                                    o.customerName?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                                                                    o.details?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                                                                    o.customerEmail?.toLowerCase().includes(historySearchQuery.toLowerCase());
+                                                                return matchesStatus && matchesSearch;
+                                                            });
+                                                            const startIndex = (historyCurrentPage - 1) * itemsPerPage;
+                                                            const endIndex = startIndex + itemsPerPage;
+                                                            return filtered.slice(startIndex, endIndex);
+                                                        })().map((order) => (
+                                                            <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                                                                <td className="py-4 px-4 text-sm text-slate-500 dark:text-slate-400 font-medium">
+                                                                    {order.date}
+                                                                </td>
+                                                                <td className="py-4 px-4">
+                                                                    <div className="flex items-center gap-3">
+                                                                        <div className={`w - 8 h - 8 rounded - full ${order.status === 'completed' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600' : 'bg-red-100 dark:bg-red-900/30 text-red-600'} flex items - center justify - center font - bold text - xs uppercase`}>
+                                                                            {order.customerName.substring(0, 2)}
+                                                                        </div>
+                                                                        <span className="text-sm font-bold text-slate-900 dark:text-white">
+                                                                            {order.customerName}
+                                                                        </span>
                                                                     </div>
-
-                                                                    <div className="flex items-center gap-1 border-l border-slate-200 dark:border-slate-700 ml-1 pl-1">
+                                                                </td>
+                                                                <td className="py-4 px-4 text-sm text-slate-600 dark:text-slate-300">
+                                                                    {order.details}
+                                                                </td>
+                                                                <td className="py-4 px-4 text-sm font-bold text-slate-900 dark:text-white">
+                                                                    {stats.currency} {order.total.toLocaleString(stats.locale)}
+                                                                </td>
+                                                                <td className="py-4 px-4">
+                                                                    <span className={`px - 2 py - 1 rounded - full text - xs font - bold uppercase tracking - wider ${getStatusColor(order.status)} `}>
+                                                                        {t(`dashboard.recent_orders.status.${order.status} `) || order.status}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="py-4 px-4">
+                                                                    <div className="flex justify-end gap-2">
                                                                         <button
                                                                             onClick={() => setEditingOrder(order)}
-                                                                            className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all"
-                                                                            title={t('dashboard.recent_orders.actions.edit')}
+                                                                            className="p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-slate-400 hover:text-blue-600 rounded-lg transition-colors"
                                                                         >
-                                                                            <ExternalLink size={14} />
+                                                                            <Edit size={16} />
                                                                         </button>
-
                                                                         <button
                                                                             onClick={() => handleDelete(order.id)}
-                                                                            disabled={isDeleting === order.id}
-                                                                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
-                                                                            title={t('dashboard.recent_orders.actions.delete')}
+                                                                            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-600 rounded-lg transition-colors"
                                                                         >
-                                                                            <Trash2 size={14} className={isDeleting === order.id ? 'animate-pulse' : ''} />
+                                                                            <Trash2 size={16} />
                                                                         </button>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    ))
-                                            )}
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                        {((stats.allOrders || []).filter(o => {
+                                                            const matchesStatus = o.status === 'completed' || o.status === 'cancelled';
+                                                            const matchesSearch = historySearchQuery === '' ||
+                                                                o.customerName?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                                                                o.details?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                                                                o.customerEmail?.toLowerCase().includes(historySearchQuery.toLowerCase());
+                                                            return matchesStatus && matchesSearch;
+                                                        }).length === 0) && (
+                                                                <tr>
+                                                                    <td colSpan="6" className="py-12 text-center text-slate-500 dark:text-slate-400 font-medium">
+                                                                        {historySearchQuery ? 'Tidak ada riwayat yang sesuai dengan pencarian.' : 'Belum ada riwayat pesanan.'}
+                                                                    </td>
+                                                                </tr>
+                                                            )}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            {/* Pagination */}
+                                            <Pagination
+                                                currentPage={historyCurrentPage}
+                                                totalItems={(stats.allOrders || []).filter(o => {
+                                                    const matchesStatus = o.status === 'completed' || o.status === 'cancelled';
+                                                    const matchesSearch = historySearchQuery === '' ||
+                                                        o.customerName?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                                                        o.details?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
+                                                        o.customerEmail?.toLowerCase().includes(historySearchQuery.toLowerCase());
+                                                    return matchesStatus && matchesSearch;
+                                                }).length}
+                                                itemsPerPage={itemsPerPage}
+                                                onPageChange={(page) => setHistoryCurrentPage(page)}
+                                            />
                                         </div>
-                                    </motion.div>
-                                </div>
-                            </>
-                        ) : (
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                            >
-                                <ProjectManager />
-                            </motion.div>
-                        )}
-                    </div>
+                                    </div>
+                                </motion.div>
+                            ) : activeTab === 'visitors' ? (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="p-6"
+                                >
+                                    <div className="flex flex-col gap-6">
+                                        {/* Visitor Analytics Header */}
+                                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                                            <div>
+                                                <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{t('dashboard.visitors.title')}</h2>
+                                                <p className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard.visitors.subtitle')}</p>
+                                            </div>
+                                            <div className="flex items-center gap-3 w-full sm:w-auto">
+                                                <div className="relative flex-1 sm:flex-none">
+                                                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                                                    <input
+                                                        type="text"
+                                                        placeholder={t('dashboard.visitors.table.search_placeholder')}
+                                                        value={visitorSearchQuery}
+                                                        onChange={(e) => setVisitorSearchQuery(e.target.value)}
+                                                        className="pl-9 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-full sm:w-64"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
 
-                    {/* Note */}
-                    <div className="mt-8 p-4 bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 rounded-xl flex items-start gap-3 text-sm">
-                        <AlertCircle className="shrink-0 mt-0.5" size={18} />
-                        <p>
-                            {t('dashboard.footer.note')}
-                        </p>
-                    </div>
-                </div>
+                                        <div className="flex flex-col gap-8">
+                                            {/* Top: Device Stats Pie Chart */}
+                                            <div className="w-full bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col sm:flex-row items-center justify-between min-h-[300px]">
+                                                <div className="w-full sm:w-1/3 mb-6 sm:mb-0">
+                                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                                                        <Smartphone className="text-blue-500" size={24} />
+                                                        Persentase Perangkat
+                                                    </h3>
+                                                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                                                        Statistik penggunaan perangkat oleh pengunjung website Anda.
+                                                    </p>
+                                                </div>
+                                                <div className="w-full sm:w-2/3 h-[300px] relative">
+                                                    {(() => {
+                                                        const deviceCounts = {};
+                                                        let totalVisitors = 0;
+
+                                                        // Helper to categorize detailed device names back to groups
+                                                        const getDeviceCategory = (details) => {
+                                                            const d = details.toLowerCase();
+                                                            if (d.includes('windows') || d.includes('mac') || d.includes('linux') || d.includes('desktop')) return 'Desktop';
+                                                            if (d.includes('iphone') || d.includes('ipad') || d.includes('ios')) return 'iOS';
+                                                            if (d.includes('samsung') || d.includes('sm-')) return 'Android (Samsung)';
+                                                            if (d.includes('xiaomi') || d.includes('redmi') || d.includes('mi ')) return 'Android (Xiaomi)';
+                                                            if (d.includes('oppo')) return 'Android (Oppo)';
+                                                            if (d.includes('vivo')) return 'Android (Vivo)';
+                                                            if (d.includes('android')) return 'Android';
+                                                            return 'Others';
+                                                        };
+
+                                                        stats.visitors.forEach(v => {
+                                                            const rawDevice = v.device || 'Unknown';
+                                                            const category = getDeviceCategory(rawDevice);
+                                                            deviceCounts[category] = (deviceCounts[category] || 0) + 1;
+                                                            totalVisitors++;
+                                                        });
+
+                                                        const chartData = Object.entries(deviceCounts)
+                                                            .sort(([, a], [, b]) => b - a)
+                                                            .map(([name, value]) => ({
+                                                                name,
+                                                                value,
+                                                                percentage: Math.round((value / totalVisitors) * 100)
+                                                            }));
+
+                                                        const COLORS = ['#3B82F6', '#10B981', '#8B5CF6', '#F59E0B', '#F43F5E', '#06B6D4'];
+
+                                                        if (chartData.length === 0) {
+                                                            return (
+                                                                <div className="flex items-center justify-center h-full text-slate-400 text-sm">
+                                                                    Belum ada data
+                                                                </div>
+                                                            );
+                                                        }
+
+                                                        return (
+                                                            <ResponsiveContainer width="100%" height="100%">
+                                                                <PieChart>
+                                                                    <Pie
+                                                                        data={chartData}
+                                                                        cx="50%"
+                                                                        cy="50%"
+                                                                        innerRadius={80}
+                                                                        outerRadius={110}
+                                                                        paddingAngle={5}
+                                                                        dataKey="value"
+                                                                        label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+                                                                            const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+                                                                            const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
+                                                                            const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+                                                                            return (
+                                                                                <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" className="text-xs font-bold">
+                                                                                    {`${(percent * 100).toFixed(0)}%`}
+                                                                                </text>
+                                                                            );
+                                                                        }}
+                                                                        labelLine={false}
+                                                                    >
+                                                                        {chartData.map((entry, index) => (
+                                                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                                        ))}
+                                                                    </Pie>
+                                                                    <Tooltip
+                                                                        contentStyle={{
+                                                                            backgroundColor: '#1E293B',
+                                                                            borderRadius: '8px',
+                                                                            border: 'none',
+                                                                            color: '#fff'
+                                                                        }}
+                                                                        itemStyle={{ color: '#fff' }}
+                                                                        formatter={(value, name, props) => {
+                                                                            return [`${value} visitors (${props.payload.percentage}%)`, name];
+                                                                        }}
+                                                                    />
+                                                                    <Legend
+                                                                        layout="vertical"
+                                                                        verticalAlign="middle"
+                                                                        align="right"
+                                                                        iconType="circle"
+                                                                        formatter={(value, entry) => {
+                                                                            const { payload } = entry;
+                                                                            return (
+                                                                                <span className="text-sm font-medium text-slate-600 dark:text-slate-300 ml-1">
+                                                                                    {value} <span className="text-slate-400">({payload.percentage}%)</span>
+                                                                                </span>
+                                                                            );
+                                                                        }}
+                                                                    />
+                                                                </PieChart>
+                                                            </ResponsiveContainer>
+                                                        );
+                                                    })()}
+                                                </div>
+                                            </div>
+
+                                            {/* Bottom: Visitors Table */}
+                                            <div className="bg-white dark:bg-slate-800 rounded-[2rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm overflow-hidden flex flex-col">
+                                                <div className="p-6 pb-2">
+                                                    <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                                        <ListTodo size={18} className="text-blue-500" />
+                                                        Daftar Pengunjung
+                                                    </h3>
+                                                </div>
+                                                <div className="overflow-x-auto">
+                                                    <table className="w-full">
+                                                        <thead>
+                                                            <tr className="border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-900/50">
+                                                                <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-6">{t('dashboard.visitors.table.time')}</th>
+                                                                <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-6">{t('dashboard.visitors.table.visitor_id')}</th>
+                                                                <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-6">{t('dashboard.visitors.table.device')}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
+                                                            {(() => {
+                                                                const filtered = (stats.visitors || []).filter(v =>
+                                                                    visitorSearchQuery === '' ||
+                                                                    v.visitor_id?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                                    v.device?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                                    v.browser?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                                    v.os?.toLowerCase().includes(visitorSearchQuery.toLowerCase())
+                                                                );
+                                                                const startIndex = (visitorsCurrentPage - 1) * itemsPerPage;
+                                                                return filtered.slice(startIndex, startIndex + itemsPerPage);
+                                                            })().map((v) => (
+                                                                <tr key={v.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+                                                                    <td className="py-4 px-6">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <Clock size={14} className="text-blue-500" />
+                                                                            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{v.date}</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="py-4 px-6">
+                                                                        <span className="text-xs font-mono bg-slate-100 dark:bg-slate-900 px-2 py-1 rounded text-slate-600 dark:text-slate-400">
+                                                                            {v.visitor_id || 'v-anonymous'}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td className="py-4 px-6">
+                                                                        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-900 w-fit">
+                                                                            <span className="text-slate-500 dark:text-slate-400">{getDeviceIcon(v.device)}</span>
+                                                                            <span className="text-xs font-bold text-slate-700 dark:text-slate-300">{v.device}</span>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                            {(!stats.visitors || stats.visitors.length === 0) && (
+                                                                <tr>
+                                                                    <td colSpan="3" className="py-12 text-center text-slate-500 dark:text-slate-400">
+                                                                        {t('dashboard.visitors.table.empty')}
+                                                                    </td>
+                                                                </tr>
+                                                            )}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div className="px-6 pb-6 mt-auto">
+                                                    <Pagination
+                                                        currentPage={visitorsCurrentPage}
+                                                        totalItems={(stats.visitors || []).filter(v =>
+                                                            visitorSearchQuery === '' ||
+                                                            v.visitor_id?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                            v.device?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                            v.browser?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                            v.os?.toLowerCase().includes(visitorSearchQuery.toLowerCase())
+                                                        ).length}
+                                                        itemsPerPage={itemsPerPage}
+                                                        onPageChange={(page) => setVisitorsCurrentPage(page)}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ) : activeTab === 'settings' ? (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="p-6"
+                                >
+                                    <div className="bg-white dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 text-center">
+                                        <div className="w-20 h-20 bg-slate-100 dark:bg-slate-700 text-slate-600 mx-auto rounded-full flex items-center justify-center mb-4">
+                                            <Settings size={40} />
+                                        </div>
+                                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Pengaturan Dashboard</h2>
+                                        <p className="text-slate-500 dark:text-slate-400">Konfigurasi sistem dan preferensi tampilan akan tersedia di sini.</p>
+                                    </div>
+                                </motion.div>
+                            ) : activeTab === 'portfolio' ? (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                >
+                                    <ProjectManager />
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                >
+                                    <ProjectManager />
+                                </motion.div>
+                            )}
+                        </div>
+                    </main>
+                </div >
             </div >
-
             {/* Success Notification */}
             < AnimatePresence >
                 {showUpdateSuccess && (
@@ -604,30 +1145,63 @@ const DashboardPage = () => {
                         className="fixed top-6 right-6 z-[100] bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-emerald-400/20 backdrop-blur-sm"
                     >
                         <div className="bg-white/20 p-2 rounded-xl">
-                            <Clock size={20} className="animate-spin" style={{ animationDuration: '3s' }} />
+                            <CheckCircle size={20} className="animate-bounce" />
                         </div>
                         <div>
                             <p className="font-bold">{t('dashboard.recent_orders.actions.update_success')}</p>
                         </div>
                     </motion.div>
-                )
-                }
+                )}
 
-                {showDeleteSuccess && (
+                {showUpdateError && (
                     <motion.div
                         initial={{ opacity: 0, x: 50, y: -20 }}
                         animate={{ opacity: 1, x: 0, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="fixed top-6 right-6 z-[100] bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-red-400/20 backdrop-blur-sm"
+                        className="fixed top-6 right-6 z-[100] bg-red-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-red-500/20 backdrop-blur-sm"
                     >
                         <div className="bg-white/20 p-2 rounded-xl">
-                            <Trash2 size={20} className="animate-pulse" />
+                            <XCircle size={20} className="animate-pulse" />
                         </div>
                         <div>
-                            <p className="font-bold">{t('dashboard.recent_orders.actions.delete_success')}</p>
+                            <p className="font-bold">{t('dashboard.recent_orders.actions.update_failed')}</p>
                         </div>
                     </motion.div>
                 )}
+
+                {showActionError && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 50, y: -20 }}
+                        animate={{ opacity: 1, x: 0, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="fixed top-6 right-6 z-[100] bg-red-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-red-500/20 backdrop-blur-sm"
+                    >
+                        <div className="bg-white/20 p-2 rounded-xl">
+                            <XCircle size={20} className="animate-pulse" />
+                        </div>
+                        <div>
+                            <p className="font-bold">{t('dashboard.recent_orders.actions.action_failed')}</p>
+                        </div>
+                    </motion.div>
+                )}
+
+                {
+                    showDeleteSuccess && (
+                        <motion.div
+                            initial={{ opacity: 0, x: 50, y: -20 }}
+                            animate={{ opacity: 1, x: 0, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="fixed top-6 right-6 z-[100] bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border border-red-400/20 backdrop-blur-sm"
+                        >
+                            <div className="bg-white/20 p-2 rounded-xl">
+                                <Trash2 size={20} className="animate-pulse" />
+                            </div>
+                            <div>
+                                <p className="font-bold">{t('dashboard.recent_orders.actions.delete_success')}</p>
+                            </div>
+                        </motion.div>
+                    )
+                }
 
                 {
                     showLogoutSuccess && (
@@ -809,11 +1383,12 @@ const DashboardPage = () => {
                             </form>
                         </motion.div>
                     </div>
-                )}
-            </AnimatePresence>
+                )
+                }
+            </AnimatePresence >
 
             {/* Delete Confirmation Modal */}
-            <AnimatePresence>
+            < AnimatePresence >
                 {showDeleteConfirm && (
                     <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
                         <motion.div
@@ -860,10 +1435,10 @@ const DashboardPage = () => {
                         </motion.div>
                     </div>
                 )}
-            </AnimatePresence>
+            </AnimatePresence >
 
             {/* Logout Confirmation Modal */}
-            <AnimatePresence>
+            < AnimatePresence >
                 {showLogoutConfirm && (
                     <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
                         <motion.div
@@ -907,10 +1482,10 @@ const DashboardPage = () => {
                         </motion.div>
                     </div>
                 )}
-            </AnimatePresence>
+            </AnimatePresence >
 
             {/* Discard Changes (Edit Modal) Confirmation */}
-            <AnimatePresence>
+            < AnimatePresence >
                 {showEditConfirm && (
                     <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
                         <motion.div
@@ -954,7 +1529,7 @@ const DashboardPage = () => {
                         </motion.div>
                     </div>
                 )}
-            </AnimatePresence>
+            </AnimatePresence >
         </>
     );
 };

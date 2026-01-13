@@ -155,6 +155,10 @@ const Navbar = () => {
         }
     };
 
+    if (location.pathname === '/dashboard') {
+        return null;
+    }
+
     return (
         <nav
             className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
@@ -169,7 +173,7 @@ const Navbar = () => {
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center space-x-6">
-                    {navLinks.map((link) => (
+                    {location.pathname !== '/dashboard' && navLinks.map((link) => (
                         link.isRoute ? (
                             <Link
                                 key={link.name}
@@ -192,7 +196,7 @@ const Navbar = () => {
                         )
                     ))}
 
-                    <div className="flex items-center gap-2 pl-4 border-l border-slate-200 dark:border-slate-700">
+                    <div className={`flex items-center gap-2 ${location.pathname !== '/dashboard' ? 'pl-4 border-l border-slate-200 dark:border-slate-700' : ''}`}>
                         {/* Language Switcher */}
                         {/* Language Switcher Dropdown */}
                         <div className="relative">
@@ -242,12 +246,14 @@ const Navbar = () => {
                         </motion.button>
                     </div>
 
-                    <Link
-                        to="/order"
-                        className="px-6 py-2.5 bg-primary hover:bg-primary-light text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-primary/30"
-                    >
-                        {t('nav.order')}
-                    </Link>
+                    {location.pathname !== '/dashboard' && (
+                        <Link
+                            to="/order"
+                            className="px-6 py-2.5 bg-primary hover:bg-primary-light text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-primary/30"
+                        >
+                            {t('nav.order')}
+                        </Link>
+                    )}
                 </div>
 
                 {/* Mobile Menu Button */}

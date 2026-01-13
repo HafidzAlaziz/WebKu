@@ -11,8 +11,13 @@ export const useTracker = () => {
         totalRevenue: 0,
         totalCancelled: 0,
         cancelledRevenue: 0,
+        completedOrders: 0,
+        completedRevenue: 0,
+        pendingOrders: 0,
+        pendingRevenue: 0,
         viewsHistory: [],
         recentOrders: [],
+        allOrders: [],
         currency: 'IDR',
         locale: 'id-ID'
     });
@@ -71,6 +76,56 @@ export const useTracker = () => {
         return vid;
     };
 
+    const getDeviceType = (ua) => {
+        // 1. Android Mobile - Try to get specific model
+        // Format often: ...; Model Build/...
+        const androidMatch = ua.match(/Android.+;\s*([^;]+?)\s*Build\//);
+        if (androidMatch && androidMatch[1]) {
+            return androidMatch[1]; // e.g. "SM-G991B", "Pixel 6"
+        }
+
+        // 2. iOS
+        if (/iPhone/i.test(ua)) return 'iPhone';
+        if (/iPad/i.test(ua)) return 'iPad';
+
+        // 3. Specific Brands (fallback if regex above misses but brand keyword exists)
+        if (/Samsung|SM-/i.test(ua)) return 'Samsung Device';
+        if (/Xiaomi|Redmi|Mi /i.test(ua)) return 'Xiaomi Device';
+        if (/Oppo/i.test(ua)) return 'Oppo Device';
+        if (/Vivo/i.test(ua)) return 'Vivo Device';
+
+        // 4. General Mobile/Tablet
+        if (/Android/i.test(ua)) return 'Android Device';
+        if (/(tablet|playbook|silk)|(android(?!.*mobile))/i.test(ua)) return 'Tablet';
+        if (/(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|series60|windows ce|nokia|treo|palm)/i.test(ua)) return 'Mobile';
+
+        // 5. Desktop
+        if (/Macintosh/i.test(ua)) return 'MacBook/iMac';
+        if (/Windows/i.test(ua)) return 'Windows PC';
+        if (/Linux/i.test(ua) && !/Android/i.test(ua)) return 'Linux PC';
+
+        return "Desktop";
+    };
+
+    const getBrowserInfo = (ua) => {
+        if (/Edg/i.test(ua)) return 'Edge';
+        if (/Chrome/i.test(ua)) return 'Chrome';
+        if (/Firefox/i.test(ua)) return 'Firefox';
+        if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) return 'Safari';
+        if (/Opera|OPR/i.test(ua)) return 'Opera';
+        if (/MSIE|Trident/i.test(ua)) return 'IE';
+        return "Browser Lain";
+    };
+
+    const getOSInfo = (ua) => {
+        if (/Windows/i.test(ua)) return 'Windows';
+        if (/Macintosh|Mac OS X/i.test(ua)) return 'macOS';
+        if (/Linux/i.test(ua)) return 'Linux';
+        if (/Android/i.test(ua)) return 'Android';
+        if (/iOS|iPhone|iPad|iPod/i.test(ua)) return 'iOS';
+        return "OS Lain";
+    };
+
     // Fetch data from Supabase
     const fetchStats = async (input = 7) => {
         // Determine days to look back based on input
@@ -91,73 +146,299 @@ export const useTracker = () => {
 
         try {
             console.log('Fetching stats from Supabase...');
-            // Get all events to ensure we have the latest data for all calculations
-            const { data, error } = await supabase
+
+            // 1. Fetch ALL from analytics_events (Views + Legacy Orders)
+            const { data: aeData, error: aeError } = await supabase
                 .from('analytics_events')
                 .select('*')
                 .order('created_at', { ascending: false });
 
-            if (error) {
-                console.error('Supabase error:', error);
-                throw error;
+            // 2. Fetch Orders from new orders table
+            const { data: ordersData, error: ordersError } = await supabase
+                .from('orders')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (aeError) {
+                console.error('Supabase analytics_events error:', aeError);
+                throw aeError;
+            }
+            if (ordersError) {
+                console.warn('Supabase orders table error (might not exist yet):', ordersError);
             }
 
-            console.log('Data received from Supabase:', data?.length || 0, 'rows');
-            // Process data locally
-            const views = data.filter(e => e.event_type === 'view');
-            const orders = data.filter(e => e.event_type === 'order');
+            // orders table might not exist in some environments yet, handle gracefully
+            const safeOrdersData = ordersData || [];
 
             const parsePrice = (val) => {
-                if (!val) return 0;
+                if (val === undefined || val === null) return 0;
                 if (typeof val === 'number') return val;
-                const numericStr = val.toString().replace(/[^0-9]/g, '');
+                const str = String(val);
+                const numericStr = str.replace(/[^0-9]/g, '');
                 return parseInt(numericStr) || 0;
             };
+
+            const normalizeStatus = (raw) => {
+                if (!raw) return 'pending';
+                const s = String(raw).toLowerCase().trim();
+                if (['selesai', 'done', 'success', 'completed'].includes(s)) return 'completed';
+                if (['dibatalkan', 'cancel', 'failed', 'cancelled', 'dihapus'].includes(s)) return 'cancelled';
+                if (['menunggu', 'waiting', 'pending', '', 'baru', 'proses'].includes(s)) return 'pending';
+                return s;
+            };
+
+            // 3. Process and Merge Data
+            const mergedOrdersMap = new Map();
+
+            // First, process legacy orders from analytics_events
+            (aeData || []).filter(e => e.event_type === 'order').forEach(o => {
+                const rawDetails = (typeof o.details === 'object' && o.details !== null)
+                    ? o.details
+                    : { details: o.details };
+
+                mergedOrdersMap.set(o.id, {
+                    id: o.id,
+                    event_type: 'order',
+                    originTable: 'analytics_events',
+                    created_at: o.created_at,
+                    details: {
+                        customerName: rawDetails.customerName || 'Unknown',
+                        customerEmail: rawDetails.customerEmail || 'noemail@example.com',
+                        customerPhone: rawDetails.customerPhone,
+                        customerCompany: rawDetails.customerCompany,
+                        websiteType: rawDetails.websiteType || rawDetails.orderType,
+                        techStack: rawDetails.techStack,
+                        message: rawDetails.message || rawDetails.details,
+                        total: parsePrice(rawDetails.total),
+                        status: normalizeStatus(rawDetails.status),
+                        orderPackage: rawDetails.orderPackage || rawDetails.package,
+                        orderType: rawDetails.orderType || rawDetails.websiteType,
+                        ...rawDetails // keep original details for compatibility
+                    }
+                });
+            });
+
+            // Then, process and OVERWRITE/ADD with data from dedicated orders table
+            safeOrdersData.forEach(o => {
+                mergedOrdersMap.set(o.id, {
+                    id: o.id,
+                    event_type: 'order',
+                    originTable: 'orders',
+                    created_at: o.created_at,
+                    details: {
+                        customerName: o.customer_name,
+                        customerEmail: o.customer_email,
+                        customerPhone: o.customer_phone,
+                        customerCompany: o.customer_company,
+                        websiteType: o.website_type,
+                        techStack: o.tech_stack,
+                        message: o.message,
+                        total: o.total,
+                        status: normalizeStatus(o.status),
+                        orderPackage: o.service_package,
+                        orderType: o.website_type
+                    }
+                });
+            });
+
+            const orders = Array.from(mergedOrdersMap.values()).sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+            );
+
+            const viewsData = (aeData || []).filter(e => e.event_type === 'view');
+            const views = viewsData.map(v => ({ ...v, event_type: 'view' }));
+            const data = [...views, ...orders];
+
+            // Process unique visitors with details
+            const processedVisitors = viewsData.map(v => {
+                const details = v.details || {};
+                const ua = details.user_agent;
+
+                // Jika ada user_agent, parse ulang agar lebih spesifik (walaupun data lama)
+                const device = ua ? getDeviceType(ua) : (details.device || 'Desktop');
+                const browser = ua ? getBrowserInfo(ua) : (details.browser || 'Unknown');
+                const os = ua ? getOSInfo(ua) : (details.os || 'Unknown');
+
+                return {
+                    id: v.id,
+                    visitor_id: details.visitor_id,
+                    path: details.path,
+                    device: device,
+                    browser: browser,
+                    os: os,
+                    created_at: v.created_at,
+                    date: new Date(v.created_at).toLocaleString(i18n.language, {
+                        day: 'numeric',
+                        month: 'short',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })
+                };
+            }).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
             const config = getCurrencyConfig(i18n.language);
 
             // Calculate history with conversion
             const history = [];
-            for (let i = lookupDays - 1; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                const dateStr = date.toISOString().split('T')[0];
 
-                const dayEvents = data.filter(e => e.created_at.startsWith(dateStr));
-                const uniqueDayVisitors = new Set(
-                    dayEvents
-                        .filter(e => e.event_type === 'view' && e.details?.visitor_id)
-                        .map(e => e.details.visitor_id)
-                ).size;
+            // Helper to format date keys for aggregation
+            const getDayKey = (d) => d.toISOString().split('T')[0];
+            const getMonthKey = (d) => d.toISOString().substring(0, 7); // YYYY-MM
+            const getYearKey = (d) => d.getFullYear().toString();
 
-                // Fallback to legacy count if visitor_id is missing for older data
-                const dayViews = uniqueDayVisitors || dayEvents.filter(e => e.event_type === 'view').length;
+            if (currentFilter === 'weekly' || (typeof input === 'object' && input.type === 'weekly') || input === '7d') {
+                // Weekly: Last 7 Days (rolling window)
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    const dateStr = getDayKey(date);
 
-                const dailyOrders = dayEvents.filter(e => e.event_type === 'order');
+                    const dayEvents = data.filter(e => e.created_at.startsWith(dateStr));
+                    const uniqueDayVisitors = new Set(
+                        dayEvents
+                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
+                            .map(e => e.details.visitor_id)
+                    ).size;
+                    // Fallback
+                    const dayViews = uniqueDayVisitors || dayEvents.filter(e => e.event_type === 'view').length;
+                    const dailyOrders = dayEvents.filter(e => e.event_type === 'order');
 
-                // Convert revenue to active currency
-                const dayRevenueIdr = dailyOrders
-                    .filter(o => o.details?.status !== 'cancelled')
-                    .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+                    const dayRevenueIdr = dailyOrders
+                        .filter(o => o.details?.status !== 'cancelled')
+                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+                    const dayCancelledRevenueIdr = dailyOrders
+                        .filter(o => o.details?.status === 'cancelled')
+                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
 
-                const dayCancelledRevenueIdr = dailyOrders
-                    .filter(o => o.details?.status === 'cancelled')
-                    .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+                    history.push({
+                        date: dateStr,
+                        views: dayViews,
+                        orders: dailyOrders.length,
+                        revenue: (dayRevenueIdr + dayCancelledRevenueIdr) / config.rate,
+                        cancelledRevenue: dayCancelledRevenueIdr / config.rate
+                    });
+                }
+            } else if (currentFilter === 'monthly' || (typeof input === 'object' && input.type === 'monthly') || input === '30d') {
+                // Monthly: Jan - Dec of current year
+                const currentYear = new Date().getFullYear();
+                for (let i = 0; i < 12; i++) {
+                    const dateStr = `${currentYear}-${(i + 1).toString().padStart(2, '0')}`;
 
-                history.push({
-                    date: dateStr,
-                    views: dayViews,
-                    orders: dailyOrders.length,
-                    revenue: dayRevenueIdr / config.rate,
-                    cancelledRevenue: (dayCancelledRevenueIdr / config.rate) * -1
-                });
+                    const monthEvents = data.filter(e => e.created_at.startsWith(dateStr));
+
+                    // Views
+                    const uniqueMonthVisitors = new Set(
+                        monthEvents
+                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
+                            .map(e => e.details.visitor_id)
+                    ).size;
+                    const monthViews = uniqueMonthVisitors || monthEvents.filter(e => e.event_type === 'view').length;
+
+                    // Orders
+                    const monthlyOrders = monthEvents.filter(e => e.event_type === 'order');
+
+                    const monthRevenueIdr = monthlyOrders
+                        .filter(o => o.details?.status !== 'cancelled')
+                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+
+                    const monthCancelledRevenueIdr = monthlyOrders
+                        .filter(o => o.details?.status === 'cancelled')
+                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+
+                    history.push({
+                        date: dateStr,
+                        views: monthViews,
+                        orders: monthlyOrders.length,
+                        revenue: monthRevenueIdr / config.rate, // Treat cancelled as 0 income
+                        cancelledRevenue: monthCancelledRevenueIdr / config.rate
+                    });
+                }
+            } else if (currentFilter === 'yearly' || (typeof input === 'object' && input.type === 'yearly') || input === 'year') {
+                // Yearly: 2024 - Current Year (Dynamic start if needed, but per request "20--" to now)
+                // Let's start from 2024 as base or 2023? Assuming project started recently, 2024 is safe.
+                // Or let's scan data to find min year?
+                // Per user request "20-- sampai 20sekarang". Let's do 2024 to Current Year + 1 maybe?
+                // Let's just do fixed range 2024 - Current Year for now, or last 5 years.
+                // "20-- sampai 20sekarang" implies a range. Let's do 2024 to `currentYear`.
+
+                const currentYear = new Date().getFullYear();
+                const startYear = 2024; // Base year for the app
+
+                for (let y = startYear; y <= currentYear; y++) {
+                    const dateStr = y.toString();
+
+                    const yearEvents = data.filter(e => e.created_at.startsWith(dateStr));
+
+                    // Views
+                    const uniqueYearVisitors = new Set(
+                        yearEvents
+                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
+                            .map(e => e.details.visitor_id)
+                    ).size;
+                    const yearViews = uniqueYearVisitors || yearEvents.filter(e => e.event_type === 'view').length;
+
+                    // Orders
+                    const yearOrders = yearEvents.filter(e => e.event_type === 'order');
+
+                    const yearRevenueIdr = yearOrders
+                        .filter(o => o.details?.status !== 'cancelled')
+                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+
+                    const yearCancelledRevenueIdr = yearOrders
+                        .filter(o => o.details?.status === 'cancelled')
+                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+
+                    history.push({
+                        date: dateStr,
+                        views: yearViews,
+                        orders: yearOrders.length,
+                        revenue: yearRevenueIdr / config.rate, // Treat cancelled as 0 income
+                        cancelledRevenue: yearCancelledRevenueIdr / config.rate
+                    });
+                }
+            } else {
+                // Fallback: Last N Days (default 7)
+                for (let i = lookupDays - 1; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    const dateStr = date.toISOString().split('T')[0];
+
+                    const dayEvents = data.filter(e => e.created_at.startsWith(dateStr));
+                    const uniqueDayVisitors = new Set(
+                        dayEvents
+                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
+                            .map(e => e.details.visitor_id)
+                    ).size;
+
+                    // Fallback to legacy count if visitor_id is missing for older data
+                    const dayViews = uniqueDayVisitors || dayEvents.filter(e => e.event_type === 'view').length;
+
+                    const dailyOrders = dayEvents.filter(e => e.event_type === 'order');
+
+                    // Convert revenue to active currency
+                    const dayRevenueIdr = dailyOrders
+                        .filter(o => o.details?.status !== 'cancelled')
+                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+
+                    const dayCancelledRevenueIdr = dailyOrders
+                        .filter(o => o.details?.status === 'cancelled')
+                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+
+                    history.push({
+                        date: dateStr,
+                        views: dayViews,
+                        orders: dailyOrders.length,
+                        revenue: (dayRevenueIdr + dayCancelledRevenueIdr) / config.rate,
+                        cancelledRevenue: dayCancelledRevenueIdr / config.rate
+                    });
+                }
             }
 
             // Recent orders (with converted total)
-            const recent = orders.slice(0, 10).map(o => {
+            const mapOrder = (o) => {
                 const orderDate = new Date(o.created_at);
                 const isNewOrder = !o.details?.details ||
-                    ['Order Button Click', 'Pesanan Baru', 'New Order'].includes(o.details.details);
+                    ['Order Button Click', 'Pesanan Baru', 'New Order'].includes(o.details?.details);
 
                 const totalIdr = parsePrice(o.details?.total);
 
@@ -165,22 +446,22 @@ export const useTracker = () => {
                 let displayDetails = '-';
                 if (isNewOrder) {
                     displayDetails = t('dashboard.recent_orders.new_order_label');
-                } else if (o.details.orderPackage && o.details.orderType) {
-                    const pkg = getLocalizedDetail('package', o.details.orderPackage);
-                    const type = getLocalizedDetail('type', o.details.orderType);
+                } else if (o.details?.orderPackage && o.details?.orderType) {
+                    const pkg = getLocalizedDetail('package', o.details?.orderPackage);
+                    const type = getLocalizedDetail('type', o.details?.orderType);
                     displayDetails = `${t('dashboard.recent_orders.order_form_prefix')}: ${pkg} - ${type}`;
-                } else if (typeof o.details.details === 'string' && o.details.details.startsWith('Order Form:')) {
+                } else if (typeof o.details?.details === 'string' && o.details?.details.startsWith('Order Form:')) {
                     // Backwards compatibility for old string format
-                    const parts = o.details.details.replace('Order Form: ', '').split(' - ');
+                    const parts = o.details?.details.replace('Order Form: ', '').split(' - ');
                     if (parts.length === 2) {
                         const pkg = getLocalizedDetail('package', parts[0]);
                         const type = getLocalizedDetail('type', parts[1]);
                         displayDetails = `${t('dashboard.recent_orders.order_form_prefix')}: ${pkg} - ${type}`;
                     } else {
-                        displayDetails = o.details.details;
+                        displayDetails = o.details?.details || '-';
                     }
                 } else {
-                    displayDetails = o.details.details || '-';
+                    displayDetails = o.details?.details || '-';
                 }
 
                 return {
@@ -193,44 +474,98 @@ export const useTracker = () => {
                     }),
                     details: displayDetails,
                     customerName: o.details?.customerName || '-',
+                    customerEmail: o.details?.customerEmail,
+                    customerPhone: o.details?.customerPhone,
+                    customerCompany: o.details?.customerCompany,
+                    websiteType: o.details?.websiteType,
+                    techStack: o.details?.techStack,
+                    message: o.details?.message,
                     total: totalIdr / config.rate,
-                    status: o.details?.status || 'pending',
-                    rawDetails: o.details
+                    status: o.details?.status,
+                    rawDetails: o.details,
+                    fromOrdersTable: true,
+                    originTable: o.originTable
                 };
-            });
-
-            // Calculate totals with conversion
-            const activeOrders = orders.filter(o => o.details?.status !== 'cancelled');
+            };
+            // 4. Calculate summary stats
+            const pendingOrders = orders.filter(o => o.details?.status === 'pending');
+            const completedOrders = orders.filter(o => o.details?.status === 'completed');
             const cancelledOrders = orders.filter(o => o.details?.status === 'cancelled');
 
-            const totalRevenueIdr = activeOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+            const pendingRevenueIdr = pendingOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+            const completedRevenueIdr = completedOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
             const cancelledRevenueIdr = cancelledOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
 
             // Calculate Today's Unique Views
             const todayStr = new Date().toISOString().split('T')[0];
-            const todayViewsCount = new Set(
-                views
-                    .filter(e => e.created_at.split('T')[0] === todayStr && e.details?.visitor_id)
-                    .map(e => e.details.visitor_id)
-            ).size || views.filter(e => e.created_at.split('T')[0] === todayStr).length;
+            const lastHistoryPoint = history[history.length - 1];
+            const todayViewsCount = lastHistoryPoint?.views || 0;
 
             setStats({
+                loading: false,
                 totalViews: views.length,
                 todayViews: todayViewsCount,
                 totalOrders: orders.length,
-                totalRevenue: totalRevenueIdr / config.rate,
+                totalRevenue: (completedRevenueIdr + pendingRevenueIdr) / config.rate, // Gross Potential Revenue (excluding cancelled)
+                netRevenue: completedRevenueIdr / config.rate, // Actual Cash In
+                completedOrders: completedOrders.length,
+                completedRevenue: completedRevenueIdr / config.rate,
+                pendingOrders: pendingOrders.length,
+                pendingRevenue: pendingRevenueIdr / config.rate,
                 totalCancelled: cancelledOrders.length,
                 cancelledRevenue: cancelledRevenueIdr / config.rate,
                 viewsHistory: history,
-                recentOrders: recent,
+                recentOrders: orders.slice(0, 10).map(mapOrder),
+                allOrders: orders.map(mapOrder),
+                visitors: processedVisitors,
                 currency: config.currency,
-                locale: config.locale
+                locale: config.locale,
+                todayRevenue: lastHistoryPoint?.revenue || 0
             });
         } catch (err) {
             console.error('Fetch error:', err);
         } finally {
             setLoading(false);
         }
+    };
+
+    // Helper function to parse User Agent
+    const parseUserAgent = (ua) => {
+        let device = 'Desktop';
+        let browser = 'Unknown';
+        let os = 'Unknown';
+
+        // OS detection
+        if (/Windows/i.test(ua)) os = 'Windows';
+        else if (/Macintosh|Mac OS X/i.test(ua)) os = 'macOS';
+        else if (/Linux/i.test(ua)) os = 'Linux';
+        else if (/Android/i.test(ua)) os = 'Android';
+        else if (/iOS|iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
+
+        // Device model detection (More specific)
+        if (/iPhone/i.test(ua)) device = 'iPhone';
+        else if (/iPad/i.test(ua)) device = 'iPad';
+        else if (/Samsung|SM-/i.test(ua)) device = 'Samsung';
+        else if (/Huawei/i.test(ua)) device = 'Huawei';
+        else if (/Xiaomi|Redmi|Mi /i.test(ua)) device = 'Xiaomi';
+        else if (/Oppo/i.test(ua)) device = 'Oppo';
+        else if (/Vivo/i.test(ua)) device = 'Vivo';
+        else if (/Macintosh/i.test(ua)) device = 'MacBook/iMac';
+        else if (/Windows/i.test(ua)) device = 'Windows PC';
+        else if (/Linux/i.test(ua) && !/Android/i.test(ua)) device = 'Linux PC';
+        else if (/Android/i.test(ua)) device = 'Android Phone';
+        else if (/(tablet|playbook|silk)|(android(?!.*mobile))/i.test(ua)) device = 'Tablet';
+        else if (/(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|series60|windows ce|nokia|treo|palm)/i.test(ua)) device = 'Mobile';
+
+        // Browser detection
+        if (/Edg/i.test(ua)) browser = 'Edge';
+        else if (/Chrome/i.test(ua)) browser = 'Chrome';
+        else if (/Firefox/i.test(ua)) browser = 'Firefox';
+        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = 'Safari';
+        else if (/Opera|OPR/i.test(ua)) browser = 'Opera';
+        else if (/MSIE|Trident/i.test(ua)) browser = 'IE';
+
+        return { device, browser, os };
     };
 
     useEffect(() => {
@@ -259,13 +594,21 @@ export const useTracker = () => {
             // Simpan tanggal hari ini ke localStorage SEGERA (sync)
             localStorage.setItem(storageKey, today);
 
-            // Kirim ke database dengan ID unik
+            // Kirim ke database dengan ID unik dan info perangkat
+            const ua = navigator.userAgent;
             await supabase.from('analytics_events').insert([
                 {
                     event_type: 'view',
                     details: {
                         path,
-                        visitor_id: getVisitorId()
+                        visitor_id: getVisitorId(),
+                        device: getDeviceType(ua),
+                        browser: getBrowserInfo(ua),
+                        os: getOSInfo(ua),
+                        user_agent: ua,
+                        language: navigator.language,
+                        screen: `${window.screen.width}x${window.screen.height}`,
+                        referrer: document.referrer
                     }
                 }
             ]);
@@ -285,26 +628,62 @@ export const useTracker = () => {
 
     const trackOrder = async (details = "Order Button Click") => {
         try {
-            await supabase.from('analytics_events').insert([
-                {
-                    event_type: 'order',
-                    details: typeof details === 'object' ? { ...details, status: 'pending' } : { details, status: 'pending' }
-                }
-            ]);
+            // Check if details is an object (from the order form) or just a string
+            if (typeof details === 'object' && details !== null) {
+                const orderData = {
+                    customer_name: details.customerName || 'Unknown',
+                    customer_email: details.customerEmail || 'noemail@example.com',
+                    customer_phone: details.customerPhone,
+                    customer_company: details.customerCompany,
+                    service_package: details.orderPackage, // Use service_package column
+                    website_type: details.websiteType,
+                    tech_stack: details.techStack,
+                    message: details.message,
+                    total: parsePrice(details.total),
+                    status: details.status || 'pending'
+                };
+
+                await supabase.from('orders').insert([orderData]);
+            } else {
+                // For simple button clicks, we can still track to orders table with minimal info
+                await supabase.from('orders').insert([{
+                    customer_name: 'Visitor',
+                    customer_email: 'visitor@example.com',
+                    message: typeof details === 'string' ? details : 'Order Button Click',
+                    total: 0,
+                    status: 'pending'
+                }]);
+            }
             fetchStats();
         } catch (err) {
             console.error('Error tracking order:', err);
         }
     };
 
-    const deleteOrder = async (id) => {
+    const deleteOrder = async (id, originTable = 'orders') => {
         try {
-            const { error } = await supabase
-                .from('analytics_events')
+            // Attempt to delete from BOTH tables to ensure no "zombie" data remains
+            // (If data was duplicated during migration, deleting only one source causes the other to reappear)
+
+            // 1. Delete from orders table
+            const { error: error1 } = await supabase
+                .from('orders')
                 .delete()
                 .eq('id', id);
 
-            if (error) throw error;
+            // 2. Delete from analytics_events table (legacy)
+            const { error: error2 } = await supabase
+                .from('analytics_events')
+                .delete()
+                .eq('id', id)
+                .eq('event_type', 'order'); // Safety check
+
+            // If both failed, then we have a problem. If at least one worked, it's mostly fine.
+            // But we should report error if the INTENDED table failed.
+            if (originTable === 'orders' && error1) throw error1;
+            if (originTable === 'analytics_events' && error2) throw error2;
+
+            // If we are here, at least the primary deletion target was likely successful (or didn't exist)
             fetchStats();
             return { success: true };
         } catch (err) {
@@ -313,14 +692,23 @@ export const useTracker = () => {
         }
     };
 
-    const updateOrderStatus = async (id, status, currentDetails) => {
+    const updateOrderStatus = async (id, status, currentDetails, originTable = 'orders') => {
         try {
-            const { error } = await supabase
-                .from('analytics_events')
-                .update({
-                    details: { ...currentDetails, status }
-                })
-                .eq('id', id);
+            let error;
+            if (originTable === 'analytics_events') {
+                const newDetails = { ...currentDetails, status };
+                const { error: err } = await supabase
+                    .from('analytics_events')
+                    .update({ details: newDetails })
+                    .eq('id', id);
+                error = err;
+            } else {
+                const { error: err } = await supabase
+                    .from('orders')
+                    .update({ status })
+                    .eq('id', id);
+                error = err;
+            }
 
             if (error) throw error;
             fetchStats();
@@ -331,16 +719,45 @@ export const useTracker = () => {
         }
     };
 
-    const updateOrder = async (id, updatedDetails) => {
+    const updateOrder = async (id, updatedDetails, originTable = 'orders') => {
         try {
-            console.log('Attempting to update order:', id);
-            const { data, error } = await supabase
-                .from('analytics_events')
-                .update({
-                    details: updatedDetails
-                })
-                .eq('id', id)
-                .select();
+            console.log('Attempting to update order:', id, 'in table:', originTable);
+
+            let error;
+            let data;
+
+            if (originTable === 'analytics_events') {
+                // If it's the legacy table, we update the entire details JSON
+                const { data: d, error: err } = await supabase
+                    .from('analytics_events')
+                    .update({ details: updatedDetails })
+                    .eq('id', id)
+                    .select();
+                data = d;
+                error = err;
+            } else {
+                // Map the frontend structure back to table columns
+                const orderData = {
+                    customer_name: updatedDetails.customerName,
+                    customer_email: updatedDetails.customerEmail,
+                    customer_phone: updatedDetails.customerPhone || updatedDetails.customer_phone,
+                    customer_company: updatedDetails.customerCompany || updatedDetails.customer_company,
+                    service_package: updatedDetails.orderPackage || updatedDetails.service_package,
+                    website_type: updatedDetails.websiteType || updatedDetails.website_type,
+                    tech_stack: updatedDetails.techStack || updatedDetails.tech_stack,
+                    message: updatedDetails.message,
+                    total: parsePrice(updatedDetails.total),
+                    status: updatedDetails.status
+                };
+
+                const { data: d, error: err } = await supabase
+                    .from('orders')
+                    .update(orderData)
+                    .eq('id', id)
+                    .select();
+                data = d;
+                error = err;
+            }
 
             if (error) {
                 console.error('Supabase update error:', error);

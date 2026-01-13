@@ -27,6 +27,33 @@ const TrafficChart = ({ data, stats }) => {
 
     const formatDate = (dateStr) => {
         if (!dateStr) return '';
+
+        // Handle "YYYY" format (Yearly view)
+        if (/^\d{4}$/.test(dateStr)) {
+            return dateStr;
+        }
+
+        // Handle "YYYY-MM" format (Monthly view)
+        if (/^\d{4}-\d{2}$/.test(dateStr)) {
+            const [year, month] = dateStr.split('-');
+            const date = new Date(year, parseInt(month) - 1);
+
+            // Map app language codes to standard locale strings
+            const localeMap = {
+                'en': 'en-US',
+                'id': 'id-ID',
+                'es': 'es-ES',
+                'fr': 'fr-FR',
+                'ja': 'ja-JP'
+            };
+            const currentLocale = localeMap[i18n.language] || 'en-US';
+
+            return new Intl.DateTimeFormat(currentLocale, {
+                month: 'short'
+            }).format(date);
+        }
+
+        // Handle standard date "YYYY-MM-DD"
         const date = new Date(dateStr);
 
         // Map app language codes to standard locale strings
@@ -48,13 +75,13 @@ const TrafficChart = ({ data, stats }) => {
 
     return (
         // Container with explicit height constraints
-        <div className="w-full h-full bg-transparent">
+        <div className="w-full h-full min-h-[200px] bg-transparent">
             {/* 
                 debounce={200}: Delays resize calculations to prevent thrashing
                 width="99%": Prevents 100% width loop bug
                 key={chartData.length + (chartData[0]?.date || '')}: Re-triggers entry animation on data update
              */}
-            <ResponsiveContainer width="99%" height="100%" debounce={200} key={chartData.length + (chartData[0]?.date || '')}>
+            <ResponsiveContainer width="99%" height="100%" minWidth={0} minHeight={0} debounce={200} key={chartData.length + (chartData[0]?.date || '')}>
                 <AreaChart
                     data={chartData}
                     margin={{ top: 10, right: 10, left: 0, bottom: 0 }}

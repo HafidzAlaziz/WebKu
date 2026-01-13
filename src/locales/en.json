@@ -646,6 +646,44 @@
             "revenue": "Revenue",
             "cancelled_revenue": "Cancelled"
         },
+        "widgets": {
+            "clock_title": "Digital Clock"
+        },
+        "visitors": {
+            "title": "Visitor Data",
+            "subtitle": "Detailed analysis of visitors coming to your website.",
+            "table": {
+                "time": "Visit Time",
+                "visitor_id": "Visitor ID",
+                "device": "Device",
+                "browser": "Browser",
+                "os": "Operating System",
+                "page": "Page",
+                "empty": "No visitor data recorded yet.",
+                "search_placeholder": "Search ID or Device..."
+            }
+        },
+        "sidebar": {
+            "sections": {
+                "menu": "Main Menu",
+                "general": "General",
+                "preferences": "Preferences"
+            },
+            "items": {
+                "dashboard": "Home",
+                "portfolio": "Portfolio",
+                "orders": "Orders",
+                "analytics": "Analytics",
+                "team": "Visitors",
+                "settings": "Settings",
+                "help": "Help",
+                "logout": "Logout",
+                "coming_soon": "Coming Soon",
+                "language": "Language",
+                "theme_light": "Light Mode",
+                "theme_dark": "Dark Mode"
+            }
+        },
         "portfolio": {
             "title": "Portfolio Management",
             "subtitle": "Manage your website portfolio projects dynamically",
@@ -794,8 +832,10 @@
                     "confirm": "Yes, Delete",
                     "cancel": "Cancel"
                 },
-                "update_success": "Order updated successfully!",
+                "update_failed": "Failed to save changes. Please check your connection or database permissions.",
+                "action_failed": "Action failed. Please try again later.",
                 "delete_success": "Order successfully deleted!",
+                "update_success": "Order successfully updated!",
                 "logout_success": "Logout successful! Redirecting...",
                 "edit_confirm": {
                     "title": "Discard Changes?",
