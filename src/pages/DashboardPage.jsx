@@ -13,6 +13,7 @@ import {
 
 import { useTracker } from '../hooks/useTracker';
 import { usePortfolio } from '../hooks/usePortfolio';
+import { formatCurrency } from '../utils/currencyUtils';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import TrafficChart from '../components/TrafficChart';
 import ProjectManager from '../components/ProjectManager';
@@ -350,7 +351,8 @@ const DashboardPage = () => {
 
                 <div className="flex-1 flex flex-col min-w-0 py-5 px-4 md:px-0">
                     {/* Header */}
-                    <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center mb-8 gap-4 shrink-0 transition-opacity duration-300 opacity-100">
+                    {/* Header */}
+                    <div className="flex flex-row justify-between items-center mb-8 gap-4 shrink-0 transition-opacity duration-300 opacity-100">
                         <div className="flex items-center gap-4">
                             {/* Hamburger Menu (Mobile Only) */}
                             <button
@@ -393,7 +395,7 @@ const DashboardPage = () => {
                                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            className="absolute right-0 top-12 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50"
+                                            className="absolute right-0 top-12 w-[85vw] max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50 origin-top-right"
                                         >
                                             <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
                                                 <h3 className="font-bold text-slate-900 dark:text-white text-sm">Notifikasi</h3>
@@ -757,7 +759,7 @@ const DashboardPage = () => {
                                                                 {order.details}
                                                             </td>
                                                             <td className="py-4 px-4 text-sm font-bold text-slate-900 dark:text-white">
-                                                                {stats.currency} {order.total.toLocaleString(stats.locale)}
+                                                                {formatCurrency(order.total, i18n.language, t)}
                                                             </td>
                                                             <td className="py-4 px-4">
                                                                 <span className={`px - 2 py - 1 rounded - full text - xs font - bold uppercase tracking - wider ${getStatusColor(order.status)} `}>
@@ -857,7 +859,7 @@ const DashboardPage = () => {
                                                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
                                                     <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.analytics.stats.estimated_revenue')}</p>
                                                     <p className="text-lg font-bold text-amber-600 dark:text-amber-400">
-                                                        {stats.currency} {Math.round(stats.pendingRevenue || 0).toLocaleString(stats.locale)}
+                                                        {formatCurrency(Math.round(stats.pendingRevenue || 0), i18n.language, t)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -876,7 +878,7 @@ const DashboardPage = () => {
                                                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
                                                     <p className="text-xs text-slate-500 dark:text-slate-400">Total Batal</p>
                                                     <p className="text-lg font-bold text-red-600 dark:text-red-400">
-                                                        {stats.currency} {Math.round(stats.cancelledRevenue || 0).toLocaleString(stats.locale)}
+                                                        {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t)}
                                                     </p>
                                                 </div>
                                             </div>

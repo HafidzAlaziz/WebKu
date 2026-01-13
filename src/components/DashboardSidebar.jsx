@@ -51,12 +51,7 @@ const Logo = () => {
     );
 };
 
-// ... Let's do a clean replacement of the component to handle both Desktop and Mobile correctly.
-// The previous code had "isCollapsed" but used it for desktop minification? No, checking code...
-// The original code used `isCollapsed` for ... actually it wasn't fully implemented or was simple.
-// Let's implement fully responsive sidebar.
-
-const DashboardSidebarComplete = ({ activeTab, setActiveTab, portfolioCount = 0, isMobileOpen, setIsMobileOpen }) => {
+const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobileOpen, setIsMobileOpen }) => {
     const { t, i18n } = useTranslation();
     const { isDark, toggleTheme } = useTheme();
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
@@ -74,141 +69,200 @@ const DashboardSidebarComplete = ({ activeTab, setActiveTab, portfolioCount = 0,
         setIsLangMenuOpen(false);
     };
 
-    const menuItems = [
-        { id: 'dashboard', icon: LayoutGrid, label: t('dashboard.sidebar.items.dashboard') },
-        { id: 'portfolio', icon: Briefcase, label: t('dashboard.sidebar.items.portfolio'), badge: portfolioCount > 0 ? portfolioCount : null },
-        { id: 'orders', icon: ShoppingCart, label: t('dashboard.sidebar.items.orders') },
-        { id: 'analytics', icon: BarChart3, label: t('dashboard.sidebar.items.analytics') },
-        { id: 'visitors', icon: Users, label: t('dashboard.sidebar.items.team') },
-    ];
-
-    const bottomItems = [
-        { id: 'logout', icon: LogOut, label: t('dashboard.sidebar.items.logout'), isLogout: true }
-    ];
+    const menuSections = {
+        menu: [
+            { id: 'dashboard', icon: LayoutGrid, label: t('dashboard.sidebar.items.dashboard') },
+            {
+                id: 'portfolio',
+                icon: Briefcase,
+                label: t('dashboard.sidebar.items.portfolio'),
+                badge: portfolioCount > 0 ? portfolioCount.toString().padStart(2, '0') : null
+            },
+            { id: 'orders', icon: ShoppingCart, label: t('dashboard.sidebar.items.orders') },
+            { id: 'analytics', icon: BarChart3, label: t('dashboard.sidebar.items.analytics') },
+            { id: 'visitors', icon: Users, label: t('dashboard.sidebar.items.team') },
+        ],
+        general: [
+            { id: 'settings', icon: Settings, label: t('dashboard.sidebar.items.settings'), isComingSoon: true },
+            { id: 'help', icon: HelpCircle, label: t('dashboard.sidebar.items.help'), isComingSoon: true },
+            { id: 'logout', icon: LogOut, label: t('dashboard.sidebar.items.logout'), isLogout: true },
+        ]
+    };
 
     return (
         <>
-        </nav >
+            {/* Mobile Backdrop */}
+            <AnimatePresence>
+                {isMobileOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsMobileOpen?.(false)}
+                        className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden"
+                    />
+                )}
+            </AnimatePresence>
 
-            <div className="mt-4">
-                {/* PREFERENCES Section Header */}
-                <div className={`mb-2 px-3 pt-2 border-t border-slate-100 dark:border-slate-700/50 transition-opacity duration-200 ${isCollapsed ? 'opacity-0 h-0 overflow-hidden border-t-0' : 'opacity-100'}`}>
-                    <h2 className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] mt-1">
-                        {t('dashboard.sidebar.sections.preferences')}
-                    </h2>
+            {/* Sidebar Container */}
+            <aside className={`
+                fixed md:sticky top-0 left-0 h-screen z-50
+                w-72 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800
+                flex flex-col transition-transform duration-300 ease-in-out
+                ${isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+            `}>
+                {/* Logo Section */}
+                <div className="p-6 flex items-center justify-between">
+                    <Logo />
+                    {/* Close button for mobile */}
+                    <button
+                        onClick={() => setIsMobileOpen?.(false)}
+                        className="md:hidden p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                    >
+                        <ChevronLeft size={24} />
+                    </button>
                 </div>
 
-                <div className="space-y-0.5">
-                    {/* Language Switcher */}
-                    <div className="relative">
-                        <button
-                            onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                            title={isCollapsed ? 'Language' : ''}
-                            className={`group w-full flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} gap-3 px-4 py-2 rounded-xl font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900/40 hover:text-slate-900 dark:hover:text-slate-200`}
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="flex items-center justify-center text-slate-500 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
-                                    <Languages size={18} strokeWidth={2.2} />
-                                </div>
-                                {!isCollapsed && <span className="text-[13px] font-semibold tracking-tight">{t('dashboard.sidebar.items.language')}</span>}
-                            </div>
-                            {!isCollapsed && (
-                                <div className="flex items-center gap-1.5 bg-slate-100/80 dark:bg-slate-700/50 px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase transition-colors group-hover:bg-emerald-100/50 dark:group-hover:bg-emerald-900/30 group-hover:text-emerald-700 dark:group-hover:text-emerald-400">
-                                    <span>{languages.find(l => l.code === i18n.language)?.flag}</span>
-                                    <span>{i18n.language}</span>
-                                </div>
+                {/* Menu Items */}
+                <div className="flex-1 px-4 space-y-6 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
+                    {Object.entries(menuSections).map(([section, items]) => (
+                        <div key={section} className="space-y-2">
+                            {section !== 'menu' && (
+                                <h3 className="px-4 text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">
+                                    {section === 'general' ? t('dashboard.sidebar.general') : section}
+                                </h3>
                             )}
-                        </button>
 
-                        {/* Simplified Language Menu for Collapsed Mode (or keeping same behavior horizontally?) */}
-                        {/* For now, just keeping existing dropdown but ensuring it positions correctly if collapsed. 
-                               If collapsed, maybe show to the side? The current `absolute` positioning might be cut off or look weird.
-                               For simplicity, I will stick to existing logic but it might need adjustment if sidebar is 80px.
-                            */}
-                        <AnimatePresence>
-                            {isLangMenuOpen && (
-                                <motion.div
-                                    initial={{ opacity: 0, bottom: '100%', y: -10, scale: 0.95 }}
-                                    animate={{ opacity: 1, bottom: '100%', y: -5, scale: 1 }}
-                                    exit={{ opacity: 0, bottom: '100%', y: -10, scale: 0.95 }}
-                                    className={`absolute left-0 right-0 mb-3 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200/60 dark:border-slate-700/50 overflow-hidden py-1.5 z-50 backdrop-blur-xl ${isCollapsed ? 'w-48 left-full ml-2 bottom-0' : ''}`} // Adjust position if collapsed
+                            {items.map((item) => (
+                                <button
+                                    key={item.id}
+                                    onClick={() => {
+                                        if (item.isComingSoon) return;
+                                        if (item.isLogout) {
+                                            // Handle logout via parent or context if needed, but here simple tab switch for now
+                                            // Or better: pass a prop. For now, matching original behavior:
+                                            setActiveTab(item.id);
+                                            setIsMobileOpen?.(false);
+                                            return;
+                                        }
+                                        setActiveTab(item.id);
+                                        setIsMobileOpen?.(false);
+                                    }}
+                                    className={`
+                                        w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium text-sm group
+                                        ${activeTab === item.id
+                                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                                            : item.isLogout
+                                                ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10'
+                                                : item.isComingSoon
+                                                    ? 'text-slate-400 dark:text-slate-600 cursor-not-allowed'
+                                                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                                        }
+                                    `}
                                 >
-                                    {languages.map((lang) => (
-                                        <button
-                                            key={lang.code}
-                                            onClick={() => changeLanguage(lang.code)}
-                                            className={`w-full flex items-center gap-3 px-4 py-2 text-sm transition-colors hover:bg-slate-50 dark:hover:bg-slate-900/40
-                                                    ${i18n.language === lang.code ? 'text-emerald-600 font-bold bg-emerald-50/50 dark:bg-emerald-900/20' : 'text-slate-600 dark:text-slate-300'}
-                                                `}
-                                        >
-                                            <span className="text-lg">{lang.flag}</span>
-                                            <span className="text-[12px] font-semibold">{lang.name}</span>
-                                        </button>
-                                    ))}
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
+                                    <item.icon size={20} className={activeTab === item.id ? 'text-white' : ''} />
+                                    <span className="flex-1 text-left">{item.label}</span>
 
-                    {/* Theme Toggle */}
-                    <button
-                        onClick={toggleTheme}
-                        title={isCollapsed ? 'Toggle Theme' : ''}
-                        className={`group w-full flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} gap-3 px-4 py-2 rounded-xl font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900/40 hover:text-slate-900 dark:hover:text-slate-200`}
-                    >
-                        <div className="flex items-center gap-3">
-                            <div className="flex items-center justify-center text-slate-500 group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
-                                {isDark ? <Sun size={18} strokeWidth={2.2} /> : <Moon size={18} strokeWidth={2.2} />}
-                            </div>
-                            {!isCollapsed && (
-                                <span className="text-[13px] font-semibold tracking-tight">
-                                    {isDark ? t('dashboard.sidebar.items.theme_light') : t('dashboard.sidebar.items.theme_dark')}
-                                </span>
-                            )}
+                                    {item.badge && (
+                                        <span className={`
+                                            px-2 py-0.5 rounded-full text-[10px] font-bold
+                                            ${activeTab === item.id
+                                                ? 'bg-white/20 text-white'
+                                                : 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400'
+                                            }
+                                        `}>
+                                            {item.badge}
+                                        </span>
+                                    )}
+
+                                    {item.isComingSoon && (
+                                        <span className="px-1.5 py-0.5 text-[10px] bg-slate-100 dark:bg-slate-800 rounded text-slate-400">Soon</span>
+                                    )}
+                                </button>
+                            ))}
                         </div>
-                        {!isCollapsed && (
-                            <div className={`w-8 h-4.5 rounded-full relative transition-colors duration-300 flex items-center ${isDark ? 'bg-emerald-600' : 'bg-slate-300 dark:bg-slate-600'}`}>
-                                <motion.div
-                                    animate={{ x: isDark ? 16 : 3 }}
-                                    className="w-2.5 h-2.5 bg-white rounded-full shadow-sm"
-                                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                />
-                            </div>
-                        )}
-                    </button>
+                    ))}
                 </div>
+
+                {/* Footer / Settings */}
+                <div className="p-4 border-t border-slate-100 dark:border-slate-800">
+                    {/* Simplified Footer for space */}
+                    <div className="flex items-center gap-2">
+                        {/* Language */}
+                        <div className="relative flex-1">
+                            <button
+                                onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                                className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium transition-colors"
+                            >
+                                <Languages size={14} />
+                                <span>{i18n.language.toUpperCase()}</span>
+                            </button>
+
+                            <AnimatePresence>
+                                {isLangMenuOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className="absolute bottom-full left-0 w-full mb-2 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden z-50 p-1"
+                                    >
+                                        {languages.map((lang) => (
+                                            <button
+                                                key={lang.code}
+                                                onClick={() => changeLanguage(lang.code)}
+                                                className="w-full flex items-center gap-2 px-3 py-2 text-xs rounded-md hover:bg-slate-100 dark:hover:bg-slate-700/50 text-slate-600 dark:text-slate-300"
+                                            >
+                                                <span>{lang.flag}</span>
+                                                <span className="flex-1 text-left">{lang.name}</span>
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+
+                        {/* Theme */}
+                        <button
+                            onClick={toggleTheme}
+                            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 text-xs font-medium transition-colors"
+                        >
+                            {isDark ? <Sun size={14} /> : <Moon size={14} />}
+                            <span>{isDark ? 'Light' : 'Dark'}</span>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            {/* Mobile Bottom Navigation */}
+            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-700 p-2 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+                <nav className="flex items-center justify-around max-w-md mx-auto">
+                    {menuItems.slice(0, 5).filter(item => item.id !== 'visitors').map((item) => {
+                        const isActive = activeTab === item.id;
+                        return (
+                            <button
+                                key={item.id}
+                                onClick={() => setActiveTab(item.id)}
+                                className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-200 relative ${isActive
+                                        ? 'text-blue-600 dark:text-blue-400'
+                                        : 'text-slate-500 dark:text-slate-400 inactive'
+                                    }`}
+                            >
+                                <div className={`
+                                    p-1.5 rounded-full transition-all duration-300
+                                    ${isActive ? 'bg-blue-50 dark:bg-blue-900/20' : ''}
+                                `}>
+                                    <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                                </div>
+                                <span className="text-[10px] font-bold">{item.label}</span>
+
+                                {item.badge && (
+                                    <span className="absolute top-1 right-2 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-slate-800" />
+                                )}
+                            </button>
+                        );
+                    })}
+                </nav>
             </div>
-
-
-            </motion.aside >
-
-    {/* Mobile Bottom Navigation */ }
-    < div className = "lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-700 p-4 z-50 shadow-2xl" >
-        <nav className="flex items-center justify-around max-w-md mx-auto gap-2">
-            {menuSections.menu.slice(0, 4).map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                return (
-                    <button
-                        key={item.id}
-                        onClick={() => setActiveTab(item.id)}
-                        className={`relative flex flex-col items-center gap-1.5 px-5 py-2.5 rounded-xl transition-all duration-200 ${isActive
-                            ? 'bg-emerald-600 dark:bg-emerald-700 text-white shadow-lg shadow-emerald-600/30'
-                            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700'
-                            }`}
-                    >
-                        <Icon size={20} strokeWidth={2.2} />
-                        <span className="text-[10px] font-bold tracking-tight">{item.label}</span>
-                        {item.badge && isActive && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center text-[9px] font-bold bg-white text-emerald-600 rounded-full border-2 border-emerald-600">
-                                {item.badge}
-                            </span>
-                        )}
-                    </button>
-                );
-            })}
-        </nav>
-            </div >
         </>
     );
 };
