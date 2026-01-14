@@ -40,6 +40,8 @@ const DashboardPage = () => {
     const [showActionError, setShowActionError] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
+    const [showNewOrderToast, setShowNewOrderToast] = useState(false);
+    const [latestOrder, setLatestOrder] = useState(null);
 
     // Notification State
     const [unreadOrdersCount, setUnreadOrdersCount] = useState(0);
@@ -48,6 +50,11 @@ const DashboardPage = () => {
     const [lastCheckedOrders, setLastCheckedOrders] = useState(() => {
         return localStorage.getItem('last_orders_check') || 0;
     });
+    const [readOrderIds, setReadOrderIds] = useState(() => {
+        try {
+            return JSON.parse(localStorage.getItem('read_order_ids') || '[]');
+        } catch (e) { return []; }
+    });
 
     // Check for new orders
     useEffect(() => {
@@ -55,31 +62,56 @@ const DashboardPage = () => {
             const lastCheckTime = new Date(Number(lastCheckedOrders)).getTime();
             const newOrders = stats.allOrders.filter(order => {
                 const orderTime = new Date(order.created_at).getTime();
-                return orderTime > lastCheckTime && order.status !== 'completed' && order.status !== 'cancelled';
+                const isRead = readOrderIds.includes(order.id);
+                return !isRead && orderTime > lastCheckTime && order.status !== 'completed' && order.status !== 'cancelled';
             });
+
+            // Trigger toast if new orders arrived and we aren't already showing one
+            if (newOrders.length > unreadOrdersList.length && newOrders.length > 0) {
+                setLatestOrder(newOrders[0]); // Show the most recent one
+                setShowNewOrderToast(true);
+
+                // Play notification sound
+                try {
+                    const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+                    audio.volume = 0.5;
+                    audio.play().catch(e => console.log('Audio play failed:', e));
+                } catch (e) {
+                    console.error('Audio error:', e);
+                }
+
+                // Auto hide toast after 8 seconds
+                setTimeout(() => setShowNewOrderToast(false), 8000);
+            }
+
             setUnreadOrdersCount(newOrders.length);
             setUnreadOrdersList(newOrders);
         }
-    }, [stats.allOrders, lastCheckedOrders]);
+    }, [stats.allOrders, lastCheckedOrders, readOrderIds]);
 
     const handleBellClick = () => {
         setIsNotificationsOpen(!isNotificationsOpen);
-        // We don't clear immediate count here if we want the badge to stay until items are viewed
-        // OR we clear it immediately to show "checked". User said "karena udh diliat" -> maybe when dropdown opens?
-        // Let's clear the BADGE when dropdown opens, but keep items in list.
-        if (!isNotificationsOpen && unreadOrdersCount > 0) {
-            const now = Date.now();
-            localStorage.setItem('last_orders_check', now);
-            setLastCheckedOrders(now);
-            setUnreadOrdersCount(0); // Clear badge
-        }
+        // We no longer update the timestamp here, so notifications persist 
+        // until they are specifically clicked or 'Mark all as read' is used.
+    };
+
+    const markAllAsRead = () => {
+        const allIds = unreadOrdersList.map(o => o.id);
+        const newReadIds = Array.from(new Set([...readOrderIds, ...allIds]));
+        setReadOrderIds(newReadIds);
+        localStorage.setItem('read_order_ids', JSON.stringify(newReadIds));
+        setIsNotificationsOpen(false);
     };
 
     const handleNotificationItemClick = (order) => {
+        // Mark as read specifically
+        const newReadIds = Array.from(new Set([...readOrderIds, order.id]));
+        setReadOrderIds(newReadIds);
+        localStorage.setItem('read_order_ids', JSON.stringify(newReadIds));
+
         // Navigate to orders
         setActiveTab('orders');
         setIsNotificationsOpen(false);
-        // Optional: Highlight specific order? keeping it simple for now
     };
     const [showEditConfirm, setShowEditConfirm] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -378,13 +410,15 @@ const DashboardPage = () => {
                                 <button
                                     onClick={handleBellClick}
                                     className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all relative ${isNotificationsOpen
-                                        ? 'bg-blue-50 border-blue-200 text-blue-600 dark:bg-blue-900/40 dark:border-blue-700 dark:text-blue-400'
-                                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                                        ? 'bg-emerald-50 border-emerald-200 text-emerald-600 dark:bg-emerald-900/40 dark:border-emerald-700 dark:text-emerald-400'
+                                        : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20'
                                         }`}
                                 >
                                     <Bell size={18} />
                                     {unreadOrdersCount > 0 && (
-                                        <span className="absolute top-2.5 right-3 w-2 h-2 bg-red-500 rounded-full border border-white dark:border-slate-800 animate-pulse"></span>
+                                        <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 text-white text-[10px] font-bold rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center px-1 animate-bounce">
+                                            {unreadOrdersCount}
+                                        </span>
                                     )}
                                 </button>
 
@@ -399,9 +433,19 @@ const DashboardPage = () => {
                                         >
                                             <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
                                                 <h3 className="font-bold text-slate-900 dark:text-white text-sm">{t('dashboard.notifications.title')}</h3>
-                                                <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-full font-bold">
-                                                    {unreadOrdersList.length} {t('dashboard.notifications.new')}
-                                                </span>
+                                                <div className="flex items-center gap-2">
+                                                    {unreadOrdersList.length > 0 && (
+                                                        <button
+                                                            onClick={markAllAsRead}
+                                                            className="text-[10px] font-bold text-slate-400 hover:text-emerald-600 transition-colors uppercase tracking-tight"
+                                                        >
+                                                            Tandai Semua Dibaca
+                                                        </button>
+                                                    )}
+                                                    <span className="text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+                                                        {unreadOrdersList.length} {t('dashboard.notifications.new')}
+                                                    </span>
+                                                </div>
                                             </div>
 
                                             <div className="max-h-[300px] overflow-y-auto">
@@ -448,7 +492,7 @@ const DashboardPage = () => {
                                                         setActiveTab('orders');
                                                         setIsNotificationsOpen(false);
                                                     }}
-                                                    className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline"
+                                                    className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
                                                 >
                                                     {t('dashboard.notifications.view_all')}
                                                 </button>
@@ -762,8 +806,8 @@ const DashboardPage = () => {
                                                                 {formatCurrency(order.total, i18n.language, t)}
                                                             </td>
                                                             <td className="py-4 px-4">
-                                                                <span className={`px - 2 py - 1 rounded - full text - xs font - bold uppercase tracking - wider ${getStatusColor(order.status)} `}>
-                                                                    {t(`dashboard.recent_orders.status.${order.status} `) || order.status}
+                                                                <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getStatusColor(order.status)}`}>
+                                                                    {t(`dashboard.recent_orders.status.${order.status}`) || order.status}
                                                                 </span>
                                                             </td>
                                                             <td className="py-4 px-4">
@@ -946,7 +990,7 @@ const DashboardPage = () => {
                                                                 </td>
                                                                 <td className="py-4 px-4">
                                                                     <div className="flex items-center gap-3">
-                                                                        <div className={`w - 8 h - 8 rounded - full ${order.status === 'completed' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600' : 'bg-red-100 dark:bg-red-900/30 text-red-600'} flex items - center justify - center font - bold text - xs uppercase`}>
+                                                                        <div className={`w-8 h-8 rounded-full ${order.status === 'completed' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600' : 'bg-red-100 dark:bg-red-900/30 text-red-600'} flex items-center justify-center font-bold text-xs uppercase`}>
                                                                             {order.customerName.substring(0, 2)}
                                                                         </div>
                                                                         <span className="text-sm font-bold text-slate-900 dark:text-white">
@@ -1288,6 +1332,58 @@ const DashboardPage = () => {
                     </motion.div>
                 )}
 
+                {/* New Order Real-time Toast */}
+                {showNewOrderToast && latestOrder && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 50, y: 100 }}
+                        animate={{ opacity: 1, x: 0, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                        onClick={() => {
+                            handleNotificationItemClick(latestOrder);
+                            setShowNewOrderToast(false);
+                        }}
+                        className="fixed bottom-6 right-6 z-[200] bg-white dark:bg-slate-800 p-1 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex flex-col w-[320px] border border-emerald-100 dark:border-emerald-900/30 overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform group"
+                    >
+                        <div className="bg-emerald-600 p-4 flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white shrink-0">
+                                <ShoppingCart size={20} className="animate-bounce" />
+                            </div>
+                            <div>
+                                <h4 className="text-white font-black text-sm uppercase tracking-wider">{t('dashboard.notifications.new_order')}!</h4>
+                                <p className="text-emerald-100 text-[10px] font-bold">{t('dashboard.notifications.toast_message')}</p>
+                            </div>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setShowNewOrderToast(false);
+                                }}
+                                className="ml-auto text-white/60 hover:text-white"
+                            >
+                                <XCircle size={18} />
+                            </button>
+                        </div>
+                        <div className="p-4 bg-white dark:bg-slate-800">
+                            <div className="flex items-center gap-4">
+                                <div className="flex-1">
+                                    <p className="text-slate-900 dark:text-white font-extrabold text-base truncate">{latestOrder.customerName}</p>
+                                    <p className="text-slate-500 dark:text-slate-400 text-xs italic line-clamp-1">{latestOrder.details}</p>
+                                </div>
+                                <div className="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl text-[10px] font-black shrink-0">
+                                    {t('dashboard.notifications.view_now')}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="h-1 bg-emerald-100 dark:bg-slate-700 w-full overflow-hidden">
+                            <motion.div
+                                initial={{ width: "100%" }}
+                                animate={{ width: "0%" }}
+                                transition={{ duration: 8, ease: "linear" }}
+                                className="h-full bg-emerald-600"
+                            />
+                        </div>
+                    </motion.div>
+                )}
+
                 {showUpdateError && (
                     <motion.div
                         initial={{ opacity: 0, x: 50, y: -20 }}
@@ -1391,112 +1487,147 @@ const DashboardPage = () => {
                                     {/* Row 1 */}
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.fields.customer')}
+                                            {t('dashboard.recent_orders.table.customer')}
                                         </label>
                                         <input
                                             type="text"
                                             value={editingOrder.rawDetails?.customerName || ''}
                                             onChange={(e) => updateEditingField('customerName', e.target.value)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white"
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.fields.email')}
+                                            {t('dashboard.recent_orders.table.email')}
                                         </label>
                                         <input
                                             type="email"
                                             value={editingOrder.rawDetails?.customerEmail || ''}
                                             onChange={(e) => updateEditingField('customerEmail', e.target.value)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white"
                                         />
                                     </div>
 
                                     {/* Row 2 */}
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.fields.whatsapp')}
+                                            {t('dashboard.recent_orders.table.whatsapp')}
                                         </label>
                                         <input
                                             type="text"
                                             value={editingOrder.rawDetails?.customerPhone || ''}
                                             onChange={(e) => updateEditingField('customerPhone', e.target.value)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white"
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.fields.company')}
+                                            {t('dashboard.recent_orders.table.company')}
                                         </label>
                                         <input
                                             type="text"
                                             value={editingOrder.rawDetails?.customerCompany || ''}
                                             onChange={(e) => updateEditingField('customerCompany', e.target.value)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white"
                                         />
                                     </div>
 
-                                    {/* Row 3 */}
+                                    {/* Row 3 - NEW: Order Package Added */}
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.fields.website_type')}
+                                            {t('dashboard.recent_orders.table.order_package')}
                                         </label>
-                                        <input
-                                            type="text"
-                                            value={editingOrder.rawDetails?.websiteType || ''}
-                                            onChange={(e) => updateEditingField('websiteType', e.target.value)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
-                                        />
+                                        <select
+                                            value={editingOrder.rawDetails?.orderPackage || 'starter'}
+                                            onChange={(e) => updateEditingField('orderPackage', e.target.value)}
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white cursor-pointer"
+                                        >
+                                            <option value="starter">{t('order_page.form.options.package_starter')}</option>
+                                            <option value="professional">{t('order_page.form.options.package_professional')}</option>
+                                            <option value="enterprise">{t('order_page.form.options.package_enterprise')}</option>
+                                        </select>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.fields.tech_stack')}
+                                            {t('dashboard.recent_orders.table.website_type')}
                                         </label>
-                                        <input
-                                            type="text"
-                                            value={editingOrder.rawDetails?.techStack || ''}
-                                            onChange={(e) => updateEditingField('techStack', e.target.value)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
-                                        />
+                                        <select
+                                            value={editingOrder.rawDetails?.orderType || editingOrder.rawDetails?.websiteType || ''}
+                                            onChange={(e) => updateEditingField('orderType', e.target.value)}
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white cursor-pointer"
+                                        >
+                                            <option value="">{t('order_page.form.placeholders.website_type')}</option>
+                                            <option value="landing-page">{t('order_page.form.options.type_landing')}</option>
+                                            <option value="company-profile">{t('order_page.form.options.type_company')}</option>
+                                            <option value="ecommerce">{t('order_page.form.options.type_ecommerce')}</option>
+                                            <option value="portfolio">{t('order_page.form.options.type_portfolio')}</option>
+                                            <option value="umkm">{t('order_page.form.options.type_umkm')}</option>
+                                            <option value="custom-system">{t('order_page.form.options.type_custom')}</option>
+                                            <option value="other">{t('order_page.form.options.type_other')}</option>
+                                        </select>
                                     </div>
 
                                     {/* Row 4 */}
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.fields.status')}
+                                            {t('dashboard.recent_orders.table.tech_stack')}
                                         </label>
                                         <select
-                                            value={editingOrder.rawDetails?.status || 'pending'}
-                                            onChange={(e) => updateEditingField('status', e.target.value)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white cursor-pointer"
+                                            value={editingOrder.rawDetails?.techStack || ''}
+                                            onChange={(e) => updateEditingField('techStack', e.target.value)}
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white cursor-pointer"
                                         >
-                                            <option value="pending">{t('dashboard.recent_orders.status.pending')}</option>
-                                            <option value="completed">{t('dashboard.recent_orders.status.completed')}</option>
-                                            <option value="cancelled">{t('dashboard.recent_orders.status.cancelled')}</option>
+                                            <option value="">{t('order_page.form.placeholders.tech_stack')}</option>
+                                            <option value="react">{t('order_page.form.options.tech_react')}</option>
+                                            <option value="nextjs">{t('order_page.form.options.tech_next')}</option>
+                                            <option value="vue">{t('order_page.form.options.tech_vue')}</option>
+                                            <option value="wordpress">{t('order_page.form.options.tech_wordpress')}</option>
+                                            <option value="laravel">{t('order_page.form.options.tech_laravel')}</option>
+                                            <option value="html-css-js">{t('order_page.form.options.tech_html')}</option>
+                                            <option value="other">{t('order_page.form.options.tech_other')}</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.fields.total')}
+                                            {t('dashboard.recent_orders.table.status')}
                                         </label>
-                                        <input
-                                            type="number"
-                                            value={editingOrder.rawDetails?.total || 0}
-                                            onChange={(e) => updateEditingField('total', parseFloat(e.target.value) || 0)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
-                                        />
+                                        <select
+                                            value={editingOrder.rawDetails?.status || 'pending'}
+                                            onChange={(e) => updateEditingField('status', e.target.value)}
+                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white cursor-pointer font-bold"
+                                        >
+                                            <option value="pending" className="text-yellow-600">{t('dashboard.recent_orders.status.pending')}</option>
+                                            <option value="completed" className="text-emerald-600">{t('dashboard.recent_orders.status.completed')}</option>
+                                            <option value="cancelled" className="text-red-600">{t('dashboard.recent_orders.status.cancelled')}</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Row 5 */}
+                                    <div className="md:col-span-2">
+                                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                                            {t('dashboard.recent_orders.table.total')} (IDR)
+                                        </label>
+                                        <div className="relative">
+                                            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">Rp</div>
+                                            <input
+                                                type="number"
+                                                value={editingOrder.rawDetails?.total || 0}
+                                                onChange={(e) => updateEditingField('total', parseFloat(e.target.value) || 0)}
+                                                className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 pl-10 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white font-mono"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                        {t('dashboard.recent_orders.fields.message')}
+                                        {t('dashboard.recent_orders.table.message')}
                                     </label>
                                     <textarea
                                         value={editingOrder.rawDetails?.message || ''}
                                         onChange={(e) => updateEditingField('message', e.target.value)}
                                         rows={4}
-                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white resize-none custom-scrollbar"
+                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white resize-none custom-scrollbar"
                                     />
                                 </div>
 
@@ -1510,7 +1641,7 @@ const DashboardPage = () => {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all text-sm"
+                                        className="flex-1 px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 shadow-lg shadow-emerald-500/30 transition-all text-sm"
                                     >
                                         {t('dashboard.recent_orders.actions.save')}
                                     </button>

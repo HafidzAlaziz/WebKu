@@ -502,9 +502,9 @@
                 "message": "Jelaskan secara detail:\n- Apa tujuan website Anda?\n- Fitur apa saja yang harus ada?\n- Apakah Anda punya referensi desain?\n- Berapa lama pengerjaan yang diinginkan?"
             },
             "options": {
-                "package_starter": "Starter / Landing Page - Rp 100rb",
-                "package_professional": "Professional / UMKM - Rp 1 Juta",
-                "package_enterprise": "Enterprise / Full Custom - Harga Diskusi",
+                "package_starter": "Starter / Landing Page",
+                "package_professional": "Professional / UMKM",
+                "package_enterprise": "Enterprise / Full Custom",
                 "type_landing": "Landing Page",
                 "type_company": "Company Profile",
                 "type_ecommerce": "Toko Online / E-commerce",
@@ -645,7 +645,9 @@
             "new": "Baru",
             "new_order": "Pesanan Baru",
             "empty": "Tidak ada notifikasi baru",
-            "view_all": "Lihat Semua Pesanan"
+            "view_all": "Lihat Semua Pesanan",
+            "toast_message": "Anda mendapatkan pesanan proyek baru",
+            "view_now": "CEK SEKARANG"
         },
         "charts": {
             "traffic_overview": "Trafik & Pendapatan",
@@ -915,6 +917,7 @@
                 "whatsapp": "WhatsApp",
                 "company": "Perusahaan / Bisnis",
                 "tech_stack": "Tech Stack",
+                "order_package": "Paket Layanan",
                 "website_type": "Jenis Website",
                 "message": "Pesan / Kebutuhan",
                 "total": "Total Harga (IDR Raw)",

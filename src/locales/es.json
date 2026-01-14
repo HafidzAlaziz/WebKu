@@ -645,7 +645,9 @@
             "new": "Nuevo",
             "new_order": "Nuevo Pedido",
             "empty": "No hay notificaciones nuevas",
-            "view_all": "Ver Todos los Pedidos"
+            "view_all": "Ver Todos los Pedidos",
+            "toast_message": "Has recibido un nuevo pedido de proyecto",
+            "view_now": "VER AHORA"
         },
         "charts": {
             "traffic_overview": "Tráfico e Ingresos",

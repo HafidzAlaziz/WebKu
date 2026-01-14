@@ -466,6 +466,7 @@ export const useTracker = () => {
 
                 return {
                     id: o.id,
+                    created_at: o.created_at,
                     date: orderDate.toLocaleString(i18n.language, {
                         day: 'numeric',
                         month: 'short',
@@ -477,7 +478,8 @@ export const useTracker = () => {
                     customerEmail: o.details?.customerEmail,
                     customerPhone: o.details?.customerPhone,
                     customerCompany: o.details?.customerCompany,
-                    websiteType: o.details?.websiteType,
+                    websiteType: o.details?.orderType || o.details?.websiteType,
+                    orderPackage: o.details?.orderPackage,
                     techStack: o.details?.techStack,
                     message: o.details?.message,
                     total: totalIdr / config.rate,
@@ -529,6 +531,63 @@ export const useTracker = () => {
         }
     };
 
+    useEffect(() => {
+        // 1. Listen for new orders in the specialized table
+        const ordersChannel = supabase
+            .channel('realtime_orders')
+            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'orders' }, payload => {
+                console.log('Real-time notification: New order received!', payload);
+                fetchStats();
+            })
+            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders' }, payload => {
+                fetchStats();
+            })
+            .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'orders' }, payload => {
+                fetchStats();
+            })
+            .subscribe();
+
+        // 2. Listen for new orders in the legacy analytics_events table
+        const aeChannel = supabase
+            .channel('realtime_ae')
+            .on('postgres_changes', {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'analytics_events',
+                filter: 'event_type=eq.order'
+            }, payload => {
+                console.log('Real-time notification: New legacy order received!', payload);
+                fetchStats();
+            })
+            .on('postgres_changes', {
+                event: 'UPDATE',
+                schema: 'public',
+                table: 'analytics_events',
+                filter: 'event_type=eq.order'
+            }, payload => {
+                fetchStats();
+            })
+            .on('postgres_changes', {
+                event: 'DELETE',
+                schema: 'public',
+                table: 'analytics_events',
+                filter: 'event_type=eq.order'
+            }, payload => {
+                fetchStats();
+            })
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(ordersChannel);
+            supabase.removeChannel(aeChannel);
+        };
+    }, []);
+
+    // Initial fetch
+    useEffect(() => {
+        fetchStats();
+    }, [i18n.language]);
+
     // Helper function to parse User Agent
     const parseUserAgent = (ua) => {
         let device = 'Desktop';
@@ -567,10 +626,6 @@ export const useTracker = () => {
 
         return { device, browser, os };
     };
-
-    useEffect(() => {
-        fetchStats();
-    }, [i18n.language]);
 
     const trackView = async () => {
         try {

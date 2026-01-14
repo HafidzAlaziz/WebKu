@@ -645,7 +645,9 @@
             "new": "Nouveau",
             "new_order": "Nouvelle Commande",
             "empty": "Pas de nouvelles notifications",
-            "view_all": "Voir Toutes les Commandes"
+            "view_all": "Voir Toutes les Commandes",
+            "toast_message": "Vous avez reçu une nouvelle commande de projet",
+            "view_now": "VOIR"
         },
         "charts": {
             "traffic_overview": "Trafic et Revenu",

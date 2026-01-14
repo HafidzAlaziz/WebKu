@@ -502,9 +502,9 @@
                 "message": "Explain in detail:\n- What is the purpose of your website?\n- What features must be there?\n- Do you have design references?\n- How long is the desired processing time?"
             },
             "options": {
-                "package_starter": "Starter / Landing Page - Rp 100k",
-                "package_professional": "Professional / SME - Rp 1 Million",
-                "package_enterprise": "Enterprise / Full Custom - Discuss Price",
+                "package_starter": "Starter / Landing Page",
+                "package_professional": "Professional / SME",
+                "package_enterprise": "Enterprise / Full Custom",
                 "type_landing": "Landing Page",
                 "type_company": "Company Profile",
                 "type_ecommerce": "Online Store / E-commerce",
@@ -644,7 +644,9 @@
             "new": "New",
             "new_order": "New Order",
             "empty": "No new notifications",
-            "view_all": "View All Orders"
+            "view_all": "View All Orders",
+            "toast_message": "You have received a new project order",
+            "view_now": "CHECK NOW"
         },
         "live": "LIVE",
         "charts": {
@@ -915,6 +917,7 @@
                 "whatsapp": "WhatsApp",
                 "company": "Company / Business",
                 "tech_stack": "Tech Stack",
+                "order_package": "Service Package",
                 "website_type": "Website Type",
                 "message": "Message / Needs",
                 "total": "Total Price",

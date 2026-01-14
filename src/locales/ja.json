@@ -645,7 +645,9 @@
             "new": "新規",
             "new_order": "新規注文",
             "empty": "新しい通知はありません",
-            "view_all": "すべての注文を表示"
+            "view_all": "すべての注文を表示",
+            "toast_message": "新しいプロジェクトの注文を受け取りました",
+            "view_now": "今すぐ確認"
         },
         "charts": {
             "traffic_overview": "トラフィックと収益",
