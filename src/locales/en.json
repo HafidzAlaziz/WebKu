@@ -636,22 +636,87 @@
             "conversion_rate": "Conversion Rate",
             "total_revenue": "Total Revenue",
             "cancelled_orders": "Cancelled Orders",
-            "orders_suffix": "Orders",
-            "live": "LIVE"
+            "potential_revenue": "Potential Revenue",
+            "orders_suffix": "Orders"
         },
+        "notifications": {
+            "title": "Notifications",
+            "new": "New",
+            "new_order": "New Order",
+            "empty": "No new notifications",
+            "view_all": "View All Orders"
+        },
+        "live": "LIVE",
         "charts": {
             "traffic_overview": "Traffic & Revenue",
             "views": "Views",
             "orders": "Orders",
             "revenue": "Revenue",
-            "cancelled_revenue": "Cancelled"
+            "cancelled_revenue": "Cancelled",
+            "periods": {
+                "weekly": "Weekly",
+                "monthly": "Monthly",
+                "yearly": "Yearly"
+            }
+        },
+        "order_tab": {
+            "title": "Full Order List",
+            "search_placeholder": "Search orders...",
+            "active_badge": "Active Orders",
+            "empty_search": "No orders match your search.",
+            "empty_list": "No active orders yet.",
+            "table": {
+                "date": "Date",
+                "customer": "Customer",
+                "details": "Details",
+                "total": "Total",
+                "status": "Status",
+                "actions": "Actions"
+            }
+        },
+        "analytics": {
+            "stats": {
+                "completed": "Completed Orders",
+                "net_revenue": "Net Revenue",
+                "pending": "Pending",
+                "estimated_revenue": "Estimated Revenue",
+                "cancelled": "Cancelled",
+                "potential_loss": "Potential Loss"
+            },
+            "no_active_orders": "No active orders yet."
         },
         "widgets": {
             "clock_title": "Digital Clock"
         },
+        "pagination": {
+            "showing": "Showing",
+            "to": "to",
+            "of": "of",
+            "projects": "projects",
+            "per_page": "Per page",
+            "previous": "Previous",
+            "next": "Next",
+            "data": "data"
+        },
+        "history": {
+            "title": "Order History",
+            "subtitle": "Activity of completed or cancelled orders.",
+            "search_placeholder": "Search history...",
+            "stats": {
+                "archived": "Archived Orders",
+                "total_batal": "Total Cancelled"
+            },
+            "table": {
+                "empty": "No order history yet.",
+                "search_empty": "No history matching your search."
+            }
+        },
         "visitors": {
             "title": "Visitor Data",
             "subtitle": "Detailed analysis of visitors coming to your website.",
+            "device_percentage": "Device Percentage",
+            "device_stats_desc": "Device usage statistics by your website visitors.",
+            "table_title": "Visitor List",
             "table": {
                 "time": "Visit Time",
                 "visitor_id": "Visitor ID",
@@ -663,25 +728,31 @@
                 "search_placeholder": "Search ID or Device..."
             }
         },
+        "settings": {
+            "title": "Dashboard Settings",
+            "subtitle": "System configuration and display preferences will be available here."
+        },
         "sidebar": {
+            "branding": "DIGITAL SOLUTION",
             "sections": {
-                "menu": "Main Menu",
-                "general": "General",
-                "preferences": "Preferences"
+                "menu": "MENU",
+                "general": "GENERAL",
+                "preferences": "PREFERENCES"
             },
             "items": {
-                "dashboard": "Home",
+                "dashboard": "Dashboard",
+                "tasks": "Tasks",
+                "calendar": "Calendar",
                 "portfolio": "Portfolio",
                 "orders": "Orders",
-                "analytics": "Analytics",
-                "team": "Visitors",
+                "history": "History",
+                "visitors": "Visitors",
                 "settings": "Settings",
-                "help": "Help",
                 "logout": "Logout",
-                "coming_soon": "Coming Soon",
                 "language": "Language",
                 "theme_light": "Light Mode",
-                "theme_dark": "Dark Mode"
+                "theme_dark": "Dark Mode",
+                "live": "LIVE"
             }
         },
         "portfolio": {
@@ -800,13 +871,6 @@
                 "total_projects": "Total Projects",
                 "client_projects": "Client Projects",
                 "create_projects": "Internal Projects"
-            },
-            "pagination": {
-                "showing": "Showing",
-                "to": "to",
-                "of": "of",
-                "projects": "projects",
-                "per_page": "Per page"
             }
         },
         "recent_orders": {
@@ -844,16 +908,19 @@
                     "cancel": "Keep Editing"
                 }
             },
-            "fields": {
+            "table": {
+                "date": "Date",
                 "customer": "Customer Name",
                 "email": "Email",
                 "whatsapp": "WhatsApp",
-                "company": "Company",
+                "company": "Company / Business",
                 "tech_stack": "Tech Stack",
                 "website_type": "Website Type",
                 "message": "Message / Needs",
-                "total": "Total Price (IDR Raw)",
-                "status": "Status"
+                "total": "Total Price",
+                "status": "Status",
+                "details": "Details",
+                "actions": "Actions"
             }
         },
         "footer": {

@@ -16,8 +16,8 @@ export const parsePrice = (priceStr) => {
     return parseInt(cleaned, 10) || 0;
 };
 
-export const formatCurrency = (valueIdr, lang, t) => {
-    if (valueIdr === 'discussion' || valueIdr === 0) {
+export const formatCurrency = (valueIdr, lang, t, allowZero = false) => {
+    if (valueIdr === 'discussion' || (!allowZero && valueIdr === 0)) {
         return t('pricing.labels.negotiation');
     }
 

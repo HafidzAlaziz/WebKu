@@ -637,14 +637,121 @@
             "total_revenue": "Revenu Total",
             "conversion_rate": "Taux de Conversion",
             "cancelled_orders": "Commandes Annulées",
+            "potential_revenue": "Revenu Potentiel",
             "orders_suffix": "Commandes"
+        },
+        "notifications": {
+            "title": "Notifications",
+            "new": "Nouveau",
+            "new_order": "Nouvelle Commande",
+            "empty": "Pas de nouvelles notifications",
+            "view_all": "Voir Toutes les Commandes"
         },
         "charts": {
             "traffic_overview": "Trafic et Revenu",
             "views": "Vues",
             "orders": "Commandes",
             "revenue": "Revenu",
-            "cancelled_revenue": "Revenu Annulé"
+            "cancelled_revenue": "Revenu Annulé",
+            "periods": {
+                "weekly": "Hebdomadaire",
+                "monthly": "Mensuel",
+                "yearly": "Annuel"
+            }
+        },
+        "widgets": {
+            "clock_title": "Horloge Digitale"
+        },
+        "pagination": {
+            "showing": "Affichage de",
+            "to": "à",
+            "of": "sur",
+            "projects": "projets",
+            "per_page": "Par page",
+            "previous": "Précédent",
+            "next": "Suivant",
+            "data": "données"
+        },
+        "order_tab": {
+            "title": "Liste Complète des Commandes",
+            "search_placeholder": "Rechercher des commandes...",
+            "active_badge": "Commandes Actives",
+            "empty_search": "Aucune commande ne correspond à votre recherche.",
+            "empty_list": "Aucune commande active pour le moment.",
+            "table": {
+                "date": "Date",
+                "customer": "Client",
+                "details": "Détails",
+                "total": "Total",
+                "status": "Statut",
+                "actions": "Actions"
+            }
+        },
+        "analytics": {
+            "stats": {
+                "completed": "Commandes Terminées",
+                "net_revenue": "Revenu Net",
+                "pending": "En attente",
+                "estimated_revenue": "Revenu Estimé",
+                "cancelled": "Annulé",
+                "potential_loss": "Perte Potentielle"
+            },
+            "no_active_orders": "Aucune commande active pour le moment."
+        },
+        "history": {
+            "title": "Historique des Commandes",
+            "subtitle": "Activité des commandes terminées ou annulées.",
+            "search_placeholder": "Rechercher dans l'historique...",
+            "stats": {
+                "archived": "Commandes Archivées",
+                "total_batal": "Total Annulé"
+            },
+            "table": {
+                "empty": "Pas encore d'historique de commandes.",
+                "search_empty": "Aucun historique correspondant à votre recherche."
+            }
+        },
+        "visitors": {
+            "title": "Données des Visiteurs",
+            "subtitle": "Analyse détaillée des visiteurs venant sur votre site Web.",
+            "device_percentage": "Pourcentage d'Appareils",
+            "device_stats_desc": "Statistiques d'utilisation des appareils par les visiteurs de votre site Web.",
+            "table_title": "Liste des Visiteurs",
+            "table": {
+                "time": "Heure de Visite",
+                "visitor_id": "ID Visiteur",
+                "device": "Appareil",
+                "browser": "Navigateur",
+                "os": "Système d'Exploitation",
+                "page": "Page",
+                "empty": "Aucun visiteur enregistré pour le moment.",
+                "search_placeholder": "Rechercher ID ou Appareil..."
+            }
+        },
+        "settings": {
+            "title": "Paramètres du Tableau de Bord",
+            "subtitle": "La configuration du système et les préférences d'affichage seront disponibles ici."
+        },
+        "sidebar": {
+            "branding": "SOLUTION DIGITALE",
+            "sections": {
+                "menu": "MENU",
+                "general": "GENERAL",
+                "preferences": "PREFERENCES"
+            },
+            "items": {
+                "dashboard": "Tableau de Bord",
+                "orders": "Commandes",
+                "portfolio": "Portefeuille",
+                "history": "Historique",
+                "visitors": "Visiteurs",
+                "settings": "Paramètres",
+                "logout": "Déconnexion",
+                "language": "Langue",
+                "theme_light": "Mode Clair",
+                "theme_dark": "Mode Sombre",
+                "live": "EN DIRECT"
+            }
         },
         "portfolio": {
             "title": "Gestion du Portefeuille",
@@ -762,13 +869,6 @@
                 "total_projects": "Total des Projets",
                 "client_projects": "Projets Client",
                 "create_projects": "Projets Internes"
-            },
-            "pagination": {
-                "showing": "Affichage",
-                "to": "à",
-                "of": "sur",
-                "projects": "projets",
-                "per_page": "Par page"
             }
         },
         "recent_orders": {
@@ -804,16 +904,19 @@
                     "cancel": "Continuer l'édition"
                 }
             },
-            "fields": {
+            "table": {
+                "date": "Date",
                 "customer": "Nom du Client",
                 "email": "Email",
-                "whatsapp": "Numéro WhatsApp",
-                "company": "Entreprise / Commerce",
+                "whatsapp": "WhatsApp",
+                "company": "Entreprise / Secteur",
                 "tech_stack": "Technologies",
-                "website_type": "Type de Site Web",
+                "website_type": "Type de Site",
                 "message": "Message / Besoins",
-                "total": "Prix Total (IDR Raw)",
-                "status": "Statut"
+                "total": "Prix Total",
+                "status": "Statut",
+                "details": "Détails",
+                "actions": "Actions"
             }
         },
         "footer": {

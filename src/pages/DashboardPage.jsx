@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    LayoutGrid, ListTodo, Calendar, BarChart3, Users, Settings, HelpCircle, LogOut, Sun, Moon,
+    LayoutGrid, ListTodo, Calendar, BarChart3, Users, Settings, LogOut, Sun, Moon,
     ChevronDown, Languages, Smartphone, ArrowUpRight, ChevronLeft, ChevronRight, Briefcase,
     ShoppingCart, Bell, Search, Filter, Database, Clock, MoreVertical, Edit, Trash2, Eye,
     EyeOff, AlertCircle, Banknote, MapPin, Mail, Phone, CheckCircle, XCircle, ExternalLink,
@@ -92,7 +92,7 @@ const DashboardPage = () => {
     const [visitorsCurrentPage, setVisitorsCurrentPage] = useState(1);
     const [visitorSearchQuery, setVisitorSearchQuery] = useState('');
     const [itemsPerPage] = useState(10);
-    const [activeTab, setActiveTab] = useState('dashboard'); // dashboard, tasks, calendar, etc.
+    const [activeTab, setActiveTab] = useState('dashboard'); // dashboard, orders, portfolio, history, visitors, etc.
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
@@ -263,7 +263,7 @@ const DashboardPage = () => {
         return (
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
                 <div className="text-sm text-slate-500 dark:text-slate-400">
-                    Menampilkan <span className="font-bold text-slate-900 dark:text-white">{startItem}</span> - <span className="font-bold text-slate-900 dark:text-white">{endItem}</span> dari <span className="font-bold text-slate-900 dark:text-white">{totalItems}</span> data
+                    {t('dashboard.pagination.showing')} <span className="font-bold text-slate-900 dark:text-white">{startItem}</span> - <span className="font-bold text-slate-900 dark:text-white">{endItem}</span> {t('dashboard.pagination.of')} <span className="font-bold text-slate-900 dark:text-white">{totalItems}</span> {t('dashboard.pagination.data')}
                 </div>
                 <div className="flex items-center gap-2">
                     <button
@@ -271,7 +271,7 @@ const DashboardPage = () => {
                         disabled={currentPage === 1}
                         className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                        ← Previous
+                        ← {t('dashboard.pagination.previous')}
                     </button>
                     {getPageNumbers().map((page, idx) => (
                         page === '...' ? (
@@ -294,7 +294,7 @@ const DashboardPage = () => {
                         disabled={currentPage === totalPages}
                         className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                        Next →
+                        {t('dashboard.pagination.next')} →
                     </button>
                 </div>
             </div>
@@ -398,9 +398,9 @@ const DashboardPage = () => {
                                             className="absolute right-0 top-12 w-[85vw] max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50 origin-top-right"
                                         >
                                             <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
-                                                <h3 className="font-bold text-slate-900 dark:text-white text-sm">Notifikasi</h3>
+                                                <h3 className="font-bold text-slate-900 dark:text-white text-sm">{t('dashboard.notifications.title')}</h3>
                                                 <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded-full font-bold">
-                                                    {unreadOrdersList.length} Baru
+                                                    {unreadOrdersList.length} {t('dashboard.notifications.new')}
                                                 </span>
                                             </div>
 
@@ -418,7 +418,7 @@ const DashboardPage = () => {
                                                                 </div>
                                                                 <div>
                                                                     <p className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">
-                                                                        Pesanan Baru: {order.customerName}
+                                                                        {t('dashboard.notifications.new_order')}: {order.customerName}
                                                                     </p>
                                                                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">
                                                                         {order.details}
@@ -436,7 +436,7 @@ const DashboardPage = () => {
                                                             <Bell size={20} />
                                                         </div>
                                                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                                                            Tidak ada notifikasi baru
+                                                            {t('dashboard.notifications.empty')}
                                                         </p>
                                                     </div>
                                                 )}
@@ -450,7 +450,7 @@ const DashboardPage = () => {
                                                     }}
                                                     className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline"
                                                 >
-                                                    Lihat Semua Pesanan
+                                                    {t('dashboard.notifications.view_all')}
                                                 </button>
                                             </div>
                                         </motion.div>
@@ -536,7 +536,7 @@ const DashboardPage = () => {
                                             initial={{ opacity: 0, y: 15 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.2 }}
-                                            onClick={() => setActiveTab('analytics')}
+                                            onClick={() => setActiveTab('history')}
                                             className="bg-white dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-md group"
                                         >
                                             <div className="flex justify-between items-start mb-6">
@@ -552,7 +552,7 @@ const DashboardPage = () => {
                                                     {stats.currency} {Math.round(stats.totalRevenue).toLocaleString(stats.locale)}
                                                 </h3>
                                                 <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
-                                                    Potensi Pendapatan
+                                                    {t('dashboard.stats.potential_revenue')}
                                                 </span>
                                             </div>
                                         </motion.div>
@@ -562,7 +562,7 @@ const DashboardPage = () => {
                                             initial={{ opacity: 0, y: 15 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.3 }}
-                                            onClick={() => setActiveTab('analytics')}
+                                            onClick={() => setActiveTab('history')}
                                             className="bg-white dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-md group"
                                         >
                                             <div className="flex justify-between items-start mb-6">
@@ -571,7 +571,7 @@ const DashboardPage = () => {
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     <div className="px-2 py-0.5 rounded-lg bg-red-500/10 text-red-500 text-[10px] font-bold">
-                                                        {stats.totalCancelled || 0} Pesanan
+                                                        {stats.totalCancelled || 0} {t('dashboard.stats.orders_suffix')}
                                                     </div>
                                                     <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-red-600 group-hover:text-white group-hover:scale-110">
                                                         <ArrowUpRight size={16} strokeWidth={2.5} />
@@ -689,14 +689,14 @@ const DashboardPage = () => {
                                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                                             <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                                 <ShoppingCart size={24} className="text-blue-500" />
-                                                Daftar Pesanan Lengkap
+                                                {t('dashboard.order_tab.title')}
                                             </h2>
                                             <div className="flex items-center gap-3">
                                                 <div className="relative">
                                                     <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                                                     <input
                                                         type="text"
-                                                        placeholder="Cari pesanan..."
+                                                        placeholder={t('dashboard.order_tab.search_placeholder')}
                                                         value={orderSearchQuery}
                                                         onChange={(e) => setOrderSearchQuery(e.target.value)}
                                                         className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-64"
@@ -710,7 +710,7 @@ const DashboardPage = () => {
                                                             o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
                                                             o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
                                                         return matchesStatus && matchesSearch;
-                                                    }).length} Pesanan Aktif
+                                                    }).length} {t('dashboard.order_tab.active_badge')}
                                                 </div>
                                             </div>
                                         </div>
@@ -719,12 +719,12 @@ const DashboardPage = () => {
                                             <table className="w-full">
                                                 <thead>
                                                     <tr className="border-b border-slate-100 dark:border-slate-700">
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Tanggal</th>
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Pelanggan</th>
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Detail</th>
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Total</th>
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Status</th>
-                                                        <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Aksi</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.date')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.customer')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.details')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.total')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.status')}</th>
+                                                        <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.actions')}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
@@ -794,7 +794,7 @@ const DashboardPage = () => {
                                                     }).length === 0) && (
                                                             <tr>
                                                                 <td colSpan="6" className="py-12 text-center text-slate-500 dark:text-slate-400 font-medium">
-                                                                    {orderSearchQuery ? 'Tidak ada pesanan yang sesuai dengan pencarian.' : t('dashboard.analytics.no_active_orders')}
+                                                                    {orderSearchQuery ? t('dashboard.order_tab.empty_search') : t('dashboard.order_tab.empty_list')}
                                                                 </td>
                                                             </tr>
                                                         )}
@@ -818,7 +818,7 @@ const DashboardPage = () => {
                                         />
                                     </div>
                                 </motion.div>
-                            ) : activeTab === 'analytics' ? (
+                            ) : activeTab === 'history' ? (
                                 <motion.div
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
@@ -859,7 +859,7 @@ const DashboardPage = () => {
                                                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
                                                     <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.analytics.stats.estimated_revenue')}</p>
                                                     <p className="text-lg font-bold text-amber-600 dark:text-amber-400">
-                                                        {formatCurrency(Math.round(stats.pendingRevenue || 0), i18n.language, t)}
+                                                        {formatCurrency(Math.round(stats.pendingRevenue || 0), i18n.language, t, true)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -876,9 +876,9 @@ const DashboardPage = () => {
                                                     </div>
                                                 </div>
                                                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
-                                                    <p className="text-xs text-slate-500 dark:text-slate-400">Total Batal</p>
+                                                    <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.history.stats.total_batal')}</p>
                                                     <p className="text-lg font-bold text-red-600 dark:text-red-400">
-                                                        {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t)}
+                                                        {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t, true)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -888,14 +888,14 @@ const DashboardPage = () => {
                                         <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-8 border border-slate-200 dark:border-slate-700 shadow-sm">
                                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                                                 <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight uppercase">
-                                                    Riwayat Pesanan
+                                                    {t('dashboard.history.title')}
                                                 </h3>
                                                 <div className="flex items-center gap-3">
                                                     <div className="relative">
                                                         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                                                         <input
                                                             type="text"
-                                                            placeholder="Cari riwayat..."
+                                                            placeholder={t('dashboard.history.search_placeholder')}
                                                             value={historySearchQuery}
                                                             onChange={(e) => setHistorySearchQuery(e.target.value)}
                                                             className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-64"
@@ -909,7 +909,7 @@ const DashboardPage = () => {
                                                                 o.details?.toLowerCase().includes(historySearchQuery.toLowerCase()) ||
                                                                 o.customerEmail?.toLowerCase().includes(historySearchQuery.toLowerCase());
                                                             return matchesStatus && matchesSearch;
-                                                        }).length} Pesanan Terarsip
+                                                        }).length} {t('dashboard.history.stats.archived')}
                                                     </div>
                                                 </div>
                                             </div>
@@ -918,12 +918,12 @@ const DashboardPage = () => {
                                                 <table className="w-full">
                                                     <thead>
                                                         <tr className="border-b border-slate-100 dark:border-slate-700">
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Tanggal</th>
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Pelanggan</th>
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Detail</th>
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Total</th>
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Status</th>
-                                                            <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">Aksi</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.date')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.customer')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.details')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.total')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.status')}</th>
+                                                            <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.actions')}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
@@ -958,7 +958,7 @@ const DashboardPage = () => {
                                                                     {order.details}
                                                                 </td>
                                                                 <td className="py-4 px-4 text-sm font-bold text-slate-900 dark:text-white">
-                                                                    {stats.currency} {order.total.toLocaleString(stats.locale)}
+                                                                    {formatCurrency(order.total, i18n.language, t)}
                                                                 </td>
                                                                 <td className="py-4 px-4">
                                                                     <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getStatusColor(order.status)}`}>
@@ -993,7 +993,7 @@ const DashboardPage = () => {
                                                         }).length === 0) && (
                                                                 <tr>
                                                                     <td colSpan="6" className="py-12 text-center text-slate-500 dark:text-slate-400 font-medium">
-                                                                        {historySearchQuery ? 'Tidak ada riwayat yang sesuai dengan pencarian.' : 'Belum ada riwayat pesanan.'}
+                                                                        {historySearchQuery ? t('dashboard.history.table.search_empty') : t('dashboard.history.table.empty')}
                                                                     </td>
                                                                 </tr>
                                                             )}
@@ -1051,10 +1051,10 @@ const DashboardPage = () => {
                                                 <div className="w-full sm:w-1/3 mb-6 sm:mb-0">
                                                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
                                                         <Smartphone className="text-blue-500" size={24} />
-                                                        Persentase Perangkat
+                                                        {t('dashboard.visitors.device_percentage')}
                                                     </h3>
                                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                                        Statistik penggunaan perangkat oleh pengunjung website Anda.
+                                                        {t('dashboard.visitors.device_stats_desc')}
                                                     </p>
                                                 </div>
                                                 <div className="w-full sm:w-2/3 h-[300px] relative">
@@ -1095,7 +1095,7 @@ const DashboardPage = () => {
                                                         if (chartData.length === 0) {
                                                             return (
                                                                 <div className="flex items-center justify-center h-full text-slate-400 text-sm">
-                                                                    Belum ada data
+                                                                    {t('dashboard.visitors.table.empty')}
                                                                 </div>
                                                             );
                                                         }
@@ -1136,7 +1136,7 @@ const DashboardPage = () => {
                                                                         }}
                                                                         itemStyle={{ color: '#fff' }}
                                                                         formatter={(value, name, props) => {
-                                                                            return [`${value} visitors (${props.payload.percentage}%)`, name];
+                                                                            return [`${value} ${t('dashboard.sidebar.items.visitors').toLowerCase()} (${props.payload.percentage}%)`, name];
                                                                         }}
                                                                     />
                                                                     <Legend
@@ -1165,7 +1165,7 @@ const DashboardPage = () => {
                                                 <div className="p-6 pb-2">
                                                     <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                                         <ListTodo size={18} className="text-blue-500" />
-                                                        Daftar Pengunjung
+                                                        {t('dashboard.visitors.table_title')}
                                                     </h3>
                                                 </div>
                                                 <div className="overflow-x-auto">
@@ -1247,8 +1247,8 @@ const DashboardPage = () => {
                                         <div className="w-20 h-20 bg-slate-100 dark:bg-slate-700 text-slate-600 mx-auto rounded-full flex items-center justify-center mb-4">
                                             <Settings size={40} />
                                         </div>
-                                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Pengaturan Dashboard</h2>
-                                        <p className="text-slate-500 dark:text-slate-400">Konfigurasi sistem dan preferensi tampilan akan tersedia di sini.</p>
+                                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">{t('dashboard.settings.title')}</h2>
+                                        <p className="text-slate-500 dark:text-slate-400">{t('dashboard.settings.subtitle')}</p>
                                     </div>
                                 </motion.div>
                             ) : activeTab === 'portfolio' ? (

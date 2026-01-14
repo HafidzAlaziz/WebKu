@@ -637,14 +637,121 @@
             "total_revenue": "Ingresos Totales",
             "conversion_rate": "Tasa de Conversión",
             "cancelled_orders": "Pedidos Cancelados",
+            "potential_revenue": "Ingresos Potenciales",
             "orders_suffix": "Pedidos"
+        },
+        "notifications": {
+            "title": "Notificaciones",
+            "new": "Nuevo",
+            "new_order": "Nuevo Pedido",
+            "empty": "No hay notificaciones nuevas",
+            "view_all": "Ver Todos los Pedidos"
         },
         "charts": {
             "traffic_overview": "Tráfico e Ingresos",
             "views": "Vistas",
             "orders": "Pedidos",
             "revenue": "Ingresos",
-            "cancelled_revenue": "Ingresos Cancelados"
+            "cancelled_revenue": "Ingresos Cancelados",
+            "periods": {
+                "weekly": "Semanal",
+                "monthly": "Mensual",
+                "yearly": "Anual"
+            }
+        },
+        "widgets": {
+            "clock_title": "Reloj Digital"
+        },
+        "pagination": {
+            "showing": "Mostrando",
+            "to": "al",
+            "of": "de",
+            "projects": "proyectos",
+            "per_page": "Por página",
+            "previous": "Anterior",
+            "next": "Siguiente",
+            "data": "datos"
+        },
+        "order_tab": {
+            "title": "Lista Completa de Pedidos",
+            "search_placeholder": "Buscar pedidos...",
+            "active_badge": "Pedidos Activos",
+            "empty_search": "No se encontraron pedidos que coincidan con su búsqueda.",
+            "empty_list": "Aún no hay pedidos activos.",
+            "table": {
+                "date": "Fecha",
+                "customer": "Cliente",
+                "details": "Detalles",
+                "total": "Total",
+                "status": "Estado",
+                "actions": "Acciones"
+            }
+        },
+        "analytics": {
+            "stats": {
+                "completed": "Pedidos Completados",
+                "net_revenue": "Ingresos Netos",
+                "pending": "Pendiente",
+                "estimated_revenue": "Ingresos Estimados",
+                "cancelled": "Cancelado",
+                "potential_loss": "Pérdida Potencial"
+            },
+            "no_active_orders": "Aún no hay pedidos activos."
+        },
+        "history": {
+            "title": "Historial de Pedidos",
+            "subtitle": "Actividad de pedidos completados o cancelados.",
+            "search_placeholder": "Buscar historial...",
+            "stats": {
+                "archived": "Pedidos Archivados",
+                "total_batal": "Total Cancelado"
+            },
+            "table": {
+                "empty": "Aún no hay historial de pedidos.",
+                "search_empty": "No hay historial que coincida con su búsqueda."
+            }
+        },
+        "visitors": {
+            "title": "Datos de Visitantes",
+            "subtitle": "Análisis detallado de los visitantes que vienen a su sitio web.",
+            "device_percentage": "Porcentaje de Dispositivos",
+            "device_stats_desc": "Estadísticas de uso de dispositivos por los visitantes de su sitio web.",
+            "table_title": "Lista de Visitantes",
+            "table": {
+                "time": "Hora de Visita",
+                "visitor_id": "ID de Visitante",
+                "device": "Dispositivo",
+                "browser": "Navegador",
+                "os": "Sistema Operativo",
+                "page": "Página",
+                "empty": "Aún no hay datos de visitantes registrados.",
+                "search_placeholder": "Buscar ID o Dispositivo..."
+            }
+        },
+        "settings": {
+            "title": "Ajustes del Panel",
+            "subtitle": "La configuración del sistema y las preferencias de visualización estarán disponibles aquí."
+        },
+        "sidebar": {
+            "branding": "SOLUCIÓN DIGITAL",
+            "sections": {
+                "menu": "MENÚ",
+                "general": "GENERAL",
+                "preferences": "PREFERENCIAS"
+            },
+            "items": {
+                "dashboard": "Panel",
+                "orders": "Pedidos",
+                "portfolio": "Portafolio",
+                "history": "Historial",
+                "visitors": "Visitantes",
+                "settings": "Ajustes",
+                "logout": "Cerrar Sesión",
+                "language": "Idioma",
+                "theme_light": "Modo Claro",
+                "theme_dark": "Modo Oscuro",
+                "live": "EN VIVO"
+            }
         },
         "portfolio": {
             "title": "Gestión de Portafolio",
@@ -762,13 +869,6 @@
                 "total_projects": "Total de Proyectos",
                 "client_projects": "Proyectos de Cliente",
                 "create_projects": "Proyectos Internos"
-            },
-            "pagination": {
-                "showing": "Mostrando",
-                "to": "a",
-                "of": "de",
-                "projects": "proyectos",
-                "per_page": "Por página"
             }
         },
         "recent_orders": {
@@ -804,16 +904,19 @@
                     "cancel": "Continuar Editando"
                 }
             },
-            "fields": {
+            "table": {
+                "date": "Fecha",
                 "customer": "Nombre del Cliente",
-                "email": "Correo Electrónico",
-                "whatsapp": "Número de WhatsApp",
+                "email": "Correo",
+                "whatsapp": "WhatsApp",
                 "company": "Empresa / Negocio",
-                "tech_stack": "Tecnologías",
+                "tech_stack": "Pila Tecnológica",
                 "website_type": "Tipo de Sitio Web",
                 "message": "Mensaje / Necesidades",
-                "total": "Precio Total (IDR Raw)",
-                "status": "Estado"
+                "total": "Precio Total",
+                "status": "Estado",
+                "details": "Detalles",
+                "actions": "Acciones"
             }
         },
         "footer": {

@@ -636,8 +636,16 @@
             "conversion_rate": "Tingkat Konversi",
             "total_revenue": "Total Pendapatan",
             "cancelled_orders": "Pesanan Dibatalkan",
+            "potential_revenue": "Potensi Pendapatan",
             "orders_suffix": "Pesanan",
             "live": "LIVE"
+        },
+        "notifications": {
+            "title": "Notifikasi",
+            "new": "Baru",
+            "new_order": "Pesanan Baru",
+            "empty": "Tidak ada notifikasi baru",
+            "view_all": "Lihat Semua Pesanan"
         },
         "charts": {
             "traffic_overview": "Trafik & Pendapatan",
@@ -654,39 +662,86 @@
         "widgets": {
             "clock_title": "Jam Digital"
         },
+        "pagination": {
+            "showing": "Menampilkan",
+            "to": "sampai",
+            "of": "dari",
+            "projects": "proyek",
+            "per_page": "Per halaman",
+            "previous": "Sebelumnya",
+            "next": "Selanjutnya",
+            "data": "data"
+        },
+        "recent_orders": {
+            "title": "Daftar Pesanan Lengkap",
+            "search_placeholder": "Cari pesanan...",
+            "active_badge": "Pesanan Aktif",
+            "empty_search": "Tidak ada pesanan yang sesuai dengan pencarian.",
+            "empty_list": "Belum ada pesanan aktif saat ini.",
+            "table": {
+                "date": "Tanggal",
+                "customer": "Pelanggan",
+                "details": "Detail",
+                "total": "Total",
+                "status": "Status",
+                "actions": "Aksi"
+            }
+        },
+        "history": {
+            "title": "Riwayat Pesanan",
+            "subtitle": "Aktivitas pesanan yang telah selesai atau dibatalkan.",
+            "search_placeholder": "Cari riwayat...",
+            "stats": {
+                "archived": "Pesanan Terarsip",
+                "total_batal": "Total Batal"
+            },
+            "table": {
+                "empty": "Belum ada riwayat pesanan.",
+                "search_empty": "Tidak ada riwayat yang sesuai dengan pencarian."
+            }
+        },
         "visitors": {
             "title": "Data Pengunjung",
             "subtitle": "Analisis detail pengunjung yang datang ke website Anda.",
+            "device_percentage": "Persentase Perangkat",
+            "device_stats_desc": "Statistik penggunaan perangkat oleh pengunjung website Anda.",
+            "table_title": "Daftar Pengunjung",
             "table": {
                 "time": "Waktu Kunjungan",
-                "visitor_id": "Visitor ID",
+                "visitor_id": "ID Pengunjung",
                 "device": "Perangkat",
                 "browser": "Browser",
                 "os": "Sistem Operasi",
                 "page": "Halaman",
-                "empty": "Belum ada data pengunjung yang terekam.",
+                "empty": "Belum ada data pengunjung yang tercatat.",
                 "search_placeholder": "Cari ID atau Perangkat..."
             }
         },
+        "settings": {
+            "title": "Pengaturan Dashboard",
+            "subtitle": "Konfigurasi sistem dan preferensi tampilan akan tersedia di sini."
+        },
         "sidebar": {
+            "branding": "SOLUSI DIGITAL",
             "sections": {
-                "menu": "Menu Utama",
-                "general": "Umum",
-                "preferences": "Preferensi"
+                "menu": "MENU",
+                "general": "GENERAL",
+                "preferences": "PREFERENSI"
             },
             "items": {
-                "dashboard": "Beranda",
-                "portfolio": "Portofolio",
+                "dashboard": "Dashboard",
+                "tasks": "Tasks",
+                "calendar": "Calendar",
+                "portfolio": "Portfolio",
                 "orders": "Pesanan",
-                "analytics": "Analitik",
-                "team": "Pengunjung",
+                "history": "Riwayat",
+                "visitors": "Pengunjung",
                 "settings": "Pengaturan",
-                "help": "Bantuan",
                 "logout": "Keluar",
-                "coming_soon": "Segera Hadir",
                 "language": "Bahasa",
                 "theme_light": "Mode Terang",
-                "theme_dark": "Mode Gelap"
+                "theme_dark": "Mode Gelap",
+                "live": "LIVE"
             }
         },
         "analytics": {
@@ -816,13 +871,6 @@
                 "total_projects": "Total Proyek",
                 "client_projects": "Proyek Client",
                 "create_projects": "Proyek Internal"
-            },
-            "pagination": {
-                "showing": "Menampilkan",
-                "to": "sampai",
-                "of": "dari",
-                "projects": "proyek",
-                "per_page": "Per halaman"
             }
         },
         "recent_orders": {
@@ -860,7 +908,8 @@
                     "cancel": "Lanjutkan Edit"
                 }
             },
-            "fields": {
+            "table": {
+                "date": "Tanggal",
                 "customer": "Nama Pelanggan",
                 "email": "Email",
                 "whatsapp": "WhatsApp",
@@ -869,7 +918,9 @@
                 "website_type": "Jenis Website",
                 "message": "Pesan / Kebutuhan",
                 "total": "Total Harga (IDR Raw)",
-                "status": "Status"
+                "status": "Status",
+                "details": "Detail",
+                "actions": "Aksi"
             }
         },
         "footer": {

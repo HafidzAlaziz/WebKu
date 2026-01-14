@@ -637,14 +637,121 @@
             "total_revenue": "総売上",
             "conversion_rate": "コンバージョン率",
             "cancelled_orders": "キャンセルされた注文",
+            "potential_revenue": "潜在的な収益",
             "orders_suffix": "注文"
+        },
+        "notifications": {
+            "title": "通知",
+            "new": "新規",
+            "new_order": "新規注文",
+            "empty": "新しい通知はありません",
+            "view_all": "すべての注文を表示"
         },
         "charts": {
             "traffic_overview": "トラフィックと収益",
             "views": "閲覧数",
             "orders": "注文数",
             "revenue": "収益",
-            "cancelled_revenue": "キャンセルされた収益"
+            "cancelled_revenue": "キャンセルされた収益",
+            "periods": {
+                "weekly": "週間",
+                "monthly": "月間",
+                "yearly": "年間"
+            }
+        },
+        "widgets": {
+            "clock_title": "デジタル時計"
+        },
+        "pagination": {
+            "showing": "表示中",
+            "to": "から",
+            "of": "の",
+            "projects": "プロジェクト",
+            "per_page": "ページあたり",
+            "previous": "前へ",
+            "next": "次へ",
+            "data": "データ"
+        },
+        "order_tab": {
+            "title": "注文リスト詳細",
+            "search_placeholder": "注文を検索...",
+            "active_badge": "有効な注文",
+            "empty_search": "検索条件に一致する注文は見つかりませんでした。",
+            "empty_list": "現在、有効な注文はありません。",
+            "table": {
+                "date": "日付",
+                "customer": "顧客名",
+                "details": "詳細",
+                "total": "合計",
+                "status": "ステータス",
+                "actions": "操作"
+            }
+        },
+        "analytics": {
+            "stats": {
+                "completed": "完了した注文",
+                "net_revenue": "純収益",
+                "pending": "保留中",
+                "estimated_revenue": "推定収益",
+                "cancelled": "キャンセル済み",
+                "potential_loss": "潜在的な損失"
+            },
+            "no_active_orders": "現在、有効な注文はありません。"
+        },
+        "history": {
+            "title": "注文履歴",
+            "subtitle": "完了またはキャンセルされた注文のアクティビティ。",
+            "search_placeholder": "履歴を検索...",
+            "stats": {
+                "archived": "アーカイブされた注文",
+                "total_batal": "キャンセル合計"
+            },
+            "table": {
+                "empty": "注文履歴はまだありません。",
+                "search_empty": "検索条件に一致する履歴はありません。"
+            }
+        },
+        "visitors": {
+            "title": "訪問者データ",
+            "subtitle": "ウェブサイトへの訪問者の詳細な分析。",
+            "device_percentage": "デバイスの割合",
+            "device_stats_desc": "ウェブサイト訪問者によるデバイス使用統計。",
+            "table_title": "訪問者リスト",
+            "table": {
+                "time": "訪問時間",
+                "visitor_id": "訪問者ID",
+                "device": "デバイス",
+                "browser": "ブラウザ",
+                "os": "オペレーティングシステム",
+                "page": "ページ",
+                "empty": "訪問者データはまだ記録されていません。",
+                "search_placeholder": "IDまたはデバイスを検索..."
+            }
+        },
+        "settings": {
+            "title": "ダッシュボード設定",
+            "subtitle": "システム設定と表示設定はこちらで利用可能になります。"
+        },
+        "sidebar": {
+            "branding": "デジタルソリューション",
+            "sections": {
+                "menu": "メニュー",
+                "general": "一般",
+                "preferences": "設定"
+            },
+            "items": {
+                "dashboard": "ダッシュボード",
+                "orders": "注文",
+                "portfolio": "ポートフォリオ",
+                "history": "履歴",
+                "visitors": "訪問者",
+                "settings": "設定",
+                "logout": "ログアウト",
+                "language": "言語",
+                "theme_light": "ライトモード",
+                "theme_dark": "ダークモード",
+                "live": "ライブ"
+            }
         },
         "portfolio": {
             "title": "ポートフォリオ管理",
@@ -762,13 +869,6 @@
                 "total_projects": "総プロジェクト数",
                 "client_projects": "クライアントプロジェクト",
                 "create_projects": "社内プロジェクト"
-            },
-            "pagination": {
-                "showing": "表示中",
-                "to": "から",
-                "of": "件中",
-                "projects": "プロジェクト",
-                "per_page": "ページあたり"
             }
         },
         "recent_orders": {
@@ -804,16 +904,19 @@
                     "cancel": "編集を続ける"
                 }
             },
-            "fields": {
+            "table": {
+                "date": "日付",
                 "customer": "顧客名",
-                "email": "メールアドレス",
-                "whatsapp": "WhatsApp番号",
-                "company": "会社 / ビジネス名",
+                "email": "メール",
+                "whatsapp": "WhatsApp",
+                "company": "会社/ビジネス",
                 "tech_stack": "技術スタック",
                 "website_type": "ウェブサイトの種類",
-                "message": "メッセージ / 要望",
-                "total": "合計金額 (IDR Raw)",
-                "status": "ステータス"
+                "message": "メッセージ/ニーズ",
+                "total": "合計価格",
+                "status": "ステータス",
+                "details": "詳細",
+                "actions": "操作"
             }
         },
         "footer": {
