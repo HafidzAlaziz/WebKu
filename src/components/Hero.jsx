@@ -1,11 +1,63 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Star, Award, Zap } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { ArrowRight, Star, Award, Zap, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { supabase } from '../lib/supabaseClient';
+import { useCountAnimation } from '../hooks/useCountAnimation';
 
 const Hero = () => {
     const { t } = useTranslation();
+    const [visitorCount, setVisitorCount] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Animation refs and hooks
+    const statsRef = useRef(null);
+    const isStatsInView = useInView(statsRef, { once: true });
+
+    const animatedVisitorCount = useCountAnimation(visitorCount, 2000, visitorCount > 0);
+    const animatedRating = useCountAnimation(50, 2000, isStatsInView);
+    const animatedProjects = useCountAnimation(50, 2000, isStatsInView);
+    const animatedHours = useCountAnimation(24, 2000, isStatsInView);
+    const animatedSatisfaction = useCountAnimation(98, 2000, isStatsInView);
+
+    useEffect(() => {
+        // Fetch initial visitor count
+        const fetchVisitorCount = async () => {
+            try {
+                const { count, error } = await supabase
+                    .from('analytics_events')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('event_type', 'view');
+
+                if (error) throw error;
+                setVisitorCount(count || 0);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching visitor count:', error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchVisitorCount();
+
+        // Subscribe to real-time updates
+        const channel = supabase
+            .channel('visitor_count_channel')
+            .on('postgres_changes', {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'analytics_events',
+                filter: 'event_type=eq.view'
+            }, () => {
+                setVisitorCount(prev => prev + 1);
+            })
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
 
     return (
         <section id="home" className="relative pt-20 pb-12 lg:pt-28 lg:pb-16 overflow-hidden">
@@ -34,7 +86,7 @@ const Hero = () => {
                             {t('hero.subtitle')}
                         </p>
 
-                        <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full sm:w-auto">
+                        <div className="flex flex-col sm:flex-row gap-4 mb-10 w-full sm:w-auto items-center">
                             <Link
                                 to="/portfolio"
                                 className="px-8 py-4 bg-primary hover:bg-primary-light text-white font-semibold rounded-full shadow-lg hover:shadow-primary/30 transition-all flex items-center justify-center gap-2"
@@ -47,16 +99,48 @@ const Hero = () => {
                             >
                                 {t('nav.pricing')}
                             </a>
+
+                            {/* Live Visitor Counter - Plain text style */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                className="flex items-center gap-2 px-4 py-3"
+                            >
+                                <Users size={16} className="text-brand-emerald-600 dark:text-brand-emerald-400" />
+                                <motion.span
+                                    key={visitorCount}
+                                    initial={{ scale: 1.2 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="text-sm font-bold text-slate-900 dark:text-white"
+                                >
+                                    {isLoading ? '...' : animatedVisitorCount.toLocaleString('id-ID')}
+                                </motion.span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400">{t('hero.stats.visitors')}</span>
+                                <motion.div
+                                    animate={{
+                                        scale: [1, 1.4, 1],
+                                        opacity: [0.3, 1, 0.3]
+                                    }}
+                                    transition={{
+                                        repeat: Infinity,
+                                        duration: 1.5,
+                                        ease: "easeInOut"
+                                    }}
+                                    className="w-2 h-2 bg-brand-emerald-500 rounded-full"
+                                />
+                            </motion.div>
                         </div>
 
                         {/* Quick Professional Stats */}
-                        <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 lg:gap-10 border-t border-slate-100 dark:border-slate-800 pt-8 w-full">
+                        <div ref={statsRef} className="flex flex-wrap items-center justify-center lg:justify-start gap-6 lg:gap-10 border-t border-slate-100 dark:border-slate-800 pt-8 w-full">
                             <div className="flex items-center gap-3">
                                 <div className="p-2 bg-brand-gold-100 dark:bg-brand-gold-900/30 rounded-lg text-accent">
                                     <Star size={20} fill="currentColor" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white">5.0</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white">{(animatedRating / 10).toFixed(1)}</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.rating')}</p>
                                 </div>
                             </div>
@@ -66,7 +150,7 @@ const Hero = () => {
                                     <Award size={20} />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white">50+</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white">{animatedProjects}+</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.projects')}</p>
                                 </div>
                             </div>
@@ -76,7 +160,7 @@ const Hero = () => {
                                     <Zap size={20} fill="currentColor" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white">24/7</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white">{animatedHours}/7</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.response')}</p>
                                 </div>
                             </div>
@@ -105,7 +189,7 @@ const Hero = () => {
                                 className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-xl border border-slate-100 flex items-center gap-3"
                             >
                                 <div className="w-10 h-10 bg-brand-emerald-100 rounded-full flex items-center justify-center text-primary font-bold">
-                                    98%
+                                    {animatedSatisfaction}%
                                 </div>
                                 <div>
                                     <p className="text-xs text-slate-500">{t('hero.stats.satisfaction')}</p>

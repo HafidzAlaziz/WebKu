@@ -40,6 +40,7 @@ const DashboardPage = () => {
     const [showActionError, setShowActionError] = useState(false);
     const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
+    const [isCollapsed, setIsCollapsed] = useState(false); // Desktop sidebar collapsed state
     const [showNewOrderToast, setShowNewOrderToast] = useState(false);
     const [latestOrder, setLatestOrder] = useState(null);
 
@@ -75,7 +76,7 @@ const DashboardPage = () => {
                 try {
                     const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
                     audio.volume = 0.5;
-                    audio.play().catch(e => console.log('Audio play failed:', e));
+                    audio.play().catch(e => console.error('Audio play failed:', e));
                 } catch (e) {
                     console.error('Audio error:', e);
                 }
@@ -123,6 +124,11 @@ const DashboardPage = () => {
     const [historyCurrentPage, setHistoryCurrentPage] = useState(1);
     const [visitorsCurrentPage, setVisitorsCurrentPage] = useState(1);
     const [visitorSearchQuery, setVisitorSearchQuery] = useState('');
+
+    // Visitor Filtering State
+    const [visitorFilterType, setVisitorFilterType] = useState('day'); // 'day', 'month', 'year', 'all'
+    const todayStr = new Date().toISOString().split('T')[0];
+    const [visitorFilterDate, setVisitorFilterDate] = useState(todayStr); // Default to Today
     const [itemsPerPage] = useState(10);
     const [activeTab, setActiveTab] = useState('dashboard'); // dashboard, orders, portfolio, history, visitors, etc.
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -343,7 +349,28 @@ const DashboardPage = () => {
 
     const getDeviceIcon = (device) => {
         const d = device.toLowerCase();
-        if (d.includes('iphone') || d.includes('samsung') || d.includes('phone') || d.includes('xiaomi') || d.includes('oppo') || d.includes('vivo') || d.includes('mobile')) {
+        if (d.includes('iphone') ||
+            d.includes('samsung') ||
+            d.includes('phone') ||
+            d.includes('xiaomi') ||
+            d.includes('oppo') ||
+            d.includes('vivo') ||
+            d.includes('realme') ||
+            d.includes('infinix') ||
+            d.includes('pixel') ||
+            d.includes('nexus') ||
+            d.includes('android') ||
+            d.includes('sony') ||
+            d.includes('asus') ||
+            d.includes('lenovo') ||
+            d.includes('huawei') ||
+            d.includes('honor') ||
+            d.includes('tecno') ||
+            d.includes('itel') ||
+            d.includes('lg') ||
+            d.includes('htc') ||
+            d.includes('nokia') ||
+            d.includes('mobile')) {
             return <Smartphone size={14} />;
         }
         if (d.includes('ipad') || d.includes('tablet')) {
@@ -379,9 +406,11 @@ const DashboardPage = () => {
                     portfolioCount={portfolioProjects.length}
                     isMobileOpen={isSidebarOpen}
                     setIsMobileOpen={setIsSidebarOpen}
+                    isCollapsed={isCollapsed}
+                    setIsCollapsed={setIsCollapsed}
                 />
 
-                <div className="flex-1 flex flex-col min-w-0 py-5 px-4 md:px-0 pb-[80px] md:pb-0">
+                <div className={`flex-1 flex flex-col min-w-0 py-5 px-4 md:px-0 pb-[80px] md:pb-0 transition-all duration-300 ease-in-out ${isCollapsed ? 'md:ml-24' : 'md:ml-72'}`}>
                     {/* Header */}
                     {/* Header */}
                     <div className="flex flex-row justify-between items-center mb-8 gap-4 shrink-0 transition-opacity duration-300 opacity-100">
@@ -1087,7 +1116,54 @@ const DashboardPage = () => {
                                                 <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{t('dashboard.visitors.title')}</h2>
                                                 <p className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard.visitors.subtitle')}</p>
                                             </div>
-                                            <div className="flex items-center gap-3 w-full sm:w-auto">
+                                            <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                                                {/* Filter Controls */}
+                                                <div className="flex items-center gap-2">
+                                                    <select
+                                                        value={visitorFilterType}
+                                                        onChange={(e) => {
+                                                            setVisitorFilterType(e.target.value);
+                                                            setVisitorsCurrentPage(1);
+                                                        }}
+                                                        className="px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
+                                                    >
+                                                        <option value="day">{t('dashboard.visitors.filters.daily') || 'Harian'}</option>
+                                                        <option value="month">{t('dashboard.visitors.filters.monthly') || 'Bulanan'}</option>
+                                                        <option value="year">{t('dashboard.visitors.filters.yearly') || 'Tahunan'}</option>
+                                                        <option value="all">{t('dashboard.visitors.filters.all') || 'Semua'}</option>
+                                                    </select>
+
+                                                    {visitorFilterType === 'day' && (
+                                                        <input
+                                                            type="date"
+                                                            value={visitorFilterDate}
+                                                            onChange={(e) => setVisitorFilterDate(e.target.value)}
+                                                            className="px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
+                                                        />
+                                                    )}
+
+                                                    {visitorFilterType === 'month' && (
+                                                        <input
+                                                            type="month"
+                                                            value={visitorFilterDate.substring(0, 7)}
+                                                            onChange={(e) => setVisitorFilterDate(e.target.value)}
+                                                            className="px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
+                                                        />
+                                                    )}
+
+                                                    {visitorFilterType === 'year' && (
+                                                        <select
+                                                            value={visitorFilterDate.substring(0, 4)}
+                                                            onChange={(e) => setVisitorFilterDate(`${e.target.value}-01-01`)}
+                                                            className="px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
+                                                        >
+                                                            {[2024, 2025, 2026].map(year => (
+                                                                <option key={year} value={year}>{year}</option>
+                                                            ))}
+                                                        </select>
+                                                    )}
+                                                </div>
+
                                                 <div className="relative flex-1 sm:flex-none">
                                                     <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                                                     <input
@@ -1095,7 +1171,7 @@ const DashboardPage = () => {
                                                         placeholder={t('dashboard.visitors.table.search_placeholder')}
                                                         value={visitorSearchQuery}
                                                         onChange={(e) => setVisitorSearchQuery(e.target.value)}
-                                                        className="pl-9 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-full sm:w-64"
+                                                        className="pl-9 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-full sm:w-48"
                                                     />
                                                 </div>
                                             </div>
@@ -1121,14 +1197,18 @@ const DashboardPage = () => {
                                                         // Helper to categorize detailed device names back to groups
                                                         const getDeviceCategory = (details) => {
                                                             const d = details.toLowerCase();
-                                                            if (d.includes('windows') || d.includes('mac') || d.includes('linux') || d.includes('desktop')) return 'Desktop';
-                                                            if (d.includes('iphone') || d.includes('ipad') || d.includes('ios')) return 'iOS';
-                                                            if (d.includes('samsung') || d.includes('sm-')) return 'Android (Samsung)';
-                                                            if (d.includes('xiaomi') || d.includes('redmi') || d.includes('mi ')) return 'Android (Xiaomi)';
-                                                            if (d.includes('oppo')) return 'Android (Oppo)';
-                                                            if (d.includes('vivo')) return 'Android (Vivo)';
-                                                            if (d.includes('android')) return 'Android';
-                                                            return 'Others';
+                                                            // Desktop Group
+                                                            if (d.includes('windows') ||
+                                                                d.includes('mac') ||
+                                                                d.includes('linux') ||
+                                                                d.includes('desktop') ||
+                                                                d.includes('pc')) {
+                                                                return 'Desktop';
+                                                            }
+
+                                                            // Mobile Group (All others: iPhone, Android brands, etc.)
+                                                            // User requested everything else to fall into "Android" category
+                                                            return 'Android / Mobile';
                                                         };
 
                                                         stats.visitors.forEach(v => {
@@ -1236,13 +1316,33 @@ const DashboardPage = () => {
                                                         </thead>
                                                         <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                                                             {(() => {
-                                                                const filtered = (stats.visitors || []).filter(v =>
-                                                                    visitorSearchQuery === '' ||
-                                                                    v.visitor_id?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
-                                                                    v.device?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
-                                                                    v.browser?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
-                                                                    v.os?.toLowerCase().includes(visitorSearchQuery.toLowerCase())
-                                                                );
+                                                                const filtered = (stats.visitors || []).filter(v => {
+                                                                    // 1. Text Search Filter
+                                                                    const matchesSearch = visitorSearchQuery === '' ||
+                                                                        v.visitor_id?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                                        v.device?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                                        v.browser?.toLowerCase().includes(visitorSearchQuery.toLowerCase()) ||
+                                                                        v.os?.toLowerCase().includes(visitorSearchQuery.toLowerCase());
+
+                                                                    if (!matchesSearch) return false;
+
+                                                                    // 2. Date/Time Filter using created_at (ISO string)
+                                                                    if (!v.created_at) return false;
+                                                                    const visitDate = v.created_at; // e.g. "2024-01-15T10:30:00"
+
+                                                                    if (visitorFilterType === 'day') {
+                                                                        return visitDate.startsWith(visitorFilterDate);
+                                                                    } else if (visitorFilterType === 'month') {
+                                                                        // visitorFilterDate might be YYYY-MM-DD or YYYY-MM depending on input
+                                                                        const targetMap = visitorFilterDate.substring(0, 7);
+                                                                        return visitDate.startsWith(targetMap);
+                                                                    } else if (visitorFilterType === 'year') {
+                                                                        const targetYear = visitorFilterDate.substring(0, 4);
+                                                                        return visitDate.startsWith(targetYear);
+                                                                    }
+
+                                                                    return true; // 'all'
+                                                                });
                                                                 const startIndex = (visitorsCurrentPage - 1) * itemsPerPage;
                                                                 return filtered.slice(startIndex, startIndex + itemsPerPage);
                                                             })().map((v) => (

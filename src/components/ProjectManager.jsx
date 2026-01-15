@@ -138,11 +138,7 @@ const ProjectManager = () => {
                 </div>
             </div>
             {/* Header & Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
-                <div className="sm:col-span-2 flex flex-col justify-center">
-                    <h2 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tight">{t('dashboard.portfolio.title')}</h2>
-                    <p className="text-slate-500 dark:text-slate-400 text-sm">{t('dashboard.portfolio.subtitle')}</p>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-6">
                 <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 md:p-6 text-white shadow-lg overflow-hidden relative group">
                     <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
                     <div className="relative z-10 flex items-center justify-between">

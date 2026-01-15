@@ -52,11 +52,10 @@ const Logo = ({ isCollapsed }) => {
     );
 };
 
-const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobileOpen, setIsMobileOpen }) => {
+const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobileOpen, setIsMobileOpen, isCollapsed, setIsCollapsed }) => {
     const { t, i18n } = useTranslation();
     const { isDark, toggleTheme } = useTheme();
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-    const [isCollapsed, setIsCollapsed] = useState(false);
 
     const languages = [
         { code: 'en', name: 'English', flag: '🇺🇸' },
@@ -107,7 +106,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobil
 
             {/* Sidebar Container */}
             <aside className={`
-                fixed md:sticky top-0 md:top-5 left-0 h-screen md:h-[calc(100vh-2.5rem)] z-40
+                fixed top-0 md:top-5 left-0 md:left-4 h-screen md:h-[calc(100vh-2.5rem)] z-40
                 ${isCollapsed ? 'w-20' : 'w-64'} bg-white dark:bg-[#1e293b] border border-slate-200 dark:border-slate-700/50 md:rounded-[2.5rem]
                 flex flex-col transition-all duration-300 ease-in-out shadow-2xl
                 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}

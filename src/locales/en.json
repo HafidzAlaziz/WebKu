@@ -20,7 +20,8 @@
             "projects": "Projects Done",
             "response": "Fast Response",
             "satisfaction": "Client Satisfaction",
-            "very_satisfied": "Very Satisfied"
+            "very_satisfied": "Very Satisfied",
+            "visitors": "Visitors"
         }
     },
     "services": {
@@ -731,6 +732,12 @@
             "subtitle": "Detailed analysis of visitors coming to your website.",
             "device_percentage": "Device Percentage",
             "device_stats_desc": "Device usage statistics by your website visitors.",
+            "filters": {
+                "daily": "Daily",
+                "monthly": "Monthly",
+                "yearly": "Yearly",
+                "all": "All Time"
+            },
             "table_title": "Visitor List",
             "table": {
                 "time": "Visit Time",

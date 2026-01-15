@@ -36,7 +36,6 @@ export const useTracker = () => {
     const parsePrice = (priceStr) => {
         if (!priceStr) return 0;
         if (typeof priceStr === 'number') return priceStr;
-        // Remove "IDR", "Rp", dots, commas, and spaces
         const cleaned = priceStr.toString().replace(/[^\d]/g, '');
         return parseInt(cleaned, 10) || 0;
     };
@@ -64,9 +63,9 @@ export const useTracker = () => {
         if (!langKey) return value;
 
         const translated = t(`order_page.form.options.${langKey}`);
-        // Remove price/description suffix like " - Rp 100rb"
         return translated.split(' - ')[0];
     };
+
     const getVisitorId = () => {
         let vid = localStorage.getItem('visitor_id');
         if (!vid) {
@@ -77,33 +76,82 @@ export const useTracker = () => {
     };
 
     const getDeviceType = (ua) => {
-        // 1. Android Mobile - Try to get specific model
-        // Format often: ...; Model Build/...
-        const androidMatch = ua.match(/Android.+;\s*([^;]+?)\s*Build\//);
-        if (androidMatch && androidMatch[1]) {
-            return androidMatch[1]; // e.g. "SM-G991B", "Pixel 6"
+        if (/Android/i.test(ua)) {
+            let model = '';
+            const androidMatch = ua.match(/Android[^;]+;\s*([^;)]+)\s*(?:Build\/|\))/i);
+            if (androidMatch && androidMatch[1]) {
+                const rawModel = androidMatch[1].trim();
+                if (rawModel.length > 2 && !/^\d+$/.test(rawModel)) {
+                    model = rawModel;
+                }
+            }
+            if (model) {
+                if (model.startsWith('SM-')) return `Samsung ${model}`;
+                if (model.startsWith('RMX')) return `Realme ${model}`;
+                if (model.startsWith('CPH') || model.startsWith('PCH')) return `Oppo ${model}`;
+                if (model.startsWith('M2') || model.match(/^Redmi|^Mi\s/i)) return `Xiaomi ${model}`;
+                if (model.match(/^V\d{4}/)) return `Vivo ${model}`;
+                if (model.startsWith('X') && /X\d{3}/.test(model)) return `Infinix ${model}`;
+                if (model.match(/Pixel|Nexus/i)) return `Google ${model}`;
+            }
+            const brands = [
+                { name: 'Samsung', regex: /Samsung|SM-/i },
+                { name: 'Xiaomi', regex: /Xiaomi|Redmi|Mi\s/i },
+                { name: 'Oppo', regex: /Oppo/i },
+                { name: 'Vivo', regex: /Vivo/i },
+                { name: 'Realme', regex: /Realme/i },
+                { name: 'Infinix', regex: /Infinix/i },
+                { name: 'Asus', regex: /Asus/i },
+                { name: 'Lenovo', regex: /Lenovo/i },
+                { name: 'Huawei', regex: /Huawei|Honor/i },
+                { name: 'OnePlus', regex: /OnePlus/i },
+                { name: 'Tecno', regex: /Tecno/i },
+                { name: 'Itel', regex: /Itel/i },
+                { name: 'Advan', regex: /Advan/i },
+                { name: 'Evercoss', regex: /Evercoss/i },
+                { name: 'Sony', regex: /Sony|Xperia/i },
+                { name: 'HTC', regex: /HTC/i },
+                { name: 'LG', regex: /LG/i },
+                { name: 'Meizu', regex: /Meizu/i },
+                { name: 'Nokia', regex: /Nokia/i },
+                { name: 'Pixel', regex: /Pixel/i, prefix: 'Google' },
+                { name: 'Nexus', regex: /Nexus/i, prefix: 'Google' }
+            ];
+            for (const brand of brands) {
+                if (brand.regex.test(ua)) {
+                    const prefix = brand.prefix || brand.name;
+                    return model ? `${prefix} ${model}` : `HP ${prefix}`;
+                }
+            }
+            return model ? model : 'Perangkat Android';
         }
-
-        // 2. iOS
         if (/iPhone/i.test(ua)) return 'iPhone';
         if (/iPad/i.test(ua)) return 'iPad';
-
-        // 3. Specific Brands (fallback if regex above misses but brand keyword exists)
-        if (/Samsung|SM-/i.test(ua)) return 'Samsung Device';
-        if (/Xiaomi|Redmi|Mi /i.test(ua)) return 'Xiaomi Device';
-        if (/Oppo/i.test(ua)) return 'Oppo Device';
-        if (/Vivo/i.test(ua)) return 'Vivo Device';
-
-        // 4. General Mobile/Tablet
-        if (/Android/i.test(ua)) return 'Android Device';
+        if (/Windows/i.test(ua)) {
+            if (/Windows NT 10.0/i.test(ua)) return 'PC Windows 10/11';
+            if (/Windows NT 6.3/i.test(ua)) return 'PC Windows 8.1';
+            if (/Windows NT 6.2/i.test(ua)) return 'PC Windows 8';
+            if (/Windows NT 6.1/i.test(ua)) return 'PC Windows 7';
+            return 'PC Windows';
+        }
+        if (/Macintosh|Mac OS X/i.test(ua)) {
+            const macVersion = ua.match(/Mac OS X (\d+)[._](\d+)/);
+            if (macVersion) {
+                const major = parseInt(macVersion[1]);
+                const minor = parseInt(macVersion[2]);
+                if (major >= 10 && minor >= 15) return 'Mac (macOS Catalina+)';
+                if (major >= 10 && minor >= 12) return 'Mac (macOS Sierra+)';
+            }
+            return 'Mac (macOS)';
+        }
+        if (/Linux/i.test(ua)) {
+            if (/Ubuntu/i.test(ua)) return 'PC Linux (Ubuntu)';
+            if (/Fedora/i.test(ua)) return 'PC Linux (Fedora)';
+            if (/Debian/i.test(ua)) return 'PC Linux (Debian)';
+            return 'PC Linux';
+        }
         if (/(tablet|playbook|silk)|(android(?!.*mobile))/i.test(ua)) return 'Tablet';
-        if (/(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|series60|windows ce|nokia|treo|palm)/i.test(ua)) return 'Mobile';
-
-        // 5. Desktop
-        if (/Macintosh/i.test(ua)) return 'MacBook/iMac';
-        if (/Windows/i.test(ua)) return 'Windows PC';
-        if (/Linux/i.test(ua) && !/Android/i.test(ua)) return 'Linux PC';
-
+        if (/(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|series60|windows ce|nokia|treo|palm)/i.test(ua)) return 'Ponsel';
         return "Desktop";
     };
 
@@ -114,24 +162,29 @@ export const useTracker = () => {
         if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) return 'Safari';
         if (/Opera|OPR/i.test(ua)) return 'Opera';
         if (/MSIE|Trident/i.test(ua)) return 'IE';
+        if (/UCBrowser/i.test(ua)) return 'UC Browser';
+        if (/Instagram/i.test(ua)) return 'Instagram In-App';
         return "Browser Lain";
     };
 
     const getOSInfo = (ua) => {
-        if (/Windows/i.test(ua)) return 'Windows';
-        if (/Macintosh|Mac OS X/i.test(ua)) return 'macOS';
-        if (/Linux/i.test(ua)) return 'Linux';
         if (/Android/i.test(ua)) return 'Android';
         if (/iOS|iPhone|iPad|iPod/i.test(ua)) return 'iOS';
+        if (/Windows/i.test(ua)) {
+            if (/Windows NT 10.0/i.test(ua)) return 'Windows 10/11';
+            if (/Windows NT 6.3/i.test(ua)) return 'Windows 8.1';
+            if (/Windows NT 6.2/i.test(ua)) return 'Windows 8';
+            if (/Windows NT 6.1/i.test(ua)) return 'Windows 7';
+            return 'Windows';
+        }
+        if (/Macintosh|Mac OS X/i.test(ua)) return 'macOS';
+        if (/Linux/i.test(ua)) return 'Linux';
         return "OS Lain";
     };
 
-    // Fetch data from Supabase
     const fetchStats = async (input = 7) => {
-        // Determine days to look back based on input
         let lookupDays = 7;
         let currentFilter = input;
-
         if (typeof input === 'number') {
             lookupDays = input;
         } else if (typeof input === 'object' && input !== null) {
@@ -145,15 +198,11 @@ export const useTracker = () => {
         }
 
         try {
-            console.log('Fetching stats from Supabase...');
-
-            // 1. Fetch ALL from analytics_events (Views + Legacy Orders)
             const { data: aeData, error: aeError } = await supabase
                 .from('analytics_events')
                 .select('*')
                 .order('created_at', { ascending: false });
 
-            // 2. Fetch Orders from new orders table
             const { data: ordersData, error: ordersError } = await supabase
                 .from('orders')
                 .select('*')
@@ -163,14 +212,9 @@ export const useTracker = () => {
                 console.error('Supabase analytics_events error:', aeError);
                 throw aeError;
             }
-            if (ordersError) {
-                console.warn('Supabase orders table error (might not exist yet):', ordersError);
-            }
-
-            // orders table might not exist in some environments yet, handle gracefully
             const safeOrdersData = ordersData || [];
 
-            const parsePrice = (val) => {
+            const parsePriceLocal = (val) => {
                 if (val === undefined || val === null) return 0;
                 if (typeof val === 'number') return val;
                 const str = String(val);
@@ -187,15 +231,11 @@ export const useTracker = () => {
                 return s;
             };
 
-            // 3. Process and Merge Data
             const mergedOrdersMap = new Map();
-
-            // First, process legacy orders from analytics_events
             (aeData || []).filter(e => e.event_type === 'order').forEach(o => {
                 const rawDetails = (typeof o.details === 'object' && o.details !== null)
                     ? o.details
                     : { details: o.details };
-
                 mergedOrdersMap.set(o.id, {
                     id: o.id,
                     event_type: 'order',
@@ -209,16 +249,15 @@ export const useTracker = () => {
                         websiteType: rawDetails.websiteType || rawDetails.orderType,
                         techStack: rawDetails.techStack,
                         message: rawDetails.message || rawDetails.details,
-                        total: parsePrice(rawDetails.total),
+                        total: parsePriceLocal(rawDetails.total),
                         status: normalizeStatus(rawDetails.status),
                         orderPackage: rawDetails.orderPackage || rawDetails.package,
                         orderType: rawDetails.orderType || rawDetails.websiteType,
-                        ...rawDetails // keep original details for compatibility
+                        ...rawDetails
                     }
                 });
             });
 
-            // Then, process and OVERWRITE/ADD with data from dedicated orders table
             safeOrdersData.forEach(o => {
                 mergedOrdersMap.set(o.id, {
                     id: o.id,
@@ -249,16 +288,12 @@ export const useTracker = () => {
             const views = viewsData.map(v => ({ ...v, event_type: 'view' }));
             const data = [...views, ...orders];
 
-            // Process unique visitors with details
             const processedVisitors = viewsData.map(v => {
                 const details = v.details || {};
                 const ua = details.user_agent;
-
-                // Jika ada user_agent, parse ulang agar lebih spesifik (walaupun data lama)
                 const device = ua ? getDeviceType(ua) : (details.device || 'Desktop');
                 const browser = ua ? getBrowserInfo(ua) : (details.browser || 'Unknown');
                 const os = ua ? getOSInfo(ua) : (details.os || 'Unknown');
-
                 return {
                     id: v.id,
                     visitor_id: details.visitor_id,
@@ -277,39 +312,28 @@ export const useTracker = () => {
             }).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
             const config = getCurrencyConfig(i18n.language);
-
-            // Calculate history with conversion
             const history = [];
-
-            // Helper to format date keys for aggregation
             const getDayKey = (d) => d.toISOString().split('T')[0];
-            const getMonthKey = (d) => d.toISOString().substring(0, 7); // YYYY-MM
-            const getYearKey = (d) => d.getFullYear().toString();
 
             if (currentFilter === 'weekly' || (typeof input === 'object' && input.type === 'weekly') || input === '7d') {
-                // Weekly: Last 7 Days (rolling window)
                 for (let i = 6; i >= 0; i--) {
                     const date = new Date();
                     date.setDate(date.getDate() - i);
                     const dateStr = getDayKey(date);
-
                     const dayEvents = data.filter(e => e.created_at.startsWith(dateStr));
                     const uniqueDayVisitors = new Set(
                         dayEvents
                             .filter(e => e.event_type === 'view' && e.details?.visitor_id)
                             .map(e => e.details.visitor_id)
                     ).size;
-                    // Fallback
                     const dayViews = uniqueDayVisitors || dayEvents.filter(e => e.event_type === 'view').length;
                     const dailyOrders = dayEvents.filter(e => e.event_type === 'order');
-
                     const dayRevenueIdr = dailyOrders
                         .filter(o => o.details?.status !== 'cancelled')
-                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
+                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
                     const dayCancelledRevenueIdr = dailyOrders
                         .filter(o => o.details?.status === 'cancelled')
-                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-
+                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
                     history.push({
                         date: dateStr,
                         views: dayViews,
@@ -319,111 +343,77 @@ export const useTracker = () => {
                     });
                 }
             } else if (currentFilter === 'monthly' || (typeof input === 'object' && input.type === 'monthly') || input === '30d') {
-                // Monthly: Jan - Dec of current year
                 const currentYear = new Date().getFullYear();
                 for (let i = 0; i < 12; i++) {
                     const dateStr = `${currentYear}-${(i + 1).toString().padStart(2, '0')}`;
-
                     const monthEvents = data.filter(e => e.created_at.startsWith(dateStr));
-
-                    // Views
                     const uniqueMonthVisitors = new Set(
                         monthEvents
                             .filter(e => e.event_type === 'view' && e.details?.visitor_id)
                             .map(e => e.details.visitor_id)
                     ).size;
                     const monthViews = uniqueMonthVisitors || monthEvents.filter(e => e.event_type === 'view').length;
-
-                    // Orders
                     const monthlyOrders = monthEvents.filter(e => e.event_type === 'order');
-
                     const monthRevenueIdr = monthlyOrders
                         .filter(o => o.details?.status !== 'cancelled')
-                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-
+                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
                     const monthCancelledRevenueIdr = monthlyOrders
                         .filter(o => o.details?.status === 'cancelled')
-                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-
+                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
                     history.push({
                         date: dateStr,
                         views: monthViews,
                         orders: monthlyOrders.length,
-                        revenue: monthRevenueIdr / config.rate, // Treat cancelled as 0 income
+                        revenue: monthRevenueIdr / config.rate,
                         cancelledRevenue: monthCancelledRevenueIdr / config.rate
                     });
                 }
             } else if (currentFilter === 'yearly' || (typeof input === 'object' && input.type === 'yearly') || input === 'year') {
-                // Yearly: 2024 - Current Year (Dynamic start if needed, but per request "20--" to now)
-                // Let's start from 2024 as base or 2023? Assuming project started recently, 2024 is safe.
-                // Or let's scan data to find min year?
-                // Per user request "20-- sampai 20sekarang". Let's do 2024 to Current Year + 1 maybe?
-                // Let's just do fixed range 2024 - Current Year for now, or last 5 years.
-                // "20-- sampai 20sekarang" implies a range. Let's do 2024 to `currentYear`.
-
                 const currentYear = new Date().getFullYear();
-                const startYear = 2024; // Base year for the app
-
+                const startYear = 2024;
                 for (let y = startYear; y <= currentYear; y++) {
                     const dateStr = y.toString();
-
                     const yearEvents = data.filter(e => e.created_at.startsWith(dateStr));
-
-                    // Views
                     const uniqueYearVisitors = new Set(
                         yearEvents
                             .filter(e => e.event_type === 'view' && e.details?.visitor_id)
                             .map(e => e.details.visitor_id)
                     ).size;
                     const yearViews = uniqueYearVisitors || yearEvents.filter(e => e.event_type === 'view').length;
-
-                    // Orders
                     const yearOrders = yearEvents.filter(e => e.event_type === 'order');
-
                     const yearRevenueIdr = yearOrders
                         .filter(o => o.details?.status !== 'cancelled')
-                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-
+                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
                     const yearCancelledRevenueIdr = yearOrders
                         .filter(o => o.details?.status === 'cancelled')
-                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-
+                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
                     history.push({
                         date: dateStr,
                         views: yearViews,
                         orders: yearOrders.length,
-                        revenue: yearRevenueIdr / config.rate, // Treat cancelled as 0 income
+                        revenue: yearRevenueIdr / config.rate,
                         cancelledRevenue: yearCancelledRevenueIdr / config.rate
                     });
                 }
             } else {
-                // Fallback: Last N Days (default 7)
                 for (let i = lookupDays - 1; i >= 0; i--) {
                     const date = new Date();
                     date.setDate(date.getDate() - i);
                     const dateStr = date.toISOString().split('T')[0];
-
                     const dayEvents = data.filter(e => e.created_at.startsWith(dateStr));
                     const uniqueDayVisitors = new Set(
                         dayEvents
                             .filter(e => e.event_type === 'view' && e.details?.visitor_id)
                             .map(e => e.details.visitor_id)
                     ).size;
-
-                    // Fallback to legacy count if visitor_id is missing for older data
                     const dayViews = uniqueDayVisitors || dayEvents.filter(e => e.event_type === 'view').length;
-
                     const dailyOrders = dayEvents.filter(e => e.event_type === 'order');
-
-                    // Convert revenue to active currency
                     const dayRevenueIdr = dailyOrders
                         .filter(o => o.details?.status !== 'cancelled')
-                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-
+                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
                     const dayCancelledRevenueIdr = dailyOrders
                         .filter(o => o.details?.status === 'cancelled')
-                        .reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-
+                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
                     history.push({
                         date: dateStr,
                         views: dayViews,
@@ -434,15 +424,11 @@ export const useTracker = () => {
                 }
             }
 
-            // Recent orders (with converted total)
             const mapOrder = (o) => {
                 const orderDate = new Date(o.created_at);
                 const isNewOrder = !o.details?.details ||
                     ['Order Button Click', 'Pesanan Baru', 'New Order'].includes(o.details?.details);
-
-                const totalIdr = parsePrice(o.details?.total);
-
-                // Format details
+                const totalIdr = parsePriceLocal(o.details?.total);
                 let displayDetails = '-';
                 if (isNewOrder) {
                     displayDetails = t('dashboard.recent_orders.new_order_label');
@@ -451,7 +437,6 @@ export const useTracker = () => {
                     const type = getLocalizedDetail('type', o.details?.orderType);
                     displayDetails = `${t('dashboard.recent_orders.order_form_prefix')}: ${pkg} - ${type}`;
                 } else if (typeof o.details?.details === 'string' && o.details?.details.startsWith('Order Form:')) {
-                    // Backwards compatibility for old string format
                     const parts = o.details?.details.replace('Order Form: ', '').split(' - ');
                     if (parts.length === 2) {
                         const pkg = getLocalizedDetail('package', parts[0]);
@@ -463,7 +448,6 @@ export const useTracker = () => {
                 } else {
                     displayDetails = o.details?.details || '-';
                 }
-
                 return {
                     id: o.id,
                     created_at: o.created_at,
@@ -489,17 +473,13 @@ export const useTracker = () => {
                     originTable: o.originTable
                 };
             };
-            // 4. Calculate summary stats
+
             const pendingOrders = orders.filter(o => o.details?.status === 'pending');
             const completedOrders = orders.filter(o => o.details?.status === 'completed');
             const cancelledOrders = orders.filter(o => o.details?.status === 'cancelled');
-
-            const pendingRevenueIdr = pendingOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-            const completedRevenueIdr = completedOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-            const cancelledRevenueIdr = cancelledOrders.reduce((sum, o) => sum + parsePrice(o.details?.total), 0);
-
-            // Calculate Today's Unique Views
-            const todayStr = new Date().toISOString().split('T')[0];
+            const pendingRevenueIdr = pendingOrders.reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
+            const completedRevenueIdr = completedOrders.reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
+            const cancelledRevenueIdr = cancelledOrders.reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
             const lastHistoryPoint = history[history.length - 1];
             const todayViewsCount = lastHistoryPoint?.views || 0;
 
@@ -508,8 +488,8 @@ export const useTracker = () => {
                 totalViews: views.length,
                 todayViews: todayViewsCount,
                 totalOrders: orders.length,
-                totalRevenue: (completedRevenueIdr + pendingRevenueIdr) / config.rate, // Gross Potential Revenue (excluding cancelled)
-                netRevenue: completedRevenueIdr / config.rate, // Actual Cash In
+                totalRevenue: (completedRevenueIdr + pendingRevenueIdr) / config.rate,
+                netRevenue: completedRevenueIdr / config.rate,
                 completedOrders: completedOrders.length,
                 completedRevenue: completedRevenueIdr / config.rate,
                 pendingOrders: pendingOrders.length,
@@ -532,11 +512,9 @@ export const useTracker = () => {
     };
 
     useEffect(() => {
-        // 1. Listen for new orders in the specialized table
         const ordersChannel = supabase
             .channel('realtime_orders')
             .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'orders' }, payload => {
-                console.log('Real-time notification: New order received!', payload);
                 fetchStats();
             })
             .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders' }, payload => {
@@ -547,7 +525,6 @@ export const useTracker = () => {
             })
             .subscribe();
 
-        // 2. Listen for new orders in the legacy analytics_events table
         const aeChannel = supabase
             .channel('realtime_ae')
             .on('postgres_changes', {
@@ -556,7 +533,6 @@ export const useTracker = () => {
                 table: 'analytics_events',
                 filter: 'event_type=eq.order'
             }, payload => {
-                console.log('Real-time notification: New legacy order received!', payload);
                 fetchStats();
             })
             .on('postgres_changes', {
@@ -583,81 +559,53 @@ export const useTracker = () => {
         };
     }, []);
 
-    // Initial fetch
     useEffect(() => {
         fetchStats();
     }, [i18n.language]);
 
-    // Helper function to parse User Agent
-    const parseUserAgent = (ua) => {
-        let device = 'Desktop';
-        let browser = 'Unknown';
-        let os = 'Unknown';
-
-        // OS detection
-        if (/Windows/i.test(ua)) os = 'Windows';
-        else if (/Macintosh|Mac OS X/i.test(ua)) os = 'macOS';
-        else if (/Linux/i.test(ua)) os = 'Linux';
-        else if (/Android/i.test(ua)) os = 'Android';
-        else if (/iOS|iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
-
-        // Device model detection (More specific)
-        if (/iPhone/i.test(ua)) device = 'iPhone';
-        else if (/iPad/i.test(ua)) device = 'iPad';
-        else if (/Samsung|SM-/i.test(ua)) device = 'Samsung';
-        else if (/Huawei/i.test(ua)) device = 'Huawei';
-        else if (/Xiaomi|Redmi|Mi /i.test(ua)) device = 'Xiaomi';
-        else if (/Oppo/i.test(ua)) device = 'Oppo';
-        else if (/Vivo/i.test(ua)) device = 'Vivo';
-        else if (/Macintosh/i.test(ua)) device = 'MacBook/iMac';
-        else if (/Windows/i.test(ua)) device = 'Windows PC';
-        else if (/Linux/i.test(ua) && !/Android/i.test(ua)) device = 'Linux PC';
-        else if (/Android/i.test(ua)) device = 'Android Phone';
-        else if (/(tablet|playbook|silk)|(android(?!.*mobile))/i.test(ua)) device = 'Tablet';
-        else if (/(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|series60|windows ce|nokia|treo|palm)/i.test(ua)) device = 'Mobile';
-
-        // Browser detection
-        if (/Edg/i.test(ua)) browser = 'Edge';
-        else if (/Chrome/i.test(ua)) browser = 'Chrome';
-        else if (/Firefox/i.test(ua)) browser = 'Firefox';
-        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = 'Safari';
-        else if (/Opera|OPR/i.test(ua)) browser = 'Opera';
-        else if (/MSIE|Trident/i.test(ua)) browser = 'IE';
-
-        return { device, browser, os };
-    };
-
     const trackView = async () => {
         try {
             const path = window.location.pathname;
-            // Jangan hitung views untuk halaman dashboard atau login
-            if (path.startsWith('/dashboard') || path.startsWith('/login')) {
-                return;
-            }
+            if (path.startsWith('/dashboard') || path.startsWith('/login')) return;
 
             const today = new Date().toISOString().split('T')[0];
             const storageKey = 'visitor_tracked_today';
-
-            // Cek apakah sudah dilacak hari ini
             const lastTrackedDate = localStorage.getItem(storageKey);
+            if (lastTrackedDate === today) return;
 
-            if (lastTrackedDate === today) {
-                // Sudah dihitung hari ini, abaikan secara visual tapi biarkan ID tetap konsisten
-                return;
+            localStorage.setItem(storageKey, today);
+            const ua = navigator.userAgent;
+            let finalDevice = getDeviceType(ua);
+
+            if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+                try {
+                    const uaData = await navigator.userAgentData.getHighEntropyValues(['model', 'platform', 'platformVersion']);
+                    if (uaData.model) {
+                        let realModel = uaData.model.trim();
+                        if (!/Samsung|Xiaomi|Oppo|Vivo|Realme|Infinix/i.test(realModel)) {
+                            if (realModel.startsWith('SM-')) realModel = `Samsung ${realModel}`;
+                            else if (realModel.startsWith('RMX')) realModel = `Realme ${realModel}`;
+                            else if (realModel.startsWith('CPH') || realModel.startsWith('PCH')) realModel = `Oppo ${realModel}`;
+                            else if (realModel.startsWith('V') && /\d{4}/.test(realModel)) realModel = `Vivo ${realModel}`;
+                            else if (realModel.startsWith('X') && /\d{3}/.test(realModel)) realModel = `Infinix ${realModel}`;
+                            else if (realModel.startsWith('M2')) realModel = `Xiaomi ${realModel}`;
+                        }
+                        if (realModel.length > 1 && realModel !== 'K') {
+                            finalDevice = realModel;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('❌ Client Hints failed:', e);
+                }
             }
 
-            // Simpan tanggal hari ini ke localStorage SEGERA (sync)
-            localStorage.setItem(storageKey, today);
-
-            // Kirim ke database dengan ID unik dan info perangkat
-            const ua = navigator.userAgent;
             await supabase.from('analytics_events').insert([
                 {
                     event_type: 'view',
                     details: {
                         path,
                         visitor_id: getVisitorId(),
-                        device: getDeviceType(ua),
+                        device: finalDevice,
                         browser: getBrowserInfo(ua),
                         os: getOSInfo(ua),
                         user_agent: ua,
@@ -668,11 +616,8 @@ export const useTracker = () => {
                 }
             ]);
 
-            // Bersihkan sisa-sisa key lama jika ada
             Object.keys(localStorage).forEach(key => {
-                if (key.startsWith('tracked_views_')) {
-                    localStorage.removeItem(key);
-                }
+                if (key.startsWith('tracked_views_')) localStorage.removeItem(key);
             });
             localStorage.removeItem('last_view_date');
             sessionStorage.removeItem('view_tracked');
@@ -683,24 +628,21 @@ export const useTracker = () => {
 
     const trackOrder = async (details = "Order Button Click") => {
         try {
-            // Check if details is an object (from the order form) or just a string
             if (typeof details === 'object' && details !== null) {
                 const orderData = {
                     customer_name: details.customerName || 'Unknown',
                     customer_email: details.customerEmail || 'noemail@example.com',
                     customer_phone: details.customerPhone,
                     customer_company: details.customerCompany,
-                    service_package: details.orderPackage, // Use service_package column
+                    service_package: details.orderPackage,
                     website_type: details.websiteType,
                     tech_stack: details.techStack,
                     message: details.message,
                     total: parsePrice(details.total),
                     status: details.status || 'pending'
                 };
-
                 await supabase.from('orders').insert([orderData]);
             } else {
-                // For simple button clicks, we can still track to orders table with minimal info
                 await supabase.from('orders').insert([{
                     customer_name: 'Visitor',
                     customer_email: 'visitor@example.com',
@@ -717,28 +659,10 @@ export const useTracker = () => {
 
     const deleteOrder = async (id, originTable = 'orders') => {
         try {
-            // Attempt to delete from BOTH tables to ensure no "zombie" data remains
-            // (If data was duplicated during migration, deleting only one source causes the other to reappear)
-
-            // 1. Delete from orders table
-            const { error: error1 } = await supabase
-                .from('orders')
-                .delete()
-                .eq('id', id);
-
-            // 2. Delete from analytics_events table (legacy)
-            const { error: error2 } = await supabase
-                .from('analytics_events')
-                .delete()
-                .eq('id', id)
-                .eq('event_type', 'order'); // Safety check
-
-            // If both failed, then we have a problem. If at least one worked, it's mostly fine.
-            // But we should report error if the INTENDED table failed.
+            const { error: error1 } = await supabase.from('orders').delete().eq('id', id);
+            const { error: error2 } = await supabase.from('analytics_events').delete().eq('id', id).eq('event_type', 'order');
             if (originTable === 'orders' && error1) throw error1;
             if (originTable === 'analytics_events' && error2) throw error2;
-
-            // If we are here, at least the primary deletion target was likely successful (or didn't exist)
             fetchStats();
             return { success: true };
         } catch (err) {
@@ -752,19 +676,12 @@ export const useTracker = () => {
             let error;
             if (originTable === 'analytics_events') {
                 const newDetails = { ...currentDetails, status };
-                const { error: err } = await supabase
-                    .from('analytics_events')
-                    .update({ details: newDetails })
-                    .eq('id', id);
+                const { error: err } = await supabase.from('analytics_events').update({ details: newDetails }).eq('id', id);
                 error = err;
             } else {
-                const { error: err } = await supabase
-                    .from('orders')
-                    .update({ status })
-                    .eq('id', id);
+                const { error: err } = await supabase.from('orders').update({ status }).eq('id', id);
                 error = err;
             }
-
             if (error) throw error;
             fetchStats();
             return { success: true };
@@ -776,22 +693,13 @@ export const useTracker = () => {
 
     const updateOrder = async (id, updatedDetails, originTable = 'orders') => {
         try {
-            console.log('Attempting to update order:', id, 'in table:', originTable);
-
             let error;
             let data;
-
             if (originTable === 'analytics_events') {
-                // If it's the legacy table, we update the entire details JSON
-                const { data: d, error: err } = await supabase
-                    .from('analytics_events')
-                    .update({ details: updatedDetails })
-                    .eq('id', id)
-                    .select();
+                const { data: d, error: err } = await supabase.from('analytics_events').update({ details: updatedDetails }).eq('id', id).select();
                 data = d;
                 error = err;
             } else {
-                // Map the frontend structure back to table columns
                 const orderData = {
                     customer_name: updatedDetails.customerName,
                     customer_email: updatedDetails.customerEmail,
@@ -804,31 +712,16 @@ export const useTracker = () => {
                     total: parsePrice(updatedDetails.total),
                     status: updatedDetails.status
                 };
-
-                const { data: d, error: err } = await supabase
-                    .from('orders')
-                    .update(orderData)
-                    .eq('id', id)
-                    .select();
+                const { data: d, error: err } = await supabase.from('orders').update(orderData).eq('id', id).select();
                 data = d;
                 error = err;
             }
-
-            if (error) {
-                console.error('Supabase update error:', error);
-                return { success: false, error: error.message };
-            }
-
-            if (!data || data.length === 0) {
-                console.warn('Update successful but no rows affected (check ID type/existence)');
-                return { success: false, error: 'No rows updated. Verify ID existence.' };
-            }
-
-            console.log('Order updated successfully:', data);
+            if (error) throw error;
+            if (!data || data.length === 0) throw new Error('No rows updated');
             fetchStats();
             return { success: true };
         } catch (err) {
-            console.error('Unexpected update error:', err);
+            console.error('Update error:', err);
             return { success: false, error: err.message };
         }
     };

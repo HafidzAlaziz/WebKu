@@ -20,7 +20,8 @@
             "projects": "Project Selesai",
             "response": "Fast Response",
             "satisfaction": "Kepuasan Klien",
-            "very_satisfied": "Sangat Puas"
+            "very_satisfied": "Sangat Puas",
+            "visitors": "Pengunjung"
         }
     },
     "services": {
@@ -707,6 +708,12 @@
             "subtitle": "Analisis detail pengunjung yang datang ke website Anda.",
             "device_percentage": "Persentase Perangkat",
             "device_stats_desc": "Statistik penggunaan perangkat oleh pengunjung website Anda.",
+            "filters": {
+                "daily": "Harian",
+                "monthly": "Bulanan",
+                "yearly": "Tahunan",
+                "all": "Semua"
+            },
             "table_title": "Daftar Pengunjung",
             "table": {
                 "time": "Waktu Kunjungan",
