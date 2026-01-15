@@ -661,6 +661,19 @@
                 "yearly": "Yearly"
             }
         },
+        "widgets": {
+            "clock_title": "Digital Clock"
+        },
+        "pagination": {
+            "showing": "Showing",
+            "to": "to",
+            "of": "of",
+            "projects": "projects",
+            "per_page": "Per page",
+            "previous": "Previous",
+            "next": "Next",
+            "data": "data"
+        },
         "order_tab": {
             "title": "Full Order List",
             "search_placeholder": "Search orders...",
@@ -760,6 +773,12 @@
         "portfolio": {
             "title": "Portfolio Management",
             "subtitle": "Manage your website portfolio projects dynamically",
+            "stats": {
+                "total_projects": "Total Projects",
+                "client_projects": "Client Projects",
+                "internal_projects": "Internal Projects",
+                "last_updated": "Last Updated"
+            },
             "tabs": {
                 "overview": "Overview",
                 "portfolio": "Portfolio"

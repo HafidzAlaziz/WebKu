@@ -297,11 +297,11 @@ const ProjectManager = () => {
                 {filteredProjects.length > 0 && (
                     <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-4">
                         <div className="text-sm text-slate-500 dark:text-slate-400">
-                            {t('dashboard.portfolio.pagination.showing')} {startIndex + 1} {t('dashboard.portfolio.pagination.to')} {Math.min(endIndex, filteredProjects.length)} {t('dashboard.portfolio.pagination.of')} {filteredProjects.length} {t('dashboard.portfolio.pagination.projects')}
+                            {t('dashboard.pagination.showing')} {startIndex + 1} {t('dashboard.pagination.to')} {Math.min(endIndex, filteredProjects.length)} {t('dashboard.pagination.of')} {filteredProjects.length} {t('dashboard.pagination.projects')}
                         </div>
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
-                                <label className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard.portfolio.pagination.per_page')}:</label>
+                                <label className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard.pagination.per_page')}:</label>
                                 <select
                                     value={itemsPerPage}
                                     onChange={(e) => {

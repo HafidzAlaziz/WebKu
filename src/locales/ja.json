@@ -758,6 +758,12 @@
         "portfolio": {
             "title": "ポートフォリオ管理",
             "subtitle": "ウェブサイトのポートフォリオプロジェクトを動的に管理します",
+            "stats": {
+                "total_projects": "総プロジェクト数",
+                "client_projects": "クライアントプロジェクト",
+                "internal_projects": "社内プロジェクト",
+                "last_updated": "最終更新日"
+            },
             "tabs": {
                 "overview": "概要",
                 "portfolio": "ポートフォリオ"
