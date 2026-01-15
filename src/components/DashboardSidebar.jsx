@@ -310,7 +310,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobil
             </aside>
 
             {/* Mobile Bottom Navigation */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-[#1e293b]/95 backdrop-blur-lg border-t border-slate-100 dark:border-slate-700 p-2 z-40 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-[#1e293b] border-t border-slate-100 dark:border-slate-700 p-1.5 z-[100] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe">
                 <nav className="flex items-center justify-around max-w-md mx-auto">
                     {menuSections.menu.slice(0, 5).map((item) => {
                         const isActive = activeTab === item.id;
@@ -318,18 +318,18 @@ const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobil
                             <button
                                 key={item.id}
                                 onClick={() => setActiveTab(item.id)}
-                                className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all duration-200 relative ${isActive
+                                className={`flex flex-col items-center gap-0.5 p-1 px-2 rounded-xl transition-all duration-200 relative ${isActive
                                     ? 'text-emerald-500'
                                     : 'text-slate-500'
                                     }`}
                             >
                                 <div className={`
-                                    p-1.5 rounded-full transition-all duration-300
-                                    ${isActive ? 'bg-emerald-600/20' : ''}
+                                    p-1 rounded-full transition-all duration-300
+                                    ${isActive ? 'bg-emerald-600/10' : ''}
                                 `}>
-                                    <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                                    <item.icon size={18} strokeWidth={isActive ? 2.5 : 2} />
                                 </div>
-                                <span className="text-[10px] font-bold">{item.label}</span>
+                                <span className="text-[9px] font-bold">{item.label}</span>
 
                                 {item.badge && (
                                     <span className="absolute top-1 right-2 w-2 h-2 bg-red-500 rounded-full border border-slate-900" />

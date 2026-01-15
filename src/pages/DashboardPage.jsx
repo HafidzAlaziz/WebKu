@@ -372,7 +372,7 @@ const DashboardPage = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row px-0 md:px-4 pb-4 md:pt-2 gap-0 md:gap-5">
+            <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row px-0 md:px-4 pb-4 md:pt-2 gap-0 md:gap-5 overflow-x-hidden">
                 <DashboardSidebar
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
@@ -381,7 +381,7 @@ const DashboardPage = () => {
                     setIsMobileOpen={setIsSidebarOpen}
                 />
 
-                <div className="flex-1 flex flex-col min-w-0 py-5 px-4 md:px-0">
+                <div className="flex-1 flex flex-col min-w-0 py-5 px-4 md:px-0 pb-[80px] md:pb-0">
                     {/* Header */}
                     {/* Header */}
                     <div className="flex flex-row justify-between items-center mb-8 gap-4 shrink-0 transition-opacity duration-300 opacity-100">
@@ -395,10 +395,10 @@ const DashboardPage = () => {
                             </button>
 
                             <div>
-                                <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-0.5 tracking-tight">
+                                <h1 className="text-lg md:text-2xl font-extrabold text-slate-900 dark:text-white mb-0.5 tracking-tight whitespace-nowrap">
                                     {t('dashboard.header.title')}
                                 </h1>
-                                <p className="text-slate-500 dark:text-slate-400 text-[11px] font-medium hidden sm:block">
+                                <p className="text-slate-500 dark:text-slate-400 text-[10px] md:text-[11px] font-medium hidden sm:block">
                                     {t('dashboard.header.subtitle')}
                                 </p>
                             </div>
@@ -429,7 +429,7 @@ const DashboardPage = () => {
                                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            className="absolute right-0 top-12 w-[85vw] max-w-sm bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50 origin-top-right"
+                                            className="absolute -right-12 sm:right-0 top-12 w-[calc(100vw-2rem)] sm:w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 overflow-hidden z-50 origin-top-right scale-95 sm:scale-100"
                                         >
                                             <div className="p-4 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
                                                 <h3 className="font-bold text-slate-900 dark:text-white text-sm">{t('dashboard.notifications.title')}</h3>
@@ -442,7 +442,7 @@ const DashboardPage = () => {
                                                             Tandai Semua Dibaca
                                                         </button>
                                                     )}
-                                                    <span className="text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full font-bold">
+                                                    <span className="text-[10px] sm:text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full font-bold">
                                                         {unreadOrdersList.length} {t('dashboard.notifications.new')}
                                                     </span>
                                                 </div>
@@ -502,15 +502,15 @@ const DashboardPage = () => {
                                 </AnimatePresence>
                             </div>
 
-                            <div className="flex items-center gap-3 bg-white dark:bg-slate-800 p-1.5 pr-4 rounded-full border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group">
-                                <div className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden border-2 border-slate-200 dark:border-slate-600 group-hover:border-blue-500 transition-colors">
+                            <div className="flex items-center gap-2 md:gap-3 bg-white dark:bg-slate-800 p-1 md:p-1.5 md:pr-4 rounded-full border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group">
+                                <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden border-2 border-slate-200 dark:border-slate-600 group-hover:border-blue-500 transition-colors">
                                     <img
                                         src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=150&h=150&fit=crop&q=80"
-                                        alt="Profile"
+                                        alt="Admin"
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
-                                <div className="flex flex-col">
+                                <div className="hidden md:flex flex-col">
                                     <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-tight group-hover:text-blue-600 transition-colors">Admin</h4>
                                 </div>
                             </div>
@@ -523,24 +523,24 @@ const DashboardPage = () => {
                             {activeTab === 'dashboard' ? (
                                 <>
                                     {/* Stats Grid */}
-                                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-5 shrink-0">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4 mb-5 shrink-0">
                                         {/* Pengunjung Hari Ini */}
                                         <motion.div
                                             initial={{ opacity: 0, y: 15 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             onClick={() => setActiveTab('visitors')}
-                                            className="bg-[#14532D] dark:bg-emerald-900 p-6 rounded-[1.5rem] border border-white/10 shadow-sm relative overflow-hidden group transition-all cursor-pointer hover:scale-[1.02] hover:shadow-lg"
+                                            className="bg-[#14532D] dark:bg-emerald-900 p-4 md:p-6 rounded-[1.5rem] border border-white/10 shadow-sm relative overflow-hidden group transition-all cursor-pointer hover:scale-[1.02] hover:shadow-lg"
                                         >
-                                            <div className="flex justify-between items-start mb-6">
-                                                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white">
-                                                    <Users size={20} />
+                                            <div className="flex justify-between items-start mb-3 md:mb-6">
+                                                <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white/10 flex items-center justify-center text-white">
+                                                    <Users size={18} />
                                                 </div>
-                                                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-slate-900 shadow-sm">
-                                                    <ArrowUpRight size={16} strokeWidth={2.5} />
+                                                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white flex items-center justify-center text-slate-900 shadow-sm">
+                                                    <ArrowUpRight size={14} strokeWidth={2.5} />
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <h3 className="text-3xl font-black text-white mb-1 tracking-tight">
+                                                <h3 className="text-2xl md:text-3xl font-black text-white mb-1 tracking-tight">
                                                     {stats.todayViews || 0}
                                                 </h3>
                                                 <span className="text-white/70 text-[12px] font-bold uppercase tracking-tight">
@@ -557,16 +557,16 @@ const DashboardPage = () => {
                                             onClick={() => setActiveTab('orders')}
                                             className="bg-white dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-md group"
                                         >
-                                            <div className="flex justify-between items-start mb-6">
-                                                <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
-                                                    <ShoppingCart size={20} />
+                                            <div className="flex justify-between items-start mb-3 md:mb-6">
+                                                <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500">
+                                                    <ShoppingCart size={18} />
                                                 </div>
-                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110">
-                                                    <ArrowUpRight size={16} strokeWidth={2.5} />
+                                                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110">
+                                                    <ArrowUpRight size={14} strokeWidth={2.5} />
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-1 tracking-tight">
+                                                <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-1 tracking-tight">
                                                     {stats.totalOrders || 0}
                                                 </h3>
                                                 <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
@@ -583,17 +583,17 @@ const DashboardPage = () => {
                                             onClick={() => setActiveTab('history')}
                                             className="bg-white dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-md group"
                                         >
-                                            <div className="flex justify-between items-start mb-6">
-                                                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
-                                                    <Banknote size={20} />
+                                            <div className="flex justify-between items-start mb-3 md:mb-6">
+                                                <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                                                    <Banknote size={18} />
                                                 </div>
-                                                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-emerald-600 group-hover:text-white group-hover:scale-110">
-                                                    <ArrowUpRight size={16} strokeWidth={2.5} />
+                                                <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-emerald-600 group-hover:text-white group-hover:scale-110">
+                                                    <ArrowUpRight size={14} strokeWidth={2.5} />
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-1 truncate">
-                                                    {stats.currency} {Math.round(stats.totalRevenue).toLocaleString(stats.locale)}
+                                                <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-1 truncate">
+                                                    {formatCurrency(Math.round(stats.totalRevenue || 0), i18n.language, t, true)}
                                                 </h3>
                                                 <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
                                                     {t('dashboard.stats.potential_revenue')}
@@ -609,22 +609,22 @@ const DashboardPage = () => {
                                             onClick={() => setActiveTab('history')}
                                             className="bg-white dark:bg-slate-800/50 p-6 rounded-[1.5rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm transition-all cursor-pointer hover:scale-[1.02] hover:shadow-md group"
                                         >
-                                            <div className="flex justify-between items-start mb-6">
-                                                <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
-                                                    <Trash2 size={20} />
+                                            <div className="flex justify-between items-start mb-3 md:mb-6">
+                                                <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500">
+                                                    <Trash2 size={18} />
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     <div className="px-2 py-0.5 rounded-lg bg-red-500/10 text-red-500 text-[10px] font-bold">
                                                         {stats.totalCancelled || 0} {t('dashboard.stats.orders_suffix')}
                                                     </div>
-                                                    <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-red-600 group-hover:text-white group-hover:scale-110">
-                                                        <ArrowUpRight size={16} strokeWidth={2.5} />
+                                                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-900 dark:text-white shadow-sm transition-all group-hover:bg-red-600 group-hover:text-white group-hover:scale-110">
+                                                        <ArrowUpRight size={14} strokeWidth={2.5} />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="flex flex-col">
-                                                <h3 className="text-3xl font-black text-red-500 dark:text-red-400 mb-1 tracking-tight truncate">
-                                                    {stats.currency} {Math.round(stats.cancelledRevenue).toLocaleString(stats.locale)}
+                                                <h3 className="text-2xl md:text-3xl font-black text-red-500 dark:text-red-400 mb-1 tracking-tight truncate">
+                                                    {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t, true)}
                                                 </h3>
                                                 <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
                                                     {t('dashboard.stats.cancelled_orders')}
@@ -642,7 +642,7 @@ const DashboardPage = () => {
                                                 initial={{ opacity: 0, y: 15 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: 0.4 }}
-                                                className="bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-200/60 dark:border-slate-700/50 shadow-sm flex-1 flex flex-col min-h-[300px]"
+                                                className="bg-white dark:bg-slate-800 rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6 border border-slate-200/60 dark:border-slate-700/50 shadow-sm flex-1 flex flex-col min-h-[280px] md:min-h-[300px]"
                                             >
                                                 <div className="flex items-center justify-between mb-6">
                                                     <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
@@ -673,7 +673,7 @@ const DashboardPage = () => {
                                                 initial={{ opacity: 0, y: 15 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: 0.8 }}
-                                                className="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm flex-1 min-h-[160px] h-full flex flex-col justify-center items-center relative overflow-hidden group"
+                                                className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200/60 dark:border-slate-700/50 shadow-sm flex-1 min-h-[160px] h-full flex flex-col justify-center items-center relative overflow-hidden group"
                                             >
                                                 {/* Background decoration with gradient */}
                                                 <div className="absolute inset-0 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 z-0" />
@@ -690,13 +690,13 @@ const DashboardPage = () => {
                                                     </div>
 
                                                     {/* Main Time with Gradient */}
-                                                    <div className="text-5xl xl:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-900 dark:from-white dark:to-slate-300 tracking-tighter tabular-nums mb-1">
+                                                    <div className="text-4xl sm:text-5xl xl:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-slate-900 dark:from-white dark:to-slate-300 tracking-tighter tabular-nums mb-1">
                                                         {currentTime.toLocaleTimeString(i18n.language, {
                                                             hour: '2-digit',
                                                             minute: '2-digit',
                                                             hour12: false
                                                         })}
-                                                        <span className="text-2xl xl:text-3xl text-slate-400 dark:text-slate-500 font-bold ml-1">
+                                                        <span className="text-xl sm:text-2xl xl:text-3xl text-slate-400 dark:text-slate-500 font-bold ml-1">
                                                             {currentTime.toLocaleTimeString(i18n.language, {
                                                                 second: '2-digit'
                                                             })}
@@ -727,26 +727,38 @@ const DashboardPage = () => {
                                 <motion.div
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    className="p-6"
+                                    className="p-4 md:p-6"
                                 >
                                     <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
-                                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                                            <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                                <ShoppingCart size={24} className="text-blue-500" />
-                                                {t('dashboard.order_tab.title')}
-                                            </h2>
-                                            <div className="flex items-center gap-3">
-                                                <div className="relative">
+                                        <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-6 gap-4">
+                                            <div className="flex items-center justify-between gap-4">
+                                                <h2 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 whitespace-nowrap">
+                                                    <ShoppingCart size={24} className="text-blue-500 shrink-0" />
+                                                    {t('dashboard.order_tab.title')}
+                                                </h2>
+                                                <div className="md:hidden px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-xs font-bold whitespace-nowrap">
+                                                    {(stats.allOrders || []).filter(o => {
+                                                        const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
+                                                        const matchesSearch = orderSearchQuery === '' ||
+                                                            o.customerName?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                            o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                            o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
+                                                        return matchesStatus && matchesSearch;
+                                                    }).length} {t('dashboard.order_tab.active_badge')}
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                                                <div className="relative flex-1">
                                                     <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                                                     <input
                                                         type="text"
                                                         placeholder={t('dashboard.order_tab.search_placeholder')}
                                                         value={orderSearchQuery}
                                                         onChange={(e) => setOrderSearchQuery(e.target.value)}
-                                                        className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-64"
+                                                        className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-full sm:w-64"
                                                     />
                                                 </div>
-                                                <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-sm font-bold">
+                                                <div className="hidden md:block px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-sm font-bold">
                                                     {(stats.allOrders || []).filter(o => {
                                                         const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
                                                         const matchesSearch = orderSearchQuery === '' ||
@@ -759,16 +771,16 @@ const DashboardPage = () => {
                                             </div>
                                         </div>
 
-                                        <div className="overflow-x-auto">
-                                            <table className="w-full">
+                                        <div className="overflow-x-auto -mx-4 md:-mx-0">
+                                            <table className="w-full min-w-[800px]">
                                                 <thead>
                                                     <tr className="border-b border-slate-100 dark:border-slate-700">
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.date')}</th>
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.customer')}</th>
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.details')}</th>
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.total')}</th>
-                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.status')}</th>
-                                                        <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.order_tab.table.actions')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.order_tab.table.date')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.order_tab.table.customer')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.order_tab.table.details')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.order_tab.table.total')}</th>
+                                                        <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.order_tab.table.status')}</th>
+                                                        <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.order_tab.table.actions')}</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
@@ -785,8 +797,8 @@ const DashboardPage = () => {
                                                         const endIndex = startIndex + itemsPerPage;
                                                         return filtered.slice(startIndex, endIndex);
                                                     })().map((order) => (
-                                                        <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                                                            <td className="py-4 px-4 text-sm text-slate-500 dark:text-slate-400 font-medium">
+                                                        <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors uppercase">
+                                                            <td className="py-4 px-4 text-[10px] md:text-sm text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
                                                                 {order.date}
                                                             </td>
                                                             <td className="py-4 px-4">
@@ -794,35 +806,35 @@ const DashboardPage = () => {
                                                                     <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-xs uppercase">
                                                                         {order.customerName.substring(0, 2)}
                                                                     </div>
-                                                                    <span className="text-sm font-bold text-slate-900 dark:text-white">
+                                                                    <span className="text-[10px] md:text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
                                                                         {order.customerName}
                                                                     </span>
                                                                 </div>
                                                             </td>
-                                                            <td className="py-4 px-4 text-sm text-slate-600 dark:text-slate-300">
+                                                            <td className="py-4 px-4 text-[10px] md:text-sm text-slate-600 dark:text-slate-300 whitespace-nowrap">
                                                                 {order.details}
                                                             </td>
-                                                            <td className="py-4 px-4 text-sm font-bold text-slate-900 dark:text-white">
+                                                            <td className="py-4 px-4 text-[11px] md:text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
                                                                 {formatCurrency(order.total, i18n.language, t)}
                                                             </td>
-                                                            <td className="py-4 px-4">
-                                                                <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getStatusColor(order.status)}`}>
+                                                            <td className="py-4 px-4 whitespace-nowrap">
+                                                                <span className={`px-2 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider ${getStatusColor(order.status)}`}>
                                                                     {t(`dashboard.recent_orders.status.${order.status}`) || order.status}
                                                                 </span>
                                                             </td>
-                                                            <td className="py-4 px-4">
+                                                            <td className="py-4 px-4 whitespace-nowrap">
                                                                 <div className="flex justify-end gap-2">
                                                                     <button
                                                                         onClick={() => setEditingOrder(order)}
-                                                                        className="p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-slate-400 hover:text-blue-600 rounded-lg transition-colors"
+                                                                        className="p-1.5 md:p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-slate-400 hover:text-blue-600 rounded-lg transition-colors"
                                                                     >
-                                                                        <Edit size={16} />
+                                                                        <Edit size={14} md:size={16} className="shrink-0" />
                                                                     </button>
                                                                     <button
                                                                         onClick={() => handleDelete(order.id)}
-                                                                        className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-600 rounded-lg transition-colors"
+                                                                        className="p-1.5 md:p-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-600 rounded-lg transition-colors"
                                                                     >
-                                                                        <Trash2 size={16} />
+                                                                        <Trash2 size={14} md:size={16} className="shrink-0" />
                                                                     </button>
                                                                 </div>
                                                             </td>
@@ -866,62 +878,62 @@ const DashboardPage = () => {
                                 <motion.div
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    className="p-6"
+                                    className="p-4 md:p-6"
                                 >
-                                    <div className="space-y-6 p-6">
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div className="space-y-4 md:space-y-6 p-0 md:p-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                                             {/* Completed Stats */}
-                                            <div className="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm">
-                                                <div className="flex items-center gap-4 mb-4">
-                                                    <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center">
-                                                        <CheckCircle size={24} />
+                                            <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+                                                <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center shrink-0">
+                                                        <CheckCircle className="w-5 h-5 md:w-6 md:h-6" />
                                                     </div>
-                                                    <div>
-                                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{t('dashboard.analytics.stats.completed')}</p>
-                                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white">{stats.completedOrders || 0}</h4>
+                                                    <div className="min-w-0">
+                                                        <p className="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tighter sm:tracking-widest truncate">{t('dashboard.analytics.stats.completed')}</p>
+                                                        <h4 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">{stats.completedOrders || 0}</h4>
                                                     </div>
                                                 </div>
-                                                <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
-                                                    <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.analytics.stats.net_revenue')}</p>
-                                                    <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
-                                                        {stats.currency} {Math.round(stats.completedRevenue || 0).toLocaleString(stats.locale)}
+                                                <div className="pt-3 md:pt-4 border-t border-slate-100 dark:border-slate-700">
+                                                    <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase mb-0.5">{t('dashboard.analytics.stats.net_revenue')}</p>
+                                                    <p className="text-base md:text-lg font-bold text-emerald-600 dark:text-emerald-400 truncate">
+                                                        {formatCurrency(Math.round(stats.completedRevenue || 0), i18n.language, t, true)}
                                                     </p>
                                                 </div>
                                             </div>
 
                                             {/* Pending Stats */}
-                                            <div className="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm">
-                                                <div className="flex items-center gap-4 mb-4">
-                                                    <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center">
-                                                        <Clock size={24} />
+                                            <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+                                                <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-amber-100 dark:bg-amber-900/30 text-amber-600 flex items-center justify-center shrink-0">
+                                                        <Clock className="w-5 h-5 md:w-6 md:h-6" />
                                                     </div>
-                                                    <div>
-                                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{t('dashboard.analytics.stats.pending')}</p>
-                                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white">{stats.pendingOrders || 0}</h4>
+                                                    <div className="min-w-0">
+                                                        <p className="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tighter sm:tracking-widest truncate">{t('dashboard.analytics.stats.pending')}</p>
+                                                        <h4 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">{stats.pendingOrders || 0}</h4>
                                                     </div>
                                                 </div>
-                                                <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
-                                                    <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.analytics.stats.estimated_revenue')}</p>
-                                                    <p className="text-lg font-bold text-amber-600 dark:text-amber-400">
+                                                <div className="pt-3 md:pt-4 border-t border-slate-100 dark:border-slate-700">
+                                                    <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase mb-0.5">{t('dashboard.analytics.stats.estimated_revenue')}</p>
+                                                    <p className="text-base md:text-lg font-bold text-amber-600 dark:text-amber-400 truncate">
                                                         {formatCurrency(Math.round(stats.pendingRevenue || 0), i18n.language, t, true)}
                                                     </p>
                                                 </div>
                                             </div>
 
                                             {/* Cancelled Stats */}
-                                            <div className="bg-white dark:bg-slate-800 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm">
-                                                <div className="flex items-center gap-4 mb-4">
-                                                    <div className="w-12 h-12 rounded-2xl bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center">
-                                                        <Trash2 size={24} />
+                                            <div className="bg-white dark:bg-slate-800 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+                                                <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                                                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-red-100 dark:bg-red-900/30 text-red-600 flex items-center justify-center shrink-0">
+                                                        <Trash2 className="w-5 h-5 md:w-6 md:h-6" />
                                                     </div>
-                                                    <div>
-                                                        <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">{t('dashboard.analytics.stats.cancelled')}</p>
-                                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white">{stats.totalCancelled || 0}</h4>
+                                                    <div className="min-w-0">
+                                                        <p className="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-tighter sm:tracking-widest truncate">{t('dashboard.analytics.stats.cancelled')}</p>
+                                                        <h4 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">{stats.totalCancelled || 0}</h4>
                                                     </div>
                                                 </div>
-                                                <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
-                                                    <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.history.stats.total_batal')}</p>
-                                                    <p className="text-lg font-bold text-red-600 dark:text-red-400">
+                                                <div className="pt-3 md:pt-4 border-t border-slate-100 dark:border-slate-700">
+                                                    <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase mb-0.5">{t('dashboard.history.stats.total_batal')}</p>
+                                                    <p className="text-base md:text-lg font-bold text-red-600 dark:text-red-400 truncate">
                                                         {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t, true)}
                                                     </p>
                                                 </div>
@@ -942,7 +954,7 @@ const DashboardPage = () => {
                                                             placeholder={t('dashboard.history.search_placeholder')}
                                                             value={historySearchQuery}
                                                             onChange={(e) => setHistorySearchQuery(e.target.value)}
-                                                            className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-64"
+                                                            className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-full sm:w-64"
                                                         />
                                                     </div>
                                                     <div className="px-4 py-2 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 rounded-lg text-sm font-bold">
@@ -958,16 +970,16 @@ const DashboardPage = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="overflow-x-auto">
-                                                <table className="w-full">
+                                            <div className="overflow-x-auto -mx-4 md:-mx-8 px-4 md:px-8">
+                                                <table className="w-full min-w-[800px]">
                                                     <thead>
                                                         <tr className="border-b border-slate-100 dark:border-slate-700">
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.date')}</th>
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.customer')}</th>
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.details')}</th>
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.total')}</th>
-                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.status')}</th>
-                                                            <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider py-4 px-4">{t('dashboard.recent_orders.table.actions')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.recent_orders.table.date')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.recent_orders.table.customer')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.recent_orders.table.details')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.recent_orders.table.total')}</th>
+                                                            <th className="text-left font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.recent_orders.table.status')}</th>
+                                                            <th className="text-right font-bold text-slate-500 dark:text-slate-400 text-[10px] md:text-xs uppercase tracking-wider py-4 px-4 whitespace-nowrap">{t('dashboard.recent_orders.table.actions')}</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
@@ -984,8 +996,8 @@ const DashboardPage = () => {
                                                             const endIndex = startIndex + itemsPerPage;
                                                             return filtered.slice(startIndex, endIndex);
                                                         })().map((order) => (
-                                                            <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
-                                                                <td className="py-4 px-4 text-sm text-slate-500 dark:text-slate-400 font-medium">
+                                                            <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors uppercase">
+                                                                <td className="py-4 px-4 text-[10px] md:text-sm text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">
                                                                     {order.date}
                                                                 </td>
                                                                 <td className="py-4 px-4">
@@ -993,35 +1005,35 @@ const DashboardPage = () => {
                                                                         <div className={`w-8 h-8 rounded-full ${order.status === 'completed' ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600' : 'bg-red-100 dark:bg-red-900/30 text-red-600'} flex items-center justify-center font-bold text-xs uppercase`}>
                                                                             {order.customerName.substring(0, 2)}
                                                                         </div>
-                                                                        <span className="text-sm font-bold text-slate-900 dark:text-white">
+                                                                        <span className="text-[10px] md:text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
                                                                             {order.customerName}
                                                                         </span>
                                                                     </div>
                                                                 </td>
-                                                                <td className="py-4 px-4 text-sm text-slate-600 dark:text-slate-300">
+                                                                <td className="py-4 px-4 text-[10px] md:text-sm text-slate-600 dark:text-slate-300 whitespace-nowrap">
                                                                     {order.details}
                                                                 </td>
-                                                                <td className="py-4 px-4 text-sm font-bold text-slate-900 dark:text-white">
+                                                                <td className="py-4 px-4 text-[11px] md:text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap">
                                                                     {formatCurrency(order.total, i18n.language, t)}
                                                                 </td>
-                                                                <td className="py-4 px-4">
-                                                                    <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${getStatusColor(order.status)}`}>
+                                                                <td className="py-4 px-4 whitespace-nowrap">
+                                                                    <span className={`px-2 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-wider ${getStatusColor(order.status)}`}>
                                                                         {t(`dashboard.recent_orders.status.${order.status}`) || order.status}
                                                                     </span>
                                                                 </td>
-                                                                <td className="py-4 px-4">
+                                                                <td className="py-4 px-4 whitespace-nowrap">
                                                                     <div className="flex justify-end gap-2">
                                                                         <button
                                                                             onClick={() => setEditingOrder(order)}
-                                                                            className="p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-slate-400 hover:text-blue-600 rounded-lg transition-colors"
+                                                                            className="p-1.5 md:p-2 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-slate-400 hover:text-blue-600 rounded-lg transition-colors"
                                                                         >
-                                                                            <Edit size={16} />
+                                                                            <Edit className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                                                         </button>
                                                                         <button
                                                                             onClick={() => handleDelete(order.id)}
-                                                                            className="p-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-600 rounded-lg transition-colors"
+                                                                            className="p-1.5 md:p-2 hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-400 hover:text-red-600 rounded-lg transition-colors"
                                                                         >
-                                                                            <Trash2 size={16} />
+                                                                            <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                                                         </button>
                                                                     </div>
                                                                 </td>
@@ -1091,7 +1103,7 @@ const DashboardPage = () => {
 
                                         <div className="flex flex-col gap-8">
                                             {/* Top: Device Stats Pie Chart */}
-                                            <div className="w-full bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col sm:flex-row items-center justify-between min-h-[300px]">
+                                            <div className="w-full bg-white dark:bg-slate-800 rounded-[2rem] p-6 border border-slate-200 dark:border-slate-700 shadow-xl flex flex-col md:flex-row items-center justify-between min-h-[300px]">
                                                 <div className="w-full sm:w-1/3 mb-6 sm:mb-0">
                                                     <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
                                                         <Smartphone className="text-blue-500" size={24} />
@@ -1101,7 +1113,7 @@ const DashboardPage = () => {
                                                         {t('dashboard.visitors.device_stats_desc')}
                                                     </p>
                                                 </div>
-                                                <div className="w-full sm:w-2/3 h-[300px] relative">
+                                                <div className="w-full md:w-2/3 h-[300px] relative">
                                                     {(() => {
                                                         const deviceCounts = {};
                                                         let totalVisitors = 0;
@@ -1151,8 +1163,8 @@ const DashboardPage = () => {
                                                                         data={chartData}
                                                                         cx="50%"
                                                                         cy="50%"
-                                                                        innerRadius={80}
-                                                                        outerRadius={110}
+                                                                        innerRadius="60%"
+                                                                        outerRadius="80%"
                                                                         paddingAngle={5}
                                                                         dataKey="value"
                                                                         label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
@@ -1184,14 +1196,15 @@ const DashboardPage = () => {
                                                                         }}
                                                                     />
                                                                     <Legend
-                                                                        layout="vertical"
-                                                                        verticalAlign="middle"
-                                                                        align="right"
+                                                                        layout="horizontal"
+                                                                        verticalAlign="bottom"
+                                                                        align="center"
                                                                         iconType="circle"
+                                                                        wrapperStyle={{ paddingTop: '20px' }}
                                                                         formatter={(value, entry) => {
                                                                             const { payload } = entry;
                                                                             return (
-                                                                                <span className="text-sm font-medium text-slate-600 dark:text-slate-300 ml-1">
+                                                                                <span className="text-xs md:text-sm font-medium text-slate-600 dark:text-slate-300 ml-1">
                                                                                     {value} <span className="text-slate-400">({payload.percentage}%)</span>
                                                                                 </span>
                                                                             );

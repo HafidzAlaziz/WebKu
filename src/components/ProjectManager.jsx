@@ -16,6 +16,8 @@ import {
     List,
     ChevronLeft,
     ChevronRight,
+    ChevronDown,
+    Briefcase,
     Sparkles,
     RefreshCw,
     Upload
@@ -135,82 +137,91 @@ const ProjectManager = () => {
                     </button>
                 </div>
             </div>
-
-            {/* Project Statistics */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg">
-                    <div className="flex items-center justify-between">
+            {/* Header & Stats Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+                <div className="sm:col-span-2 flex flex-col justify-center">
+                    <h2 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tight">{t('dashboard.portfolio.title')}</h2>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm">{t('dashboard.portfolio.subtitle')}</p>
+                </div>
+                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-4 md:p-6 text-white shadow-lg overflow-hidden relative group">
+                    <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                    <div className="relative z-10 flex items-center justify-between">
                         <div>
-                            <p className="text-blue-100 text-sm font-medium mb-1">{t('dashboard.portfolio.stats.total_projects')}</p>
-                            <p className="text-3xl font-bold">{projects.length}</p>
+                            <p className="text-blue-100 text-xs font-medium mb-1">{t('dashboard.portfolio.stats.total_projects')}</p>
+                            <p className="text-2xl md:text-3xl font-bold">{projects.length}</p>
                         </div>
-                        <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center">
-                            <Database size={28} />
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                            <Briefcase size={24} />
                         </div>
                     </div>
                 </div>
-                <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-6 text-white shadow-lg">
-                    <div className="flex items-center justify-between">
+                <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-4 md:p-6 text-white shadow-lg overflow-hidden relative group">
+                    <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                    <div className="relative z-10 flex items-center justify-between">
                         <div>
-                            <p className="text-emerald-100 text-sm font-medium mb-1">{t('dashboard.portfolio.stats.client_projects')}</p>
-                            <p className="text-3xl font-bold">{projects.filter(p => p.client_type === 'Client').length}</p>
+                            <p className="text-emerald-100 text-xs font-medium mb-1">{t('dashboard.portfolio.stats.client_projects')}</p>
+                            <p className="text-2xl md:text-3xl font-bold">{projects.filter(p => p.client_type === 'Client').length}</p>
                         </div>
-                        <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center">
-                            <ImageIcon size={28} />
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                            <ImageIcon size={24} />
                         </div>
                     </div>
                 </div>
-                <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-6 text-white shadow-lg">
-                    <div className="flex items-center justify-between">
+                {/* Internal Projects Card (Visible on larger screens or stack differently) */}
+                <div className="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-4 md:p-6 text-white shadow-lg overflow-hidden relative group">
+                    <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                    <div className="relative z-10 flex items-center justify-between">
                         <div>
-                            <p className="text-amber-100 text-sm font-medium mb-1">{t('dashboard.portfolio.stats.create_projects')}</p>
-                            <p className="text-3xl font-bold">{projects.filter(p => p.client_type === 'Create').length}</p>
+                            <p className="text-amber-100 text-xs font-medium mb-1">{t('dashboard.portfolio.stats.create_projects')}</p>
+                            <p className="text-2xl md:text-3xl font-bold">{projects.filter(p => p.client_type === 'Create').length}</p>
                         </div>
-                        <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center">
-                            <Code size={28} />
+                        <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                            <Code size={24} />
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Filters */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="relative">
+            <div className="flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                     <input
                         type="text"
                         placeholder={t('dashboard.portfolio.search_placeholder')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:text-white"
+                        className="w-full pl-10 pr-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 transition-all dark:text-white text-sm"
                     />
                 </div>
-                <div className="flex gap-2">
-                    <div className="relative flex-1">
+                <div className="flex gap-2 w-full sm:w-auto">
+                    <div className="relative flex-1 sm:w-48">
                         <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                         <select
                             value={categoryFilter}
                             onChange={(e) => setCategoryFilter(e.target.value)}
-                            className="w-full pl-10 pr-10 py-2.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition-all dark:text-white cursor-pointer"
+                            className="w-full pl-10 pr-10 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-400 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 appearance-none transition-all dark:text-white cursor-pointer text-sm"
                         >
                             {categories.map(c => (
                                 <option key={c.key} value={c.key}>{c.label}</option>
                             ))}
                         </select>
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                            <ChevronDown size={16} />
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Project List */}
             <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
+                <div className="overflow-x-auto -mx-4 md:-mx-0">
+                    <table className="w-full text-left min-w-[800px]">
                         <thead className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-700">
                             <tr>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('dashboard.portfolio.table.project')}</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('dashboard.portfolio.table.category')}</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">{t('dashboard.portfolio.table.client_type')}</th>
-                                <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">{t('dashboard.portfolio.table.actions')}</th>
+                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">{t('dashboard.portfolio.table.project')}</th>
+                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">{t('dashboard.portfolio.table.category')}</th>
+                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">{t('dashboard.portfolio.table.client_type')}</th>
+                                <th className="px-6 py-4 text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider text-right whitespace-nowrap">{t('dashboard.portfolio.table.actions')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
@@ -244,22 +255,22 @@ const ProjectManager = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <div className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                                                    <div className="font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors text-[11px] md:text-sm whitespace-nowrap">
                                                         {project[`name_${i18n.language}`] || project.name_en}
                                                     </div>
-                                                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                                                    <div className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
                                                         {project[`type_${i18n.language}`] || project.type_en}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full text-xs font-bold border border-slate-200 dark:border-slate-600">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full text-[10px] md:text-xs font-bold border border-slate-200 dark:border-slate-600">
                                                 {categories.find(c => c.key === project.category)?.label || project.category}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4">
-                                            <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${project.client_type === 'Create'
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className={`px-2.5 py-1 rounded-full text-[10px] md:text-xs font-bold border ${project.client_type === 'Create'
                                                 ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 border-amber-200 dark:border-amber-800'
                                                 : 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 border-emerald-200 dark:border-emerald-800'
                                                 }`}>
@@ -268,21 +279,21 @@ const ProjectManager = () => {
                                                     : t('dashboard.portfolio.form.client_types.client')}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-right">
+                                        <td className="px-6 py-4 text-right whitespace-nowrap">
                                             <div className="flex items-center justify-end gap-2">
                                                 <button
                                                     onClick={() => handleEdit(project)}
-                                                    className="p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all"
+                                                    className="p-1.5 md:p-2 text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-all"
                                                     title="Edit"
                                                 >
-                                                    <Edit2 size={16} />
+                                                    <Edit2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteClick(project.id)}
-                                                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
+                                                    className="p-1.5 md:p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all"
                                                     title="Delete"
                                                 >
-                                                    <Trash2 size={16} />
+                                                    <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                                 </button>
                                             </div>
                                         </td>
@@ -295,11 +306,11 @@ const ProjectManager = () => {
 
                 {/* Pagination Controls */}
                 {filteredProjects.length > 0 && (
-                    <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div className="text-sm text-slate-500 dark:text-slate-400">
+                    <div className="px-4 md:px-6 py-4 border-t border-slate-100 dark:border-slate-700 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div className="text-xs md:text-sm text-slate-500 dark:text-slate-400 text-center md:text-left">
                             {t('dashboard.pagination.showing')} {startIndex + 1} {t('dashboard.pagination.to')} {Math.min(endIndex, filteredProjects.length)} {t('dashboard.pagination.of')} {filteredProjects.length} {t('dashboard.pagination.projects')}
                         </div>
-                        <div className="flex items-center gap-4">
+                        <div className="flex flex-wrap items-center justify-center gap-4">
                             <div className="flex items-center gap-2">
                                 <label className="text-sm text-slate-500 dark:text-slate-400">{t('dashboard.pagination.per_page')}:</label>
                                 <select
