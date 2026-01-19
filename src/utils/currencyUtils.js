@@ -16,13 +16,35 @@ export const parsePrice = (priceStr) => {
     return parseInt(cleaned, 10) || 0;
 };
 
-export const formatCurrency = (valueIdr, lang, t, allowZero = false) => {
+export const formatCurrency = (valueIdr, lang, t, allowZero = false, compact = false) => {
     if (valueIdr === 'discussion' || (!allowZero && valueIdr === 0)) {
         return t('pricing.labels.negotiation');
     }
 
     const config = getCurrencyConfig(lang);
     const converted = valueIdr / config.rate;
+
+    if (compact) {
+        if (lang === 'id') {
+            if (converted >= 1000000000) {
+                return `Rp ${(converted / 1000000000).toFixed(1).replace(/\.0$/, '')}M`;
+            }
+            if (converted >= 1000000) {
+                return `Rp ${(converted / 1000000).toFixed(1).replace(/\.0$/, '')}jt`;
+            }
+            if (converted >= 1000) {
+                return `Rp ${(converted / 1000).toFixed(0)}rb`;
+            }
+            return `Rp ${converted}`;
+        } else {
+            return new Intl.NumberFormat(config.locale, {
+                style: 'currency',
+                currency: config.currency,
+                notation: 'compact',
+                maximumFractionDigits: 1
+            }).format(converted);
+        }
+    }
 
     return new Intl.NumberFormat(config.locale, {
         style: 'currency',

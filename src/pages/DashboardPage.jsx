@@ -622,10 +622,10 @@ const DashboardPage = () => {
                                             </div>
                                             <div className="flex flex-col">
                                                 <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white mb-1 truncate">
-                                                    {formatCurrency(Math.round(stats.totalRevenue || 0), i18n.language, t, true)}
+                                                    {formatCurrency(Math.round(stats.completedRevenue || 0), i18n.language, t, true, true)}
                                                 </h3>
                                                 <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
-                                                    {t('dashboard.stats.potential_revenue')}
+                                                    {t('dashboard.stats.total_revenue')}
                                                 </span>
                                             </div>
                                         </motion.div>
@@ -653,7 +653,7 @@ const DashboardPage = () => {
                                             </div>
                                             <div className="flex flex-col">
                                                 <h3 className="text-2xl md:text-3xl font-black text-red-500 dark:text-red-400 mb-1 tracking-tight truncate">
-                                                    {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t, true)}
+                                                    {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t, true, true)}
                                                 </h3>
                                                 <span className="text-slate-500 dark:text-slate-400 text-[12px] font-bold uppercase tracking-tight">
                                                     {t('dashboard.stats.cancelled_orders')}
@@ -925,7 +925,7 @@ const DashboardPage = () => {
                                                 <div className="pt-3 md:pt-4 border-t border-slate-100 dark:border-slate-700">
                                                     <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase mb-0.5">{t('dashboard.analytics.stats.net_revenue')}</p>
                                                     <p className="text-base md:text-lg font-bold text-emerald-600 dark:text-emerald-400 truncate">
-                                                        {formatCurrency(Math.round(stats.completedRevenue || 0), i18n.language, t, true)}
+                                                        {formatCurrency(Math.round(stats.completedRevenue || 0), i18n.language, t, true, true)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -944,7 +944,7 @@ const DashboardPage = () => {
                                                 <div className="pt-3 md:pt-4 border-t border-slate-100 dark:border-slate-700">
                                                     <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase mb-0.5">{t('dashboard.analytics.stats.estimated_revenue')}</p>
                                                     <p className="text-base md:text-lg font-bold text-amber-600 dark:text-amber-400 truncate">
-                                                        {formatCurrency(Math.round(stats.pendingRevenue || 0), i18n.language, t, true)}
+                                                        {formatCurrency(Math.round(stats.pendingRevenue || 0), i18n.language, t, true, true)}
                                                     </p>
                                                 </div>
                                             </div>
@@ -963,7 +963,7 @@ const DashboardPage = () => {
                                                 <div className="pt-3 md:pt-4 border-t border-slate-100 dark:border-slate-700">
                                                     <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium uppercase mb-0.5">{t('dashboard.history.stats.total_batal')}</p>
                                                     <p className="text-base md:text-lg font-bold text-red-600 dark:text-red-400 truncate">
-                                                        {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t, true)}
+                                                        {formatCurrency(Math.round(stats.cancelledRevenue || 0), i18n.language, t, true, true)}
                                                     </p>
                                                 </div>
                                             </div>
