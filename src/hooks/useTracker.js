@@ -312,117 +312,76 @@ export const useTracker = () => {
             }).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
             const config = getCurrencyConfig(i18n.language);
-            const history = [];
-            const getDayKey = (d) => d.toISOString().split('T')[0];
+            const getSafeDateStr = (dateInput) => {
+                if (!dateInput) return '';
+                try {
+                    const d = new Date(dateInput);
+                    if (isNaN(d.getTime())) return String(dateInput).split('T')[0].split(' ')[0];
+                    return d.toISOString().split('T')[0];
+                } catch (e) { return ''; }
+            };
 
-            if (currentFilter === 'weekly' || (typeof input === 'object' && input.type === 'weekly') || input === '7d') {
-                for (let i = 6; i >= 0; i--) {
-                    const date = new Date();
-                    date.setDate(date.getDate() - i);
-                    const dateStr = getDayKey(date);
-                    const dayEvents = data.filter(e => e.created_at.startsWith(dateStr));
-                    const uniqueDayVisitors = new Set(
-                        dayEvents
-                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
-                            .map(e => e.details.visitor_id)
-                    ).size;
-                    const dayViews = uniqueDayVisitors || dayEvents.filter(e => e.event_type === 'view').length;
-                    const dailyOrders = dayEvents.filter(e => e.event_type === 'order');
-                    const dayRevenueIdr = dailyOrders
-                        .filter(o => o.details?.status !== 'cancelled')
-                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
-                    const dayCancelledRevenueIdr = dailyOrders
-                        .filter(o => o.details?.status === 'cancelled')
-                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
-                    history.push({
+            const historyPoints = [];
+            const buildHistory = (type, count) => {
+                const points = [];
+                for (let i = count - 1; i >= 0; i--) {
+                    const d = new Date();
+                    if (type === 'weekly') d.setDate(d.getDate() - i);
+                    else if (type === 'monthly') d.setMonth(d.getMonth() - i);
+                    else if (type === 'yearly') d.setFullYear(d.getFullYear() - i);
+                    else d.setDate(d.getDate() - i);
+
+                    const dateStr = type === 'monthly'
+                        ? `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}`
+                        : type === 'yearly'
+                            ? `${d.getFullYear()}`
+                            : getSafeDateStr(d);
+
+                    points.push({
                         date: dateStr,
-                        views: dayViews,
-                        orders: dailyOrders.length,
-                        revenue: (dayRevenueIdr + dayCancelledRevenueIdr) / config.rate,
-                        cancelledRevenue: dayCancelledRevenueIdr / config.rate
+                        views: 0,
+                        orders: 0,
+                        revenue: 0,
+                        cancelledRevenue: 0
                     });
                 }
-            } else if (currentFilter === 'monthly' || (typeof input === 'object' && input.type === 'monthly') || input === '30d') {
-                const currentYear = new Date().getFullYear();
-                for (let i = 0; i < 12; i++) {
-                    const dateStr = `${currentYear}-${(i + 1).toString().padStart(2, '0')}`;
-                    const monthEvents = data.filter(e => e.created_at.startsWith(dateStr));
-                    const uniqueMonthVisitors = new Set(
-                        monthEvents
-                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
-                            .map(e => e.details.visitor_id)
-                    ).size;
-                    const monthViews = uniqueMonthVisitors || monthEvents.filter(e => e.event_type === 'view').length;
-                    const monthlyOrders = monthEvents.filter(e => e.event_type === 'order');
-                    const monthRevenueIdr = monthlyOrders
-                        .filter(o => o.details?.status !== 'cancelled')
-                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
-                    const monthCancelledRevenueIdr = monthlyOrders
-                        .filter(o => o.details?.status === 'cancelled')
-                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
-                    history.push({
-                        date: dateStr,
-                        views: monthViews,
-                        orders: monthlyOrders.length,
-                        revenue: monthRevenueIdr / config.rate,
-                        cancelledRevenue: monthCancelledRevenueIdr / config.rate
-                    });
+                return points;
+            };
+
+            let lookupType = 'weekly';
+            let lookupCount = 7;
+            if (currentFilter === 'monthly') { lookupType = 'monthly'; lookupCount = 12; }
+            else if (currentFilter === 'yearly') { lookupType = 'yearly'; lookupCount = 5; }
+            else if (typeof input === 'number') { lookupCount = input; }
+
+            const history = buildHistory(lookupType, lookupCount);
+
+            history.forEach(point => {
+                const dayEvents = (aeData || []).filter(e => {
+                    const eDate = getSafeDateStr(e.created_at);
+                    return lookupType === 'weekly' ? eDate === point.date : eDate.startsWith(point.date);
+                });
+
+                if (lookupType === 'weekly') {
+                    point.views = new Set(dayEvents.filter(e => e.event_type === 'view' && e.details?.visitor_id).map(e => e.details.visitor_id)).size || dayEvents.filter(e => e.event_type === 'view').length;
+                } else {
+                    point.views = dayEvents.filter(e => e.event_type === 'view').length;
                 }
-            } else if (currentFilter === 'yearly' || (typeof input === 'object' && input.type === 'yearly') || input === 'year') {
-                const currentYear = new Date().getFullYear();
-                const startYear = 2024;
-                for (let y = startYear; y <= currentYear; y++) {
-                    const dateStr = y.toString();
-                    const yearEvents = data.filter(e => e.created_at.startsWith(dateStr));
-                    const uniqueYearVisitors = new Set(
-                        yearEvents
-                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
-                            .map(e => e.details.visitor_id)
-                    ).size;
-                    const yearViews = uniqueYearVisitors || yearEvents.filter(e => e.event_type === 'view').length;
-                    const yearOrders = yearEvents.filter(e => e.event_type === 'order');
-                    const yearRevenueIdr = yearOrders
-                        .filter(o => o.details?.status !== 'cancelled')
-                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
-                    const yearCancelledRevenueIdr = yearOrders
-                        .filter(o => o.details?.status === 'cancelled')
-                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
-                    history.push({
-                        date: dateStr,
-                        views: yearViews,
-                        orders: yearOrders.length,
-                        revenue: yearRevenueIdr / config.rate,
-                        cancelledRevenue: yearCancelledRevenueIdr / config.rate
-                    });
-                }
-            } else {
-                for (let i = lookupDays - 1; i >= 0; i--) {
-                    const date = new Date();
-                    date.setDate(date.getDate() - i);
-                    const dateStr = date.toISOString().split('T')[0];
-                    const dayEvents = data.filter(e => e.created_at.startsWith(dateStr));
-                    const uniqueDayVisitors = new Set(
-                        dayEvents
-                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
-                            .map(e => e.details.visitor_id)
-                    ).size;
-                    const dayViews = uniqueDayVisitors || dayEvents.filter(e => e.event_type === 'view').length;
-                    const dailyOrders = dayEvents.filter(e => e.event_type === 'order');
-                    const dayRevenueIdr = dailyOrders
-                        .filter(o => o.details?.status !== 'cancelled')
-                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
-                    const dayCancelledRevenueIdr = dailyOrders
-                        .filter(o => o.details?.status === 'cancelled')
-                        .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0);
-                    history.push({
-                        date: dateStr,
-                        views: dayViews,
-                        orders: dailyOrders.length,
-                        revenue: (dayRevenueIdr + dayCancelledRevenueIdr) / config.rate,
-                        cancelledRevenue: dayCancelledRevenueIdr / config.rate
-                    });
-                }
-            }
+
+                const dayOrders = orders.filter(o => {
+                    const oDate = getSafeDateStr(o.created_at);
+                    return lookupType === 'weekly' ? oDate === point.date : oDate.startsWith(point.date);
+                });
+
+                point.orders = dayOrders.length;
+                point.revenue = dayOrders
+                    .filter(o => o.details?.status === 'pending' || o.details?.status === 'completed')
+                    .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0) / config.rate;
+                point.cancelledRevenue = dayOrders
+                    .filter(o => o.details?.status === 'cancelled')
+                    .reduce((sum, o) => sum + parsePriceLocal(o.details?.total), 0) / config.rate;
+            });
+
 
             const mapOrder = (o) => {
                 const orderDate = new Date(o.created_at);
