@@ -8,6 +8,27 @@
         "order": "Order Sekarang",
         "tagline": "Solusi Digital"
     },
+    "meta": {
+        "default": {
+            "title": "WebKuu | Solusi Digital & Pembuatan Website Premium",
+            "description": "WebKuu menyediakan jasa pembuatan website profesional, landing page, dan solusi digital kreatif untuk bisnis Anda. Transformasikan ide Anda menjadi kenyataan."
+        },
+        "home": {
+            "title": "Home",
+            "description": "Jasa pembuatan website profesional, landing page, dan aplikasi web custom. Tim developer berpengalaman siap membantu digitalisasi bisnis Anda.",
+            "keywords": "jasa buat website, web developer indonesia, jasa landing page, bikin web murah, fullstack developer"
+        },
+        "portfolio": {
+            "title": "Portofolio Project",
+            "description": "Lihat koleksi project website yang telah kami kerjakan. Dari landing page UMKM hingga sistem informasi perusahaan skala besar.",
+            "keywords": "portofolio web developer, contoh website, hasil karya web, project showcase"
+        },
+        "order": {
+            "title": "Pesan Website",
+            "description": "Form pemesanan jasa pembuatan website. Pilih paket yang sesuai dengan kebutuhan bisnis Anda. Konsultasi gratis!",
+            "keywords": "order website, harga buat web, paket pembuatan website, jasa web murah"
+        }
+    },
     "hero": {
         "badge": "Solusi Website Custom Premium",
         "title_part1": "Wujudkan Website",

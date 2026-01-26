@@ -11,13 +11,16 @@ import Footer from '../components/Footer';
 
 import SEO from '../components/SEO';
 
+import { useTranslation } from 'react-i18next';
+
 const HomePage = () => {
+    const { t } = useTranslation();
     return (
         <>
             <SEO
-                title="Home"
-                description="Jasa pembuatan website profesional, landing page, dan aplikasi web custom. Tim developer berpengalaman siap membantu digitalisasi bisnis Anda."
-                keywords="jasa buat website, web developer indonesia, jasa landing page, bikin web murah, fullstack developer"
+                title={t('meta.home.title')}
+                description={t('meta.home.description')}
+                keywords={t('meta.home.keywords')}
             />
             <Navbar />
             <main>

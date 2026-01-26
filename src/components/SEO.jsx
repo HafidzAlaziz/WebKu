@@ -2,6 +2,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const SEO = ({
     title,
@@ -10,13 +11,14 @@ const SEO = ({
     image,
     type = 'website'
 }) => {
+    const { t } = useTranslation();
     const location = useLocation();
     const baseUrl = 'https://www.web-kuu.my.id';
     const currentUrl = `${baseUrl}${location.pathname}`;
     const defaultImage = `${baseUrl}/logo.png`;
 
-    const finalTitle = title ? `${title} | WebKuu` : 'WebKuu | Solusi Digital & Pembuatan Website Premium';
-    const finalDescription = description || 'WebKuu menyediakan jasa pembuatan website profesional, landing page, dan solusi digital kreatif untuk bisnis Anda. Transformasikan ide Anda menjadi kenyataan.';
+    const finalTitle = title ? `${title} | WebKuu` : t('meta.default.title');
+    const finalDescription = description || t('meta.default.description');
     const finalImage = image || defaultImage;
 
     return (

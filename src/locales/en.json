@@ -8,6 +8,27 @@
         "order": "Order Now",
         "tagline": "Digital Solutions"
     },
+    "meta": {
+        "default": {
+            "title": "WebKuu | Premium Custom Website Solutions",
+            "description": "WebKuu provides professional website creation services, landing pages, and creative digital solutions for your business. Transform your ideas into reality."
+        },
+        "home": {
+            "title": "Home",
+            "description": "Professional website creation services, landing pages, and custom web applications. Experienced developer team ready to help digitize your business.",
+            "keywords": "website creation service, indonesia web developer, landing page service, cheap website creation, fullstack developer"
+        },
+        "portfolio": {
+            "title": "Project Portfolio",
+            "description": "View our collection of completed website projects. From SME landing pages to large-scale enterprise information systems.",
+            "keywords": "web developer portfolio, website examples, web works, project showcase"
+        },
+        "order": {
+            "title": "Order Website",
+            "description": "Website creation service order form. Choose a package that suits your business needs. Free consultation!",
+            "keywords": "order website, website pricing, website creation package, cheap web service"
+        }
+    },
     "hero": {
         "badge": "Premium Custom Website Solutions",
         "title_part1": "Manifest Your",

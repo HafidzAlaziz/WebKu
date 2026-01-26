@@ -7,13 +7,16 @@ import PortfolioCTA from '../components/portfolio/PortfolioCTA';
 
 import SEO from '../components/SEO';
 
+import { useTranslation } from 'react-i18next';
+
 const PortfolioPage = () => {
+    const { t } = useTranslation();
     return (
         <>
             <SEO
-                title="Portofolio Project"
-                description="Lihat koleksi project website yang telah kami kerjakan. Dari landing page UMKM hingga sistem informasi perusahaan skala besar."
-                keywords="portofolio web developer, contoh website, hasil karya web, project showcase"
+                title={t('meta.portfolio.title')}
+                description={t('meta.portfolio.description')}
+                keywords={t('meta.portfolio.keywords')}
             />
             <Navbar />
             <main className="pt-20">
