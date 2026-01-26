@@ -177,9 +177,9 @@ const Hero = () => {
                         <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-4 border border-slate-100 transform rotate-2 hover:rotate-0 transition-transform duration-500">
                             <img
                                 src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                                alt="Website Dashboard"
+                                alt={t('hero.image_alt') || "Dashboard Analitik Website Profesional - Jasa WebKuu"}
                                 className="rounded-xl w-full h-auto"
-                                loading="lazy"
+                                loading="eager"
                             />
 
                             {/* Floating Badge */}

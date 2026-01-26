@@ -107,9 +107,9 @@ const ProjectGallery = () => {
                     transition={{ duration: 0.4 }}
                     className="text-center mb-12"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
+                    <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">
                         {t('portfolio.gallery.title')}
-                    </h2>
+                    </h1>
                     <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
                         {t('portfolio.gallery.subtitle')}
                     </p>
