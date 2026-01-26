@@ -9,9 +9,16 @@ import Testimonials from '../components/Testimonials';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 
+import SEO from '../components/SEO';
+
 const HomePage = () => {
     return (
         <>
+            <SEO
+                title="Home"
+                description="Jasa pembuatan website profesional, landing page, dan aplikasi web custom. Tim developer berpengalaman siap membantu digitalisasi bisnis Anda."
+                keywords="jasa buat website, web developer indonesia, jasa landing page, bikin web murah, fullstack developer"
+            />
             <Navbar />
             <main>
                 <Hero />

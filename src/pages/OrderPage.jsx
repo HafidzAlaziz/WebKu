@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { useTracker } from '../hooks/useTracker';
 import { formatCurrency } from '../utils/currencyUtils';
 
+import SEO from '../components/SEO';
+
 const OrderPage = () => {
     const { t, i18n } = useTranslation();
     const { trackOrder } = useTracker();
@@ -252,6 +254,11 @@ const OrderPage = () => {
 
     return (
         <>
+            <SEO
+                title="Pesan Website"
+                description="Form pemesanan jasa pembuatan website. Pilih paket yang sesuai dengan kebutuhan bisnis Anda. Konsultasi gratis!"
+                keywords="order website, harga buat web, paket pembuatan website, jasa web murah"
+            />
             <Navbar />
             <div className="min-h-screen bg-gradient-to-br from-slate-50 via-brand-emerald-50 to-brand-gold-50 dark:from-slate-900 dark:via-primary-dark dark:to-slate-900">
                 {/* Decorative Background */}
