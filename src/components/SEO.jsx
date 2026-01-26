@@ -21,8 +21,10 @@ const SEO = ({
     const finalDescription = description || t('meta.default.description');
     const finalImage = image || defaultImage;
 
+    const { i18n } = useTranslation();
+
     return (
-        <Helmet>
+        <Helmet htmlAttributes={{ lang: i18n.language }}>
             {/* Basic Meta Tags */}
             <title>{finalTitle}</title>
             <meta name="description" content={finalDescription} />
