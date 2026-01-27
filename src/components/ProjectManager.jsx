@@ -244,7 +244,7 @@ const ProjectManager = () => {
                                             <div className="flex items-center gap-3">
                                                 <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-slate-700 overflow-hidden border border-slate-200 dark:border-slate-600">
                                                     <img
-                                                        src={project.thumbnail}
+                                                        src={project.thumbnail || null}
                                                         alt={project.name_id}
                                                         className="w-full h-full object-cover"
                                                         onError={(e) => { e.target.src = 'https://via.placeholder.com/150?text=No+Image'; }}

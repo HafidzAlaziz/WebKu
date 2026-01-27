@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LayoutGrid, ShoppingCart, Briefcase, BarChart3, Users, Settings, LogOut, Sun, Moon, Languages, ChevronLeft, ChevronRight, History } from 'lucide-react';
+import { LayoutGrid, ShoppingCart, Briefcase, BarChart3, Users, Settings, LogOut, Sun, Moon, Languages, ChevronLeft, ChevronRight, History, FileText } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
@@ -52,7 +52,7 @@ const Logo = ({ isCollapsed }) => {
     );
 };
 
-const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobileOpen, setIsMobileOpen, isCollapsed, setIsCollapsed }) => {
+const DashboardSidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen, isCollapsed, setIsCollapsed }) => {
     const { t, i18n } = useTranslation();
     const { isDark, toggleTheme } = useTheme();
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
@@ -72,9 +72,10 @@ const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobil
 
     const menuSections = {
         menu: [
-            { id: 'dashboard', icon: LayoutGrid, label: t('dashboard.sidebar.items.dashboard'), showLive: true },
+            { id: 'dashboard', icon: LayoutGrid, label: t('dashboard.sidebar.items.dashboard') },
             { id: 'orders', icon: ShoppingCart, label: t('dashboard.sidebar.items.orders') },
-            { id: 'portfolio', icon: Briefcase, label: t('dashboard.sidebar.items.portfolio'), badge: portfolioCount.toString().padStart(2, '0') },
+            { id: 'portfolio', icon: Briefcase, label: t('dashboard.sidebar.items.portfolio') },
+            { id: 'blog', icon: FileText, label: t('dashboard.sidebar.items.blog') },
             { id: 'history', icon: History, label: t('dashboard.sidebar.items.history') },
             { id: 'visitors', icon: Users, label: t('dashboard.sidebar.items.visitors') },
         ],
@@ -172,21 +173,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobil
                                 <item.icon size={18} className="flex-shrink-0" />
 
                                 {!isCollapsed && (
-                                    <>
-                                        <span className="flex-1 text-left">{item.label}</span>
-
-                                        {item.showLive && activeTab === item.id && (
-                                            <span className="bg-red-500/10 text-red-600 text-[8px] font-bold px-1.5 py-0.5 rounded-full border border-red-500/20 animate-pulse">
-                                                {t('dashboard.sidebar.items.live')}
-                                            </span>
-                                        )}
-
-                                        {item.badge && (
-                                            <span className="text-xs text-slate-400">
-                                                {item.badge}
-                                            </span>
-                                        )}
-                                    </>
+                                    <span className="flex-1 text-left">{item.label}</span>
                                 )}
                             </button>
                         ))}
@@ -329,10 +316,6 @@ const DashboardSidebar = ({ activeTab, setActiveTab, portfolioCount = 0, isMobil
                                     <item.icon size={18} strokeWidth={isActive ? 2.5 : 2} />
                                 </div>
                                 <span className="text-[9px] font-bold">{item.label}</span>
-
-                                {item.badge && (
-                                    <span className="absolute top-1 right-2 w-2 h-2 bg-red-500 rounded-full border border-slate-900" />
-                                )}
                             </button>
                         );
                     })}

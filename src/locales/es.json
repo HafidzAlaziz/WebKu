@@ -6,13 +6,65 @@
         "pricing": "Precios",
         "testimonials": "Testimonios",
         "order": "Ordenar Ahora",
-        "tagline": "Soluciones Digitales"
+        "tagline": "Soluciones Digitales",
+        "blog": "Blog"
+    },
+    "meta": {
+        "default": {
+            "title": "WebKuu | Soluciones Digitales & Creación de Sitios Web Premium",
+            "description": "WebKuu ofrece servicios profesionales de creación de sitios web, páginas de destino y soluciones digitales creativas para su negocio. Transforme sus ideas en realidad."
+        },
+        "home": {
+            "title": "Inicio",
+            "description": "Servicios profesionales de creación de sitios web, páginas de destino y aplicaciones web personalizadas. Nuestro equipo de desarrolladores experimentados está listo para ayudarlo a digitalizar su negocio.",
+            "keywords": "creación de sitios web, servicios de diseño web, desarrollo web, tienda online, WebKuu"
+        },
+        "portfolio": {
+            "title": "Proyectos de Portafolio",
+            "description": "Vea nuestra colección de proyectos web completados. Desde páginas de destino para PYMES hasta sistemas de información para grandes empresas.",
+            "keywords": "portafolio de desarrollo web, ejemplos de sitios web, showcase de proyectos"
+        },
+        "order": {
+            "title": "Pedir Sitio Web",
+            "description": "Formulario de pedido de servicios de creación de sitios web. Elija el paquete que mejor se adapte a sus necesidades comerciales. ¡Consulta gratuita!",
+            "keywords": "pedir sitio web, precios de sitio web, paquetes de sitios web"
+        },
+        "blog": {
+            "title": "Blog e Insights",
+            "description": "Encuentre los últimos consejos sobre creación de sitios web, marketing digital y estrategias de negocios en línea para aumentar los ingresos de su PYME con WebKuu.",
+            "keywords": "blog de sitios web, consejos de marketing digital, negocios en línea, blog de WebKuu, tutorial de sitios web"
+        }
+    },
+    "blog": {
+        "title": "Blog e Insights de WebKuu",
+        "subtitle": "Consejos Web, Marketing Digital y Negocios Online para PYMES",
+        "title_short": "Blog",
+        "searchPlaceholder": "Buscar artículos...",
+        "categories": "Categorías",
+        "allCategories": "Todas las Categorías",
+        "all": "Todo",
+        "readMore": "Leer más",
+        "backToBlog": "Volver al Blog",
+        "shareArticle": "Compartir este artículo:",
+        "relatedPosts": "Artículos Relacionados",
+        "noResults": "No se encontraron artículos",
+        "tryDifferent": "Intente usar palabras clave diferentes o seleccione una categoría diferente.",
+        "loading": "Cargando artículos...",
+        "home": "Inicio",
+        "readingTime": "min de lectura",
+        "by": "Por",
+        "on": "el",
+        "in": "en",
+        "ctaTitle": "¿Quieres un Sitio Web Profesional como Este?",
+        "ctaSubtitle": "Consulta tus necesidades digitales con WebKuu. Estamos listos para ayudar a que tu negocio crezca en línea.",
+        "ctaButton": "Contacta a WebKuu Ahora",
+        "copied": "¡Copiado!"
     },
     "hero": {
-        "badge": "Soluciones de Sitios Web Personalizados Premium",
-        "title_part1": "Manifiesta Tu",
-        "title_part2": "Sitio Web Soñado",
-        "subtitle": "Sitios web profesionales, modernos y de alto rendimiento adaptados perfectamente a tu negocio y marca.",
+        "badge": "Solución Web Rápida y Económica",
+        "title_part1": "¿Gran Sitio Web,",
+        "title_part2": "Rápido y Económico?",
+        "subtitle": "Obtenga el sitio web de sus sueños a un precio amigable. Ofrecemos servicios \"asequibles pero premium\" con entrega rápida y resultados de alta calidad.",
         "cta_start": "Iniciar Consulta",
         "cta_portfolio": "Ver Portafolio",
         "stats": {
@@ -745,6 +797,7 @@
                 "dashboard": "Panel",
                 "orders": "Pedidos",
                 "portfolio": "Portafolio",
+                "blog": "Blog",
                 "history": "Historial",
                 "visitors": "Visitantes",
                 "settings": "Ajustes",
@@ -923,6 +976,88 @@
         },
         "footer": {
             "note": "Este panel muestra análisis simples basados en el seguimiento de eventos. Las \"Vistas\" son cargas de página y los \"Pedidos\" son clics en los botones de WhatsApp. Los datos se sincronizan en tiempo real."
+        },
+        "blog": {
+            "title": "Gestión de Blog",
+            "subtitle": "Crea y gestiona tus artículos de blog con auto-traducción",
+            "stats": {
+                "total_posts": "Total de Artículos",
+                "total_categories": "Categorías",
+                "last_post": "Último Artículo"
+            },
+            "filters": {
+                "all_categories": "Todas las Categorías"
+            },
+            "add_button": "Añadir Nuevo Artículo",
+            "search_placeholder": "Buscar artículos por título o categoría...",
+            "table": {
+                "article": "Artículo",
+                "category": "Categoría",
+                "date": "Fecha",
+                "actions": "Acciones",
+                "empty": "No hay artículos. ¡Crea el primero!"
+            },
+            "form": {
+                "add_title": "Escribir Nuevo Artículo",
+                "edit_title": "Editar Artículo",
+                "sections": {
+                    "basic": "Información General",
+                    "content": "Contenido del Artículo",
+                    "preview": "Vista Previa"
+                },
+                "labels": {
+                    "title": "Título del Artículo",
+                    "slug": "URL Slug (Único)",
+                    "category": "Categoría",
+                    "excerpt": "Breve Extracto",
+                    "keywords": "Palabras Clave (SEO)",
+                    "content": "Contenido del Artículo",
+                    "image": "Imagen Principal",
+                    "author": "Nombre del Autor",
+                    "marker_en": " (EN)",
+                    "marker_id": " (ID)",
+                    "marker_es": " (ES)",
+                    "marker_fr": " (FR)",
+                    "marker_ja": " (JA)"
+                },
+                "placeholders": {
+                    "title": "Ej: 5 Consejos para el Éxito",
+                    "slug": "ej: 5-consejos-exito",
+                    "category": "Ej: Consejos Web",
+                    "excerpt": "Breve resumen del artículo...",
+                    "keywords": "Ej: consejos de negocios, PYME, sitio web (separados por comas)",
+                    "content": "Escribe tu contenido aquí...",
+                    "image": "Sube o pega URL de imagen...",
+                    "image_url": "O pegue el enlace de la imagen aquí (opcional)...",
+                    "author": "Ingresa nombre del autor",
+                    "author_default": "Admin WebKuu"
+                },
+                "buttons": {
+                    "save": "Publicar Artículo",
+                    "update": "Actualizar Artículo",
+                    "cancel": "Cancelar",
+                    "translate": "Auto Traducir"
+                },
+                "success": {
+                    "saved": "¡Artículo publicado con éxito!",
+                    "updated": "¡Artículo actualizado con éxito!"
+                },
+                "translate": {
+                    "fill_en_first": "¡Por favor, llena título y contenido (EN) primero!",
+                    "success": "¡Traducido a todos los idiomas!",
+                    "failed": "Traducción automática fallida."
+                },
+                "validation": {
+                    "fill_required": "¡Por favor, completa todos los campos marcados!",
+                    "fill_translations": "¡Por favor, completa todas las traducciones o usa la traducción automática!"
+                }
+            },
+            "delete_confirm": {
+                "title": "¿Eliminar Artículo?",
+                "message": "Este artículo se eliminará permanentemente. ¿Estás seguro?",
+                "confirm": "Sí, Eliminar",
+                "cancel": "Cancelar"
+            }
         }
     },
     "login": {

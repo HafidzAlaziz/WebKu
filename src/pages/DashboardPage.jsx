@@ -17,15 +17,18 @@ import { formatCurrency } from '../utils/currencyUtils';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import TrafficChart from '../components/TrafficChart';
 import ProjectManager from '../components/ProjectManager';
+import BlogManager from '../components/BlogManager';
 import Navbar from '../components/Navbar';
 import DashboardSidebar from '../components/DashboardSidebar';
 import { useTranslation } from 'react-i18next';
+import { useBlog } from '../hooks/useBlog';
 
 const DashboardPage = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { stats, loading, refresh, deleteOrder, updateOrderStatus, updateOrder } = useTracker();
     const { projects: portfolioProjects, fetchProjects: fetchPortfolio } = usePortfolio();
+    const { posts: blogPosts, fetchPosts: fetchBlog } = useBlog();
 
     // Filter State
     const [filterType, setFilterType] = useState('weekly'); // weekly, monthly, yearly
@@ -251,13 +254,27 @@ const DashboardPage = () => {
     };
 
     const updateEditingField = (field, value) => {
-        setEditingOrder(prev => ({
-            ...prev,
-            rawDetails: {
-                ...prev.rawDetails,
-                [field]: value
+        setEditingOrder(prev => {
+            const newDetails = { ...prev.rawDetails, [field]: value };
+
+            // Auto-link logic (2-way binding) & Price Update
+            if (field === 'orderPackage') {
+                if (value === 'starter') {
+                    newDetails.orderType = 'landing-page';
+                    newDetails.websiteType = 'landing-page';
+                    newDetails.total = 25000; // Auto-set price
+                } else if (value === 'enterprise') {
+                    newDetails.orderType = 'custom-system';
+                    newDetails.websiteType = 'custom-system';
+                    newDetails.total = 0; // Reset/Negotiable
+                }
             }
-        }));
+
+            return {
+                ...prev,
+                rawDetails: newDetails
+            };
+        });
     };
 
     // Pagination Component
@@ -382,9 +399,11 @@ const DashboardPage = () => {
     useEffect(() => {
         refreshData();
         fetchPortfolio();
+        fetchBlog();
         const interval = setInterval(() => {
             refreshData();
             fetchPortfolio();
+            fetchBlog();
         }, 30000);
         return () => clearInterval(interval);
     }, [filterType, selectedYear, selectedMonth, i18n.language]);
@@ -403,7 +422,6 @@ const DashboardPage = () => {
                 <DashboardSidebar
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
-                    portfolioCount={portfolioProjects.length}
                     isMobileOpen={isSidebarOpen}
                     setIsMobileOpen={setIsSidebarOpen}
                     isCollapsed={isCollapsed}
@@ -443,12 +461,12 @@ const DashboardPage = () => {
                                         : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20'
                                         }`}
                                 >
-                                    <Bell size={18} />
-                                    {unreadOrdersCount > 0 && (
-                                        <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 text-white text-[10px] font-bold rounded-full border-2 border-white dark:border-slate-800 flex items-center justify-center px-1 animate-bounce">
-                                            {unreadOrdersCount}
+                                    {unreadOrdersList.length > 0 && (
+                                        <span className="absolute top-0 right-0 -mt-1 -mr-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-slate-50 dark:border-slate-900 shadow-sm animate-pulse">
+                                            {unreadOrdersList.length > 9 ? '9+' : unreadOrdersList.length}
                                         </span>
                                     )}
+                                    <Bell size={18} />
                                 </button>
 
                                 {/* Notification Dropdown */}
@@ -1103,6 +1121,14 @@ const DashboardPage = () => {
                                         </div>
                                     </div>
                                 </motion.div>
+                            ) : activeTab === 'blog' ? (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="p-6"
+                                >
+                                    <BlogManager />
+                                </motion.div>
                             ) : activeTab === 'visitors' ? (
                                 <motion.div
                                     initial={{ opacity: 0, x: 20 }}
@@ -1656,31 +1682,9 @@ const DashboardPage = () => {
                                             className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white cursor-pointer"
                                         >
                                             <option value="starter">{t('order_page.form.options.package_starter')}</option>
-                                            <option value="professional">{t('order_page.form.options.package_professional')}</option>
                                             <option value="enterprise">{t('order_page.form.options.package_enterprise')}</option>
                                         </select>
                                     </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                                            {t('dashboard.recent_orders.table.website_type')}
-                                        </label>
-                                        <select
-                                            value={editingOrder.rawDetails?.orderType || editingOrder.rawDetails?.websiteType || ''}
-                                            onChange={(e) => updateEditingField('orderType', e.target.value)}
-                                            className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-emerald-500 outline-none transition-all dark:text-white cursor-pointer"
-                                        >
-                                            <option value="">{t('order_page.form.placeholders.website_type')}</option>
-                                            <option value="landing-page">{t('order_page.form.options.type_landing')}</option>
-                                            <option value="company-profile">{t('order_page.form.options.type_company')}</option>
-                                            <option value="ecommerce">{t('order_page.form.options.type_ecommerce')}</option>
-                                            <option value="portfolio">{t('order_page.form.options.type_portfolio')}</option>
-                                            <option value="umkm">{t('order_page.form.options.type_umkm')}</option>
-                                            <option value="custom-system">{t('order_page.form.options.type_custom')}</option>
-                                            <option value="other">{t('order_page.form.options.type_other')}</option>
-                                        </select>
-                                    </div>
-
-                                    {/* Row 4 */}
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                             {t('dashboard.recent_orders.table.tech_stack')}
@@ -1700,6 +1704,7 @@ const DashboardPage = () => {
                                             <option value="other">{t('order_page.form.options.tech_other')}</option>
                                         </select>
                                     </div>
+                                    {/* Row 4: Status and Total side by side */}
                                     <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                             {t('dashboard.recent_orders.table.status')}
@@ -1715,8 +1720,7 @@ const DashboardPage = () => {
                                         </select>
                                     </div>
 
-                                    {/* Row 5 */}
-                                    <div className="md:col-span-2">
+                                    <div>
                                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
                                             {t('dashboard.recent_orders.table.total')} (IDR)
                                         </label>

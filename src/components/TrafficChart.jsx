@@ -75,13 +75,13 @@ const TrafficChart = ({ data, stats }) => {
 
     return (
         // Container with explicit height constraints
-        <div className="w-full h-full min-h-[200px] bg-transparent">
+        <div className="w-full h-full min-h-[300px] bg-transparent">
             {/* 
-                debounce={200}: Delays resize calculations to prevent thrashing
-                width="99%": Prevents 100% width loop bug
-                key={chartData.length + (chartData[0]?.date || '')}: Re-triggers entry animation on data update
+                debounce={50}: Quicker response to layout changes
+                width="100%": Standard width
+                key={chartData.length}: Force re-render only on data count change
              */}
-            <ResponsiveContainer width="99%" height="100%" minWidth={0} minHeight={0} debounce={200} key={chartData.length + (chartData[0]?.date || '')}>
+            <ResponsiveContainer width="100%" height={300} minWidth={0} minHeight={0} debounce={50}>
                 <AreaChart
                     data={chartData}
                     margin={{ top: 10, right: 10, left: 0, bottom: 0 }}

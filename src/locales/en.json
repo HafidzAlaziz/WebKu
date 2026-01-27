@@ -6,7 +6,8 @@
         "pricing": "Pricing",
         "testimonials": "Testimonials",
         "order": "Order Now",
-        "tagline": "Digital Solutions"
+        "tagline": "Digital Solutions",
+        "blog": "Blog"
     },
     "meta": {
         "default": {
@@ -27,13 +28,43 @@
             "title": "Order Website",
             "description": "Website creation service order form. Choose a package that suits your business needs. Free consultation!",
             "keywords": "order website, website pricing, website creation package, cheap web service"
+        },
+        "blog": {
+            "title": "Blog & Insights",
+            "description": "Find the latest tips on website creation, digital marketing, and online business strategies to boost your SME revenue with WebKuu.",
+            "keywords": "blog website, digital marketing tips, online business, webkuu blog, website tutorial"
         }
     },
+    "blog": {
+        "title": "Blog & Insights WebKuu",
+        "subtitle": "Website Tips, Digital Marketing, and Online Business for SMEs",
+        "title_short": "Blog",
+        "searchPlaceholder": "Search articles...",
+        "categories": "Categories",
+        "allCategories": "All Categories",
+        "all": "All",
+        "readMore": "Read More",
+        "backToBlog": "Back to Blog",
+        "shareArticle": "Share this article:",
+        "relatedPosts": "Related Posts",
+        "noResults": "No articles found",
+        "tryDifferent": "Try using different keywords or select a different category.",
+        "loading": "Loading articles...",
+        "home": "Home",
+        "readingTime": "min read",
+        "by": "By",
+        "on": "on",
+        "in": "in",
+        "ctaTitle": "Want a Professional Website Like This?",
+        "ctaSubtitle": "Consult your digital needs with WebKuu. We are ready to help your business grow online.",
+        "ctaButton": "Contact WebKuu Now",
+        "copied": "Copied!"
+    },
     "hero": {
-        "badge": "Premium Custom Website Solutions",
-        "title_part1": "Manifest Your",
-        "title_part2": "Dream Website",
-        "subtitle": "Professional, modern, and high-performance websites tailored perfectly for your business and brand.",
+        "badge": "Fast & Budget-Friendly Solution",
+        "title_part1": "Great Website,",
+        "title_part2": "Fast & Affordable?",
+        "subtitle": "Get your dream website at a friendly price. We offer \"Affordable but Premium\" services with fast turnaround and high-quality results.",
         "cta_start": "Start Consultation",
         "cta_portfolio": "View Portfolio",
         "stats": {
@@ -115,44 +146,30 @@
             "price": "Price",
             "rp": "Rp",
             "negotiation": "Negotiation",
-            "discussion": "Price Discussion"
+            "discussion": "Negotiable Price"
         },
         "plans": {
             "starter": {
-                "name": "Starter / Landing Page",
-                "price": 100000,
-                "desc": "Cost-effective solution for a simple landing page or business profile.",
+                "name": "Landing Page",
+                "price": 2,
+                "desc": "Affordable solution for simple landing pages or business profiles.",
                 "features": [
-                    "1 Page Website",
+                    "1 Website Page",
                     "Clean & Modern Design",
                     "Mobile Responsive",
                     "WhatsApp/Social Media Buttons",
-                    "Fast Delivery (24 Hours)",
+                    "Fast Delivery",
                     "Free Hosting (Subdomain)"
                 ]
             },
-            "umkm": {
-                "name": "Professional / SME",
-                "price": 1000000,
-                "desc": "Professional business website to increase credibility.",
-                "features": [
-                    "Exclusive Design (Not Template)",
-                    "Up to 5 Pages (Home, About, etc)",
-                    "Free .com Domain (1 Year)",
-                    "Basic SEO Optimization (Google)",
-                    "Maps & Contact Form Integration",
-                    "3x Design Revisions",
-                    "Free 1 Month Maintenance"
-                ]
-            },
             "custom": {
-                "name": "Enterprise / Full Custom",
+                "name": "Custom Website",
                 "price": "discussion",
-                "desc": "Price adjusts according to features and website complexity.",
+                "desc": "Price adjusted based on features and difficulty level.",
                 "features": [
-                    "Features as per Request & Budget",
+                    "Features as Requested & Budget",
                     "In-depth Technical Consultation",
-                    "Priority Support & Warranty"
+                    "Priority Support & Guarantee"
                 ]
             }
         }
@@ -524,23 +541,22 @@
                 "message": "Explain in detail:\n- What is the purpose of your website?\n- What features must be there?\n- Do you have design references?\n- How long is the desired processing time?"
             },
             "options": {
-                "package_starter": "Starter / Landing Page",
-                "package_professional": "Professional / SME",
-                "package_enterprise": "Enterprise / Full Custom",
+                "package_starter": "Landing Page",
+                "package_enterprise": "Custom Website",
                 "type_landing": "Landing Page",
                 "type_company": "Company Profile",
                 "type_ecommerce": "Online Store / E-commerce",
                 "type_portfolio": "Portfolio",
                 "type_umkm": "SME Website",
-                "type_custom": "Custom System (Booking, CRM, etc)",
+                "type_custom": "Custom Website",
                 "type_other": "Other",
-                "tech_react": "React.js + Tailwind (Modern & Fast)",
-                "tech_next": "Next.js (High Performance + SEO)",
+                "tech_react": "React.js + Tailwind",
+                "tech_next": "Next.js",
                 "tech_vue": "Vue.js",
-                "tech_wordpress": "WordPress (CMS Ready)",
-                "tech_laravel": "Laravel + PHP (Robust System)",
-                "tech_html": "HTML/CSS/JS (Static Content)",
-                "tech_other": "Other Needs (Write in description)"
+                "tech_wordpress": "WordPress",
+                "tech_laravel": "Laravel + PHP",
+                "tech_html": "HTML/CSS/JS",
+                "tech_other": "Other Needs"
             },
             "submit": {
                 "default": "Send Order Now",
@@ -790,6 +806,7 @@
                 "orders": "Orders",
                 "history": "History",
                 "visitors": "Visitors",
+                "blog": "Blog",
                 "settings": "Settings",
                 "logout": "Logout",
                 "language": "Language",
@@ -920,6 +937,90 @@
                 "total_projects": "Total Projects",
                 "client_projects": "Client Projects",
                 "create_projects": "Internal Projects"
+            }
+        },
+        "blog": {
+            "title": "Blog Management",
+            "subtitle": "Create and manage your blog articles with auto-translation",
+            "stats": {
+                "total_posts": "Total Posts",
+                "total_categories": "Total Categories",
+                "last_post": "Latest Post"
+            },
+            "filters": {
+                "all_categories": "All Categories"
+            },
+            "add_button": "Add New Post",
+            "search_placeholder": "Search articles by title or category...",
+            "table": {
+                "article": "Article",
+                "category": "Category",
+                "status": "Status",
+                "date": "Date",
+                "actions": "Actions",
+                "empty": "No articles found. Write your first post!"
+            },
+            "form": {
+                "add_title": "Write New Article",
+                "edit_title": "Edit Article",
+                "sections": {
+                    "basic": "General Information",
+                    "content": "Article Content",
+                    "preview": "Preview"
+                },
+                "labels": {
+                    "title": "Article Title",
+                    "slug": "URL Slug (Unique)",
+                    "slug_help": "Used for the article URL (e.g., your-article-title)",
+                    "category": "Category",
+                    "excerpt": "Short Excerpt",
+                    "keywords": "Keywords (SEO)",
+                    "content": "Article Body (HTML supported)",
+                    "image": "Featured Image",
+                    "author": "Author Name",
+                    "marker_en": " (EN)",
+                    "marker_id": " (ID)",
+                    "marker_es": " (ES)",
+                    "marker_fr": " (FR)",
+                    "marker_ja": " (JA)"
+                },
+                "placeholders": {
+                    "title": "e.g. 5 Tips for SME Success",
+                    "slug": "e.g. 5-tips-sme-success",
+                    "category": "e.g. Tips Website",
+                    "excerpt": "A brief summary of your article...",
+                    "keywords": "e.g. business tips, SME, website (separated by commas)",
+                    "content": "Write your content here...",
+                    "image": "Upload or paste URL...",
+                    "image_url": "Or paste image link here (optional)...",
+                    "author": "Enter author name",
+                    "author_default": "WebKuu Admin"
+                },
+                "buttons": {
+                    "save": "Publish Article",
+                    "update": "Update Article",
+                    "cancel": "Cancel",
+                    "translate": "Auto-Translate"
+                },
+                "success": {
+                    "saved": "Article published successfully!",
+                    "updated": "Article updated successfully!"
+                },
+                "translate": {
+                    "fill_en_first": "Please fill title and content first before auto-translating!",
+                    "success": "Successfully translated to all languages!",
+                    "failed": "Auto-translation failed."
+                },
+                "validation": {
+                    "fill_required": "Please complete all fields marked in red!",
+                    "fill_translations": "Please complete all translations or use Auto-Translate!"
+                }
+            },
+            "delete_confirm": {
+                "title": "Delete Article?",
+                "message": "This article will be permanently removed. This action cannot be undone. Are you sure?",
+                "confirm": "Yes, Delete",
+                "cancel": "Cancel"
             }
         },
         "recent_orders": {

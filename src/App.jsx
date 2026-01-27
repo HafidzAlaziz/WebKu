@@ -1,8 +1,10 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { useTracker } from './hooks/useTracker';
 import { useEffect } from 'react';
+import AppRoutes from './routes/AppRoutes';
+import FloatingSettings from './components/FloatingSettings';
 
 // Wrapper to track page views
 const PageTracker = ({ children }) => {
@@ -15,15 +17,6 @@ const PageTracker = ({ children }) => {
 
   return children;
 };
-
-// Lazy load pages and heavy components
-const HomePage = lazy(() => import('./pages/HomePage'));
-const OrderPage = lazy(() => import('./pages/OrderPage'));
-const PortfolioPage = lazy(() => import('./pages/PortfolioPage'));
-
-const DashboardPage = lazy(() => import('./pages/DashboardPage'));
-const LoginPage = lazy(() => import('./pages/LoginPage'));
-const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
 
 // Loading component
 const PageLoader = () => (
@@ -39,21 +32,10 @@ function App() {
         <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
           <PageTracker>
             <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/order" element={<OrderPage />} />
-                <Route path="/portfolio" element={<PortfolioPage />} />
-                <Route path="/portofolio" element={<PortfolioPage />} />
-                <Route path="/dashboard" element={
-                  <ProtectedRoute>
-                    <DashboardPage />
-                  </ProtectedRoute>
-                } />
-                <Route path="/login" element={<LoginPage />} />
-              </Routes>
-
+              <AppRoutes />
             </Suspense>
           </PageTracker>
+          <FloatingSettings />
         </div>
       </Router>
     </ThemeProvider>

@@ -246,13 +246,14 @@ export const useTracker = () => {
                         customerEmail: rawDetails.customerEmail || 'noemail@example.com',
                         customerPhone: rawDetails.customerPhone,
                         customerCompany: rawDetails.customerCompany,
-                        websiteType: rawDetails.websiteType || rawDetails.orderType,
+                        customerCompany: rawDetails.customerCompany,
+                        // websiteType removed/ignored
                         techStack: rawDetails.techStack,
                         message: rawDetails.message || rawDetails.details,
                         total: parsePriceLocal(rawDetails.total),
                         status: normalizeStatus(rawDetails.status),
                         orderPackage: rawDetails.orderPackage || rawDetails.package,
-                        orderType: rawDetails.orderType || rawDetails.websiteType,
+                        // orderType removed/ignored
                         ...rawDetails
                     }
                 });
@@ -269,13 +270,14 @@ export const useTracker = () => {
                         customerEmail: o.customer_email,
                         customerPhone: o.customer_phone,
                         customerCompany: o.customer_company,
-                        websiteType: o.website_type,
+                        customerCompany: o.customer_company,
+                        // websiteType removed/ignored
                         techStack: o.tech_stack,
                         message: o.message,
                         total: o.total,
                         status: normalizeStatus(o.status),
                         orderPackage: o.service_package,
-                        orderType: o.website_type
+                        // orderType removed/ignored
                     }
                 });
             });
@@ -391,16 +393,14 @@ export const useTracker = () => {
                 let displayDetails = '-';
                 if (isNewOrder) {
                     displayDetails = t('dashboard.recent_orders.new_order_label');
-                } else if (o.details?.orderPackage && o.details?.orderType) {
+                } else if (o.details?.orderPackage) {
                     const pkg = getLocalizedDetail('package', o.details?.orderPackage);
-                    const type = getLocalizedDetail('type', o.details?.orderType);
-                    displayDetails = `${t('dashboard.recent_orders.order_form_prefix')}: ${pkg} - ${type}`;
+                    displayDetails = `${t('dashboard.recent_orders.order_form_prefix')}: ${pkg}`;
                 } else if (typeof o.details?.details === 'string' && o.details?.details.startsWith('Order Form:')) {
                     const parts = o.details?.details.replace('Order Form: ', '').split(' - ');
-                    if (parts.length === 2) {
+                    if (parts.length >= 1) {
                         const pkg = getLocalizedDetail('package', parts[0]);
-                        const type = getLocalizedDetail('type', parts[1]);
-                        displayDetails = `${t('dashboard.recent_orders.order_form_prefix')}: ${pkg} - ${type}`;
+                        displayDetails = `${t('dashboard.recent_orders.order_form_prefix')}: ${pkg}`;
                     } else {
                         displayDetails = o.details?.details || '-';
                     }
@@ -421,7 +421,8 @@ export const useTracker = () => {
                     customerEmail: o.details?.customerEmail,
                     customerPhone: o.details?.customerPhone,
                     customerCompany: o.details?.customerCompany,
-                    websiteType: o.details?.orderType || o.details?.websiteType,
+                    customerCompany: o.details?.customerCompany,
+                    // websiteType removed
                     orderPackage: o.details?.orderPackage,
                     techStack: o.details?.techStack,
                     message: o.details?.message,
@@ -594,7 +595,7 @@ export const useTracker = () => {
                     customer_phone: details.customerPhone,
                     customer_company: details.customerCompany,
                     service_package: details.orderPackage,
-                    website_type: details.websiteType,
+                    // website_type removed
                     tech_stack: details.techStack,
                     message: details.message,
                     total: parsePrice(details.total),
@@ -665,7 +666,7 @@ export const useTracker = () => {
                     customer_phone: updatedDetails.customerPhone || updatedDetails.customer_phone,
                     customer_company: updatedDetails.customerCompany || updatedDetails.customer_company,
                     service_package: updatedDetails.orderPackage || updatedDetails.service_package,
-                    website_type: updatedDetails.websiteType || updatedDetails.website_type,
+                    // website_type removed
                     tech_stack: updatedDetails.techStack || updatedDetails.tech_stack,
                     message: updatedDetails.message,
                     total: parsePrice(updatedDetails.total),

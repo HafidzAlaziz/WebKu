@@ -6,7 +6,8 @@
         "pricing": "Harga",
         "testimonials": "Testimoni",
         "order": "Order Sekarang",
-        "tagline": "Solusi Digital"
+        "tagline": "Solusi Digital",
+        "blog": "Blog"
     },
     "meta": {
         "default": {
@@ -27,13 +28,43 @@
             "title": "Pesan Website",
             "description": "Form pemesanan jasa pembuatan website. Pilih paket yang sesuai dengan kebutuhan bisnis Anda. Konsultasi gratis!",
             "keywords": "order website, harga buat web, paket pembuatan website, jasa web murah"
+        },
+        "blog": {
+            "title": "Blog & Insight",
+            "description": "Temukan tips terbaru seputar pembuatan website, digital marketing, dan strategi bisnis online untuk meningkatkan omzet UMKM Anda bersama WebKuu.",
+            "keywords": "blog website, tips digital marketing, bisnis online, webkuu blog, tutorial website"
         }
     },
+    "blog": {
+        "title": "Blog & Insight WebKuu",
+        "subtitle": "Tips Website, Digital Marketing, dan Bisnis Online untuk UMKM",
+        "title_short": "Blog",
+        "searchPlaceholder": "Cari artikel...",
+        "categories": "Kategori",
+        "allCategories": "Semua Kategori",
+        "all": "Semua",
+        "readMore": "Baca Selengkapnya",
+        "backToBlog": "Kembali ke Blog",
+        "shareArticle": "Bagikan artikel ini:",
+        "relatedPosts": "Artikel Terkait",
+        "noResults": "Artikel tidak ditemukan",
+        "tryDifferent": "Coba gunakan kata kunci lain atau pilih kategori berbeda.",
+        "loading": "Memuat artikel...",
+        "home": "Beranda",
+        "readingTime": "menit baca",
+        "by": "Oleh",
+        "on": "pada",
+        "in": "di",
+        "ctaTitle": "Ingin Website Profesional Seperti Ini?",
+        "ctaSubtitle": "Konsultasikan kebutuhan digital Anda bersama WebKuu. Kami siap membantu bisnis Anda tumbuh online.",
+        "ctaButton": "Hubungi WebKuu Sekarang",
+        "copied": "Tersalin!"
+    },
     "hero": {
-        "badge": "Solusi Website Custom Premium",
-        "title_part1": "Wujudkan Website",
-        "title_part2": "Impian Anda",
-        "subtitle": "Website profesional, modern, dan berperforma tinggi yang dirancang sempurna untuk bisnis dan brand Anda.",
+        "badge": "Solusi Website Kilat & Hemat",
+        "title_part1": "Website Bagus,",
+        "title_part2": "Murah & Cepat?",
+        "subtitle": "Wujudkan website impian dengan harga bersahabat. Kami menawarkan jasa pembuatan website yang \"Murah tapi Tidak Murahan\", dengan pengerjaan cepat dan hasil kualitas premium.",
         "cta_start": "Mulai Konsultasi",
         "cta_portfolio": "Lihat Portfolio",
         "stats": {
@@ -115,38 +146,24 @@
             "price": "Harga",
             "rp": "Rp",
             "negotiation": "Negosiasi",
-            "discussion": "Harga Diskusi"
+            "discussion": "Harga Negosiasi"
         },
         "plans": {
             "starter": {
-                "name": "Starter / Landing Page",
-                "price": 100000,
+                "name": "Landing Page",
+                "price": 25000,
                 "desc": "Solusi hemat untuk landing page sederhana atau profil usaha.",
                 "features": [
                     "1 Halaman Website",
                     "Desain Rapi & Modern",
                     "Responsif Seluler",
                     "Tombol ke WhatsApp/Sosmed",
-                    "Pengerjaan Cepat (24 Jam)",
+                    "Pengerjaan Cepat",
                     "Gratis Hosting (Subdomain)"
                 ]
             },
-            "umkm": {
-                "name": "Professional / UMKM",
-                "price": 1000000,
-                "desc": "Website bisnis profesional untuk meningkatkan kredibilitas.",
-                "features": [
-                    "Desain Eksklusif (Bukan Template)",
-                    "Hingga 5 Halaman (Home, About, dll)",
-                    "Gratis Domain .com (1 Tahun)",
-                    "Optimasi SEO Dasar (Google)",
-                    "Integrasi Maps & Form Kontak",
-                    "3x Revisi Desain",
-                    "Gratis Pemeliharaan 1 Bulan"
-                ]
-            },
             "custom": {
-                "name": "Enterprise / Full Custom",
+                "name": "Website Custom",
                 "price": "discussion",
                 "desc": "Harga menyesuaikan fitur dan tingkat kesulitan website.",
                 "features": [
@@ -524,23 +541,22 @@
                 "message": "Jelaskan secara detail:\n- Apa tujuan website Anda?\n- Fitur apa saja yang harus ada?\n- Apakah Anda punya referensi desain?\n- Berapa lama pengerjaan yang diinginkan?"
             },
             "options": {
-                "package_starter": "Starter / Landing Page",
-                "package_professional": "Professional / UMKM",
-                "package_enterprise": "Enterprise / Full Custom",
+                "package_starter": "Landing Page",
+                "package_enterprise": "Website Custom",
                 "type_landing": "Landing Page",
                 "type_company": "Company Profile",
                 "type_ecommerce": "Toko Online / E-commerce",
                 "type_portfolio": "Portfolio",
                 "type_umkm": "Website UMKM",
-                "type_custom": "Sistem Custom (Booking, CRM, dll)",
+                "type_custom": "Website Custom",
                 "type_other": "Lainnya",
-                "tech_react": "React.js + Tailwind (Modern & Fast)",
-                "tech_next": "Next.js (High Performance + SEO)",
+                "tech_react": "React.js + Tailwind",
+                "tech_next": "Next.js",
                 "tech_vue": "Vue.js",
-                "tech_wordpress": "WordPress (CMS Ready)",
-                "tech_laravel": "Laravel + PHP (Robust System)",
-                "tech_html": "HTML/CSS/JS (Static Content)",
-                "tech_other": "Kebutuhan Lain (Tulis di deskripsi)"
+                "tech_wordpress": "WordPress",
+                "tech_laravel": "Laravel + PHP",
+                "tech_html": "HTML/CSS/JS",
+                "tech_other": "Kebutuhan Lain"
             },
             "submit": {
                 "default": "Kirim Pesanan Sekarang",
@@ -766,6 +782,7 @@
                 "orders": "Pesanan",
                 "history": "Riwayat",
                 "visitors": "Pengunjung",
+                "blog": "Blog",
                 "settings": "Pengaturan",
                 "logout": "Keluar",
                 "language": "Bahasa",
@@ -901,6 +918,90 @@
                 "total_projects": "Total Proyek",
                 "client_projects": "Proyek Client",
                 "create_projects": "Proyek Internal"
+            }
+        },
+        "blog": {
+            "title": "Manajemen Blog",
+            "subtitle": "Buat dan kelola artikel blog Anda dengan auto-translate",
+            "stats": {
+                "total_posts": "Total Artikel",
+                "total_categories": "Kategori",
+                "last_post": "Artikel Terbaru"
+            },
+            "filters": {
+                "all_categories": "Semua Kategori"
+            },
+            "add_button": "Tambah Artikel Baru",
+            "search_placeholder": "Cari artikel berdasarkan judul atau kategori...",
+            "table": {
+                "article": "Artikel",
+                "category": "Kategori",
+                "status": "Status",
+                "date": "Tanggal",
+                "actions": "Aksi",
+                "empty": "Artikel tidak ditemukan. Buat artikel pertama Anda!"
+            },
+            "form": {
+                "add_title": "Tulis Artikel Baru",
+                "edit_title": "Edit Artikel",
+                "sections": {
+                    "basic": "Informasi Umum",
+                    "content": "Konten Artikel",
+                    "preview": "Pratinjau"
+                },
+                "labels": {
+                    "title": "Judul Artikel",
+                    "slug": "URL Slug (Unik)",
+                    "slug_help": "Digunakan untuk URL artikel (misal: judul-artikel-anda)",
+                    "category": "Kategori",
+                    "excerpt": "Ringkasan Singkat",
+                    "keywords": "Kata Kunci (SEO)",
+                    "content": "Isi Artikel (Mendukung HTML)",
+                    "image": "Gambar Unggulan",
+                    "author": "Nama Penulis",
+                    "marker_en": " (EN)",
+                    "marker_id": " (ID)",
+                    "marker_es": " (ES)",
+                    "marker_fr": " (FR)",
+                    "marker_ja": " (JA)"
+                },
+                "placeholders": {
+                    "title": "misal: 5 Tips Sukses UMKM",
+                    "slug": "misal: 5-tips-sukses-umkm",
+                    "category": "misal: Tips Website",
+                    "excerpt": "Ringkasan singkat artikel Anda...",
+                    "keywords": "misal: tips bisnis, umkm, website (pisahkan dengan koma)",
+                    "content": "Tulis konten Anda di sini...",
+                    "image": "Upload atau tempel URL...",
+                    "image_url": "Atau tempel link gambar di sini (opsional)...",
+                    "author": "Masukkan nama penulis",
+                    "author_default": "Admin WebKuu"
+                },
+                "buttons": {
+                    "save": "Publikasikan Artikel",
+                    "update": "Update Artikel",
+                    "cancel": "Batal",
+                    "translate": "Auto-Translate"
+                },
+                "success": {
+                    "saved": "Artikel berhasil dipublikasikan!",
+                    "updated": "Artikel berhasil diperbarui!"
+                },
+                "translate": {
+                    "fill_en_first": "Isi judul dan konten terlebih dahulu sebelum auto-translate!",
+                    "success": "Berhasil menerjemahkan ke semua bahasa!",
+                    "failed": "Gagal melakukan translasi otomatis."
+                },
+                "validation": {
+                    "fill_required": "Harap lengkapi semua kolom yang bertanda merah!",
+                    "fill_translations": "Harap lengkapi semua bahasa atau klik Auto-Translate!"
+                }
+            },
+            "delete_confirm": {
+                "title": "Hapus Artikel?",
+                "message": "Artikel ini akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan. Anda yakin?",
+                "confirm": "Ya, Hapus",
+                "cancel": "Batal"
             }
         },
         "recent_orders": {

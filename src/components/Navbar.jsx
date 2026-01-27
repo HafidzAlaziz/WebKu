@@ -98,6 +98,7 @@ const Navbar = () => {
         { name: t('nav.home'), href: '#home' },
         { name: t('nav.services'), href: '#services' },
         { name: t('nav.portfolio'), href: '/portfolio', isRoute: true },
+        { name: t('nav.blog'), href: '/blog', isRoute: true },
         { name: t('nav.pricing'), href: '#pricing' },
         { name: t('nav.testimonials'), href: '#testimonials' },
     ];

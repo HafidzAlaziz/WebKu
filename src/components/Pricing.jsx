@@ -17,14 +17,7 @@ const Pricing = () => {
             recommended: false,
             isStarter: true
         },
-        {
-            name: t('pricing.plans.umkm.name'),
-            priceIdr: t('pricing.plans.umkm.price'),
-            description: t('pricing.plans.umkm.desc'),
-            features: t('pricing.plans.umkm.features', { returnObjects: true }),
-            recommended: false,
-            isStarter: true
-        },
+
         {
             name: t('pricing.plans.custom.name'),
             priceIdr: t('pricing.plans.custom.price'),
@@ -45,7 +38,7 @@ const Pricing = () => {
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     {plans.map((plan, index) => (
                         <motion.div
                             key={index}

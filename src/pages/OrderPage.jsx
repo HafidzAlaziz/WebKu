@@ -18,7 +18,6 @@ const OrderPage = () => {
         phone: '',
         company: '',
         package: 'starter',
-        websiteType: '',
         techStack: '',
         message: '',
     });
@@ -34,10 +33,12 @@ const OrderPage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        let newFormData = { ...formData, [name]: value };
+
+        // Auto-select logic not needed anymore as Website Type is removed
+        // But we can keep package changes clean
+        setFormData(newFormData);
+
         // Clear error saat user mulai mengisi
         if (errors[name]) {
             setErrors({
@@ -76,10 +77,7 @@ const OrderPage = () => {
             newErrors.phone = t('order_page.form.validation.phone_max');
         }
 
-        // Validasi Jenis Website
-        if (!formData.websiteType) {
-            newErrors.websiteType = t('order_page.form.validation.type_required');
-        }
+        // Validasi Jenis Website removed
 
         // Validasi Pesan/Deskripsi
         if (!formData.message.trim()) {
@@ -122,7 +120,6 @@ const OrderPage = () => {
         // Format data untuk WhatsApp
         const packageNames = {
             starter: t('order_page.form.options.package_starter'),
-            professional: t('order_page.form.options.package_professional'),
             enterprise: t('order_page.form.options.package_enterprise')
         };
 
@@ -149,7 +146,9 @@ const OrderPage = () => {
 
         waMessage += `📦 *DETAIL PESANAN:*\n`;
         waMessage += `Paket: ${packageNames[formData.package]}\n`;
-        waMessage += `Jenis Website: ${websiteTypes[formData.websiteType] || formData.websiteType}\n`;
+        // Infer website type for WA message
+        const inferredType = formData.package === 'starter' ? 'landing-page' : 'custom-system';
+        waMessage += `Jenis Website: ${websiteTypes[inferredType]}\n`;
         if (formData.techStack) {
             waMessage += `Tech Stack: ${formData.techStack}\n`;
         }
@@ -181,10 +180,10 @@ const OrderPage = () => {
             customerPhone: formData.phone,
             customerCompany: formData.company,
             orderPackage: formData.package,
-            orderType: formData.websiteType,
+            orderType: formData.package === 'starter' ? 'landing-page' : 'custom-system', // Infer from package
             techStack: formData.techStack,
             message: formData.message,
-            total: formData.package === 'starter' ? 100000 : formData.package === 'professional' ? 1000000 : 0,
+            total: formData.package === 'starter' ? 25000 : 0,
             status: 'pending'
         });
 
@@ -199,7 +198,6 @@ const OrderPage = () => {
                 phone: '',
                 company: '',
                 package: 'starter',
-                websiteType: '',
                 techStack: '',
                 message: '',
             });
@@ -432,7 +430,7 @@ const OrderPage = () => {
                                         />
                                     </div>
 
-                                    {/* Paket & Jenis Website */}
+                                    {/* Paket & Tech Stack merged row */}
                                     <div className="grid md:grid-cols-2 gap-8">
                                         <div>
                                             <label htmlFor="package" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
@@ -448,10 +446,7 @@ const OrderPage = () => {
                                                     className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer"
                                                 >
                                                     <option value="starter">
-                                                        {t('order_page.form.options.package_starter')} - {formatCurrency(100000, i18n.language, t)}
-                                                    </option>
-                                                    <option value="professional">
-                                                        {t('order_page.form.options.package_professional')} - {formatCurrency(1000000, i18n.language, t)}
+                                                        {t('order_page.form.options.package_starter')} - {formatCurrency(25000, i18n.language, t)}
                                                     </option>
                                                     <option value="enterprise">
                                                         {t('order_page.form.options.package_enterprise')} - {formatCurrency('discussion', i18n.language, t)}
@@ -464,66 +459,29 @@ const OrderPage = () => {
                                         </div>
 
                                         <div>
-                                            <label htmlFor="websiteType" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                                {t('order_page.form.labels.website_type')} <span className="text-accent">*</span>
+                                            <label htmlFor="techStack" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
+                                                {t('order_page.form.labels.tech_stack')}
                                             </label>
                                             <div className="relative">
                                                 <select
-                                                    id="websiteType"
-                                                    name="websiteType"
-                                                    value={formData.websiteType}
+                                                    id="techStack"
+                                                    name="techStack"
+                                                    value={formData.techStack}
                                                     onChange={handleChange}
-                                                    className={`w-full px-5 py-4 rounded-xl border-2 ${errors.websiteType
-                                                        ? 'border-red-500'
-                                                        : 'border-slate-100 dark:border-slate-700'
-                                                        } dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer`}
+                                                    className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer"
                                                 >
-                                                    <option value="">{t('order_page.form.placeholders.website_type')}</option>
-                                                    <option value="landing-page">{t('order_page.form.options.type_landing')}</option>
-                                                    <option value="company-profile">{t('order_page.form.options.type_company')}</option>
-                                                    <option value="ecommerce">{t('order_page.form.options.type_ecommerce')}</option>
-                                                    <option value="portfolio">{t('order_page.form.options.type_portfolio')}</option>
-                                                    <option value="umkm">{t('order_page.form.options.type_umkm')}</option>
-                                                    <option value="custom-system">{t('order_page.form.options.type_custom')}</option>
-                                                    <option value="other">{t('order_page.form.options.type_other')}</option>
+                                                    <option value="">{t('order_page.form.placeholders.tech_stack')}</option>
+                                                    <option value="react">{t('order_page.form.options.tech_react')}</option>
+                                                    <option value="nextjs">{t('order_page.form.options.tech_next')}</option>
+                                                    <option value="vue">{t('order_page.form.options.tech_vue')}</option>
+                                                    <option value="wordpress">{t('order_page.form.options.tech_wordpress')}</option>
+                                                    <option value="laravel">{t('order_page.form.options.tech_laravel')}</option>
+                                                    <option value="html-css-js">{t('order_page.form.options.tech_html')}</option>
+                                                    <option value="other">{t('order_page.form.options.tech_other')}</option>
                                                 </select>
                                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                                    <Palette size={20} />
+                                                    <Code size={20} />
                                                 </div>
-                                            </div>
-                                            {errors.websiteType && (
-                                                <p className="mt-2 text-sm text-red-500 font-medium flex items-center gap-1">
-                                                    <AlertCircle size={14} />
-                                                    {errors.websiteType}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Tech Stack */}
-                                    <div>
-                                        <label htmlFor="techStack" className="block text-base font-bold text-slate-700 dark:text-slate-200 mb-3">
-                                            {t('order_page.form.labels.tech_stack')}
-                                        </label>
-                                        <div className="relative">
-                                            <select
-                                                id="techStack"
-                                                name="techStack"
-                                                value={formData.techStack}
-                                                onChange={handleChange}
-                                                className="w-full px-5 py-4 rounded-xl border-2 border-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-lg appearance-none cursor-pointer"
-                                            >
-                                                <option value="">{t('order_page.form.placeholders.tech_stack')}</option>
-                                                <option value="react">{t('order_page.form.options.tech_react')}</option>
-                                                <option value="nextjs">{t('order_page.form.options.tech_next')}</option>
-                                                <option value="vue">{t('order_page.form.options.tech_vue')}</option>
-                                                <option value="wordpress">{t('order_page.form.options.tech_wordpress')}</option>
-                                                <option value="laravel">{t('order_page.form.options.tech_laravel')}</option>
-                                                <option value="html-css-js">{t('order_page.form.options.tech_html')}</option>
-                                                <option value="other">{t('order_page.form.options.tech_other')}</option>
-                                            </select>
-                                            <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                                                <Code size={20} />
                                             </div>
                                         </div>
                                     </div>
@@ -599,7 +557,7 @@ const OrderPage = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 };
