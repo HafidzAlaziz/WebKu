@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
 import { useTracker } from './hooks/useTracker';
 import { useEffect } from 'react';
 import AppRoutes from './routes/AppRoutes';
@@ -28,16 +29,18 @@ const PageLoader = () => (
 function App() {
   return (
     <ThemeProvider>
-      <Router>
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
-          <PageTracker>
-            <Suspense fallback={<PageLoader />}>
-              <AppRoutes />
-            </Suspense>
-          </PageTracker>
-          <FloatingSettings />
-        </div>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+            <PageTracker>
+              <Suspense fallback={<PageLoader />}>
+                <AppRoutes />
+              </Suspense>
+            </PageTracker>
+            <FloatingSettings />
+          </div>
+        </Router>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

@@ -22,10 +22,12 @@ import Navbar from '../components/Navbar';
 import DashboardSidebar from '../components/DashboardSidebar';
 import { useTranslation } from 'react-i18next';
 import { useBlog } from '../hooks/useBlog';
+import { useAuth } from '../context/AuthContext';
 
 const DashboardPage = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
+    const { user, signOut } = useAuth();
     const { stats, loading, refresh, deleteOrder, updateOrderStatus, updateOrder } = useTracker();
     const { projects: portfolioProjects, fetchProjects: fetchPortfolio } = usePortfolio();
     const { posts: blogPosts, fetchPosts: fetchBlog } = useBlog();
@@ -135,6 +137,7 @@ const DashboardPage = () => {
     const [itemsPerPage] = useState(10);
     const [activeTab, setActiveTab] = useState('dashboard'); // dashboard, orders, portfolio, history, visitors, etc.
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [imgError, setImgError] = useState(false);
 
     useEffect(() => {
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
@@ -244,11 +247,11 @@ const DashboardPage = () => {
         setShowEditConfirm(false);
     };
 
-    const handleConfirmLogout = () => {
+    const handleConfirmLogout = async () => {
         setShowLogoutConfirm(false);
         setShowLogoutSuccess(true);
-        setTimeout(() => {
-            sessionStorage.removeItem('isAuthenticated');
+        setTimeout(async () => {
+            await signOut();
             navigate('/');
         }, 2000);
     };
@@ -551,14 +554,28 @@ const DashboardPage = () => {
 
                             <div className="flex items-center gap-2 md:gap-3 bg-white dark:bg-slate-800 p-1 md:p-1.5 md:pr-4 rounded-full border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group">
                                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden border-2 border-slate-200 dark:border-slate-600 group-hover:border-blue-500 transition-colors">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=150&h=150&fit=crop&q=80"
-                                        alt="Admin"
-                                        className="w-full h-full object-cover"
-                                    />
+                                    {user?.user_metadata?.avatar_url || user?.user_metadata?.picture ? (
+                                        <img
+                                            src={user?.user_metadata?.avatar_url || user?.user_metadata?.picture}
+                                            alt={user?.user_metadata?.full_name || "Admin"}
+                                            className="w-full h-full object-cover"
+                                            onError={() => setImgError(true)}
+                                            style={{ display: imgError ? 'none' : 'block' }}
+                                        />
+                                    ) : null}
+                                    {(imgError || !(user?.user_metadata?.avatar_url || user?.user_metadata?.picture)) && (
+                                        <div className="w-full h-full flex items-center justify-center bg-slate-100 dark:bg-slate-700">
+                                            <User size={20} className="text-slate-400" />
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="hidden md:flex flex-col">
-                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-tight group-hover:text-blue-600 transition-colors">Admin</h4>
+                                    <h4 className="text-sm font-bold text-slate-900 dark:text-white leading-tight group-hover:text-blue-600 transition-colors">
+                                        {user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'Admin'}
+                                    </h4>
+                                    <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">
+                                        {user?.email || ''}
+                                    </p>
                                 </div>
                             </div>
                         </div>

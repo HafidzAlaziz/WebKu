@@ -365,9 +365,19 @@ export const useTracker = () => {
                 });
 
                 if (lookupType === 'weekly') {
-                    point.views = new Set(dayEvents.filter(e => e.event_type === 'view' && e.details?.visitor_id).map(e => e.details.visitor_id)).size || dayEvents.filter(e => e.event_type === 'view').length;
+                    // Weekly/Daily: Count unique visitors per day
+                    point.views = new Set(
+                        dayEvents
+                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
+                            .map(e => e.details.visitor_id)
+                    ).size;
                 } else {
-                    point.views = dayEvents.filter(e => e.event_type === 'view').length;
+                    // Monthly/Yearly: Still count unique visitors for the period
+                    point.views = new Set(
+                        dayEvents
+                            .filter(e => e.event_type === 'view' && e.details?.visitor_id)
+                            .map(e => e.details.visitor_id)
+                    ).size;
                 }
 
                 const dayOrders = orders.filter(o => {
@@ -443,9 +453,11 @@ export const useTracker = () => {
             const lastHistoryPoint = history[history.length - 1];
             const todayViewsCount = lastHistoryPoint?.views || 0;
 
+            const totalUniqueVisitors = new Set(views.map(v => v.details?.visitor_id).filter(Boolean)).size;
+
             setStats({
                 loading: false,
-                totalViews: views.length,
+                totalViews: totalUniqueVisitors,
                 todayViews: todayViewsCount,
                 totalOrders: orders.length,
                 totalRevenue: completedRevenueIdr + pendingRevenueIdr,
@@ -528,12 +540,23 @@ export const useTracker = () => {
             const path = window.location.pathname;
             if (path.startsWith('/dashboard') || path.startsWith('/login')) return;
 
+            // Session-based guard to prevent concurrent tracking calls (race condition)
+            if (sessionStorage.getItem('is_tracking_in_progress')) return;
+            sessionStorage.setItem('is_tracking_in_progress', 'true');
+
             const today = new Date().toISOString().split('T')[0];
             const storageKey = 'visitor_tracked_today';
-            const lastTrackedDate = localStorage.getItem(storageKey);
-            if (lastTrackedDate === today) return;
+            const visitorId = getVisitorId();
 
-            localStorage.setItem(storageKey, today);
+            // Check if already tracked today (localStorage) or in this session/page (sessionStorage)
+            const lastTrackedDate = localStorage.getItem(storageKey);
+            const isSessionTracked = sessionStorage.getItem(`tracked_${path}_${today}`);
+
+            if (lastTrackedDate === today || isSessionTracked) {
+                sessionStorage.removeItem('is_tracking_in_progress');
+                return;
+            }
+
             const ua = navigator.userAgent;
             let finalDevice = getDeviceType(ua);
 
@@ -564,7 +587,7 @@ export const useTracker = () => {
                     event_type: 'view',
                     details: {
                         path,
-                        visitor_id: getVisitorId(),
+                        visitor_id: visitorId,
                         device: finalDevice,
                         browser: getBrowserInfo(ua),
                         os: getOSInfo(ua),
@@ -576,6 +599,11 @@ export const useTracker = () => {
                 }
             ]);
 
+            // Persist tracking status
+            localStorage.setItem(storageKey, today);
+            sessionStorage.setItem(`tracked_${path}_${today}`, 'true');
+
+            // Cleanup old tracking keys if any
             Object.keys(localStorage).forEach(key => {
                 if (key.startsWith('tracked_views_')) localStorage.removeItem(key);
             });
@@ -583,6 +611,8 @@ export const useTracker = () => {
             sessionStorage.removeItem('view_tracked');
         } catch (err) {
             console.error('Error tracking view:', err);
+        } finally {
+            sessionStorage.removeItem('is_tracking_in_progress');
         }
     };
 

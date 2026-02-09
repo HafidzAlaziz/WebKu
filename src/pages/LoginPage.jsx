@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Lock, User, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Lock, User, ArrowRight, CheckCircle2, AlertCircle, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
+
+// Hardcoded for synchronous checking on login, matching AuthContext
+const ADMIN_EMAILS = ['admin@webkuu.com', 'hafidz@webkuu.com', 'web.kuu3@gmail.com'];
 
 const LoginPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const redirectPath = searchParams.get('redirect') || '/dashboard';
+    const { signIn, signInWithGoogle } = useAuth();
+
+    // Admin Login only - No Sign Up
+    const isSignUp = false;
+
     const [formData, setFormData] = useState({
-        username: '',
+        email: '',
         password: ''
     });
     const [error, setError] = useState('');
@@ -23,13 +35,25 @@ const LoginPage = () => {
         setError('');
     };
 
-    const handleSubmit = (e) => {
+    const handleGoogleLogin = async () => {
+        setError('');
+        setIsSubmitting(true);
+        try {
+            const { error } = await signInWithGoogle();
+            if (error) throw error;
+            // Redirect depends on AuthContext logic or automatic
+        } catch (err) {
+            setError(err.message);
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        // Custom validation for empty fields
-        if (!formData.username.trim()) {
-            setError(t('login.error_empty_username'));
+        if (!formData.email.trim()) {
+            setError(t('login.error_empty_username') || "Email is required");
             return;
         }
 
@@ -40,25 +64,23 @@ const LoginPage = () => {
 
         setIsSubmitting(true);
 
-        // Simulate a small delay for better feel
-        setTimeout(() => {
-            // Hardcoded simple auth logic
-            if (formData.username !== 'admin') {
-                setError(t('login.error_user_not_found'));
-                setIsSubmitting(false);
-            } else if (formData.password !== 'admin123') {
-                setError(t('login.error_wrong_password'));
-                setIsSubmitting(false);
-            } else {
-                setShowSuccess(true);
-                sessionStorage.setItem('isAuthenticated', 'true');
+        try {
+            const { error: signInError, data } = await signIn(formData.email, formData.password);
+            if (signInError) throw signInError;
 
-                // Delay redirect to show the success message
-                setTimeout(() => {
-                    navigate('/dashboard');
-                }, 2000);
-            }
-        }, 600);
+            setShowSuccess(true);
+
+            // Determine redirect path based on role
+            const isUserAdmin = data.user && ADMIN_EMAILS.includes(data.user.email);
+            const targetPath = isUserAdmin ? '/dashboard' : '/blog'; // If not admin, go to blog
+
+            setTimeout(() => {
+                navigate(targetPath);
+            }, 1000);
+        } catch (err) {
+            setError(err.message);
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -97,31 +119,47 @@ const LoginPage = () => {
                                 <Lock size={32} />
                             </div>
                             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-                                {t('login.title')}
+                                {t('Admin Login')}
                             </h2>
                             <p className="text-slate-500 dark:text-slate-400 mt-2">
-                                {t('login.subtitle')}
+                                {t('Enter your credentials to access dashboard')}
                             </p>
+                        </div>
+
+                        <button
+                            onClick={handleGoogleLogin}
+                            disabled={showSuccess || isSubmitting}
+                            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-white border border-slate-300 dark:border-slate-600 rounded-xl hover:bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all shadow-sm hover:shadow-md group mb-6"
+                        >
+                            <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
+                            <span className="font-bold text-slate-700 dark:text-white">
+                                {t('login.continue_with_google') || "Continue with Google"}
+                            </span>
+                        </button>
+
+                        <div className="relative flex justify-center text-xs mb-6">
+                            <div className="absolute inset-x-0 top-1/2 h-px bg-slate-200 dark:bg-slate-700"></div>
+                            <span className="relative bg-white dark:bg-slate-800 px-2 text-slate-400">Or use email</span>
                         </div>
 
                         <form onSubmit={handleSubmit} noValidate className="space-y-6">
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    {t('login.username')}
+                                    Email
                                 </label>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                                        <User size={20} />
+                                        <Mail size={20} />
                                     </div>
                                     <input
-                                        type="text"
-                                        name="username"
-                                        value={formData.username}
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
                                         onChange={handleChange}
                                         disabled={showSuccess || isSubmitting}
-                                        className={`block w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-900 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-all outline-none ${error && !formData.username.trim() ? 'border-red-500 shadow-sm shadow-red-500/10' : 'border-slate-200 dark:border-slate-700'
+                                        className={`block w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-900 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-all outline-none ${error && !formData.email.trim() ? 'border-red-500 shadow-sm shadow-red-500/10' : 'border-slate-200 dark:border-slate-700'
                                             }`}
-                                        placeholder={t('login.username_placeholder')}
+                                        placeholder="your@email.com"
                                     />
                                 </div>
                             </div>

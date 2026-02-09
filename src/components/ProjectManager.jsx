@@ -439,7 +439,6 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
     const [loading, setLoading] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const [errors, setErrors] = useState({});
-    const [activeTab, setActiveTab] = useState('en');
     const [isTranslating, setIsTranslating] = useState(false);
     const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
     const [showUnsavedModal, setShowUnsavedModal] = useState(false);
@@ -529,7 +528,6 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
     };
     const validateForm = () => {
         const newErrors = {};
-        const langs = ['en', 'id', 'es', 'fr', 'ja'];
 
         // Validate Thumbnail (Required)
         if (!formData.thumbnail?.trim()) {
@@ -558,54 +556,28 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
             newErrors.name_en = t('dashboard.portfolio.form.validation.duplicate_name') || 'Project name already exists';
         }
 
-        // Validate ALL Language Fields
-        langs.forEach(lang => {
-            // Name
-            if (!formData[`name_${lang}`]?.trim()) newErrors[`name_${lang}`] = t('dashboard.portfolio.form.validation.required');
-            // Type
-            if (!formData[`type_${lang}`]?.trim()) newErrors[`type_${lang}`] = t('dashboard.portfolio.form.validation.required');
-            // Short Description
-            if (!formData[`short_desc_${lang}`]?.trim()) newErrors[`short_desc_${lang}`] = t('dashboard.portfolio.form.validation.required');
-            // Full Description
-            if (!formData[`full_desc_${lang}`]?.trim()) newErrors[`full_desc_${lang}`] = t('dashboard.portfolio.form.validation.required');
-            // Duration
-            if (!formData[`duration_${lang}`]?.trim()) newErrors[`duration_${lang}`] = t('dashboard.portfolio.form.validation.required');
-            // Features (At least one)
-            if (!formData[`features_${lang}`] || formData[`features_${lang}`].length === 0) {
-                newErrors[`features_${lang}`] = t('dashboard.portfolio.form.validation.at_least_one');
-            }
-        });
+        // Validate Master Language Fields (using 'en' as master internal state)
+        if (!formData.name_en?.trim()) newErrors.name_en = t('dashboard.portfolio.form.validation.required');
+        if (!formData.type_en?.trim()) newErrors.type_en = t('dashboard.portfolio.form.validation.required');
+        if (!formData.short_desc_en?.trim()) newErrors.short_desc_en = t('dashboard.portfolio.form.validation.required');
+        if (!formData.full_desc_en?.trim()) newErrors.full_desc_en = t('dashboard.portfolio.form.validation.required');
+        if (!formData.duration_en?.trim()) newErrors.duration_en = t('dashboard.portfolio.form.validation.required');
+        if (!formData.features_en || formData.features_en.length === 0) {
+            newErrors.features_en = t('dashboard.portfolio.form.validation.at_least_one');
+        }
 
         setErrors(newErrors);
 
         // Auto-scroll to first error
         if (Object.keys(newErrors).length > 0) {
             const firstErrorKey = Object.keys(newErrors)[0];
-            const errorLang = langs.find(l => firstErrorKey.includes(`_${l}`));
-
-            // If the error is in a language tab
-            if (errorLang) {
-                if (errorLang !== activeTab) {
-                    setActiveTab(errorLang);
+            setTimeout(() => {
+                const element = document.getElementById(`input-${firstErrorKey}`);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    element.focus();
                 }
-                // Small timeout to allow tab switch rendering or just wait for next tick
-                setTimeout(() => {
-                    const element = document.getElementById(`input-${firstErrorKey}`);
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        element.focus();
-                    }
-                }, 100);
-            } else {
-                // Static fields (thumbnail, technologies, etc.)
-                setTimeout(() => {
-                    const element = document.getElementById(`input-${firstErrorKey}`);
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        element.focus();
-                    }
-                }, 100);
-            }
+            }, 100);
         }
 
         return Object.keys(newErrors).length === 0;
@@ -614,17 +586,66 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!validateForm()) {
+        // Basic validation for master language (en)
+        if (!formData.name_en?.trim() || !formData.full_desc_en?.trim()) {
+            showToast(t('dashboard.portfolio.form.validation.required'), 'error');
+            return;
+        }
+
+        setLoading(true);
+
+        const langs = ['en', 'id', 'es', 'fr', 'ja'];
+        const sourceLang = 'auto'; // Detect automatically from input
+        let finalFormData = { ...formData };
+
+        try {
+            setIsTranslating(true);
+            await Promise.all(langs.map(async (target) => {
+                // Translate basic fields
+                const [tName, tType, tShortDesc, tFullDesc, tDuration] = await Promise.all([
+                    translateText(finalFormData.name_en, target, sourceLang),
+                    translateText(finalFormData.type_en, target, sourceLang),
+                    translateText(finalFormData.short_desc_en, target, sourceLang),
+                    translateText(finalFormData.full_desc_en, target, sourceLang),
+                    translateText(finalFormData.duration_en, target, sourceLang)
+                ]);
+
+                finalFormData[`name_${target}`] = tName;
+                finalFormData[`type_${target}`] = tType;
+                finalFormData[`short_desc_${target}`] = tShortDesc;
+                finalFormData[`full_desc_${target}`] = tFullDesc;
+                finalFormData[`duration_${target}`] = tDuration;
+
+                // Translate features array if present
+                const sourceFeatures = finalFormData.features_en || [];
+                if (sourceFeatures.length > 0) {
+                    finalFormData[`features_${target}`] = await Promise.all(
+                        sourceFeatures.map(f => translateText(f, target, sourceLang))
+                    );
+                }
+            }));
+
+            setFormData(finalFormData);
+        } catch (err) {
+            console.error('Portfolio background translation failed:', err);
+        } finally {
+            setIsTranslating(false);
+        }
+
+        // Final check for essential fields (like thumbnail and techs)
+        if (!finalFormData.thumbnail?.trim() || !finalFormData.technologies?.trim()) {
+            // Re-run validation for UI feedback
+            validateForm();
+            setLoading(false);
             return;
         }
 
         // Convert technologies string to array before saving
         const dataToSave = {
-            ...formData,
-            technologies: formData.technologies ? formData.technologies.split(',').map(i => i.trim()).filter(i => i !== '') : []
+            ...finalFormData,
+            technologies: finalFormData.technologies ? finalFormData.technologies.split(',').map(i => i.trim()).filter(i => i !== '') : []
         };
 
-        setLoading(true);
         const result = project ? await onSave(project.id, dataToSave) : await onSave(dataToSave);
         if (result.success) {
             setHasUnsavedChanges(false);
@@ -636,14 +657,6 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
             // Check if it's a duplicate key error
             if (result.error?.includes('duplicate key') || result.error?.includes('name_en_key')) {
                 setErrors({ name_en: t('dashboard.portfolio.form.validation.duplicate_name') || 'Project name already exists' });
-                setActiveTab('en');
-                setTimeout(() => {
-                    const element = document.getElementById('input-name_en');
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        element.focus();
-                    }
-                }, 100);
             } else {
                 showToast(t('dashboard.portfolio.form.validation.save_error') + result.error, 'error');
             }
@@ -749,53 +762,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
         return () => window.removeEventListener('paste', onGlobalPaste);
     }, [isOpen]);
 
-    const handleAutoTranslate = async () => {
-        const sourceLang = activeTab;
-        const targetLangs = languages.map(l => l.code).filter(c => c !== sourceLang);
 
-        const sourceData = {
-            name: formData[`name_${sourceLang}`],
-            type: formData[`type_${sourceLang}`],
-            short_desc: formData[`short_desc_${sourceLang}`],
-            full_desc: formData[`full_desc_${sourceLang}`],
-            duration: formData[`duration_${sourceLang}`],
-            features: formData[`features_${sourceLang}`] || []
-        };
-
-        if (!sourceData.name && !sourceData.full_desc) {
-            showToast(t('dashboard.portfolio.form.actions.translate_empty'), 'error');
-            return;
-        }
-
-        setIsTranslating(true);
-        try {
-            const newFormData = { ...formData };
-
-            await Promise.all(targetLangs.map(async (target) => {
-                // Translate basic fields
-                if (sourceData.name) newFormData[`name_${target}`] = await translateText(sourceData.name, target, sourceLang);
-                if (sourceData.type) newFormData[`type_${target}`] = await translateText(sourceData.type, target, sourceLang);
-                if (sourceData.short_desc) newFormData[`short_desc_${target}`] = await translateText(sourceData.short_desc, target, sourceLang);
-                if (sourceData.full_desc) newFormData[`full_desc_${target}`] = await translateText(sourceData.full_desc, target, sourceLang);
-                if (sourceData.duration) newFormData[`duration_${target}`] = await translateText(sourceData.duration, target, sourceLang);
-
-                // Translate features array
-                if (sourceData.features.length > 0) {
-                    newFormData[`features_${target}`] = await Promise.all(
-                        sourceData.features.map(f => translateText(f, target, sourceLang))
-                    );
-                }
-            }));
-
-            setFormData(newFormData);
-            setHasUnsavedChanges(true);
-        } catch (error) {
-            console.error("Auto-translation failed:", error);
-            showToast(t('dashboard.portfolio.form.actions.translate_error'), 'error');
-        } finally {
-            setIsTranslating(false);
-        }
-    };
 
     return (
         <>
@@ -822,30 +789,7 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                             <h4 className="text-sm font-bold text-blue-500 uppercase tracking-widest flex items-center gap-2">
                                 <ImageIcon size={16} /> {t('dashboard.portfolio.form.sections.basic')}
                             </h4>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.name_id')}</label>
-                                    <input
-                                        id="input-name_id"
-                                        type="text"
-                                        value={formData.name_id}
-                                        onChange={(e) => handleFieldChange('name_id', e.target.value)}
-                                        className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.name_id ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all`}
-                                    />
-                                    {errors.name_id && <p className="text-red-500 text-xs mt-1">{errors.name_id}</p>}
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.name_en')}</label>
-                                    <input
-                                        id="input-name_en"
-                                        type="text"
-                                        value={formData.name_en}
-                                        onChange={(e) => handleFieldChange('name_en', e.target.value)}
-                                        className={`w-full bg-slate-50 dark:bg-slate-900 border ${errors.name_en ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white transition-all`}
-                                    />
-                                    {errors.name_en && <p className="text-red-500 text-xs mt-1">{errors.name_en}</p>}
-                                </div>
-                            </div>
+
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.category')}</label>
@@ -955,138 +899,85 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
 
                         {/* Content & Localization */}
                         <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <h4 className="text-sm font-bold text-emerald-500 uppercase tracking-widest flex items-center gap-2">
-                                    <List size={16} /> {t('dashboard.portfolio.form.sections.content')}
-                                </h4>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        type="button"
-                                        onClick={handleAutoTranslate}
-                                        disabled={isTranslating}
-                                        className="flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-[10px] font-bold rounded-lg transition-all shadow-sm shadow-blue-500/20 disabled:opacity-50"
-                                    >
-                                        {isTranslating ? (
-                                            <RefreshCw size={12} className="animate-spin" />
-                                        ) : (
-                                            <Sparkles size={12} />
-                                        )}
-                                        {isTranslating ? t('dashboard.portfolio.form.actions.translating') : t('dashboard.portfolio.form.actions.translate')}
-                                    </button>
-                                    <div className="flex bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border border-slate-200 dark:border-slate-700">
-                                        {languages.map(lang => {
-                                            // Check if this language has ANY errors
-                                            const hasError =
-                                                errors[`name_${lang.code}`] ||
-                                                errors[`type_${lang.code}`] ||
-                                                errors[`short_desc_${lang.code}`] ||
-                                                errors[`full_desc_${lang.code}`] ||
-                                                errors[`duration_${lang.code}`] ||
-                                                errors[`features_${lang.code}`];
+                            <h4 className="text-sm font-bold text-emerald-500 uppercase tracking-widest flex items-center gap-2">
+                                <List size={16} /> {t('dashboard.portfolio.form.sections.content')}
+                            </h4>
 
-                                            return (
-                                                <button
-                                                    key={lang.code}
-                                                    type="button"
-                                                    onClick={() => setActiveTab(lang.code)}
-                                                    className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${activeTab === lang.code
-                                                        ? 'bg-white dark:bg-slate-800 text-blue-600 shadow-sm border border-slate-200 dark:border-slate-600'
-                                                        : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-                                                        } ${hasError ? 'text-red-500 hover:text-red-600' : ''}`}
-                                                >
-                                                    <span>{lang.flag}</span>
-                                                    <span className="hidden sm:inline">{lang.label}</span>
-                                                    <span className="sm:hidden">{lang.code.toUpperCase()}</span>
-                                                    {hasError && <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>}
-                                                </button>
-                                            );
-                                        })}
+                            <div className="space-y-6 p-6 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-700 relative overflow-hidden">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="md:col-span-2">
+                                        <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.project_name')}</label>
+                                        <input
+                                            id="input-name_en"
+                                            type="text"
+                                            value={formData.name_en || ''}
+                                            onChange={(e) => handleFieldChange('name_en', e.target.value)}
+                                            className={`w-full bg-white dark:bg-slate-800 border ${errors.name_en ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
+                                            placeholder={t('dashboard.portfolio.form.placeholders.name')}
+                                        />
+                                        {errors.name_en && <p className="text-red-500 text-xs mt-1">{errors.name_en}</p>}
                                     </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.type')}</label>
+                                        <input
+                                            id="input-type_en"
+                                            type="text"
+                                            value={formData.type_en || ''}
+                                            onChange={(e) => handleFieldChange('type_en', e.target.value)}
+                                            className={`w-full bg-white dark:bg-slate-800 border ${errors.type_en ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
+                                            placeholder={t('dashboard.portfolio.form.placeholders.type')}
+                                        />
+                                        {errors.type_en && <p className="text-red-500 text-xs mt-1">{errors.type_en}</p>}
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.duration')}</label>
+                                        <input
+                                            id="input-duration_en"
+                                            type="text"
+                                            value={formData.duration_en || ''}
+                                            onChange={(e) => handleFieldChange('duration_en', e.target.value)}
+                                            className={`w-full bg-white dark:bg-slate-800 border ${errors.duration_en ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
+                                            placeholder={t('dashboard.portfolio.form.placeholders.duration')}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.short_description')}</label>
+                                    <input
+                                        id="input-short_desc_en"
+                                        type="text"
+                                        value={formData.short_desc_en || ''}
+                                        onChange={(e) => handleFieldChange('short_desc_en', e.target.value)}
+                                        className={`w-full bg-white dark:bg-slate-800 border ${errors.short_desc_en ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
+                                        placeholder={t('dashboard.portfolio.form.placeholders.short_desc')}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.full_description')}</label>
+                                    <textarea
+                                        id="input-full_desc_en"
+                                        rows={4}
+                                        value={formData.full_desc_en || ''}
+                                        onChange={(e) => handleFieldChange('full_desc_en', e.target.value)}
+                                        className={`w-full bg-white dark:bg-slate-800 border ${errors.full_desc_en ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
+                                        placeholder={t('dashboard.portfolio.form.placeholders.full_desc')}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.features')}</label>
+                                    <textarea
+                                        id="input-features_en"
+                                        rows={2}
+                                        value={(formData.features_en || []).join(', ')}
+                                        onChange={(e) => handleArrayInput('features_en', e.target.value)}
+                                        className={`w-full bg-white dark:bg-slate-800 border ${errors.features_en ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
+                                        placeholder={t('dashboard.portfolio.form.placeholders.features')}
+                                    />
                                 </div>
                             </div>
-
-                            {languages.map(lang => (
-                                <div key={lang.code} className={activeTab === lang.code ? 'block animate-in fade-in slide-in-from-top-2 duration-300' : 'hidden'}>
-                                    <div className="space-y-4 p-6 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-slate-700 relative overflow-hidden">
-                                        <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
-                                            <span className="text-6xl font-black">{lang.code.toUpperCase()}</span>
-                                        </div>
-
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.project_name')} ({lang.code})</label>
-                                                <input
-                                                    id={`input-name_${lang.code}`}
-                                                    type="text"
-                                                    value={formData[`name_${lang.code}`] || ''}
-                                                    onChange={(e) => handleFieldChange(`name_${lang.code}`, e.target.value)}
-                                                    className={`w-full bg-white dark:bg-slate-800 border ${errors[`name_${lang.code}`] ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
-                                                    placeholder={t('dashboard.portfolio.form.placeholders.name')}
-                                                />
-                                                {errors[`name_${lang.code}`] && <p className="text-red-500 text-xs mt-1">{errors[`name_${lang.code}`]}</p>}
-                                            </div>
-                                            <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.type')} ({lang.code})</label>
-                                                <input
-                                                    id={`input-type_${lang.code}`}
-                                                    type="text"
-                                                    value={formData[`type_${lang.code}`] || ''}
-                                                    onChange={(e) => handleFieldChange(`type_${lang.code}`, e.target.value)}
-                                                    className={`w-full bg-white dark:bg-slate-800 border ${errors[`type_${lang.code}`] ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
-                                                    placeholder={t('dashboard.portfolio.form.placeholders.type')}
-                                                />
-                                                {errors[`type_${lang.code}`] && <p className="text-red-500 text-xs mt-1">{errors[`type_${lang.code}`]}</p>}
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.short_description')} ({lang.code})</label>
-                                            <input
-                                                id={`input-short_desc_${lang.code}`}
-                                                type="text"
-                                                value={formData[`short_desc_${lang.code}`] || ''}
-                                                onChange={(e) => handleFieldChange(`short_desc_${lang.code}`, e.target.value)}
-                                                className={`w-full bg-white dark:bg-slate-800 border ${errors[`short_desc_${lang.code}`] ? 'border-red-500' : 'border-slate-200 dark:border-slate-700'} rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white`}
-                                                placeholder={t('dashboard.portfolio.form.placeholders.short_desc')}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.full_description')} ({lang.code})</label>
-                                            <textarea
-                                                rows={3}
-                                                value={formData[`full_desc_${lang.code}`] || ''}
-                                                onChange={(e) => setFormData(prev => ({ ...prev, [`full_desc_${lang.code}`]: e.target.value }))}
-                                                className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
-                                                placeholder={t('dashboard.portfolio.form.placeholders.full_desc')}
-                                            />
-                                        </div>
-
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.duration')} ({lang.code})</label>
-                                                <input
-                                                    type="text"
-                                                    value={formData[`duration_${lang.code}`] || ''}
-                                                    onChange={(e) => setFormData(prev => ({ ...prev, [`duration_${lang.code}`]: e.target.value }))}
-                                                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
-                                                    placeholder={t('dashboard.portfolio.form.placeholders.duration')}
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.features')} ({lang.code})</label>
-                                                <textarea
-                                                    rows={1}
-                                                    value={(formData[`features_${lang.code}`] || []).join(', ')}
-                                                    onChange={(e) => handleArrayInput(`features_${lang.code}`, e.target.value)}
-                                                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
-                                                    placeholder={t('dashboard.portfolio.form.placeholders.features')}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
                         </div>
 
                         {/* Meta Data */}
@@ -1112,31 +1003,9 @@ const ProjectForm = ({ isOpen, onClose, project, onSave }) => {
                                     <input
                                         type="url"
                                         value={formData.demo_link}
-                                        onChange={(e) => setFormData(prev => ({ ...prev, demo_link: e.target.value }))}
+                                        onChange={(e) => handleFieldChange('demo_link', e.target.value)}
                                         className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
                                         placeholder={t('dashboard.portfolio.form.placeholders.demo')}
-                                    />
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.features_id')}</label>
-                                    <textarea
-                                        rows={2}
-                                        value={formData.features_id.join(', ')}
-                                        onChange={(e) => handleArrayInput('features_id', e.target.value)}
-                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
-                                        placeholder={t('dashboard.portfolio.form.placeholders.features')}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-xs font-bold text-slate-500 uppercase mb-1">{t('dashboard.portfolio.form.labels.features_en')}</label>
-                                    <textarea
-                                        rows={2}
-                                        value={formData.features_en.join(', ')}
-                                        onChange={(e) => handleArrayInput('features_en', e.target.value)}
-                                        className="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 focus:ring-2 focus:ring-blue-500 outline-none dark:text-white"
-                                        placeholder={t('dashboard.portfolio.form.placeholders.features')}
                                     />
                                 </div>
                             </div>

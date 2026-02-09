@@ -3,9 +3,11 @@ import { supabase } from '../lib/supabaseClient';
 
 export const useBlog = () => {
     const [posts, setPosts] = useState([]);
+    const [pendingPosts, setPendingPosts] = useState([]); // New state for pending posts
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    // Fetch only approved posts for public view
     const fetchPosts = useCallback(async () => {
         setLoading(true);
         setError(null);
@@ -13,12 +15,34 @@ export const useBlog = () => {
             const { data, error: fetchError } = await supabase
                 .from('blog_posts')
                 .select('*')
+                .eq('status', 'approved') // Only approved posts
                 .order('date', { ascending: false });
 
             if (fetchError) throw fetchError;
             setPosts(data || []);
         } catch (err) {
             console.error('Error fetching blog posts:', err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    // Fetch all posts (or specifically pending) for admin
+    const fetchPendingPosts = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const { data, error: fetchError } = await supabase
+                .from('blog_posts')
+                .select('*')
+                .eq('status', 'pending')
+                .order('date', { ascending: false });
+
+            if (fetchError) throw fetchError;
+            setPendingPosts(data || []);
+        } catch (err) {
+            console.error('Error fetching pending posts:', err);
             setError(err.message);
         } finally {
             setLoading(false);
@@ -39,7 +63,7 @@ export const useBlog = () => {
             return data;
         } catch (err) {
             console.error('Error fetching blog post:', err);
-            setError(err.message);
+            setError(err['message']);
             return null;
         } finally {
             setLoading(false);
@@ -49,13 +73,27 @@ export const useBlog = () => {
     const addPost = async (postData) => {
         setLoading(true);
         try {
+            // Default status is 'pending' unless specified (e.g. by admin)
+            const newPost = {
+                ...postData,
+                status: postData.status || 'pending'
+            };
+
             const { data, error: insertError } = await supabase
                 .from('blog_posts')
-                .insert([postData])
+                .insert([newPost])
                 .select();
 
             if (insertError) throw insertError;
-            await fetchPosts();
+
+            // If it was approved, refresh public list
+            if (newPost.status === 'approved') {
+                await fetchPosts();
+            } else {
+                // If pending, refresh pending list (if we are admin watching it)
+                await fetchPendingPosts();
+            }
+
             return { success: true, data };
         } catch (err) {
             console.error('Error adding blog post:', err);
@@ -75,7 +113,11 @@ export const useBlog = () => {
                 .select();
 
             if (updateError) throw updateError;
+
+            // Refresh both lists to be safe
             await fetchPosts();
+            await fetchPendingPosts();
+
             return { success: true, data };
         } catch (err) {
             console.error('Error updating blog post:', err);
@@ -83,6 +125,10 @@ export const useBlog = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const updatePostStatus = async (id, status) => {
+        return await updatePost(id, { status });
     };
 
     const deletePost = async (id) => {
@@ -94,7 +140,10 @@ export const useBlog = () => {
                 .eq('id', id);
 
             if (deleteError) throw deleteError;
+
             await fetchPosts();
+            await fetchPendingPosts();
+
             return { success: true };
         } catch (err) {
             console.error('Error deleting blog post:', err);
@@ -132,12 +181,15 @@ export const useBlog = () => {
 
     return {
         posts,
+        pendingPosts,
         loading,
         error,
         fetchPosts,
+        fetchPendingPosts, // Export this
         fetchPostBySlug,
         addPost,
         updatePost,
+        updatePostStatus, // Export this
         deletePost,
         uploadImage
     };

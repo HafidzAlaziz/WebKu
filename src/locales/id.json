@@ -58,7 +58,12 @@
         "ctaTitle": "Ingin Website Profesional Seperti Ini?",
         "ctaSubtitle": "Konsultasikan kebutuhan digital Anda bersama WebKuu. Kami siap membantu bisnis Anda tumbuh online.",
         "ctaButton": "Hubungi WebKuu Sekarang",
-        "copied": "Tersalin!"
+        "copied": "Tersalin!",
+        "write_article": "Tulis Artikel",
+        "my_articles": "Artikel Saya",
+        "logout": "Keluar",
+        "login": "Masuk",
+        "login_to_write": "Login untuk Menulis Artikel"
     },
     "hero": {
         "badge": "Solusi Website Kilat & Hemat",
@@ -923,6 +928,10 @@
         "blog": {
             "title": "Manajemen Blog",
             "subtitle": "Buat dan kelola artikel blog Anda dengan auto-translate",
+            "menu": {
+                "all_posts": "Semua Artikel",
+                "pending": "Menunggu Review"
+            },
             "stats": {
                 "total_posts": "Total Artikel",
                 "total_categories": "Kategori",
@@ -1073,6 +1082,7 @@
         "error_wrong_password": "Password salah",
         "error_empty_username": "Silakan masukkan username Anda",
         "error_empty_password": "Silakan masukkan password Anda",
-        "success_message": "Login berhasil! Mengalihkan ke dashboard..."
+        "success_message": "Login berhasil! Mengalihkan ke dashboard...",
+        "continue_with_google": "Lanjutkan dengan Google"
     }
 }

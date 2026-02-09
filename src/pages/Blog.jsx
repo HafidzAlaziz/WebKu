@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Search, X } from 'lucide-react';
+import { Search, X, Plus } from 'lucide-react';
 import { blogPosts, categories } from '../data/blogData';
 import BlogCard from '../components/BlogCard';
 import BlogSidebar from '../components/BlogSidebar';
 import Pagination from '../components/Pagination';
 import { useTranslation } from 'react-i18next';
 import { useBlog } from '../hooks/useBlog';
+import { useAuth } from '../context/AuthContext';
+import { AlertCircle, CheckCircle } from 'lucide-react';
+import BlogForm from '../components/BlogForm';
+
+import LoginModal from '../components/LoginModal';
+import UserMenu from '../components/UserMenu';
+import MyArticlesModal from '../components/MyArticlesModal';
 
 // Mobile Filter Component - Moved outside to prevent re-mounting on state changes
 const MobileFilters = ({ searchTerm, setSearchTerm, selectedCategory, setSelectedCategory, dynamicCategories, t }) => (
@@ -100,13 +107,25 @@ const FloatingMobileCTA = ({ showFloatingCTA, setShowFloatingCTA, t }) => {
 
 const Blog = () => {
     const { t, i18n } = useTranslation();
-    const { posts: dbPosts, loading, fetchPosts } = useBlog();
+    const { posts: dbPosts, loading, fetchPosts, addPost } = useBlog();
+    const { user } = useAuth();
+    const navigate = useNavigate();
+
+    const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const [isMyArticlesModalOpen, setIsMyArticlesModalOpen] = useState(false);
     const [posts, setPosts] = useState([]);
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(4);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+
+    const showToast = (message, type = 'success') => {
+        setToast({ show: true, message, type });
+        setTimeout(() => setToast(prev => ({ ...prev, show: false })), 4000);
+    };
 
     useEffect(() => {
         fetchPosts();
@@ -175,6 +194,25 @@ const Blog = () => {
     // Floating Mobile CTA state
     const [showFloatingCTA, setShowFloatingCTA] = useState(true);
 
+    const handleWriteClick = () => {
+        if (!user) {
+            setIsLoginModalOpen(true);
+            return;
+        }
+        setIsWriteModalOpen(true);
+    };
+
+    const handleSaveArticle = async (data) => {
+        // Status is handled by default in addPost as 'pending'
+        // But we can explicitly set it to be sure/clear
+        return await addPost({
+            ...data,
+            status: 'pending',
+            author_id: user.id, // If RLS needs it
+            author: user.user_metadata?.full_name || user.email.split('@')[0] // Default author name
+        });
+    };
+
 
     return (
         <>
@@ -205,6 +243,26 @@ const Blog = () => {
                             <Link to="/" className="hover:text-primary dark:hover:text-brand-emerald-400 transition-colors">{t('blog.home')}</Link>
                             <span>/</span>
                             <span className="text-primary dark:text-brand-emerald-400 font-medium">{t('blog.title_short')}</span>
+                        </div>
+
+                        <div className="mt-6 flex justify-center">
+                            {user ? (
+                                <div className="flex flex-col items-center gap-4">
+                                    <UserMenu
+                                        onWriteClick={() => setIsWriteModalOpen(true)}
+                                        onMyArticlesClick={() => setIsMyArticlesModalOpen(true)}
+                                    />
+                                    {/* Optional: Add a direct Write button too if preferred, but menu has it */}
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={handleWriteClick}
+                                    className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 hover:-translate-y-1 transform"
+                                >
+                                    <Plus size={18} />
+                                    {t('blog.write_article') || 'Write Article'}
+                                </button>
+                            )}
                         </div>
                     </div>
 
@@ -261,12 +319,59 @@ const Blog = () => {
                 </div>
             </motion.div>
 
+            {/* Write Article Modal */}
+            <AnimatePresence>
+                {isWriteModalOpen && (
+                    <BlogForm
+                        isOpen={isWriteModalOpen}
+                        onClose={() => setIsWriteModalOpen(false)}
+                        onSave={handleSaveArticle}
+                        showToast={showToast}
+                        isPublic={true}
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Login Modal */}
+
+            <LoginModal
+                isOpen={isLoginModalOpen}
+                onClose={() => setIsLoginModalOpen(false)}
+            />
+
+            <MyArticlesModal
+                isOpen={isMyArticlesModalOpen}
+                onClose={() => setIsMyArticlesModalOpen(false)}
+            />
+
             {/* Floating Mobile CTA */}
             <FloatingMobileCTA
                 showFloatingCTA={showFloatingCTA}
                 setShowFloatingCTA={setShowFloatingCTA}
                 t={t}
             />
+
+            {/* Notification Toast */}
+            <AnimatePresence>
+                {toast.show && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 50, y: -20 }}
+                        animate={{ opacity: 1, x: 0, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className={`fixed top-24 right-6 z-[200] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border backdrop-blur-sm ${toast.type === 'error'
+                            ? 'bg-red-600 text-white border-red-500/20'
+                            : 'bg-emerald-600 text-white border-emerald-500/20'
+                            }`}
+                    >
+                        <div className="bg-white/20 p-2 rounded-xl">
+                            {toast.type === 'error' ? <AlertCircle size={20} className="animate-pulse" /> : <CheckCircle size={20} className="animate-bounce" />}
+                        </div>
+                        <div>
+                            <span className="font-bold text-sm">{toast.message}</span>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 };

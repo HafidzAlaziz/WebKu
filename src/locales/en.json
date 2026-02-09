@@ -58,7 +58,12 @@
         "ctaTitle": "Want a Professional Website Like This?",
         "ctaSubtitle": "Consult your digital needs with WebKuu. We are ready to help your business grow online.",
         "ctaButton": "Contact WebKuu Now",
-        "copied": "Copied!"
+        "copied": "Copied!",
+        "write_article": "Write Article",
+        "my_articles": "My Articles",
+        "logout": "Logout",
+        "login": "Login",
+        "login_to_write": "Login to Write Article"
     },
     "hero": {
         "badge": "Fast & Budget-Friendly Solution",
@@ -942,6 +947,10 @@
         "blog": {
             "title": "Blog Management",
             "subtitle": "Create and manage your blog articles with auto-translation",
+            "menu": {
+                "all_posts": "All Posts",
+                "pending": "Pending Review"
+            },
             "stats": {
                 "total_posts": "Total Posts",
                 "total_categories": "Total Categories",
@@ -1092,6 +1101,7 @@
         "error_wrong_password": "Incorrect password",
         "error_empty_username": "Please enter your username",
         "error_empty_password": "Please enter your password",
-        "success_message": "Login successful! Redirecting to dashboard..."
+        "success_message": "Login successful! Redirecting to dashboard...",
+        "continue_with_google": "Continue with Google"
     }
 }

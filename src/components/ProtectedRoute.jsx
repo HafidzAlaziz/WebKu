@@ -1,11 +1,21 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ children }) => {
-    const isAuthenticated = sessionStorage.getItem('isAuthenticated') === 'true';
+import { useAuth } from '../context/AuthContext';
 
-    if (!isAuthenticated) {
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+    const { user, isAdmin, loading } = useAuth();
+
+    if (loading) {
+        return <div className="p-4 text-center">Loading...</div>; // Or a better spinner
+    }
+
+    if (!user) {
         return <Navigate to="/login" replace />;
+    }
+
+    if (adminOnly && !isAdmin) {
+        return <Navigate to="/blog" replace />;
     }
 
     return children;
