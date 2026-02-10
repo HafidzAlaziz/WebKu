@@ -548,6 +548,7 @@ export const useTracker = () => {
             const storageKey = 'visitor_tracked_today';
             const visitorId = getVisitorId();
 
+            // 1. First Layer: Browser Storage Cache (Fastest)
             // Check if already tracked today (localStorage) or in this session/page (sessionStorage)
             const lastTrackedDate = localStorage.getItem(storageKey);
             const isSessionTracked = sessionStorage.getItem(`tracked_${path}_${today}`);
@@ -555,6 +556,40 @@ export const useTracker = () => {
             if (lastTrackedDate === today || isSessionTracked) {
                 sessionStorage.removeItem('is_tracking_in_progress');
                 return;
+            }
+
+            // 2. Second Layer: IP-Based Check (Cross-Browser Uniqueness)
+            let ipAddress = null;
+            try {
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                if (ipRes.ok) {
+                    const ipData = await ipRes.json();
+                    ipAddress = ipData.ip;
+                }
+            } catch (e) {
+                console.warn('Failed to fetch IP:', e);
+            }
+
+            // If we got an IP, check database for existing view from this IP today
+            if (ipAddress) {
+                const todayStart = new Date().toISOString().split('T')[0] + 'T00:00:00.000Z';
+                const { data: existingView, error: checkError } = await supabase
+                    .from('analytics_events')
+                    .select('id')
+                    .eq('event_type', 'view')
+                    .gte('created_at', todayStart)
+                    .contains('details', { ip: ipAddress })
+                    .limit(1)
+                    .maybeSingle();
+
+                if (!checkError && existingView) {
+                    // Already tracked today from this IP
+                    // Update local storage so we don't check API again this session
+                    localStorage.setItem(storageKey, today);
+                    sessionStorage.setItem(`tracked_${path}_${today}`, 'true');
+                    sessionStorage.removeItem('is_tracking_in_progress');
+                    return;
+                }
             }
 
             const ua = navigator.userAgent;
@@ -588,6 +623,7 @@ export const useTracker = () => {
                     details: {
                         path,
                         visitor_id: visitorId,
+                        ip: ipAddress, // Store IP for future checks
                         device: finalDevice,
                         browser: getBrowserInfo(ua),
                         os: getOSInfo(ua),

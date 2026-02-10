@@ -9,6 +9,7 @@ import { useBlog } from '../hooks/useBlog';
 import SEO from '../components/SEO';
 import FloatingSettings from '../components/FloatingSettings';
 
+
 const BlogDetail = () => {
     const { t, i18n } = useTranslation();
     const { slug } = useParams();
@@ -139,11 +140,71 @@ const BlogDetail = () => {
                             </div>
 
                             {/* Content */}
-                            <div
-                                className="prose prose-lg prose-slate dark:prose-invert max-w-none mb-10"
-                                dangerouslySetInnerHTML={{ __html: post.content }}
-                            >
+                            <style>{`
+                                .blog-content ul {
+                                    list-style-type: disc !important;
+                                    padding-left: 1.5em !important;
+                                    margin: 1em 0 !important;
+                                }
+                                .blog-content ol {
+                                    list-style-type: decimal !important;
+                                    padding-left: 1.5em !important;
+                                    margin: 1em 0 !important;
+                                }
+                                .blog-content li {
+                                    display: list-item !important;
+                                    margin-bottom: 0.5em !important;
+                                }
+                                .blog-content li.text-center, .blog-content li[style*="text-align: center"] { text-align: center !important; }
+                                .blog-content li.text-right, .blog-content li[style*="text-align: right"] { text-align: right !important; }
+                                .blog-content li.text-justify, .blog-content li[style*="text-align: justify"] { text-align: justify !important; }
+
+                                .blog-content li.text-center, .blog-content li.text-right, .blog-content li.text-justify,
+                                .blog-content li[style*="text-align"] {
+                                    list-style-position: inside !important;
+                                }
+
+                                /* Marker must move with text: inner p should be inline */
+                                .blog-content li p {
+                                    display: inline !important;
+                                    margin: 0 !important;
+                                }
+
+                                /* Support for alignment on inner p */
+                                .blog-content li:has(p.text-center), .blog-content li:has(p[style*="text-align: center"]) { text-align: center !important; }
+                                .blog-content li:has(p.text-right), .blog-content li:has(p[style*="text-align: right"]) { text-align: right !important; }
+                                .blog-content li:has(p.text-justify), .blog-content li:has(p[style*="text-align: justify"]) { text-align: justify !important; }
+                                
+                                .blog-content li:has(p.text-center), .blog-content li:has(p.text-right), .blog-content li:has(p.text-justify),
+                                .blog-content li:has(p[style*="text-align"]) {
+                                    list-style-position: inside !important;
+                                }
+                                .blog-content blockquote {
+                                    border-left: 4px solid #3b82f6 !important;
+                                    padding-left: 1em !important;
+                                    font-style: italic !important;
+                                    margin: 1em 0 !important;
+                                    color: #4b5563 !important;
+                                }
+                                .blog-content img {
+                                    max-width: 100%;
+                                    height: auto;
+                                    border-radius: 1rem;
+                                    margin: 1.5em 0;
+                                }
+                                .dark .blog-content blockquote {
+                                    color: #9ca3af !important;
+                                }
+                            `}</style>
+                            <div className="blog-content">
+                                <div
+                                    className="prose prose-slate dark:prose-invert max-w-none !h-auto text-slate-800 dark:text-gray-200"
+                                    dangerouslySetInnerHTML={{ __html: post.content }}
+                                >
+                                </div>
                             </div>
+
+
 
                             {/* Share */}
                             <div className="border-t border-b border-slate-100 dark:border-slate-700 py-6 mb-8">

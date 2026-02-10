@@ -4,10 +4,13 @@ import {
     X, Sparkles, RefreshCw, Upload,
     Edit2, Trash2, AlertCircle, Lock
 } from 'lucide-react';
+import TiptapEditor from './TiptapEditor';
 import { useTranslation } from 'react-i18next';
 import { useBlog } from '../hooks/useBlog';
 import { useAuth } from '../context/AuthContext';
 import { translateText } from '../utils/translateUtils';
+
+
 
 const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }) => {
     const { t, i18n } = useTranslation();
@@ -200,21 +203,34 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
 
         // Auto-translate to all other languages before saving
         let finalFormData = { ...formData };
-        const targetLangs = languages.map(l => l.code);
-        const sourceLang = 'auto'; // Detect automatically from input
+        const currentLang = i18n.language; // Assume user writes in current UI language
+        const targetLangs = languages.map(l => l.code).filter(code => code !== currentLang);
+        const sourceLang = currentLang;
 
         try {
             const newTranslations = {};
             setIsTranslating(true);
 
+            // 1. Set current language data directly (preserve formatting)
+            newTranslations[currentLang] = {
+                title: finalFormData.title,
+                category: finalFormData.category,
+                excerpt: finalFormData.excerpt,
+                keywords: finalFormData.keywords,
+                content: finalFormData.content
+            };
+
+            // 2. Translate for other languages
             await Promise.all(targetLangs.map(async (lang) => {
-                const [tTitle, tCategory, tExcerpt, tKeywords, tContent] = await Promise.all([
+                const [tTitle, tCategory, tExcerpt, tKeywords] = await Promise.all([
                     translateText(finalFormData.title, lang, sourceLang),
                     translateText(finalFormData.category, lang, sourceLang),
                     translateText(finalFormData.excerpt, lang, sourceLang),
-                    translateText(finalFormData.keywords, lang, sourceLang),
-                    translateText(finalFormData.content, lang, sourceLang)
+                    translateText(finalFormData.keywords, lang, sourceLang)
                 ]);
+
+                // User requested NOT to translate content to preserve formatting and authenticity
+                const tContent = finalFormData.content;
 
                 newTranslations[lang] = {
                     title: tTitle,
@@ -225,7 +241,7 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
                 };
             }));
 
-            finalFormData.translations = newTranslations;
+            finalFormData.translations = { ...finalFormData.translations, ...newTranslations };
 
             // Inject author_id if available (for database referential integrity)
             if (user?.id) {
@@ -238,6 +254,8 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
         } finally {
             setIsTranslating(false);
         }
+
+
 
         const result = post ? await onSave(post.id, finalFormData) : await onSave(finalFormData);
         setLoading(false);
@@ -505,12 +523,12 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
                                 </div>
                                 <div className="space-y-1">
                                     <label className="text-sm font-bold text-slate-700 dark:text-slate-300">{t('dashboard.blog.form.labels.content')}</label>
-                                    <textarea
-                                        value={formData.content}
-                                        onChange={(e) => handleFieldChange('content', e.target.value)}
-                                        className={`w-full px-4 py-4 bg-slate-50 dark:bg-slate-900 border ${errors.content ? 'border-red-500 animate-pulse' : 'border-slate-200 dark:border-slate-700'} rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 dark:text-white h-96 font-serif transition-all`}
-                                        placeholder={t('dashboard.blog.form.placeholders.content')}
-                                    />
+                                    <div className={`editor-container ${errors.content ? 'ring-2 ring-red-500 rounded-xl' : ''}`}>
+                                        <TiptapEditor
+                                            value={formData.content}
+                                            onChange={(content) => handleFieldChange('content', content)}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

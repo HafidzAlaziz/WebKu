@@ -30,7 +30,8 @@ i18n
                 translation: frTranslation
             }
         },
-        fallbackLng: 'en',
+        fallbackLng: 'id', // Set default fallback to Indonesian
+        lng: 'id', // Set initial language to Indonesian if detection fails
         debug: false,
         interpolation: {
             escapeValue: false // not needed for react as it escapes by default

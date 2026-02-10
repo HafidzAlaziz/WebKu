@@ -22,13 +22,21 @@ export const AuthProvider = ({ children }) => {
 
         supabase.auth.getSession().then(({ data: { session } }) => {
             setUser(session?.user ?? null);
-            setIsAdmin(session?.user ? ADMIN_EMAILS.includes(session.user.email) : false);
+
+            const email = session?.user?.email?.toLowerCase();
+            const isAdm = email ? ADMIN_EMAILS.includes(email) : false;
+
+            setIsAdmin(isAdm);
             setLoading(false);
         });
 
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
             setUser(session?.user ?? null);
-            setIsAdmin(session?.user ? ADMIN_EMAILS.includes(session.user.email) : false);
+
+            const email = session?.user?.email?.toLowerCase();
+            const isAdm = email ? ADMIN_EMAILS.includes(email) : false;
+
+            setIsAdmin(isAdm);
             setLoading(false);
         });
 
