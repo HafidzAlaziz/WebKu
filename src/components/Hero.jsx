@@ -179,7 +179,7 @@ const Hero = () => {
                         <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-4 border border-slate-100 transform rotate-2 hover:rotate-0 transition-transform duration-500">
                             <img
                                 src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=1200&q=60&fm=webp"
-                                srcSet="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=600&q=40&fm=webp 600w, https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=1200&q=60&fm=webp 1200w"
+                                srcSet="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=800&q=50&fm=webp 800w, https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=1200&q=80&fm=webp 1200w"
                                 sizes="(max-width: 768px) 100vw, 50vw"
                                 alt={t('hero.image_alt') || "Dashboard Analitik Website Profesional - Jasa WebKuu"}
                                 className="rounded-xl w-full h-auto"

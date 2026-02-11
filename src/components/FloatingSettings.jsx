@@ -64,9 +64,11 @@ const FloatingSettings = () => {
                     onClick={() => setShowLanguages(!showLanguages)}
                     className="w-14 h-14 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border border-slate-200 dark:border-slate-700 hover:scale-110"
                     title="Change Language"
+                    aria-label="Change Language"
+                    aria-expanded={showLanguages}
                 >
                     <div className="flex flex-col items-center">
-                        <FaGlobe size={20} />
+                        <FaGlobe size={20} aria-hidden="true" />
                         <span className="text-xs font-bold mt-0.5">{currentLanguage.label}</span>
                     </div>
                 </button>
@@ -77,8 +79,9 @@ const FloatingSettings = () => {
                 onClick={toggleDarkMode}
                 className="w-14 h-14 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center border border-slate-200 dark:border-slate-700 hover:scale-110"
                 title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                aria-label={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-                {isDark ? <FaSun size={24} className="text-yellow-400" /> : <FaMoon size={24} className="text-slate-600" />}
+                {isDark ? <FaSun size={24} className="text-yellow-400" aria-hidden="true" /> : <FaMoon size={24} className="text-slate-600" aria-hidden="true" />}
             </button>
         </div>
     );

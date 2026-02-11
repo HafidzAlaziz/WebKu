@@ -152,6 +152,15 @@
   }
 }
 
+/* Performance Optimizations */
+#services,
+#pricing,
+#testimonials,
+footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 500px;
+}
+
 /* Optimization for raining animation */
 .rain,
 .drop {
@@ -166,6 +175,12 @@
   .rain:nth-child(even),
   .drop:nth-child(even) {
     display: none;
+  }
+
+  /* Disable non-critical hover animations on mobile to save CPU/TBT */
+  .group:hover .group-hover\:scale-110,
+  .hover\:scale-110:hover {
+    transform: none !important;
   }
 }
 

@@ -269,10 +269,11 @@ const Navbar = () => {
                     <motion.button
                         onClick={() => {
                             const currentIndex = languages.findIndex(l => l.code === i18n.language);
-                            const nextIndex = (currentIndex + 1) % languages.length;
+                            const nextIndex = (currentIndex + 0) % languages.length; // Actually just want to cycle
                             changeLanguage(languages[nextIndex].code);
                         }}
                         className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"
+                        aria-label="Switch language"
                     >
                         <span className="text-sm">{languages.find(l => l.code === i18n.language)?.flag}</span>
                         <span className="text-xs font-bold uppercase">{i18n.language}</span>

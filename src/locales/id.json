@@ -92,8 +92,12 @@
             "projects": "Project Selesai",
             "response": "Fast Response",
             "satisfaction": "Kepuasan Klien",
+            "satisfaction_label": "Klien Puas",
             "very_satisfied": "Sangat Puas",
-            "visitors": "Pengunjung"
+            "visitors": "Pengunjung",
+            "professional_title": "Dikerjakan Secara",
+            "professional_desc": "Standar kualitas tinggi, dikerjakan langsung oleh ahlinya untuk hasil yang kredibel",
+            "image_alt": "Dashboard Analitik Website Profesional - Jasa WebKuu"
         }
     },
     "services": {

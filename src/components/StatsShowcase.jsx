@@ -42,6 +42,7 @@ const StatItem = ({ stat, index }) => {
                     className={`w-14 h-14 lg:w-16 lg:h-16 rounded-2xl bg-gradient-to-br ${stat.color} p-3 lg:p-4 mb-3 lg:mb-4 shadow-lg`}
                     whileHover={{ rotate: 5, scale: 1.1 }}
                     transition={{ duration: 0.3 }}
+                    aria-hidden="true"
                 >
                     <stat.icon className="w-full h-full text-white" strokeWidth={2} />
                 </motion.div>
@@ -67,6 +68,7 @@ const StatItem = ({ stat, index }) => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.3, delay: index * 0.1 + 0.3 + i * 0.05 }}
+                                aria-hidden="true"
                             >
                                 <Star
                                     size={16}
@@ -126,10 +128,10 @@ const StatsShowcase = () => {
                     className="text-center mb-10"
                 >
                     <h2 className="text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                        Dikerjakan Secara <span className="text-primary dark:text-brand-emerald-400">Profesional</span> oleh Ahlinya
+                        {t('hero.professional_title')} <span className="text-primary dark:text-brand-emerald-400">Profesional</span> oleh Ahlinya
                     </h2>
                     <p className="text-slate-600 dark:text-slate-400">
-                        Standar kualitas tinggi, dikerjakan langsung oleh ahlinya untuk hasil yang kredibel
+                        {t('hero.professional_desc')}
                     </p>
                 </motion.div>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">

@@ -74,7 +74,10 @@ const Services = () => {
                             whileHover={{ y: -10 }}
                             className="p-8 rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-800 shadow-lg hover:shadow-xl transition-all duration-300 group"
                         >
-                            <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 ${service.color} group-hover:scale-110 transition-transform duration-300`}>
+                            <div
+                                className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 ${service.color} group-hover:scale-110 transition-transform duration-300`}
+                                aria-hidden="true"
+                            >
                                 {service.icon}
                             </div>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{service.title}</h3>
