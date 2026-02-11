@@ -61,9 +61,24 @@
         "copied": "Tersalin!",
         "write_article": "Tulis Artikel",
         "my_articles": "Artikel Saya",
+        "articles": "Artikel",
+        "confirm_delete": "Apakah Anda yakin ingin menghapus artikel ini?",
         "logout": "Keluar",
         "login": "Masuk",
-        "login_to_write": "Login untuk Menulis Artikel"
+        "login_to_write": "Login untuk Menulis Artikel",
+        "empty": {
+            "title": "Belum Ada Artikel",
+            "message": "Anda belum mengirimkan artikel apapun."
+        },
+        "actions": {
+            "delete_success": "Artikel berhasil dihapus",
+            "delete_failed": "Gagal menghapus artikel",
+            "approve_success": "Artikel berhasil disetujui",
+            "approve_failed": "Gagal menyetujui artikel",
+            "reject_confirm": "Apakah Anda yakin ingin menolak artikel ini?",
+            "reject_success": "Artikel berhasil ditolak",
+            "reject_failed": "Gagal menolak artikel"
+        }
     },
     "hero": {
         "badge": "Solusi Website Kilat & Hemat",
@@ -717,6 +732,21 @@
             "next": "Selanjutnya",
             "data": "data"
         },
+        "order_tab": {
+            "title": "Daftar Pesanan Lengkap",
+            "search_placeholder": "Cari pesanan...",
+            "active_badge": "Pesanan Aktif",
+            "empty_search": "Tidak ada pesanan yang sesuai dengan pencarian.",
+            "empty_list": "Belum ada pesanan aktif saat ini.",
+            "table": {
+                "date": "Tanggal",
+                "customer": "Pelanggan",
+                "details": "Detail",
+                "total": "Total",
+                "status": "Status",
+                "actions": "Aksi"
+            }
+        },
         "recent_orders": {
             "title": "Daftar Pesanan Lengkap",
             "search_placeholder": "Cari pesanan...",
@@ -930,12 +960,50 @@
             "subtitle": "Buat dan kelola artikel blog Anda dengan auto-translate",
             "menu": {
                 "all_posts": "Semua Artikel",
-                "pending": "Menunggu Review"
+                "pending": "Menunggu Tinjauan"
             },
             "stats": {
                 "total_posts": "Total Artikel",
-                "total_categories": "Kategori",
-                "last_post": "Artikel Terbaru"
+                "total_categories": "Total Kategori",
+                "last_post": "Artikel Terakhir"
+            },
+            "notifications": {
+                "new_post_title": "Artikel Blog Baru!",
+                "just_now": "Baru saja",
+                "review_now": "TINJAU SEKARANG",
+                "by": "Oleh"
+            },
+            "status": {
+                "approved": "Disetujui",
+                "pending": "Menunggu Tinjauan",
+                "rejected": "Ditolak"
+            },
+            "actions": {
+                "approve_success": "Artikel berhasil disetujui",
+                "approve_failed": "Gagal menyetujui",
+                "reject_confirm": "Apakah Anda yakin ingin menolak artikel ini?",
+                "reject_success": "Artikel ditolak",
+                "reject_failed": "Gagal menolak",
+                "delete_success": "Artikel berhasil dihapus",
+                "delete_failed": "Gagal menghapus"
+            },
+            "delete_confirm": {
+                "title": "Hapus Artikel?",
+                "message": "Apakah Anda yakin ingin menghapus artikel ini? Tindakan ini tidak dapat dibatalkan.",
+                "confirm": "Hapus",
+                "cancel": "Batal"
+            },
+            "approve_confirm": {
+                "title": "Setujui Artikel?",
+                "message": "Apakah Anda yakin ingin menyetujui artikel ini? Artikel akan langsung diterbitkan.",
+                "confirm": "Ya, Setujui",
+                "cancel": "Batal"
+            },
+            "reject_confirm_modal": {
+                "title": "Tolak Artikel?",
+                "message": "Apakah Anda yakin ingin menolak artikel ini?",
+                "confirm": "Ya, Tolak",
+                "cancel": "Batal"
             },
             "filters": {
                 "all_categories": "Semua Kategori"

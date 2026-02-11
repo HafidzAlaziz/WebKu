@@ -7,7 +7,7 @@ import {
     ChevronDown, Languages, Smartphone, ArrowUpRight, ChevronLeft, ChevronRight, Briefcase,
     ShoppingCart, Bell, Search, Filter, Database, Clock, MoreVertical, Edit, Trash2, Eye,
     EyeOff, AlertCircle, Banknote, MapPin, Mail, Phone, CheckCircle, XCircle, ExternalLink,
-    Monitor, Tablet, Globe
+    Monitor, Tablet, Globe, FileText
 } from 'lucide-react';
 
 
@@ -30,7 +30,7 @@ const DashboardPage = () => {
     const { user, signOut } = useAuth();
     const { stats, loading, refresh, deleteOrder, updateOrderStatus, updateOrder } = useTracker();
     const { projects: portfolioProjects, fetchProjects: fetchPortfolio } = usePortfolio();
-    const { posts: blogPosts, fetchPosts: fetchBlog } = useBlog();
+    const { posts: blogPosts, pendingPosts, fetchPosts: fetchBlog, fetchPendingPosts } = useBlog();
 
     // Filter State
     const [filterType, setFilterType] = useState('weekly'); // weekly, monthly, yearly
@@ -62,6 +62,15 @@ const DashboardPage = () => {
         } catch (e) { return []; }
     });
 
+    // Blog Notification State
+    const [unreadBlogsCount, setUnreadBlogsCount] = useState(0);
+    const [unreadBlogsList, setUnreadBlogsList] = useState([]);
+    const [readBlogIds, setReadBlogIds] = useState(() => {
+        try {
+            return JSON.parse(localStorage.getItem('read_blog_ids') || '[]');
+        } catch (e) { return []; }
+    });
+
     // Check for new orders
     useEffect(() => {
         if (stats.allOrders && stats.allOrders.length > 0) {
@@ -77,13 +86,13 @@ const DashboardPage = () => {
                 setLatestOrder(newOrders[0]); // Show the most recent one
                 setShowNewOrderToast(true);
 
-                // Play notification sound
+                // Play notification sound (silently fail if user hasn't interacted yet)
                 try {
                     const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
                     audio.volume = 0.5;
-                    audio.play().catch(e => console.error('Audio play failed:', e));
+                    audio.play().catch(() => { }); // Silently fail - browser autoplay policy
                 } catch (e) {
-                    console.error('Audio error:', e);
+                    // Ignore audio errors
                 }
 
                 // Auto hide toast after 8 seconds
@@ -93,7 +102,58 @@ const DashboardPage = () => {
             setUnreadOrdersCount(newOrders.length);
             setUnreadOrdersList(newOrders);
         }
-    }, [stats.allOrders, lastCheckedOrders, readOrderIds]);
+    }, [stats.allOrders, lastCheckedOrders, readOrderIds, unreadOrdersList.length]);
+
+    // Blog Notification Logic
+    const [showNewBlogToast, setShowNewBlogToast] = useState(false);
+    const [latestBlog, setLatestBlog] = useState(null);
+
+    // Check for new blogs (pending status)
+    useEffect(() => {
+        if (pendingPosts && pendingPosts.length >= 0) {
+            const newBlogs = pendingPosts.filter(post => {
+                const isRead = readBlogIds.includes(post.id);
+                return !isRead && post.status === 'pending';
+            });
+
+            // Trigger notification if new blogs arrived
+            if (newBlogs.length > unreadBlogsList.length && newBlogs.length > 0) {
+                setLatestBlog(newBlogs[0]);
+                setShowNewBlogToast(true);
+
+                // Play sound (silently fail if user hasn't interacted yet)
+                try {
+                    const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+                    audio.volume = 0.5;
+                    audio.play().catch(() => { }); // Silently fail - browser autoplay policy
+                } catch (e) {
+                    // Ignore audio errors
+                }
+
+                // Auto hide
+                setTimeout(() => setShowNewBlogToast(false), 8000);
+            }
+
+            setUnreadBlogsCount(newBlogs.length);
+            setUnreadBlogsList(newBlogs);
+        }
+    }, [pendingPosts, readBlogIds, unreadBlogsList.length]);
+
+    // New State for Blog Navigation
+    const [selectedBlogId, setSelectedBlogId] = useState(null);
+
+    // Check for new blogs (pending status)
+    useEffect(() => {
+        if (pendingPosts && pendingPosts.length >= 0) {
+            const newBlogs = pendingPosts.filter(post => {
+                const isRead = readBlogIds.includes(post.id);
+                return !isRead && post.status === 'pending';
+            });
+
+            setUnreadBlogsCount(newBlogs.length);
+            setUnreadBlogsList(newBlogs);
+        }
+    }, [pendingPosts, readBlogIds]);
 
     const handleBellClick = () => {
         setIsNotificationsOpen(!isNotificationsOpen);
@@ -102,21 +162,35 @@ const DashboardPage = () => {
     };
 
     const markAllAsRead = () => {
-        const allIds = unreadOrdersList.map(o => o.id);
-        const newReadIds = Array.from(new Set([...readOrderIds, ...allIds]));
-        setReadOrderIds(newReadIds);
-        localStorage.setItem('read_order_ids', JSON.stringify(newReadIds));
+        // Orders
+        const allOrderIds = unreadOrdersList.map(o => o.id);
+        const newReadOrderIds = Array.from(new Set([...readOrderIds, ...allOrderIds]));
+        setReadOrderIds(newReadOrderIds);
+        localStorage.setItem('read_order_ids', JSON.stringify(newReadOrderIds));
+
+        // Blogs
+        const allBlogIds = unreadBlogsList.map(b => b.id);
+        const newReadBlogIds = Array.from(new Set([...readBlogIds, ...allBlogIds]));
+        setReadBlogIds(newReadBlogIds);
+        localStorage.setItem('read_blog_ids', JSON.stringify(newReadBlogIds));
+
         setIsNotificationsOpen(false);
     };
 
-    const handleNotificationItemClick = (order) => {
-        // Mark as read specifically
-        const newReadIds = Array.from(new Set([...readOrderIds, order.id]));
-        setReadOrderIds(newReadIds);
-        localStorage.setItem('read_order_ids', JSON.stringify(newReadIds));
-
-        // Navigate to orders
-        setActiveTab('orders');
+    const handleNotificationItemClick = (item, type = 'order') => {
+        if (type === 'order') {
+            const newReadIds = Array.from(new Set([...readOrderIds, item.id]));
+            setReadOrderIds(newReadIds);
+            localStorage.setItem('read_order_ids', JSON.stringify(newReadIds));
+            setActiveTab('orders');
+            // Logic to open order detail/edit would go here if needed
+        } else if (type === 'blog') {
+            const newReadIds = Array.from(new Set([...readBlogIds, item.id]));
+            setReadBlogIds(newReadIds);
+            localStorage.setItem('read_blog_ids', JSON.stringify(newReadIds));
+            setActiveTab('blog');
+            setSelectedBlogId(item.id);
+        }
         setIsNotificationsOpen(false);
     };
     const [showEditConfirm, setShowEditConfirm] = useState(false);
@@ -403,10 +477,12 @@ const DashboardPage = () => {
         refreshData();
         fetchPortfolio();
         fetchBlog();
+        fetchPendingPosts();
         const interval = setInterval(() => {
             refreshData();
             fetchPortfolio();
             fetchBlog();
+            fetchPendingPosts();
         }, 30000);
         return () => clearInterval(interval);
     }, [filterType, selectedYear, selectedMonth, i18n.language]);
@@ -429,6 +505,7 @@ const DashboardPage = () => {
                     setIsMobileOpen={setIsSidebarOpen}
                     isCollapsed={isCollapsed}
                     setIsCollapsed={setIsCollapsed}
+                    blogBadgeCount={unreadBlogsCount}
                 />
 
                 <div className={`flex-1 flex flex-col min-w-0 py-5 px-4 md:px-0 pb-[80px] md:pb-0 transition-all duration-300 ease-in-out ${isCollapsed ? 'md:ml-24' : 'md:ml-72'}`}>
@@ -464,9 +541,9 @@ const DashboardPage = () => {
                                         : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20'
                                         }`}
                                 >
-                                    {unreadOrdersList.length > 0 && (
+                                    {(unreadOrdersList.length + unreadBlogsList.length) > 0 && (
                                         <span className="absolute top-0 right-0 -mt-1 -mr-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-slate-50 dark:border-slate-900 shadow-sm animate-pulse">
-                                            {unreadOrdersList.length > 9 ? '9+' : unreadOrdersList.length}
+                                            {(unreadOrdersList.length + unreadBlogsList.length) > 9 ? '9+' : (unreadOrdersList.length + unreadBlogsList.length)}
                                         </span>
                                     )}
                                     <Bell size={18} />
@@ -493,37 +570,63 @@ const DashboardPage = () => {
                                                         </button>
                                                     )}
                                                     <span className="text-[10px] sm:text-xs bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded-full font-bold">
-                                                        {unreadOrdersList.length} {t('dashboard.notifications.new')}
+                                                        {(unreadOrdersList.length + unreadBlogsList.length)} {t('dashboard.notifications.new')}
                                                     </span>
                                                 </div>
                                             </div>
 
                                             <div className="max-h-[300px] overflow-y-auto">
-                                                {unreadOrdersList.length > 0 ? (
-                                                    unreadOrdersList.map(order => (
-                                                        <div
-                                                            key={order.id}
-                                                            onClick={() => handleNotificationItemClick(order)}
-                                                            className="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer border-b border-slate-50 dark:border-slate-700/50 last:border-0"
-                                                        >
-                                                            <div className="flex items-start gap-3">
-                                                                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center shrink-0">
-                                                                    <ShoppingCart size={14} />
-                                                                </div>
-                                                                <div>
-                                                                    <p className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">
-                                                                        {t('dashboard.notifications.new_order')}: {order.customerName}
-                                                                    </p>
-                                                                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">
-                                                                        {order.details}
-                                                                    </p>
-                                                                    <p className="text-[10px] text-slate-400 mt-2 font-medium">
-                                                                        {order.date}
-                                                                    </p>
+                                                {unreadOrdersList.length > 0 || unreadBlogsList.length > 0 ? (
+                                                    <>
+                                                        {unreadOrdersList.map(order => (
+                                                            <div
+                                                                key={order.id}
+                                                                onClick={() => handleNotificationItemClick(order, 'order')}
+                                                                className="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer border-b border-slate-50 dark:border-slate-700/50 last:border-0"
+                                                            >
+                                                                <div className="flex items-start gap-3">
+                                                                    <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center shrink-0">
+                                                                        <ShoppingCart size={14} />
+                                                                    </div>
+                                                                    <div>
+                                                                        <p className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">
+                                                                            {t('dashboard.notifications.new_order')}: {order.customerName}
+                                                                        </p>
+                                                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">
+                                                                            {order.details}
+                                                                        </p>
+                                                                        <p className="text-[10px] text-slate-400 mt-2 font-medium">
+                                                                            {order.date}
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    ))
+                                                        ))}
+                                                        {unreadBlogsList.map(post => (
+                                                            <div
+                                                                key={post.id}
+                                                                onClick={() => handleNotificationItemClick(post, 'blog')}
+                                                                className="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer border-b border-slate-50 dark:border-slate-700/50 last:border-0"
+                                                            >
+                                                                <div className="flex items-start gap-3">
+                                                                    <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center shrink-0">
+                                                                        <FileText size={14} />
+                                                                    </div>
+                                                                    <div>
+                                                                        <p className="text-sm font-bold text-slate-900 dark:text-white line-clamp-1">
+                                                                            New Blog Post: {post.title}
+                                                                        </p>
+                                                                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 line-clamp-1">
+                                                                            By {post.author}
+                                                                        </p>
+                                                                        <p className="text-[10px] text-slate-400 mt-2 font-medium">
+                                                                            {new Date(post.created_at).toLocaleDateString()}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </>
                                                 ) : (
                                                     <div className="p-8 text-center">
                                                         <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
@@ -551,6 +654,38 @@ const DashboardPage = () => {
                                     )}
                                 </AnimatePresence>
                             </div>
+
+                            {/* New Blog Toast */}
+                            <AnimatePresence>
+                                {showNewBlogToast && latestBlog && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -20, x: 20 }}
+                                        animate={{ opacity: 1, y: 0, x: 0 }}
+                                        exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+                                        className="fixed bottom-6 right-6 z-[100] max-w-sm w-full bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 overflow-hidden cursor-pointer hover:translate-y-[-2px] transition-all"
+                                        onClick={() => handleNotificationItemClick(latestBlog, 'blog')}
+                                    >
+                                        <div className="p-4 flex gap-4">
+                                            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shrink-0 text-white shadow-lg shadow-blue-500/30">
+                                                <FileText size={20} />
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex justify-between items-start mb-1">
+                                                    <h4 className="font-bold text-slate-900 dark:text-white text-sm line-clamp-1">{latestBlog.title}</h4>
+                                                    <span className="text-[10px] text-slate-400 font-medium whitespace-nowrap ml-2">{t('dashboard.blog.notifications.just_now')}</span>
+                                                </div>
+                                                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
+                                                    {t('dashboard.blog.notifications.by')} <span className="font-medium text-slate-700 dark:text-slate-300">{latestBlog.author || 'Unknown'}</span>
+                                                </p>
+                                                <div className="flex items-center text-blue-600 dark:text-blue-400 text-xs font-bold gap-1 group">
+                                                    {t('dashboard.blog.notifications.review_now')}
+                                                    <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
                             <div className="flex items-center gap-2 md:gap-3 bg-white dark:bg-slate-800 p-1 md:p-1.5 md:pr-4 rounded-full border border-slate-200 dark:border-slate-700 hover:shadow-md transition-all group">
                                 <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden border-2 border-slate-200 dark:border-slate-600 group-hover:border-blue-500 transition-colors">
@@ -793,45 +928,39 @@ const DashboardPage = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     className="p-4 md:p-6"
                                 >
-                                    <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
-                                        <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-6 gap-4">
-                                            <div className="flex items-center justify-between gap-4">
-                                                <h2 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 whitespace-nowrap">
-                                                    <ShoppingCart size={24} className="text-blue-500 shrink-0" />
-                                                    {t('dashboard.order_tab.title')}
+                                    <div className="bg-white dark:bg-slate-800 rounded-3xl p-4 md:p-6 border border-slate-200 dark:border-slate-700 shadow-sm">
+                                        {/* Header Section */}
+                                        <div className="flex flex-col gap-4 mb-6">
+                                            {/* Title Row */}
+                                            <div className="flex items-center justify-between gap-3">
+                                                <h2 className="text-base md:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2 min-w-0 flex-1">
+                                                    <ShoppingCart size={20} className="text-blue-500 shrink-0 md:w-6 md:h-6" />
+                                                    <span className="truncate">{t('dashboard.order_tab.title')}</span>
                                                 </h2>
-                                                <div className="md:hidden px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-xs font-bold whitespace-nowrap">
-                                                    {(stats.allOrders || []).filter(o => {
-                                                        const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
-                                                        const matchesSearch = orderSearchQuery === '' ||
-                                                            o.customerName?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
-                                                            o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
-                                                            o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
-                                                        return matchesStatus && matchesSearch;
-                                                    }).length} {t('dashboard.order_tab.active_badge')}
+                                                <div className="px-2.5 md:px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-[10px] md:text-sm font-bold whitespace-nowrap shrink-0 max-w-[120px] md:max-w-none overflow-hidden">
+                                                    <span className="inline-block truncate">
+                                                        {(stats.allOrders || []).filter(o => {
+                                                            const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
+                                                            const matchesSearch = orderSearchQuery === '' ||
+                                                                o.customerName?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                                o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+                                                                o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
+                                                            return matchesStatus && matchesSearch;
+                                                        }).length} {t('dashboard.order_tab.active_badge')}
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                                                <div className="relative flex-1">
-                                                    <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                                                    <input
-                                                        type="text"
-                                                        placeholder={t('dashboard.order_tab.search_placeholder')}
-                                                        value={orderSearchQuery}
-                                                        onChange={(e) => setOrderSearchQuery(e.target.value)}
-                                                        className="pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-full sm:w-64"
-                                                    />
-                                                </div>
-                                                <div className="hidden md:block px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-sm font-bold">
-                                                    {(stats.allOrders || []).filter(o => {
-                                                        const matchesStatus = o.status !== 'completed' && o.status !== 'cancelled';
-                                                        const matchesSearch = orderSearchQuery === '' ||
-                                                            o.customerName?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
-                                                            o.details?.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
-                                                            o.customerEmail?.toLowerCase().includes(orderSearchQuery.toLowerCase());
-                                                        return matchesStatus && matchesSearch;
-                                                    }).length} {t('dashboard.order_tab.active_badge')}
-                                                </div>
+
+                                            {/* Search Row */}
+                                            <div className="relative w-full">
+                                                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                                                <input
+                                                    type="text"
+                                                    placeholder={t('dashboard.order_tab.search_placeholder')}
+                                                    value={orderSearchQuery}
+                                                    onChange={(e) => setOrderSearchQuery(e.target.value)}
+                                                    className="pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 outline-none dark:text-white w-full"
+                                                />
                                             </div>
                                         </div>
 
@@ -1144,7 +1273,10 @@ const DashboardPage = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     className="p-6"
                                 >
-                                    <BlogManager />
+                                    <BlogManager
+                                        selectedPostId={selectedBlogId}
+                                        onClearSelection={() => setSelectedBlogId(null)}
+                                    />
                                 </motion.div>
                             ) : activeTab === 'visitors' ? (
                                 <motion.div

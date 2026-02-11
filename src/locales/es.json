@@ -58,7 +58,21 @@
         "ctaTitle": "¿Quieres un Sitio Web Profesional como Este?",
         "ctaSubtitle": "Consulta tus necesidades digitales con WebKuu. Estamos listos para ayudar a que tu negocio crezca en línea.",
         "ctaButton": "Contacta a WebKuu Ahora",
-        "copied": "¡Copiado!"
+        "copied": "¡Copiado!",
+        "login_to_write": "Inicia sesión para escribir artículo",
+        "empty": {
+            "title": "Aún no hay artículos",
+            "message": "Aún no has enviado ningún artículo."
+        },
+        "actions": {
+            "delete_success": "Artículo eliminado con éxito",
+            "delete_failed": "Error al eliminar el artículo",
+            "approve_success": "Artículo aprobado con éxito",
+            "approve_failed": "Error al aprobar el artículo",
+            "reject_confirm": "¿Estás seguro de que quieres rechazar este artículo?",
+            "reject_success": "Artículo rechazado con éxito",
+            "reject_failed": "Error al rechazar el artículo"
+        }
     },
     "hero": {
         "badge": "Solución Web Rápida y Económica",
@@ -786,6 +800,126 @@
             "title": "Ajustes del Panel",
             "subtitle": "La configuración del sistema y las preferencias de visualización estarán disponibles aquí."
         },
+        "blog": {
+            "title": "Gestión de Blogs",
+            "subtitle": "Crea y gestiona tus artículos de blog con traducción automática",
+            "menu": {
+                "all_posts": "Todas las Publicaciones",
+                "pending": "Pendiente de Revisión"
+            },
+            "stats": {
+                "total_posts": "Total de Publicaciones",
+                "total_categories": "Total de Categorías",
+                "last_post": "Última Publicación"
+            },
+            "notifications": {
+                "new_post_title": "¡Nueva Publicación de Blog!",
+                "just_now": "Justo ahora",
+                "review_now": "REVISAR AHORA",
+                "by": "Por"
+            },
+            "status": {
+                "approved": "Aprobado",
+                "pending": "Pendiente",
+                "rejected": "Rechazado"
+            },
+            "actions": {
+                "approve_success": "Artículo aprobado con éxito",
+                "approve_failed": "Error al aprobar",
+                "reject_confirm": "¿Estás seguro de que quieres rechazar este artículo?",
+                "reject_success": "Artículo rechazado",
+                "reject_failed": "Error al rechazar",
+                "delete_success": "Artículo eliminado con éxito",
+                "delete_failed": "Error al eliminar"
+            },
+            "delete_confirm": {
+                "title": "¿Eliminar Artículo?",
+                "message": "¿Estás seguro de que quieres eliminar este artículo? Esta acción no se puede deshacer.",
+                "confirm": "Eliminar",
+                "cancel": "Cancelar"
+            },
+            "approve_confirm": {
+                "title": "¿Aprobar Artículo?",
+                "message": "¿Estás seguro de que quieres aprobar este artículo? Se publicará inmediatamente.",
+                "confirm": "Sí, Aprobar",
+                "cancel": "Cancelar"
+            },
+            "reject_confirm_modal": {
+                "title": "¿Rechazar Artículo?",
+                "message": "¿Estás seguro de que quieres rechazar este artículo?",
+                "confirm": "Sí, Rechazar",
+                "cancel": "Cancelar"
+            },
+            "filters": {
+                "all_categories": "Todas las Categorías"
+            },
+            "add_button": "Añadir Nuevo Artículo",
+            "search_placeholder": "Buscar artículos por título o categoría...",
+            "table": {
+                "article": "Artículo",
+                "category": "Categoría",
+                "status": "Estado",
+                "date": "Fecha",
+                "actions": "Acciones",
+                "empty": "No se encontraron artículos. ¡Crea tu primer artículo!"
+            },
+            "form": {
+                "add_title": "Escribir Nuevo Artículo",
+                "edit_title": "Editar Artículo",
+                "sections": {
+                    "basic": "Información General",
+                    "content": "Contenido del Artículo",
+                    "preview": "Vista Previa"
+                },
+                "labels": {
+                    "title": "Título del Artículo",
+                    "slug": "Slug URL (Único)",
+                    "slug_help": "Usado para la URL del artículo (ej. titulo-de-tu-articulo)",
+                    "category": "Categoría",
+                    "excerpt": "Resumen Corto",
+                    "keywords": "Palabras Clave (SEO)",
+                    "content": "Contenido del Artículo (Soporta HTML)",
+                    "image": "Imagen Destacada",
+                    "author": "Nombre del Autor",
+                    "marker_en": " (EN)",
+                    "marker_id": " (ID)",
+                    "marker_es": " (ES)",
+                    "marker_fr": " (FR)",
+                    "marker_ja": " (JA)"
+                },
+                "placeholders": {
+                    "title": "ej.: 5 Consejos de Éxito para PYMES",
+                    "slug": "ej.: 5-consejos-exito-pymes",
+                    "category": "ej.: Consejos Web",
+                    "excerpt": "Breve resumen de tu artículo...",
+                    "keywords": "ej.: consejos de negocios, pymes, sitio web (separar con comas)",
+                    "content": "Escribe tu contenido aquí...",
+                    "image": "Subir o pegar URL...",
+                    "image_url": "O pegar enlace de imagen aquí (opcional)...",
+                    "author": "Ingrese nombre del autor",
+                    "author_default": "Admin WebKuu"
+                },
+                "buttons": {
+                    "save": "Publicar Artículo",
+                    "update": "Actualizar Artículo",
+                    "cancel": "Cancelar",
+                    "translate": "Auto-Traducir"
+                },
+                "success": {
+                    "saved": "¡Artículo publicado con éxito!",
+                    "updated": "¡Artículo actualizado con éxito!"
+                },
+                "translate": {
+                    "fill_en_first": "¡Rellene el título y el contenido antes de la traducción automática!",
+                    "success": "¡Traducido con éxito a todos los idiomas!",
+                    "failed": "Error al realizar la traducción automática."
+                },
+                "validation": {
+                    "fill_required": "¡Por favor complete todos los campos marcados en rojo!",
+                    "fill_translations": "¡Por favor complete todos los idiomas o haga clic en Auto-Traducir!"
+                }
+            }
+        },
         "sidebar": {
             "branding": "SOLUCIÓN DIGITAL",
             "sections": {
@@ -806,6 +940,34 @@
                 "theme_light": "Modo Claro",
                 "theme_dark": "Modo Oscuro",
                 "live": "EN VIVO"
+            }
+        },
+        "blog": {
+            "notifications": {
+                "new_post_title": "¡Nueva Entrada de Blog!",
+                "just_now": "Justo ahora",
+                "review_now": "REVISAR AHORA",
+                "by": "Por"
+            },
+            "status": {
+                "approved": "Aprobado",
+                "pending": "Pendiente de Revisión",
+                "rejected": "Rechazado"
+            },
+            "actions": {
+                "approve_success": "Artículo aprobado con éxito",
+                "approve_failed": "Error al aprobar",
+                "reject_confirm": "¿Estás seguro de que quieres rechazar este artículo?",
+                "reject_success": "Artículo rechazado",
+                "reject_failed": "Error al rechazar",
+                "delete_success": "Artículo eliminado con éxito",
+                "delete_failed": "Error al eliminar"
+            },
+            "delete_confirm": {
+                "title": "¿Eliminar Artículo?",
+                "message": "¿Estás seguro de que quieres eliminar este artículo? Esta acción no se puede deshacer.",
+                "confirm": "Eliminar",
+                "cancel": "Cancelar"
             }
         },
         "portfolio": {

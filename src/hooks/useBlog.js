@@ -179,6 +179,70 @@ export const useBlog = () => {
         }
     };
 
+    const fetchMyArticlesCount = useCallback(async (userId) => {
+        if (!userId) return 0;
+        try {
+            const { count, error: fetchError } = await supabase
+                .from('blog_posts')
+                .select('*', { count: 'exact', head: true })
+                .eq('author_id', userId);
+
+            if (fetchError) throw fetchError;
+            return count || 0;
+        } catch (err) {
+            console.error('Error fetching article count:', err);
+            return 0;
+        }
+    }, []);
+
+    const incrementView = async (postId) => {
+        try {
+            // Get visitor_id from localStorage (consistent with useTracker)
+            let visitorId = localStorage.getItem('visitor_id');
+            if (!visitorId) {
+                visitorId = 'v-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36);
+                localStorage.setItem('visitor_id', visitorId);
+            }
+
+            const today = new Date().toISOString().split('T')[0];
+
+            // Try to insert a unique view record
+            const { error: viewError } = await supabase
+                .from('blog_post_views')
+                .insert([
+                    { post_id: postId, visitor_id: visitorId, view_date: today }
+                ]);
+
+            if (viewError) {
+                // If it fails due to unique constraint, it means already viewed today
+                if (viewError.code === '23505') return { success: true, alreadyCounted: true };
+                throw viewError;
+            }
+
+            // If insert was successful, increment the count in blog_posts
+            const { error: updateError } = await supabase.rpc('increment_blog_views', { post_id: postId });
+
+            // Fallback strategy if RPC is not available
+            if (updateError) {
+                const { data: post } = await supabase
+                    .from('blog_posts')
+                    .select('views')
+                    .eq('id', postId)
+                    .single();
+
+                await supabase
+                    .from('blog_posts')
+                    .update({ views: (post?.views || 0) + 1 })
+                    .eq('id', postId);
+            }
+
+            return { success: true };
+        } catch (err) {
+            console.error('Error incrementing view:', err);
+            return { success: false, error: err.message };
+        }
+    };
+
     return {
         posts,
         pendingPosts,
@@ -191,6 +255,8 @@ export const useBlog = () => {
         updatePost,
         updatePostStatus, // Export this
         deletePost,
-        uploadImage
+        uploadImage,
+        incrementView,
+        fetchMyArticlesCount
     };
 };

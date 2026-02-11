@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { blogPosts } from '../data/blogData';
-import { FaCalendarAlt, FaUser, FaTag, FaWhatsapp, FaFacebook, FaArrowLeft, FaTwitter, FaLinkedin, FaTelegram, FaLink } from 'react-icons/fa';
+import { FaCalendarAlt, FaUser, FaTag, FaWhatsapp, FaFacebook, FaArrowLeft, FaTwitter, FaLinkedin, FaTelegram, FaLink, FaEye } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { useBlog } from '../hooks/useBlog';
 import SEO from '../components/SEO';
@@ -14,7 +14,7 @@ const BlogDetail = () => {
     const { t, i18n } = useTranslation();
     const { slug } = useParams();
     const navigate = useNavigate();
-    const { fetchPostBySlug, loading } = useBlog();
+    const { fetchPostBySlug, incrementView, loading } = useBlog();
     const [dbPost, setDbPost] = useState(null);
     const [copySuccess, setCopySuccess] = useState(false);
 
@@ -23,6 +23,8 @@ const BlogDetail = () => {
             const data = await fetchPostBySlug(slug);
             if (data) {
                 setDbPost(data);
+                // Increment view count
+                incrementView(data.id);
             } else {
                 setDbPost(null);
             }
@@ -135,6 +137,10 @@ const BlogDetail = () => {
                                     <div className="flex items-center">
                                         <FaUser className="mr-2 text-primary" />
                                         <span>{post.author}</span>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <FaEye className="mr-2 text-primary" />
+                                        <span>{post.views || 0}</span>
                                     </div>
                                 </div>
                             </div>

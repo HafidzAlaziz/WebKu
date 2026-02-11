@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const UserMenu = ({ onWriteClick, onMyArticlesClick }) => {
+const UserMenu = ({ onWriteClick, onMyArticlesClick, articlesCount = 0 }) => {
     const { t } = useTranslation();
     const { user, signOut } = useAuth();
     const navigate = useNavigate();
@@ -103,6 +103,11 @@ const UserMenu = ({ onWriteClick, onMyArticlesClick }) => {
                             >
                                 <FileText size={16} className="text-emerald-500" />
                                 {t('blog.my_articles') || "My Articles"}
+                                {articlesCount > 0 && (
+                                    <span className="ml-auto px-2 py-0.5 bg-brand-emerald-100 text-brand-emerald-700 dark:bg-brand-emerald-900/40 dark:text-brand-emerald-400 rounded-full text-[10px] font-bold">
+                                        {articlesCount}
+                                    </span>
+                                )}
                             </button>
                         </div>
 

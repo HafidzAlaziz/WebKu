@@ -58,7 +58,21 @@
         "ctaTitle": "このようなプロフェッショナルなウェブサイトが欲しいですか？",
         "ctaSubtitle": "WebKuuでデジタルのニーズをご相談ください。お客様のビジネスのオンライン成長をお手伝いいたします。",
         "ctaButton": "今すぐWebKuuに連絡",
-        "copied": "コピーしました！"
+        "copied": "コピーしました！",
+        "login_to_write": "記事を書くにはログインしてください",
+        "empty": {
+            "title": "まだ記事がありません",
+            "message": "まだ記事を投稿していません。"
+        },
+        "actions": {
+            "delete_success": "記事が正常に削除されました",
+            "delete_failed": "記事の削除に失敗しました",
+            "approve_success": "記事が正常に承認されました",
+            "approve_failed": "記事の承認に失敗しました",
+            "reject_confirm": "この記事を拒否してもよろしいですか？",
+            "reject_success": "記事が正常に拒否されました",
+            "reject_failed": "記事の拒否に失敗しました"
+        }
     },
     "hero": {
         "badge": "迅速で予算に優しいソリューション",
@@ -787,6 +801,126 @@
             "title": "ダッシュボード設定",
             "subtitle": "システム設定と表示設定はこちらで利用可能になります。"
         },
+        "blog": {
+            "title": "ブログ管理",
+            "subtitle": "自動翻訳でブログ記事を作成および管理します",
+            "menu": {
+                "all_posts": "すべての投稿",
+                "pending": "レビュー待ち"
+            },
+            "stats": {
+                "total_posts": "総投稿数",
+                "total_categories": "総カテゴリ数",
+                "last_post": "最新の投稿"
+            },
+            "notifications": {
+                "new_post_title": "新しいブログ投稿！",
+                "just_now": "たった今",
+                "review_now": "今すぐレビュー",
+                "by": "作成者"
+            },
+            "status": {
+                "approved": "承認済み",
+                "pending": "保留中",
+                "rejected": "拒否されました"
+            },
+            "actions": {
+                "approve_success": "記事が正常に承認されました",
+                "approve_failed": "承認に失敗しました",
+                "reject_confirm": "この記事を拒否してもよろしいですか？",
+                "reject_success": "記事が拒否されました",
+                "reject_failed": "拒否に失敗しました",
+                "delete_success": "記事が正常に削除されました",
+                "delete_failed": "削除に失敗しました"
+            },
+            "delete_confirm": {
+                "title": "記事を削除しますか？",
+                "message": "この記事を削除してもよろしいですか？この操作は元に戻せません。",
+                "confirm": "削除",
+                "cancel": "キャンセル"
+            },
+            "approve_confirm": {
+                "title": "記事を承認しますか？",
+                "message": "この記事を承認してもよろしいですか？すぐに公開されます。",
+                "confirm": "はい、承認します",
+                "cancel": "キャンセル"
+            },
+            "reject_confirm_modal": {
+                "title": "記事を拒否しますか？",
+                "message": "この記事を拒否してもよろしいですか？",
+                "confirm": "はい、拒否します",
+                "cancel": "キャンセル"
+            },
+            "filters": {
+                "all_categories": "すべてのカテゴリ"
+            },
+            "add_button": "新しい記事を追加",
+            "search_placeholder": "タイトルまたはカテゴリで記事を検索...",
+            "table": {
+                "article": "記事",
+                "category": "カテゴリ",
+                "status": "ステータス",
+                "date": "日付",
+                "actions": "アクション",
+                "empty": "記事が見つかりません。最初の記事を作成してください！"
+            },
+            "form": {
+                "add_title": "新しい記事を書く",
+                "edit_title": "記事を編集",
+                "sections": {
+                    "basic": "一般情報",
+                    "content": "記事の内容",
+                    "preview": "プレビュー"
+                },
+                "labels": {
+                    "title": "記事のタイトル",
+                    "slug": "URLスラッグ（一意）",
+                    "slug_help": "記事のURLに使用されます（例：your-article-title）",
+                    "category": "カテゴリ",
+                    "excerpt": "短い抜粋",
+                    "keywords": "キーワード（SEO）",
+                    "content": "記事の内容（HTML対応）",
+                    "image": "アイキャッチ画像",
+                    "author": "著者名",
+                    "marker_en": " (EN)",
+                    "marker_id": " (ID)",
+                    "marker_es": " (ES)",
+                    "marker_fr": " (FR)",
+                    "marker_ja": " (JA)"
+                },
+                "placeholders": {
+                    "title": "例：中小企業のための5つの成功のヒント",
+                    "slug": "例：5-success-tips-smes",
+                    "category": "例：Webサイトのヒント",
+                    "excerpt": "記事の短い要約...",
+                    "keywords": "例：ビジネスのヒント、中小企業、Webサイト（カンマで区切る）",
+                    "content": "ここにコンテンツを書いてください...",
+                    "image": "URLをアップロードまたは貼り付け...",
+                    "image_url": "または画像のリンクをここに貼り付け（オプション）...",
+                    "author": "著者名を入力",
+                    "author_default": "WebKuu管理者"
+                },
+                "buttons": {
+                    "save": "記事を公開",
+                    "update": "記事を更新",
+                    "cancel": "キャンセル",
+                    "translate": "自動翻訳"
+                },
+                "success": {
+                    "saved": "記事が正常に公開されました！",
+                    "updated": "記事が正常に更新されました！"
+                },
+                "translate": {
+                    "fill_en_first": "自動翻訳の前にタイトルとコンテンツを入力してください！",
+                    "success": "すべての言語に正常に翻訳されました！",
+                    "failed": "自動翻訳に失敗しました。"
+                },
+                "validation": {
+                    "fill_required": "赤色のマークが付いたすべてのフィールドに入力してください！",
+                    "fill_translations": "すべての言語に入力するか、自動翻訳をクリックしてください！"
+                }
+            }
+        },
         "sidebar": {
             "branding": "デジタルソリューション",
             "sections": {
@@ -807,6 +941,34 @@
                 "theme_light": "ライトモード",
                 "theme_dark": "ダークモード",
                 "live": "ライブ"
+            }
+        },
+        "blog": {
+            "notifications": {
+                "new_post_title": "新しいブログ記事！",
+                "just_now": "たった今",
+                "review_now": "今すぐ確認",
+                "by": "投稿者"
+            },
+            "status": {
+                "approved": "承認済み",
+                "pending": "審査待ち",
+                "rejected": "却下"
+            },
+            "actions": {
+                "approve_success": "記事が承認されました",
+                "approve_failed": "承認に失敗しました",
+                "reject_confirm": "本当にこの記事を却下しますか？",
+                "reject_success": "記事が却下されました",
+                "reject_failed": "却下に失敗しました",
+                "delete_success": "記事が削除されました",
+                "delete_failed": "削除に失敗しました"
+            },
+            "delete_confirm": {
+                "title": "記事を削除しますか？",
+                "message": "本当にこの記事を削除しますか？この操作は取り消せません。",
+                "confirm": "削除",
+                "cancel": "キャンセル"
             }
         },
         "portfolio": {

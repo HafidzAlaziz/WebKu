@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaCalendarAlt, FaTag, FaArrowRight } from 'react-icons/fa';
+import { FaCalendarAlt, FaTag, FaArrowRight, FaEye } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 const BlogCard = ({ post }) => {
@@ -23,6 +23,10 @@ const BlogCard = ({ post }) => {
                     <div className="flex items-center">
                         <FaCalendarAlt className="mr-2" />
                         <span>{new Date(post.date).toLocaleDateString(i18n.language, { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                    </div>
+                    <div className="flex items-center">
+                        <FaEye className="mr-2" />
+                        <span>{post.views || 0}</span>
                     </div>
                 </div>
 

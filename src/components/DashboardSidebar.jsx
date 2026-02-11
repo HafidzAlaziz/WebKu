@@ -52,7 +52,7 @@ const Logo = ({ isCollapsed }) => {
     );
 };
 
-const DashboardSidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen, isCollapsed, setIsCollapsed }) => {
+const DashboardSidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOpen, isCollapsed, setIsCollapsed, blogBadgeCount = 0, unreadOrdersCount = 0 }) => {
     const { t, i18n } = useTranslation();
     const { isDark, toggleTheme } = useTheme();
     const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
@@ -174,6 +174,18 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOp
 
                                 {!isCollapsed && (
                                     <span className="flex-1 text-left">{item.label}</span>
+                                )}
+
+                                {/* Notification Badges */}
+                                {item.id === 'orders' && unreadOrdersCount > 0 && (
+                                    <div className={`${isCollapsed ? 'absolute top-1 right-1' : ''} bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center`}>
+                                        {unreadOrdersCount}
+                                    </div>
+                                )}
+                                {item.id === 'blog' && blogBadgeCount > 0 && (
+                                    <div className={`${isCollapsed ? 'absolute top-1 right-1' : ''} bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center`}>
+                                        {blogBadgeCount}
+                                    </div>
                                 )}
                             </button>
                         ))}
@@ -309,6 +321,11 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOp
                                     : 'text-slate-500'
                                     }`}
                             >
+                                {item.id === 'blog' && blogBadgeCount > 0 && (
+                                    <span className="absolute top-0 right-2 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-[#1e293b]">
+                                        {blogBadgeCount}
+                                    </span>
+                                )}
                                 <div className={`
                                     p-1 rounded-full transition-all duration-300
                                     ${isActive ? 'bg-emerald-600/10' : ''}

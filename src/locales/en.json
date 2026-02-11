@@ -63,7 +63,20 @@
         "my_articles": "My Articles",
         "logout": "Logout",
         "login": "Login",
-        "login_to_write": "Login to Write Article"
+        "login_to_write": "Login to Write Article",
+        "empty": {
+            "title": "No Articles Yet",
+            "message": "You haven't submitted any articles yet."
+        },
+        "actions": {
+            "delete_success": "Article deleted successfully",
+            "delete_failed": "Failed to delete article",
+            "approve_success": "Article approved successfully",
+            "approve_failed": "Failed to approve article",
+            "reject_confirm": "Are you sure you want to reject this article?",
+            "reject_success": "Article rejected successfully",
+            "reject_failed": "Failed to reject article"
+        }
     },
     "hero": {
         "badge": "Fast & Budget-Friendly Solution",
@@ -796,6 +809,114 @@
             "title": "Dashboard Settings",
             "subtitle": "System configuration and display preferences will be available here."
         },
+        "blog": {
+            "title": "Blog Management",
+            "subtitle": "Create and manage your blog articles with auto-translate",
+            "menu": {
+                "all_posts": "All Posts",
+                "pending": "Pending Review"
+            },
+            "stats": {
+                "total_posts": "Total Posts",
+                "total_categories": "Total Categories",
+                "last_post": "Last Post"
+            },
+            "notifications": {
+                "new_post_title": "New Blog Post!",
+                "just_now": "Just now",
+                "review_now": "REVIEW NOW",
+                "by": "By"
+            },
+            "status": {
+                "approved": "Approved",
+                "pending": "Pending",
+                "rejected": "Rejected"
+            },
+            "actions": {
+                "approve_success": "Article approved successfully",
+                "approve_failed": "Failed to approve",
+                "reject_confirm": "Are you sure you want to reject this article?",
+                "reject_success": "Article rejected",
+                "reject_failed": "Failed to reject",
+                "delete_success": "Article deleted successfully",
+                "delete_failed": "Failed to delete"
+            },
+            "delete_confirm": {
+                "title": "Delete Article?",
+                "message": "Are you sure you want to delete this article? This action cannot be undone.",
+                "confirm": "Delete",
+                "cancel": "Cancel"
+            },
+            "filters": {
+                "all_categories": "All Categories"
+            },
+            "add_button": "Add New Article",
+            "search_placeholder": "Search articles by title or category...",
+            "table": {
+                "article": "Article",
+                "category": "Category",
+                "status": "Status",
+                "date": "Date",
+                "actions": "Actions",
+                "empty": "No articles found. Create your first article!"
+            },
+            "form": {
+                "add_title": "Write New Article",
+                "edit_title": "Edit Article",
+                "sections": {
+                    "basic": "General Information",
+                    "content": "Article Content",
+                    "preview": "Preview"
+                },
+                "labels": {
+                    "title": "Article Title",
+                    "slug": "URL Slug (Unique)",
+                    "slug_help": "Used for article URL (e.g., your-article-title)",
+                    "category": "Category",
+                    "excerpt": "Short Excerpt",
+                    "keywords": "Keywords (SEO)",
+                    "content": "Article Content (Supports HTML)",
+                    "image": "Featured Image",
+                    "author": "Author Name",
+                    "marker_en": " (EN)",
+                    "marker_id": " (ID)",
+                    "marker_es": " (ES)",
+                    "marker_fr": " (FR)",
+                    "marker_ja": " (JA)"
+                },
+                "placeholders": {
+                    "title": "e.g.: 5 Success Tips for SMEs",
+                    "slug": "e.g.: 5-success-tips-smes",
+                    "category": "e.g.: Website Tips",
+                    "excerpt": "Short summary of your article...",
+                    "keywords": "e.g.: business tips, smes, website (separate with commas)",
+                    "content": "Write your content here...",
+                    "image": "Upload or paste URL...",
+                    "image_url": "Or paste image link here (optional)...",
+                    "author": "Enter author name",
+                    "author_default": "WebKuu Admin"
+                },
+                "buttons": {
+                    "save": "Publish Article",
+                    "update": "Update Article",
+                    "cancel": "Cancel",
+                    "translate": "Auto-Translate"
+                },
+                "success": {
+                    "saved": "Article published successfully!",
+                    "updated": "Article updated successfully!"
+                },
+                "translate": {
+                    "fill_en_first": "Fill in title and content before auto-translate!",
+                    "success": "Successfully translated to all languages!",
+                    "failed": "Failed to perform automatic translation."
+                },
+                "validation": {
+                    "fill_required": "Please complete all red-marked fields!",
+                    "fill_translations": "Please complete all languages or click Auto-Translate!"
+                }
+            }
+        },
         "sidebar": {
             "branding": "DIGITAL SOLUTION",
             "sections": {
@@ -951,6 +1072,32 @@
                 "all_posts": "All Posts",
                 "pending": "Pending Review"
             },
+            "notifications": {
+                "new_post_title": "New Blog Post!",
+                "just_now": "Just now",
+                "review_now": "REVIEW NOW",
+                "by": "By"
+            },
+            "status": {
+                "approved": "Approved",
+                "pending": "Pending Review",
+                "rejected": "Rejected"
+            },
+            "actions": {
+                "approve_success": "Article approved successfully",
+                "approve_failed": "Failed to approve",
+                "reject_confirm": "Are you sure you want to reject this article?",
+                "reject_success": "Article rejected",
+                "reject_failed": "Failed to reject",
+                "delete_success": "Article deleted successfully",
+                "delete_failed": "Failed to delete"
+            },
+            "delete_confirm": {
+                "title": "Delete Article?",
+                "message": "Are you sure you want to delete this article? This action cannot be undone.",
+                "confirm": "Delete",
+                "cancel": "Cancel"
+            },
             "stats": {
                 "total_posts": "Total Posts",
                 "total_categories": "Total Categories",
@@ -1029,6 +1176,18 @@
                 "title": "Delete Article?",
                 "message": "This article will be permanently removed. This action cannot be undone. Are you sure?",
                 "confirm": "Yes, Delete",
+                "cancel": "Cancel"
+            },
+            "approve_confirm": {
+                "title": "Approve Article?",
+                "message": "Are you sure you want to approve this article? It will be published immediately.",
+                "confirm": "Yes, Approve",
+                "cancel": "Cancel"
+            },
+            "reject_confirm_modal": {
+                "title": "Reject Article?",
+                "message": "Are you sure you want to reject this article?",
+                "confirm": "Yes, Reject",
                 "cancel": "Cancel"
             }
         },

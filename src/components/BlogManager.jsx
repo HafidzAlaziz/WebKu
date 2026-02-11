@@ -12,7 +12,7 @@ import { useBlog } from '../hooks/useBlog';
 import { translateText } from '../utils/translateUtils';
 import BlogForm from './BlogForm';
 
-const BlogManager = () => {
+const BlogManager = ({ selectedPostId, onClearSelection }) => {
     const { t, i18n } = useTranslation();
     const {
         posts, pendingPosts, loading, error,
@@ -27,7 +27,9 @@ const BlogManager = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('All');
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
     const [postToDelete, setPostToDelete] = useState(null);
+    const [confirmationModal, setConfirmationModal] = useState({ isOpen: false, type: null, id: null });
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
@@ -60,6 +62,28 @@ const BlogManager = () => {
         }
     }, [activeTab, fetchPosts, fetchPendingPosts]);
 
+    // Handle Deep Linking from Notification
+    useEffect(() => {
+        if (selectedPostId && (posts.length > 0 || pendingPosts.length > 0)) {
+            const targetPost = pendingPosts.find(p => p.id === selectedPostId) || posts.find(p => p.id === selectedPostId);
+
+            if (targetPost) {
+                setEditingPost(targetPost);
+                setIsFormOpen(true);
+
+                // Switch tab if needed
+                if (targetPost.status === 'pending') {
+                    setActiveTab('pending');
+                } else {
+                    setActiveTab('all');
+                }
+
+                // Clear the selection so it doesn't reopen on close
+                if (onClearSelection) onClearSelection();
+            }
+        }
+    }, [selectedPostId, posts, pendingPosts, onClearSelection]);
+
     useEffect(() => {
         setCategoryFilter('All');
         setCurrentPage(1);
@@ -79,33 +103,44 @@ const BlogManager = () => {
         if (postToDelete) {
             const result = await deletePost(postToDelete);
             if (result.success) {
-                showToast(t('dashboard.recent_orders.actions.delete_success'), 'success');
+                showToast(t('dashboard.blog.actions.delete_success'), 'success');
                 setIsDeleteModalOpen(false);
                 setPostToDelete(null);
             } else {
-                showToast(t('dashboard.recent_orders.actions.action_failed') + ': ' + result.error, 'error');
+                showToast(t('dashboard.blog.actions.delete_failed') + ': ' + result.error, 'error');
             }
         }
     };
 
-    const handleApprove = async (id) => {
-        const result = await updatePostStatus(id, 'approved');
-        if (result.success) {
-            showToast('Article approved successfully', 'success');
-        } else {
-            showToast('Failed to approve: ' + result.error, 'error');
-        }
+    const handleApprove = (id) => {
+        setConfirmationModal({ isOpen: true, type: 'approve', id });
     };
 
-    const handleReject = async (id) => {
-        if (window.confirm('Are you sure you want to reject this article?')) {
-            const result = await updatePostStatus(id, 'rejected');
+    const handleReject = (id) => {
+        setConfirmationModal({ isOpen: true, type: 'reject', id });
+    };
+
+    const confirmAction = async () => {
+        const { type, id } = confirmationModal;
+        if (!type || !id) return;
+
+        let result;
+        if (type === 'approve') {
+            result = await updatePostStatus(id, 'approved');
             if (result.success) {
-                showToast('Article rejected', 'success');
+                showToast(t('dashboard.blog.actions.approve_success'), 'success');
             } else {
-                showToast('Failed to reject: ' + result.error, 'error');
+                showToast(t('dashboard.blog.actions.approve_failed') + ': ' + result.error, 'error');
+            }
+        } else if (type === 'reject') {
+            result = await updatePostStatus(id, 'rejected');
+            if (result.success) {
+                showToast(t('dashboard.blog.actions.reject_success'), 'success');
+            } else {
+                showToast(t('dashboard.blog.actions.reject_failed') + ': ' + result.error, 'error');
             }
         }
+        setConfirmationModal({ isOpen: false, type: null, id: null });
     };
 
     const currentLang = i18n.language.split('-')[0];
@@ -484,6 +519,14 @@ const BlogManager = () => {
                 onConfirm={confirmDelete}
             />
 
+            {/* Approve/Reject Confirmation */}
+            <ConfirmationModal
+                isOpen={confirmationModal.isOpen}
+                onClose={() => setConfirmationModal({ isOpen: false, type: null, id: null })}
+                onConfirm={confirmAction}
+                type={confirmationModal.type}
+            />
+
             {/* Notification Toast */}
             <AnimatePresence>
                 {toast.show && (
@@ -491,16 +534,16 @@ const BlogManager = () => {
                         initial={{ opacity: 0, x: 50, y: -20 }}
                         animate={{ opacity: 1, x: 0, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className={`fixed top-6 right-6 z-[200] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border backdrop-blur-sm ${toast.type === 'error'
-                            ? 'bg-red-600 text-white border-red-500/20'
-                            : 'bg-emerald-600 text-white border-emerald-500/20'
+                        className={`fixed top-6 left-4 right-4 md:left-auto md:right-6 md:w-auto z-[200] px-6 py-4 rounded-2xl shadow-xl flex items-center gap-4 border backdrop-blur-md ${toast.type === 'error'
+                            ? 'bg-red-600/95 text-white border-red-500/20'
+                            : 'bg-emerald-600/95 text-white border-emerald-500/20'
                             }`}
                     >
-                        <div className="bg-white/20 p-2 rounded-xl">
+                        <div className="bg-white/20 p-2 rounded-xl flex-shrink-0">
                             {toast.type === 'error' ? <AlertCircle size={20} className="animate-pulse" /> : <CheckCircle size={20} className="animate-bounce" />}
                         </div>
-                        <div>
-                            <span className="font-bold text-sm">{toast.message}</span>
+                        <div className="flex-1 min-w-0">
+                            <span className="font-bold text-sm block truncate">{toast.message}</span>
                         </div>
                     </motion.div>
                 )}
@@ -529,6 +572,52 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
                 <div className="flex gap-3">
                     <button onClick={onClose} className="flex-1 py-3 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-white font-bold rounded-xl hover:bg-slate-200 transition-all">{t('dashboard.blog.delete_confirm.cancel')}</button>
                     <button onClick={onConfirm} className="flex-1 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-all">{t('dashboard.blog.delete_confirm.confirm')}</button>
+                </div>
+            </motion.div>
+        </div>
+    );
+};
+
+const ConfirmationModal = ({ isOpen, onClose, onConfirm, type }) => {
+    const { t } = useTranslation();
+    if (!isOpen) return null;
+
+    const isApprove = type === 'approve';
+    const config = isApprove ? {
+        icon: <CheckCircle size={40} />,
+        bg: 'bg-emerald-100 dark:bg-emerald-900/30',
+        text: 'text-emerald-600',
+        title: t('dashboard.blog.approve_confirm.title'),
+        message: t('dashboard.blog.approve_confirm.message'),
+        confirmBtn: 'bg-emerald-600 hover:bg-emerald-700',
+        confirmText: t('dashboard.blog.approve_confirm.confirm'),
+        cancelText: t('dashboard.blog.approve_confirm.cancel')
+    } : {
+        icon: <XCircle size={40} />,
+        bg: 'bg-red-100 dark:bg-red-900/30',
+        text: 'text-red-600',
+        title: t('dashboard.blog.reject_confirm_modal.title'),
+        message: t('dashboard.blog.reject_confirm_modal.message'),
+        confirmBtn: 'bg-red-600 hover:bg-red-700',
+        confirmText: t('dashboard.blog.reject_confirm_modal.confirm'),
+        cancelText: t('dashboard.blog.reject_confirm_modal.cancel')
+    };
+
+    return (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-white dark:bg-slate-800 w-full max-w-sm rounded-3xl p-8 text-center"
+            >
+                <div className={`w-20 h-20 ${config.bg} ${config.text} rounded-full flex items-center justify-center mx-auto mb-6`}>
+                    {config.icon}
+                </div>
+                <h3 className="text-2xl font-bold dark:text-white mb-2">{config.title}</h3>
+                <p className="text-slate-500 mb-8">{config.message}</p>
+                <div className="flex gap-3">
+                    <button onClick={onClose} className="flex-1 py-3 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-white font-bold rounded-xl hover:bg-slate-200 transition-all">{config.cancelText}</button>
+                    <button onClick={onConfirm} className={`flex-1 py-3 text-white font-bold rounded-xl transition-all ${config.confirmBtn}`}>{config.confirmText}</button>
                 </div>
             </motion.div>
         </div>

@@ -17,31 +17,64 @@ import LoginModal from '../components/LoginModal';
 import UserMenu from '../components/UserMenu';
 import MyArticlesModal from '../components/MyArticlesModal';
 
-// Mobile Filter Component - Moved outside to prevent re-mounting on state changes
-const MobileFilters = ({ searchTerm, setSearchTerm, selectedCategory, setSelectedCategory, dynamicCategories, t }) => (
-    <div className="lg:hidden sticky top-0 z-30 px-4 py-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-md transition-all mb-6 -mx-4 md:-mx-8">
-        <div className="container mx-auto max-w-4xl space-y-3">
-            {/* Search */}
-            <div className="relative">
-                <input
-                    type="text"
-                    placeholder={t('dashboard.blog.search_placeholder') || "Cari artikel..."}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm outline-none focus:ring-2 focus:ring-primary dark:text-white transition-all shadow-inner"
-                />
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+// Mobile Filter Component - Refactored for better responsiveness
+const MobileFilters = ({
+    searchTerm,
+    setSearchTerm,
+    selectedCategory,
+    setSelectedCategory,
+    dynamicCategories,
+    t,
+    user,
+    onWriteClick,
+    onMyArticlesClick,
+    articlesCount
+}) => (
+    <div className="lg:hidden sticky top-[68px] z-30 px-4 py-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm transition-all mb-6 -mx-4 md:-mx-8">
+        <div className="container mx-auto space-y-3">
+            {/* Top Row: Search + User Action */}
+            <div className="flex items-center gap-3">
+                <div className="relative flex-1">
+                    <input
+                        type="text"
+                        placeholder={t('dashboard.blog.search_placeholder') || "Cari artikel..."}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-9 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full text-sm outline-none focus:ring-2 focus:ring-primary dark:text-white transition-all"
+                    />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                </div>
+
+                {/* Mobile User Action */}
+                <div className="flex-shrink-0">
+                    {user ? (
+                        <div className="scale-90 origin-right">
+                            <UserMenu
+                                onWriteClick={onWriteClick}
+                                onMyArticlesClick={onMyArticlesClick}
+                                articlesCount={articlesCount}
+                            />
+                        </div>
+                    ) : (
+                        <button
+                            onClick={onWriteClick}
+                            className="flex items-center justify-center w-9 h-9 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark transition-all"
+                        >
+                            <Plus size={18} />
+                        </button>
+                    )}
+                </div>
             </div>
 
-            {/* Categories (Horizontal Scroll) */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar hide-scrollbar">
+            {/* Bottom Row: Categories */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar hide-scrollbar -mx-4 px-4">
                 {dynamicCategories.map((category) => (
                     <button
                         key={category}
                         onClick={() => setSelectedCategory(category)}
-                        className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap border ${selectedCategory === category
-                            ? 'bg-primary text-white border-primary shadow-md shadow-primary/20'
-                            : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-primary hover:text-primary'
+                        className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap border ${selectedCategory === category
+                            ? 'bg-primary text-white border-primary shadow-sm'
+                            : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700'
                             }`}
                     >
                         {category === 'All' ? t('blog.all') : category}
@@ -107,8 +140,9 @@ const FloatingMobileCTA = ({ showFloatingCTA, setShowFloatingCTA, t }) => {
 
 const Blog = () => {
     const { t, i18n } = useTranslation();
-    const { posts: dbPosts, loading, fetchPosts, addPost } = useBlog();
+    const { posts: dbPosts, loading, fetchPosts, addPost, updatePost, fetchMyArticlesCount } = useBlog();
     const { user } = useAuth();
+    const [articlesCount, setArticlesCount] = useState(0);
     const navigate = useNavigate();
 
     const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
@@ -120,6 +154,7 @@ const Blog = () => {
     const [postsPerPage] = useState(4);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [editingArticle, setEditingArticle] = useState(null);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
 
     const showToast = (message, type = 'success') => {
@@ -130,6 +165,16 @@ const Blog = () => {
     useEffect(() => {
         fetchPosts();
     }, [fetchPosts]);
+
+    useEffect(() => {
+        const getCount = async () => {
+            if (user?.id) {
+                const count = await fetchMyArticlesCount(user.id);
+                setArticlesCount(count);
+            }
+        };
+        getCount();
+    }, [user, fetchMyArticlesCount]);
 
     useEffect(() => {
         setSelectedCategory('All');
@@ -202,14 +247,20 @@ const Blog = () => {
         setIsWriteModalOpen(true);
     };
 
-    const handleSaveArticle = async (data) => {
-        // Status is handled by default in addPost as 'pending'
-        // But we can explicitly set it to be sure/clear
+    const handleSaveArticle = async (idOrData, maybeData) => {
+        const isUpdate = typeof idOrData === 'string';
+        const data = isUpdate ? maybeData : idOrData;
+        const id = isUpdate ? idOrData : null;
+
+        if (isUpdate) {
+            return await updatePost(id, data);
+        }
+
         return await addPost({
             ...data,
             status: 'pending',
-            author_id: user.id, // If RLS needs it
-            author: user.user_metadata?.full_name || user.email.split('@')[0] // Default author name
+            author_id: user.id,
+            author: data.author || user.user_metadata?.full_name || user.email.split('@')[0]
         });
     };
 
@@ -232,8 +283,8 @@ const Blog = () => {
                 <div className="container mx-auto px-4 md:px-8">
 
                     {/* Header Section */}
-                    <div className="text-center mb-8 lg:mb-12 animate-fade-in-down">
-                        <h1 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light dark:from-brand-emerald-400 dark:to-brand-emerald-300 mb-4">
+                    <div className="text-center mb-6 lg:mb-12 animate-fade-in-down">
+                        <h1 className="text-2xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light dark:from-brand-emerald-400 dark:to-brand-emerald-300 mb-2 md:mb-4">
                             {t('blog.title')}
                         </h1>
                         <p className="text-slate-600 dark:text-slate-300 text-lg max-w-2xl mx-auto hidden md:block">
@@ -245,14 +296,14 @@ const Blog = () => {
                             <span className="text-primary dark:text-brand-emerald-400 font-medium">{t('blog.title_short')}</span>
                         </div>
 
-                        <div className="mt-6 flex justify-center">
+                        <div className="mt-6 justify-center hidden lg:flex">
                             {user ? (
                                 <div className="flex flex-col items-center gap-4">
                                     <UserMenu
                                         onWriteClick={() => setIsWriteModalOpen(true)}
                                         onMyArticlesClick={() => setIsMyArticlesModalOpen(true)}
+                                        articlesCount={articlesCount}
                                     />
-                                    {/* Optional: Add a direct Write button too if preferred, but menu has it */}
                                 </div>
                             ) : (
                                 <button
@@ -276,6 +327,10 @@ const Blog = () => {
                             setSelectedCategory={setSelectedCategory}
                             dynamicCategories={dynamicCategories}
                             t={t}
+                            user={user}
+                            onWriteClick={handleWriteClick}
+                            onMyArticlesClick={() => setIsMyArticlesModalOpen(true)}
+                            articlesCount={articlesCount}
                         />
 
                         {/* Main Content */}
@@ -321,10 +376,14 @@ const Blog = () => {
 
             {/* Write Article Modal */}
             <AnimatePresence>
-                {isWriteModalOpen && (
+                {(isWriteModalOpen || editingArticle) && (
                     <BlogForm
-                        isOpen={isWriteModalOpen}
-                        onClose={() => setIsWriteModalOpen(false)}
+                        isOpen={true}
+                        onClose={() => {
+                            setIsWriteModalOpen(false);
+                            setEditingArticle(null);
+                        }}
+                        post={editingArticle}
                         onSave={handleSaveArticle}
                         showToast={showToast}
                         isPublic={true}
@@ -342,6 +401,7 @@ const Blog = () => {
             <MyArticlesModal
                 isOpen={isMyArticlesModalOpen}
                 onClose={() => setIsMyArticlesModalOpen(false)}
+                onEditArticle={(article) => setEditingArticle(article)}
             />
 
             {/* Floating Mobile CTA */}
@@ -354,20 +414,21 @@ const Blog = () => {
             {/* Notification Toast */}
             <AnimatePresence>
                 {toast.show && (
+
                     <motion.div
                         initial={{ opacity: 0, x: 50, y: -20 }}
                         animate={{ opacity: 1, x: 0, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className={`fixed top-24 right-6 z-[200] px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 border backdrop-blur-sm ${toast.type === 'error'
-                            ? 'bg-red-600 text-white border-red-500/20'
-                            : 'bg-emerald-600 text-white border-emerald-500/20'
+                        className={`fixed top-24 left-4 right-4 md:left-auto md:right-6 md:w-auto z-[200] px-6 py-4 rounded-2xl shadow-xl flex items-center gap-4 border backdrop-blur-md ${toast.type === 'error'
+                            ? 'bg-red-600/95 text-white border-red-500/20'
+                            : 'bg-emerald-600/95 text-white border-emerald-500/20'
                             }`}
                     >
-                        <div className="bg-white/20 p-2 rounded-xl">
+                        <div className="bg-white/20 p-2 rounded-xl flex-shrink-0">
                             {toast.type === 'error' ? <AlertCircle size={20} className="animate-pulse" /> : <CheckCircle size={20} className="animate-bounce" />}
                         </div>
-                        <div>
-                            <span className="font-bold text-sm">{toast.message}</span>
+                        <div className="flex-1 min-w-0">
+                            <span className="font-bold text-sm block truncate">{toast.message}</span>
                         </div>
                     </motion.div>
                 )}
