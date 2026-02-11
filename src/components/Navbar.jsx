@@ -22,7 +22,10 @@ const Logo = () => {
                         className="w-8 h-8 relative z-10 transition-transform duration-500 group-hover:scale-110"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        role="img"
+                        aria-labelledby="nav-logo-title"
                     >
+                        <title id="nav-logo-title">WebKuu Logo</title>
                         <path
                             d="M12 22L20 46L32 25L45 46L52 22"
                             stroke="url(#logo-gradient-nav)"
@@ -168,7 +171,7 @@ const Navbar = () => {
                 }`}
         >
             <div className="container mx-auto px-6 flex justify-between items-center">
-                <Link to="/" className="flex-shrink-0">
+                <Link to="/" className="flex-shrink-0" aria-label="WebKuu Home">
                     <Logo />
                 </Link>
 
@@ -204,10 +207,13 @@ const Navbar = () => {
                             <motion.button
                                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-transparent hover:border-primary/20"
+                                aria-label="Select language"
+                                aria-expanded={isLangMenuOpen}
+                                aria-haspopup="true"
                             >
-                                <span className="text-base">{languages.find(l => l.code === i18n.language)?.flag}</span>
+                                <span className="text-base" aria-hidden="true">{languages.find(l => l.code === i18n.language)?.flag}</span>
                                 <span className="text-xs font-bold uppercase tracking-wider">{i18n.language}</span>
-                                <ChevronDown size={14} className={`transition-transform duration-200 ${isLangMenuOpen ? 'rotate-180' : ''}`} />
+                                <ChevronDown size={14} className={`transition-transform duration-200 ${isLangMenuOpen ? 'rotate-180' : ''}`} aria-hidden="true" />
                             </motion.button>
 
                             <AnimatePresence>

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import StatsShowcase from '../components/StatsShowcase';
 import PortfolioPreview from '../components/PortfolioPreview';
 import Services from '../components/Services';
-import Pricing from '../components/Pricing';
-import Testimonials from '../components/Testimonials';
-import CTA from '../components/CTA';
-import Footer from '../components/Footer';
+const Pricing = lazy(() => import('../components/Pricing'));
+const Testimonials = lazy(() => import('../components/Testimonials'));
+const CTA = lazy(() => import('../components/CTA'));
+const Footer = lazy(() => import('../components/Footer'));
 
 import SEO from '../components/SEO';
 
@@ -27,11 +27,19 @@ const HomePage = () => {
                 <Hero />
                 <PortfolioPreview />
                 <Services />
-                <Pricing />
-                <Testimonials />
-                <CTA />
+                <Suspense fallback={<div className="h-40" />}>
+                    <Pricing />
+                </Suspense>
+                <Suspense fallback={<div className="h-40" />}>
+                    <Testimonials />
+                </Suspense>
+                <Suspense fallback={<div className="h-40" />}>
+                    <CTA />
+                </Suspense>
             </main>
-            <Footer />
+            <Suspense fallback={<div className="h-20" />}>
+                <Footer />
+            </Suspense>
         </>
     );
 };

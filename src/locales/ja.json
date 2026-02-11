@@ -943,34 +943,6 @@
                 "live": "ライブ"
             }
         },
-        "blog": {
-            "notifications": {
-                "new_post_title": "新しいブログ記事！",
-                "just_now": "たった今",
-                "review_now": "今すぐ確認",
-                "by": "投稿者"
-            },
-            "status": {
-                "approved": "承認済み",
-                "pending": "審査待ち",
-                "rejected": "却下"
-            },
-            "actions": {
-                "approve_success": "記事が承認されました",
-                "approve_failed": "承認に失敗しました",
-                "reject_confirm": "本当にこの記事を却下しますか？",
-                "reject_success": "記事が却下されました",
-                "reject_failed": "却下に失敗しました",
-                "delete_success": "記事が削除されました",
-                "delete_failed": "削除に失敗しました"
-            },
-            "delete_confirm": {
-                "title": "記事を削除しますか？",
-                "message": "本当にこの記事を削除しますか？この操作は取り消せません。",
-                "confirm": "削除",
-                "cancel": "キャンセル"
-            }
-        },
         "portfolio": {
             "title": "ポートフォリオ管理",
             "subtitle": "ウェブサイトのポートフォリオプロジェクトを動的に管理します",
@@ -1145,88 +1117,6 @@
         },
         "footer": {
             "note": "このダッシュボードは、イベント追跡に基づいた単純な分析を表示します。「ビュー」はページの読み込み、「注文」はWhatsAppボタンのクリックです。データはリアルタイムで同期されます。"
-        },
-        "blog": {
-            "title": "ブログ管理",
-            "subtitle": "自動翻訳機能を使ってブログ記事を作成・管理します",
-            "stats": {
-                "total_posts": "総記事数",
-                "total_categories": "カテゴリー数",
-                "last_post": "最新の投稿"
-            },
-            "filters": {
-                "all_categories": "すべてのカテゴリ"
-            },
-            "add_button": "新しい記事を追加",
-            "search_placeholder": "タイトルまたはカテゴリーで記事を検索...",
-            "table": {
-                "article": "記事",
-                "category": "カテゴリー",
-                "date": "日付",
-                "actions": "アクション",
-                "empty": "記事が見つかりません。最初の記事を作成しましょう！"
-            },
-            "form": {
-                "add_title": "新しい記事を書く",
-                "edit_title": "記事を編集",
-                "sections": {
-                    "basic": "基本情報",
-                    "content": "記事内容",
-                    "preview": "プレビュー"
-                },
-                "labels": {
-                    "title": "記事のタイトル",
-                    "slug": "URLスラッグ (一意)",
-                    "category": "カテゴリー",
-                    "excerpt": "短い抜粋",
-                    "keywords": "キーワード (SEO)",
-                    "content": "記事本文 (HTML対応)",
-                    "image": "アイキャッチ画像",
-                    "author": "著者名",
-                    "marker_en": " (英語)",
-                    "marker_id": " (インドネシア語)",
-                    "marker_es": " (スペイン語)",
-                    "marker_fr": " (フランス語)",
-                    "marker_ja": " (日本語)"
-                },
-                "placeholders": {
-                    "title": "例: 中小企業を成功させる5つのヒント",
-                    "slug": "例: 5-tips-sme-success",
-                    "category": "例: ウェブサイトのヒント",
-                    "excerpt": "記事の簡単な要約...",
-                    "keywords": "例: ビジネスのヒント, 中小企業, ウェブサイト (カンマ区切り)",
-                    "content": "ここに内容を入力してください...",
-                    "image": "アップロードまたはURLを貼り付け...",
-                    "image_url": "またはここに画像リンクを貼り付け（任意）...",
-                    "author": "著者名を入力",
-                    "author_default": "WebKuu 管理者"
-                },
-                "buttons": {
-                    "save": "記事を公開",
-                    "update": "記事を更新",
-                    "cancel": "キャンセル",
-                    "translate": "自動翻訳"
-                },
-                "success": {
-                    "saved": "記事が正常に公開されました！",
-                    "updated": "記事が正常に更新されました！"
-                },
-                "translate": {
-                    "fill_en_first": "自動翻訳する前に、タイトルと内容 (EN) を入力してください！",
-                    "success": "すべての言語への翻訳が完了しました！",
-                    "failed": "自動翻訳に失敗しました。"
-                },
-                "validation": {
-                    "fill_required": "赤く表示されているすべての項目を入力してください！",
-                    "fill_translations": "すべての言語の翻訳を完了させるか、自動翻訳を使用してください！"
-                }
-            },
-            "delete_confirm": {
-                "title": "記事を削除しますか？",
-                "message": "この記事は完全に削除されます。この操作は取り消せません。よろしいですか？",
-                "confirm": "はい、削除します",
-                "cancel": "キャンセル"
-            }
         }
     },
     "login": {

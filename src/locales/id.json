@@ -747,21 +747,6 @@
                 "actions": "Aksi"
             }
         },
-        "recent_orders": {
-            "title": "Daftar Pesanan Lengkap",
-            "search_placeholder": "Cari pesanan...",
-            "active_badge": "Pesanan Aktif",
-            "empty_search": "Tidak ada pesanan yang sesuai dengan pencarian.",
-            "empty_list": "Belum ada pesanan aktif saat ini.",
-            "table": {
-                "date": "Tanggal",
-                "customer": "Pelanggan",
-                "details": "Detail",
-                "total": "Total",
-                "status": "Status",
-                "actions": "Aksi"
-            }
-        },
         "history": {
             "title": "Riwayat Pesanan",
             "subtitle": "Aktivitas pesanan yang telah selesai atau dibatalkan.",
@@ -1073,12 +1058,6 @@
                     "fill_required": "Harap lengkapi semua kolom yang bertanda merah!",
                     "fill_translations": "Harap lengkapi semua bahasa atau klik Auto-Translate!"
                 }
-            },
-            "delete_confirm": {
-                "title": "Hapus Artikel?",
-                "message": "Artikel ini akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan. Anda yakin?",
-                "confirm": "Ya, Hapus",
-                "cancel": "Batal"
             }
         },
         "recent_orders": {

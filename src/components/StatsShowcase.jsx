@@ -91,26 +91,26 @@ const StatsShowcase = () => {
         {
             icon: Award,
             value: "50+",
-            label: "Project Selesai",
+            label: t('hero.stats.projects'),
             color: "from-primary to-brand-emerald-400"
         },
         {
             icon: Star,
             value: "5.0",
-            label: "Rating Bintang",
+            label: t('hero.stats.rating'),
             color: "from-accent to-brand-gold-400",
             showStars: true
         },
         {
             icon: Users,
             value: "45+",
-            label: "Klien Puas",
+            label: t('hero.stats.satisfaction_label') || "Klien Puas",
             color: "from-brand-emerald-600 to-brand-emerald-400"
         },
         {
             icon: Zap,
             value: "24/7",
-            label: "Fast Response",
+            label: t('hero.stats.response'),
             color: "from-accent-dark to-accent"
         }
     ];

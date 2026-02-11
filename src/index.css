@@ -152,6 +152,23 @@
   }
 }
 
+/* Optimization for raining animation */
+.rain,
+.drop {
+  will-change: transform;
+  pointer-events: none;
+  /* Ensure it doesn't interfere with clicks */
+}
+
+/* Reduce animation complexity on mobile */
+@media (max-width: 768px) {
+
+  .rain:nth-child(even),
+  .drop:nth-child(even) {
+    display: none;
+  }
+}
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;

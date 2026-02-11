@@ -943,34 +943,6 @@
                 "live": "EN DIRECT"
             }
         },
-        "blog": {
-            "notifications": {
-                "new_post_title": "Nouvel Article de Blog !",
-                "just_now": "À l'instant",
-                "review_now": "EXAMINER MAINTENANT",
-                "by": "Par"
-            },
-            "status": {
-                "approved": "Approuvé",
-                "pending": "En Attente de Révision",
-                "rejected": "Rejeté"
-            },
-            "actions": {
-                "approve_success": "Article approuvé avec succès",
-                "approve_failed": "Échec de l'approbation",
-                "reject_confirm": "Êtes-vous sûr de vouloir rejeter cet article ?",
-                "reject_success": "Article rejeté",
-                "reject_failed": "Échec du rejet",
-                "delete_success": "Article supprimé avec succès",
-                "delete_failed": "Échec de la suppression"
-            },
-            "delete_confirm": {
-                "title": "Supprimer l'article ?",
-                "message": "Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.",
-                "confirm": "Supprimer",
-                "cancel": "Annuler"
-            }
-        },
         "portfolio": {
             "title": "Gestion du Portefeuille",
             "subtitle": "Gérez vos projets de portefeuille de sites Web de manière dynamique",
@@ -1139,88 +1111,6 @@
         },
         "footer": {
             "note": "Ce tableau de bord affiche des analyses simples basées sur le suivi des événements. Les \"Vues\" sont les chargements de page et les \"Commandes\" sont les clics sur les boutons WhatsApp. Les données sont synchronisées en temps réel."
-        },
-        "blog": {
-            "title": "Gestion du Blog",
-            "subtitle": "Créez et gérez vos articles de blog avec auto-traduction",
-            "stats": {
-                "total_posts": "Total des Articles",
-                "total_categories": "Catégories",
-                "last_post": "Dernier Article"
-            },
-            "filters": {
-                "all_categories": "Toutes les Catégories"
-            },
-            "add_button": "Ajouter un Nouvel Article",
-            "search_placeholder": "Rechercher des articles par titre ou catégorie...",
-            "table": {
-                "article": "Article",
-                "category": "Catégorie",
-                "date": "Date",
-                "actions": "Actions",
-                "empty": "Aucun article. Créez votre premier !"
-            },
-            "form": {
-                "add_title": "Écrire un Nouvel Article",
-                "edit_title": "Modifier l'Article",
-                "sections": {
-                    "basic": "Informations Générales",
-                    "content": "Contenu de l'Article",
-                    "preview": "Aperçu"
-                },
-                "labels": {
-                    "title": "Titre de l'Article",
-                    "slug": "URL Slug (Unique)",
-                    "category": "Catégorie",
-                    "excerpt": "Bref Extrait",
-                    "keywords": "Mots-clés (SEO)",
-                    "content": "Contenu de l'Article",
-                    "image": "Image Principale",
-                    "author": "Nom de l'Auteur",
-                    "marker_en": " (EN)",
-                    "marker_id": " (ID)",
-                    "marker_es": " (ES)",
-                    "marker_fr": " (FR)",
-                    "marker_ja": " (JA)"
-                },
-                "placeholders": {
-                    "title": "Ex: 5 Conseils pour le Succès",
-                    "slug": "ex: 5-conseils-succès",
-                    "category": "Ex: Conseils Web",
-                    "excerpt": "Bref résumé de l'article...",
-                    "keywords": "Ex: conseils aux entreprises, PME, site web (séparés par des virgules)",
-                    "content": "Écrivez votre contenu ici...",
-                    "image": "Téléchargez ou collez l'URL de l'image...",
-                    "image_url": "Ou collez le lien de l'image ici (optionnel)...",
-                    "author": "Entrez le nom de l'auteur",
-                    "author_default": "Admin WebKuu"
-                },
-                "buttons": {
-                    "save": "Publier l'Article",
-                    "update": "Mettre à Jour l'Article",
-                    "cancel": "Annuler",
-                    "translate": "Auto Traduire"
-                },
-                "success": {
-                    "saved": "Article publié avec succès !",
-                    "updated": "Article mis à jour avec succès !"
-                },
-                "translate": {
-                    "fill_en_first": "Veuillez d'abord remplir le titre et le contenu (EN) !",
-                    "success": "Traduit dans toutes les langues !",
-                    "failed": "La traduction automatique a échoué."
-                },
-                "validation": {
-                    "fill_required": "Veuillez remplir tous les champs marqués !",
-                    "fill_translations": "Veuillez compléter toutes les traductions ou utiliser la traduction automatique !"
-                }
-            },
-            "delete_confirm": {
-                "title": "Supprimer l'Article ?",
-                "message": "Cet article sera définitivement supprimé. Êtes-vous sûr ?",
-                "confirm": "Oui, Supprimer",
-                "cancel": "Annuler"
-            }
         }
     },
     "login": {

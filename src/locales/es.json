@@ -942,34 +942,6 @@
                 "live": "EN VIVO"
             }
         },
-        "blog": {
-            "notifications": {
-                "new_post_title": "¡Nueva Entrada de Blog!",
-                "just_now": "Justo ahora",
-                "review_now": "REVISAR AHORA",
-                "by": "Por"
-            },
-            "status": {
-                "approved": "Aprobado",
-                "pending": "Pendiente de Revisión",
-                "rejected": "Rechazado"
-            },
-            "actions": {
-                "approve_success": "Artículo aprobado con éxito",
-                "approve_failed": "Error al aprobar",
-                "reject_confirm": "¿Estás seguro de que quieres rechazar este artículo?",
-                "reject_success": "Artículo rechazado",
-                "reject_failed": "Error al rechazar",
-                "delete_success": "Artículo eliminado con éxito",
-                "delete_failed": "Error al eliminar"
-            },
-            "delete_confirm": {
-                "title": "¿Eliminar Artículo?",
-                "message": "¿Estás seguro de que quieres eliminar este artículo? Esta acción no se puede deshacer.",
-                "confirm": "Eliminar",
-                "cancel": "Cancelar"
-            }
-        },
         "portfolio": {
             "title": "Gestión de Portafolio",
             "subtitle": "Administre los proyectos de su portafolio web de forma dinámica",
@@ -1138,88 +1110,6 @@
         },
         "footer": {
             "note": "Este panel muestra análisis simples basados en el seguimiento de eventos. Las \"Vistas\" son cargas de página y los \"Pedidos\" son clics en los botones de WhatsApp. Los datos se sincronizan en tiempo real."
-        },
-        "blog": {
-            "title": "Gestión de Blog",
-            "subtitle": "Crea y gestiona tus artículos de blog con auto-traducción",
-            "stats": {
-                "total_posts": "Total de Artículos",
-                "total_categories": "Categorías",
-                "last_post": "Último Artículo"
-            },
-            "filters": {
-                "all_categories": "Todas las Categorías"
-            },
-            "add_button": "Añadir Nuevo Artículo",
-            "search_placeholder": "Buscar artículos por título o categoría...",
-            "table": {
-                "article": "Artículo",
-                "category": "Categoría",
-                "date": "Fecha",
-                "actions": "Acciones",
-                "empty": "No hay artículos. ¡Crea el primero!"
-            },
-            "form": {
-                "add_title": "Escribir Nuevo Artículo",
-                "edit_title": "Editar Artículo",
-                "sections": {
-                    "basic": "Información General",
-                    "content": "Contenido del Artículo",
-                    "preview": "Vista Previa"
-                },
-                "labels": {
-                    "title": "Título del Artículo",
-                    "slug": "URL Slug (Único)",
-                    "category": "Categoría",
-                    "excerpt": "Breve Extracto",
-                    "keywords": "Palabras Clave (SEO)",
-                    "content": "Contenido del Artículo",
-                    "image": "Imagen Principal",
-                    "author": "Nombre del Autor",
-                    "marker_en": " (EN)",
-                    "marker_id": " (ID)",
-                    "marker_es": " (ES)",
-                    "marker_fr": " (FR)",
-                    "marker_ja": " (JA)"
-                },
-                "placeholders": {
-                    "title": "Ej: 5 Consejos para el Éxito",
-                    "slug": "ej: 5-consejos-exito",
-                    "category": "Ej: Consejos Web",
-                    "excerpt": "Breve resumen del artículo...",
-                    "keywords": "Ej: consejos de negocios, PYME, sitio web (separados por comas)",
-                    "content": "Escribe tu contenido aquí...",
-                    "image": "Sube o pega URL de imagen...",
-                    "image_url": "O pegue el enlace de la imagen aquí (opcional)...",
-                    "author": "Ingresa nombre del autor",
-                    "author_default": "Admin WebKuu"
-                },
-                "buttons": {
-                    "save": "Publicar Artículo",
-                    "update": "Actualizar Artículo",
-                    "cancel": "Cancelar",
-                    "translate": "Auto Traducir"
-                },
-                "success": {
-                    "saved": "¡Artículo publicado con éxito!",
-                    "updated": "¡Artículo actualizado con éxito!"
-                },
-                "translate": {
-                    "fill_en_first": "¡Por favor, llena título y contenido (EN) primero!",
-                    "success": "¡Traducido a todos los idiomas!",
-                    "failed": "Traducción automática fallida."
-                },
-                "validation": {
-                    "fill_required": "¡Por favor, completa todos los campos marcados!",
-                    "fill_translations": "¡Por favor, completa todas las traducciones o usa la traducción automática!"
-                }
-            },
-            "delete_confirm": {
-                "title": "¿Eliminar Artículo?",
-                "message": "Este artículo se eliminará permanentemente. ¿Estás seguro?",
-                "confirm": "Sí, Eliminar",
-                "cancel": "Cancelar"
-            }
         }
     },
     "login": {

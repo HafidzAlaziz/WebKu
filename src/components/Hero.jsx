@@ -107,17 +107,18 @@ const Hero = () => {
                                 transition={{ duration: 0.5, delay: 0.3 }}
                                 className="flex items-center gap-2 px-4 py-3"
                             >
-                                <Users size={16} className="text-brand-emerald-600 dark:text-brand-emerald-400" />
+                                <Users size={16} className="text-brand-emerald-600 dark:text-brand-emerald-400" aria-hidden="true" />
                                 <motion.span
                                     key={visitorCount}
                                     initial={{ scale: 1.2 }}
                                     animate={{ scale: 1 }}
                                     transition={{ duration: 0.3 }}
                                     className="text-sm font-bold text-slate-900 dark:text-white"
+                                    aria-live="polite"
                                 >
                                     {isLoading ? '...' : animatedVisitorCount.toLocaleString('id-ID')}
                                 </motion.span>
-                                <span className="text-xs text-slate-500 dark:text-slate-400">{t('hero.stats.visitors')}</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400" id="visitor-label">{t('hero.stats.visitors')}</span>
                                 <motion.div
                                     animate={{
                                         scale: [1, 1.4, 1],
@@ -129,38 +130,39 @@ const Hero = () => {
                                         ease: "easeInOut"
                                     }}
                                     className="w-2 h-2 bg-brand-emerald-500 rounded-full"
+                                    aria-hidden="true"
                                 />
                             </motion.div>
                         </div>
 
                         {/* Quick Professional Stats */}
-                        <div ref={statsRef} className="flex flex-wrap items-center justify-center lg:justify-start gap-6 lg:gap-10 border-t border-slate-100 dark:border-slate-800 pt-8 w-full">
+                        <div ref={statsRef} className="flex flex-wrap items-center justify-center lg:justify-start gap-6 lg:gap-10 border-t border-slate-100 dark:border-slate-800 pt-8 w-full" aria-label="Statistik Profesional">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-brand-gold-100 dark:bg-brand-gold-900/30 rounded-lg text-accent">
+                                <div className="p-2 bg-brand-gold-100 dark:bg-brand-gold-900/30 rounded-lg text-accent" aria-hidden="true">
                                     <Star size={20} fill="currentColor" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white">{(animatedRating / 10).toFixed(1)}</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label={`Rating ${(animatedRating / 10).toFixed(1)}`}>{(animatedRating / 10).toFixed(1)}</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.rating')}</p>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-brand-emerald-100 dark:bg-primary-dark/30 rounded-lg text-primary">
+                                <div className="p-2 bg-brand-emerald-100 dark:bg-primary-dark/30 rounded-lg text-primary" aria-hidden="true">
                                     <Award size={20} />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white">{animatedProjects}+</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label={`${animatedProjects} Proyek Selesai`}>{animatedProjects}+</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.projects')}</p>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400">
+                                <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-600 dark:text-green-400" aria-hidden="true">
                                     <Zap size={20} fill="currentColor" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white">{animatedHours}/7</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label="Layanan 24 Jam 7 Hari">{animatedHours}/7</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.response')}</p>
                                 </div>
                             </div>
@@ -176,10 +178,15 @@ const Hero = () => {
                     >
                         <div className="relative z-10 bg-white rounded-2xl shadow-2xl p-4 border border-slate-100 transform rotate-2 hover:rotate-0 transition-transform duration-500">
                             <img
-                                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=1200&q=60&fm=webp"
+                                srcSet="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=600&q=40&fm=webp 600w, https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format,compress&fit=crop&w=1200&q=60&fm=webp 1200w"
+                                sizes="(max-width: 768px) 100vw, 50vw"
                                 alt={t('hero.image_alt') || "Dashboard Analitik Website Profesional - Jasa WebKuu"}
                                 className="rounded-xl w-full h-auto"
                                 loading="eager"
+                                fetchPriority="high"
+                                width="1200"
+                                height="800"
                             />
 
                             {/* Floating Badge */}
