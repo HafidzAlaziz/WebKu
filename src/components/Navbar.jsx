@@ -182,10 +182,15 @@ const Navbar = () => {
                             <Link
                                 key={link.name}
                                 to={link.href}
-                                className="relative group text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-brand-emerald-400 font-medium transition-colors py-1"
+                                className={`relative group font-medium transition-colors py-1 ${location.pathname === link.href
+                                        ? 'text-primary dark:text-brand-emerald-400'
+                                        : 'text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-brand-emerald-400'
+                                    }`}
+                                aria-current={location.pathname === link.href ? 'page' : undefined}
                             >
                                 {link.name}
-                                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary dark:bg-brand-emerald-400 transition-all duration-300 group-hover:w-full" />
+                                <span className={`absolute bottom-0 left-0 h-0.5 bg-primary dark:bg-brand-emerald-400 transition-all duration-300 ${location.pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                                    }`} />
                             </Link>
                         ) : (
                             <a

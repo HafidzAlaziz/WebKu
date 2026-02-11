@@ -40,7 +40,12 @@ const Testimonials = () => {
     if (!Array.isArray(testimonialsData)) return null;
 
     return (
-        <section id="testimonials" className="py-20 bg-slate-50 dark:bg-slate-800 relative z-10 overflow-hidden">
+        <section
+            id="testimonials"
+            className="py-20 bg-slate-50 dark:bg-slate-800 relative z-10 overflow-hidden"
+            aria-roledescription="carousel"
+            aria-label="Testimonials"
+        >
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">{t('testimonials.title')}</h2>
@@ -84,14 +89,16 @@ const Testimonials = () => {
                         <button
                             onClick={prevSlide}
                             className="p-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-brand-emerald-50 dark:hover:bg-slate-700 hover:text-primary dark:hover:text-brand-emerald-400 hover:border-brand-emerald-200 dark:hover:border-primary transition-all shadow-sm"
+                            aria-label="Previous Testimonial"
                         >
-                            <ChevronLeft size={24} />
+                            <ChevronLeft size={24} aria-hidden="true" />
                         </button>
                         <button
                             onClick={nextSlide}
                             className="p-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-brand-emerald-50 dark:hover:bg-slate-700 hover:text-primary dark:hover:text-brand-emerald-400 hover:border-brand-emerald-200 dark:hover:border-primary transition-all shadow-sm"
+                            aria-label="Next Testimonial"
                         >
-                            <ChevronRight size={24} />
+                            <ChevronRight size={24} aria-hidden="true" />
                         </button>
                     </div>
                 </div>

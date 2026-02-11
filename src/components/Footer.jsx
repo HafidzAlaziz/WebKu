@@ -26,7 +26,7 @@ const Footer = () => {
                                 className="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-pink-600 hover:text-white transition-all"
                                 aria-label="Instagram WebKuu"
                             >
-                                <Instagram size={20} />
+                                <Instagram size={20} aria-hidden="true" />
                             </a>
                             <a
                                 href="https://www.facebook.com/share/1FpmQZd6nW/"
@@ -35,7 +35,7 @@ const Footer = () => {
                                 className="w-10 h-10 rounded-full bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all"
                                 aria-label="Facebook WebKuu"
                             >
-                                <Facebook size={20} />
+                                <Facebook size={20} aria-hidden="true" />
                             </a>
                         </div>
                     </div>
@@ -68,15 +68,15 @@ const Footer = () => {
                         <h4 className="text-lg font-bold text-white mb-6">{t('footer.contact_title')}</h4>
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3">
-                                <MapPin size={20} className="text-brand-emerald-400 flex-shrink-0 mt-1" />
+                                <MapPin size={20} className="text-brand-emerald-400 flex-shrink-0 mt-1" aria-hidden="true" />
                                 <span>{t('footer.location')}</span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <Phone size={20} className="text-brand-emerald-400 flex-shrink-0" />
+                                <Phone size={20} className="text-brand-emerald-400 flex-shrink-0" aria-hidden="true" />
                                 <span>+62 851 2295 9690</span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <Mail size={20} className="text-brand-emerald-400 flex-shrink-0" />
+                                <Mail size={20} className="text-brand-emerald-400 flex-shrink-0" aria-hidden="true" />
                                 <span>web.kuu@gmail.com</span>
                             </li>
                         </ul>
