@@ -59,7 +59,11 @@ export const AuthProvider = ({ children }) => {
         return await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${window.location.origin}/auth/callback` // Redirect to callback page
+                redirectTo: `${window.location.origin}/auth/callback`, // Redirect to callback page
+                queryParams: {
+                    access_type: 'offline',
+                    prompt: 'consent',
+                },
             }
         });
     };
