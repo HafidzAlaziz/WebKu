@@ -61,6 +61,8 @@
         "copied": "Copied!",
         "write_article": "Write Article",
         "my_articles": "My Articles",
+        "articles": "Articles",
+        "rejection_help": "Some of your articles were rejected. Please edit those articles based on the feedback provided and save them again to resubmit for review.",
         "logout": "Logout",
         "login": "Login",
         "login_to_write": "Login to Write Article",
@@ -607,7 +609,14 @@
         "day": "Day",
         "day_plural": "Days",
         "week": "Week",
-        "week_plural": "Weeks"
+        "week_plural": "Weeks",
+        "captcha": {
+            "label": "I am not a robot",
+            "verifying": "Verifying...",
+            "verified": "Verified",
+            "help_text": "Click to verify",
+            "error": "Please complete verification"
+        }
     },
     "portfolio_preview": {
         "title": "Our Latest Portfolio",
@@ -616,34 +625,39 @@
         "live_demo": "Live Demo"
     },
     "chatbot": {
-        "initial_message": "Hello! 👋 I'm RoboBot, WebKuu's virtual assistant. Is there anything I can help you with regarding our Custom Website services?",
+        "initial_message": "Hello! I'm RoboBot, WebKuu's virtual assistant. Is there anything I can help you with regarding our Custom Website services?",
         "bubble_text": "Can I help you with something?",
         "header_title": "RoboBot",
         "header_subtitle": "WebKuu Assistant • Online",
         "input_placeholder": "Type your question...",
         "quick_actions": {
-            "price": "💰 Check Price",
-            "order": "🚀 How to Order",
-            "features": "⚡ What Features?",
-            "contact": "📞 Contact",
+            "price": "Check Price",
+            "order": "How to Order",
+            "features": "What Features?",
+            "contact": "Contact",
             "label": "QUICK QUESTIONS:"
         },
-        "fallback_response": "Hmm, I don't fully understand your question yet. 😅\n\nBut don't worry! I can explain about:\n\n💡 Prices & Service Packages\n💡 Requestable Features\n💡 Ordering Method & Work Process\n💡 Technology Used\n💡 Processing Time\n💡 Portfolio & Sample Works\n💡 Warranty & Support\n💡 SEO & Mobile Optimization\n\nTry asking one of the topics above, or contact us directly via WhatsApp for a more detailed consultation! 📱\n\nOr use the quick question button below to start! 👇",
+        "clear_chat": "Clear Chat History",
+        "confirm_clear_title": "Clear Chat?",
+        "confirm_clear": "Are you sure you want to clear all chat history?",
+        "yes_clear": "Yes, Clear All",
+        "no_cancel": "Cancel",
+        "fallback_response": "Hmm, I don't fully understand your question yet.\n\nBut don't worry! I can explain about:\n\n- Prices & Service Packages\n- Requestable Features\n- Ordering Method & Work Process\n- Technology Used\n- Processing Time\n- Portfolio & Sample Works\n- Warranty & Support\n- SEO & Mobile Optimization\n\nTry asking one of the topics above, or contact us directly via WhatsApp for a more detailed consultation!\n\nOr use the quick question button below to start!",
         "faq": {
-            "greeting": "Hello! 👋 Nice to meet you! I'm RoboBot, WebKuu's virtual assistant ready to help you.\n\nIs there anything you want to ask about our website services? I can explain about prices, features, the creation process, or anything you need! 😊",
-            "what_is": "Custom Website is a website creation service made specifically according to your needs. Not a template! 🎨\n\nThe advantages:\n✨ Unique design according to your brand\n✨ Features you want, not ready-made ones\n✨ Modern and latest technology\n✨ More flexible for development\n\nSo your website really reflects your business, not a copy-paste from someone else! 💪",
-            "price": "Our service prices are very affordable and flexible! 💰\n\n📌 Detailed Package: Starting from Rp 100,000\n   → Simple landing page\n   → Suitable for portfolio or promotion\n\n📌 Custom/SME: Flexible Price\n   → According to the features you need\n   → 100% custom design\n\n📌 Full Custom: Price Discussed\n   → Complex system with database\n   → Backend + Admin panel\n\nThe final price depends on the features you want. Let's have a free consultation first, we discuss your needs! 😊",
-            "features": "You can request various features according to your needs! 🚀\n\n✅ 100% custom design (according to your brand)\n✅ Online booking/reservation system\n✅ Payment gateway (accept online payments)\n✅ Admin dashboard (manage content yourself)\n✅ API Integration (Google Maps, social media, etc.)\n✅ Complete E-commerce (online store)\n✅ Multi-language\n✅ SEO optimization\n✅ And much more!\n\nHave a specific feature idea? Just tell us, we'll help make it happen! 💡",
-            "duration": "We work fast but maintain quality! ⚡\n\n⏱️ Simple Landing Page: 3-5 working days\n⏱️ SME Website/Company Profile: 5-7 working days\n⏱️ Online Store/E-commerce: 1-2 weeks\n⏱️ Complex System (Custom): 2-4 weeks\n\nTime can be faster or slower dependent on:\n• Complexity of requested features\n• Feedback speed from you\n• Content availability (text, images, etc.)\n\nIdeally, we always prioritize quality! 🎯",
-            "tech": "We use modern and latest technology! 💻\n\n🔧 Frontend:\n   • React.js + Tailwind CSS\n   • Next.js (for maximum SEO)\n   • Vue.js (if requested)\n\n🔧 Backend:\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\n🔧 CMS:\n   • WordPress (if you prefer)\n   • Custom CMS\n\n🔧 Database:\n   • MySQL, PostgreSQL, MongoDB\n\nYou can also request a specific tech stack according to your needs! We are flexible! 😊",
-            "order": "Ordering method is very easy and simple! 📝\n\n1️⃣ Free Consultation\n   → Contact us via WhatsApp/Email\n   → Tell us your website needs\n\n2️⃣ Discussion & Offer\n   → We help determine the right features\n   → Agree on price and timeline\n\n3️⃣ Production\n   → We start working on your website\n   → Regular progress updates\n\n4️⃣ Review & Revision\n   → You check the results\n   → FREE Revision until satisfied!\n\n5️⃣ Launching! 🎉\n   → Website ready online\n   → Get support forever\n\nWant to start? Contact us now! 📱",
-            "packages": "We have 3 packages that can be customized! 📦\n\n💼 Saver Package (Starting Rp 100k)\n   • Landing page 1-3 pages\n   • Modern & responsive design\n   • Suitable for: Portfolio, product promotion\n\n🏢 Custom/SME (Flexible Price)\n   • Custom design according to brand\n   • Features according to needs\n   • Suitable for: Company profile, SME\n\n🚀 Full Custom (Price Discussed)\n   • Complex system + database\n   • Backend & admin panel\n   • Suitable for: E-commerce, booking system\n\nConfused which to choose? Just free consultation, we help determine the most suitable! 😊",
-            "guarantee": "We provide the best guarantee for you! 🌟\n\n✅ FREE Revision until satisfied\n   → No limit on revision count\n   → Until you are really satisfied!\n\n✅ Bug Fix Warranty\n   → Free repair if there is an error\n   → Valid forever\n\n✅ Support Forever\n   → Free consultation anytime\n   → Technical assistance if there is a problem\n\n✅ Content Update\n   → We teach how to update yourself\n   → Or can request to us (free!)\n\nYour satisfaction and success is our priority! 💪",
-            "contact": "Let's contact us now! 📞\n\n📱 WhatsApp: +62 851 2295 9690\n   → Chat directly with our team\n   → Free consultation!\n\n📧 Email: web.kuu@gmail.com\n   → For detailed questions\n   → Send your project brief\n\n🌐 Website: You are here! 😊\n\n⏰ Operational Hours:\n   → Ready to serve 24/7 (24 hours every day)\n   → Fast response!\n\nWe are ready to help you anytime! 💬",
-            "portfolio": "We have worked on many various projects! 🎨\n\nYou can see our portfolio on the Portfolio page of this website. There are various types of websites we have made:\n\n✨ Company Profile\n✨ Online Store\n✨ Landing Page\n✨ SME Website\n✨ Booking System\n✨ And much more!\n\nEach project is done with detail and according to client needs. Want to see? Click the Portfolio menu above! 👆",
-            "thanks": "You're welcome! 😊🙏\n\nGlad to be able to help you! If there are other questions, don't hesitate to ask.\n\nIf you are ready to start the project, immediately contact us via WhatsApp or email. We wait for the good news! 💙\n\nHave a nice day! ✨",
-            "responsive": "All websites we make MUST be mobile-friendly! 📱💻\n\n✅ Responsive Design\n   → Appears perfect on all devices\n   → HP, tablet, laptop, desktop\n\n✅ Fast Loading\n   → Maximum speed optimization\n   → Best user experience\n\n✅ Touch-Friendly\n   → Buttons and menus easy to click\n   → Smooth navigation on touchscreen\n\nIn this era, 70% of visitors from mobile. So responsive design is MANDATORY! 🎯",
-            "seo": "SEO is one of our main focuses! 🔍\n\n✅ SEO-Friendly Structure\n   → Clean and structured code\n   → Optimal meta tags\n\n✅ Fast Loading Speed\n   → Google likes fast websites\n   → We optimize maximally\n\n✅ Mobile Optimization\n   → Google prioritizes mobile-first\n   → Our website definitely responsive\n\n✅ Content Optimization\n   → Correct heading structure\n   → Alt text for images\n\n✅ Sitemap & Analytics\n   → Submit to Google Search Console\n   → Tracking with Google Analytics\n\nGood website but not visible on Google = useless! So we ensure your website is SEO-friendly! 📈"
+            "greeting": "Hello! Nice to meet you! I'm RoboBot, WebKuu's virtual assistant ready to help you.\n\nIs there anything you want to ask about our website services? I can explain about prices, features, the creation process, or anything you need!",
+            "what_is": "Custom Website is a website creation service made specifically according to your needs. Not a template!\n\nThe advantages:\n- Unique design according to your brand\n- Features you want, not ready-made ones\n- Modern and latest technology\n- More flexible for development\n\nSo your website really reflects your business, not a copy-paste from someone else!",
+            "price": "Our service prices are very affordable and flexible!\n\n- Detailed Package: Starting from Rp 100,000\n   - Simple landing page\n   - Suitable for portfolio or promotion\n\n- Custom/SME: Flexible Price\n   - According to the features you need\n   - 100% custom design\n\n- Full Custom: Price Discussed\n   - Complex system with database\n   - Backend + Admin panel\n\nThe final price depends on the features you want. Let's have a free consultation first, we discuss your needs!",
+            "features": "You can request various features according to your needs!\n\n- 100% custom design (according to your brand)\n- Online booking/reservation system\n- Payment gateway (accept online payments)\n- Admin dashboard (manage content yourself)\n- API Integration (Google Maps, social media, etc.)\n- Complete E-commerce (online store)\n- Multi-language\n- SEO optimization\n- And much more!\n\nHave a specific feature idea? Just tell us, we'll help make it happen!",
+            "duration": "We work fast but maintain quality!\n\n- Simple Landing Page: 3-5 working days\n- SME Website/Company Profile: 5-7 working days\n- Online Store/E-commerce: 1-2 weeks\n- Complex System (Custom): 2-4 weeks\n\nTime can be faster or slower dependent on:\n• Complexity of requested features\n• Feedback speed from you\n• Content availability (text, images, etc.)\n\nIdeally, we always prioritize quality!",
+            "tech": "We use modern and latest technology!\n\nFrontend:\n   • React.js + Tailwind CSS\n   • Next.js (for maximum SEO)\n   • Vue.js (if requested)\n\nBackend:\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\nCMS:\n   • WordPress (if you prefer)\n   • Custom CMS\n\nDatabase:\n   • MySQL, PostgreSQL, MongoDB\n\nYou can also request a specific tech stack according to your needs! We are flexible!",
+            "order": "Ordering method is very easy and simple!\n\n1. Free Consultation\n   - Contact us via WhatsApp/Email\n   - Tell us your website needs\n\n2. Discussion & Offer\n   - We help determine the right features\n   - Agree on price and timeline\n\n3. Production\n   - We start working on your website\n   - Regular progress updates\n\n4. Review & Revision\n   - You check the results\n   - FREE Revision until satisfied!\n\n5. Launching!\n   - Website ready online\n   - Get support forever\n\nWant to start? Contact us now!",
+            "packages": "We have 3 packages that can be customized!\n\n- Saver Package (Starting Rp 100k)\n   • Landing page 1-3 pages\n   • Modern & responsive design\n   • Suitable for: Portfolio, product promotion\n\n- Custom/SME (Flexible Price)\n   • Custom design according to brand\n   • Features according to needs\n   • Suitable for: Company profile, SME\n\n- Full Custom (Price Discussed)\n   • Complex system + database\n   • Backend & admin panel\n   • Suitable for: E-commerce, booking system\n\nConfused which to choose? Just free consultation, we help determine the most suitable!",
+            "guarantee": "We provide the best guarantee for you!\n\n- FREE Revision until satisfied\n   - No limit on revision count\n   - Until you are really satisfied!\n\n- Bug Fix Warranty\n   - Free repair if there is an error\n   - Valid forever\n\n- Support Forever\n   - Free consultation anytime\n   - Technical assistance if there is a problem\n\n- Content Update\n   - We teach how to update yourself\n   - Or can request to us (free!)\n\nYour satisfaction and success is our priority!",
+            "contact": "Let's contact us now!\n\n- WhatsApp: +62 851 2295 9690\n   - Chat directly with our team\n   - Free consultation!\n\n- Email: web.kuu@gmail.com\n   - For detailed questions\n   - Send your project brief\n\n- Website: You are here!\n\n- Operational Hours:\n   - Ready to serve 24/7 (24 hours every day)\n   - Fast response!\n\nWe are ready to help you anytime!",
+            "portfolio": "We have worked on many various projects!\n\nYou can see our portfolio on the Portfolio page of this website. There are various types of websites we have made:\n\n- Company Profile\n- Online Store\n- Landing Page\n- SME Website\n- Booking System\n- And much more!\n\nEach project is done with detail and according to client needs. Want to see? Click the Portfolio menu above!",
+            "thanks": "You're welcome!\n\nGlad to be able to help you! If there are other questions, don't hesitate to ask.\n\nIf you are ready to start the project, immediately contact us via WhatsApp or email. We wait for the good news!\n\nHave a nice day!",
+            "responsive": "All websites we make MUST be mobile-friendly!\n\n- Responsive Design\n   - Appears perfect on all devices\n   - HP, tablet, laptop, desktop\n\n- Fast Loading\n   - Maximum speed optimization\n   - Best user experience\n\n- Touch-Friendly\n   - Buttons and menus easy to click\n   - Navigasi smooth di touchscreen\n\nIn this era, 70% of visitors from mobile. So responsive design is MANDATORY!",
+            "seo": "SEO is one of our main focuses!\n\n- SEO-Friendly Structure\n   - Clean and structured code\n   - Optimal meta tags\n\n- Fast Loading Speed\n   - Google likes fast websites\n   - We optimize maximally\n\n- Mobile Optimization\n   - Google prioritizes mobile-first\n   - Our website definitely responsive\n\n- Content Optimization\n   - Correct heading structure\n   - Alt text for images\n\n- Sitemap & Analytics\n   - Submit to Google Search Console\n   - Tracking with Google Analytics\n\nGood website but not visible on Google = useless! So we ensure your website is SEO-friendly!"
         }
     },
     "dashboard": {
@@ -799,6 +813,13 @@
         "blog": {
             "title": "Blog Management",
             "subtitle": "Create and manage your blog articles with auto-translate",
+            "my_articles": "My Articles",
+            "articles": "Articles",
+            "rejection_help": "Some of your articles were rejected. Please edit them based on the reasons provided and save again to resubmit for review.",
+            "empty": {
+                "title": "No Articles Yet",
+                "message": "You haven't written any articles yet. Start sharing your ideas today!"
+            },
             "menu": {
                 "all_posts": "All Posts",
                 "pending": "Pending Review"
@@ -812,7 +833,8 @@
                 "new_post_title": "New Blog Post!",
                 "just_now": "Just now",
                 "review_now": "REVIEW NOW",
-                "by": "By"
+                "by": "By",
+                "rejection_help_title": "Attention Required"
             },
             "status": {
                 "approved": "Approved",
@@ -826,7 +848,10 @@
                 "reject_success": "Article rejected",
                 "reject_failed": "Failed to reject",
                 "delete_success": "Article deleted successfully",
-                "delete_failed": "Failed to delete"
+                "delete_failed": "Failed to delete",
+                "resubmit": "Resubmit",
+                "resubmit_success": "Article resubmitted for review successfully",
+                "resubmit_failed": "Failed to resubmit article"
             },
             "delete_confirm": {
                 "title": "Delete Article?",

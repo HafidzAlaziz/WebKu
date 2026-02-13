@@ -1,43 +1,55 @@
-import React from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { usePortfolio } from '../hooks/usePortfolio';
+import ProjectCard from './portfolio/ProjectCard';
+import ProjectModal from './portfolio/ProjectModal';
 
 const PortfolioPreview = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const [selectedProject, setSelectedProject] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Featured projects - showing the most recent/impressive ones
-    const featuredProjects = [
-        {
-            id: -1,
-            name: t('portfolio.projects.professional_service.name'),
-            type: t('portfolio.projects.professional_service.type'),
-            thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2026&auto=format&fit=crop",
-            demoLink: "https://professional-service-topaz.vercel.app/"
-        },
-        {
-            id: 0,
-            name: t('portfolio.projects.vayana.name'),
-            type: t('portfolio.projects.vayana.type'),
-            thumbnail: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop",
-            demoLink: "https://vayana-hazel.vercel.app/"
-        },
-        {
-            id: 1,
-            name: t('portfolio.projects.aura_visuals.name'),
-            type: t('portfolio.projects.aura_visuals.type'),
-            thumbnail: "https://company-profile-xi-indol.vercel.app/images/portfolio-1.jpg",
-            demoLink: "https://company-profile-xi-indol.vercel.app/"
-        },
-        {
-            id: 8,
-            name: t('portfolio.projects.ai_chatbot.name'),
-            type: t('portfolio.projects.ai_chatbot.type'),
-            thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop",
-            demoLink: "https://chatbot-dusky-eta-13.vercel.app/"
-        }
-    ];
+    const {
+        projects: dbProjects,
+        loading,
+        fetchProjects
+    } = usePortfolio();
+
+    useEffect(() => {
+        fetchProjects();
+    }, [fetchProjects]);
+
+    // Map DB projects and filter top 4 for preview
+    const featuredProjects = useMemo(() => {
+        const lang = i18n.language || 'en';
+        return dbProjects.slice(0, 4).map(p => ({
+            id: p.id,
+            name: p[`name_${lang}`] || p.name_en,
+            category: p.category,
+            type: p[`type_${lang}`] || p.type_en,
+            thumbnail: p.thumbnail,
+            shortDescription: p[`short_desc_${lang}`] || p.short_desc_en,
+            fullDescription: p[`full_desc_${lang}`] || p.full_desc_en,
+            duration: p[`duration_${lang}`] || p.duration_en,
+            client: p.client_type,
+            demoLink: p.demo_link,
+            technologies: p.technologies || [],
+            features: p[`features_${lang}`] || p.features_en || []
+        }));
+    }, [dbProjects, i18n.language]);
+
+    const handleProjectClick = (project) => {
+        setSelectedProject(project);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setTimeout(() => setSelectedProject(null), 300);
+    };
 
     return (
         <section className="py-10 lg:py-12 bg-slate-50 dark:bg-slate-900">
@@ -59,54 +71,22 @@ const PortfolioPreview = () => {
                 </motion.div>
 
                 {/* Projects Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                    {featuredProjects.map((project, index) => (
-                        <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="group relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
-                        >
-                            {/* Thumbnail */}
-                            <div className="relative h-48 overflow-hidden">
-                                <img
-                                    src={`${project.thumbnail}&fm=webp`}
-                                    alt={project.name}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                    loading="lazy"
-                                    width="400"
-                                    height="300"
-                                />
-                                {/* Overlay on Hover */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                                    {project.demoLink && (
-                                        <a
-                                            href={project.demoLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="px-4 py-2 bg-white text-slate-900 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-blue-500 hover:text-white transition-colors"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            {t('portfolio_preview.live_demo')} <ExternalLink size={14} />
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Content */}
-                            <div className="p-4">
-                                <h3 className="font-bold text-slate-900 dark:text-white mb-1 text-lg">
-                                    {project.name}
-                                </h3>
-                                <p className="text-sm text-slate-600 dark:text-slate-400">
-                                    {project.type}
-                                </p>
-                            </div>
-                        </motion.div>
-                    ))}
-                </div>
+                {loading ? (
+                    <div className="flex flex-col items-center justify-center py-20">
+                        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium">{t('common.loading')}</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                        {featuredProjects.map((project, index) => (
+                            <ProjectCard
+                                key={project.id}
+                                project={project}
+                                onClick={handleProjectClick}
+                            />
+                        ))}
+                    </div>
+                )}
 
                 {/* View All Button */}
                 <motion.div
@@ -124,6 +104,13 @@ const PortfolioPreview = () => {
                     </Link>
                 </motion.div>
             </div>
+
+            {/* Project Modal */}
+            <ProjectModal
+                project={selectedProject}
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            />
         </section>
     );
 };

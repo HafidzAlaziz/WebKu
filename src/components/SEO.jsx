@@ -9,7 +9,8 @@ const SEO = ({
     description,
     keywords,
     image,
-    type = 'website'
+    type = 'website',
+    noindex = false
 }) => {
     const { t } = useTranslation();
     const location = useLocation();
@@ -29,6 +30,7 @@ const SEO = ({
             <title>{finalTitle}</title>
             <meta name="description" content={finalDescription} />
             {keywords && <meta name="keywords" content={keywords} />}
+            {noindex && <meta name="robots" content="noindex, nofollow" />}
             <link rel="canonical" href={currentUrl} />
 
             {/* Open Graph / Facebook */}

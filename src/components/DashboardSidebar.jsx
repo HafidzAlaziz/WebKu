@@ -183,7 +183,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOp
                                     </div>
                                 )}
                                 {item.id === 'blog' && blogBadgeCount > 0 && (
-                                    <div className={`${isCollapsed ? 'absolute top-1 right-1' : ''} bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center`}>
+                                    <div className={`${isCollapsed ? 'absolute top-1 right-1' : ''} bg-yellow-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center animate-pulse shadow-lg shadow-yellow-500/30`}>
                                         {blogBadgeCount}
                                     </div>
                                 )}
@@ -322,7 +322,7 @@ const DashboardSidebar = ({ activeTab, setActiveTab, isMobileOpen, setIsMobileOp
                                     }`}
                             >
                                 {item.id === 'blog' && blogBadgeCount > 0 && (
-                                    <span className="absolute top-0 right-2 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-[#1e293b]">
+                                    <span className="absolute top-0 right-2 w-4 h-4 bg-yellow-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-[#1e293b] animate-pulse">
                                         {blogBadgeCount}
                                     </span>
                                 )}

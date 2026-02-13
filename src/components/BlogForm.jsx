@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    X, Sparkles, RefreshCw, Upload,
+    X, RefreshCw, Upload,
     Edit2, Trash2, AlertCircle, Lock
 } from 'lucide-react';
 import TiptapEditor from './TiptapEditor';
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useBlog } from '../hooks/useBlog';
 import { useAuth } from '../context/AuthContext';
 import { translateText } from '../utils/translateUtils';
+import Captcha from './Captcha';
 
 
 
@@ -24,6 +25,8 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
     const [showUnsavedModal, setShowUnsavedModal] = useState(false);
     const [dragActive, setDragActive] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const [isVerified, setIsVerified] = useState(false);
+    const [captchaError, setCaptchaError] = useState(false);
     const fileInputRef = useRef(null);
     const [initialFormData, setInitialFormData] = useState(null);
 
@@ -199,6 +202,13 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
             return;
         }
 
+        // Public-only validation: Captcha
+        if (isPublic && !isVerified) {
+            setCaptchaError(true);
+            showToast(t('common.captcha.error'), 'error');
+            return;
+        }
+
         setLoading(true);
 
         // Auto-translate to all other languages before saving
@@ -266,7 +276,9 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
                 ? t('dashboard.blog.form.success.updated')
                 : (isPublic ? "Artikel berhasil dikirim untuk ditinjau" : t('dashboard.blog.form.success.saved'));
             showToast(successMsg, 'success');
-            setTimeout(onClose, 1000);
+
+            // Auto close after success to return to the list/previous view
+            setTimeout(onClose, 1200);
         } else {
             showToast(t('common.save_failed') + ': ' + result.error, 'error');
         }
@@ -533,6 +545,19 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
                             </div>
                         </div>
                     )}
+
+                    {/* Captcha for Public Submission */}
+                    {isPublic && (
+                        <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
+                            <Captcha
+                                onVerify={(val) => {
+                                    setIsVerified(val);
+                                    setCaptchaError(false);
+                                }}
+                                error={captchaError}
+                            />
+                        </div>
+                    )}
                 </form>
 
                 {/* Footer Actions */}
@@ -557,7 +582,7 @@ const BlogForm = ({ isOpen, onClose, post, onSave, showToast, isPublic = false }
 
                 {/* Unsaved Changes Warning Modal */}
                 {showUnsavedModal && (
-                    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+                    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}

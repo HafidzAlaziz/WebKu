@@ -62,6 +62,7 @@
         "write_article": "Tulis Artikel",
         "my_articles": "Artikel Saya",
         "articles": "Artikel",
+        "rejection_help": "Beberapa artikel Anda ditolak. Silakan edit artikel tersebut berdasarkan saran yang diberikan (jika ada) dan simpan kembali untuk mengirim ulang peninjauan.",
         "confirm_delete": "Apakah Anda yakin ingin menghapus artikel ini?",
         "logout": "Keluar",
         "login": "Masuk",
@@ -613,7 +614,14 @@
         "day": "Hari",
         "day_plural": "Hari",
         "week": "Minggu",
-        "week_plural": "Minggu"
+        "week_plural": "Minggu",
+        "captcha": {
+            "label": "Saya bukan robot",
+            "verifying": "Memverifikasi...",
+            "verified": "Terverifikasi",
+            "help_text": "Klik untuk memverifikasi",
+            "error": "Mohon selesaikan verifikasi"
+        }
     },
     "portfolio_preview": {
         "title": "Portfolio Terbaru Kami",
@@ -622,33 +630,38 @@
         "live_demo": "Live Demo"
     },
     "chatbot": {
-        "initial_message": "Halo! 👋 Saya RoboBot, asisten virtual WebKuu. Ada yang bisa saya bantu tentang layanan Website Custom kami?",
+        "initial_message": "Halo! Saya RoboBot, asisten virtual WebKuu. Ada yang bisa saya bantu tentang layanan Website Custom kami?",
         "bubble_text": "Ada yang bisa saya bantu?",
         "header_title": "RoboBot",
         "header_subtitle": "Asisten WebKuu • Online",
         "input_placeholder": "Ketik pertanyaan Anda...",
         "quick_actions": {
-            "price": "💰 Lihat Harga",
-            "order": "🚀 Cara Order",
-            "features": "⚡ Fitur Apa Saja?",
-            "contact": "📞 Kontak",
+            "price": "Lihat Harga",
+            "order": "Cara Order",
+            "features": "Fitur Apa Saja?",
+            "contact": "Kontak",
             "label": "PERTANYAAN CEPAT:"
         },
-        "fallback_response": "Hmm, saya belum sepenuhnya mengerti pertanyaan Anda. 😅\n\nTapi tenang! Saya bisa bantu jelaskan tentang:\n\n💡 Harga & Paket Layanan\n💡 Fitur yang Bisa Direquest\n💡 Cara Order & Proses Kerja\n💡 Teknologi yang Digunakan\n💡 Waktu Pengerjaan\n💡 Portfolio & Contoh Karya\n💡 Garansi & Support\n💡 SEO & Mobile Optimization\n\nCoba tanyakan salah satu topik di atas, atau langsung hubungi kami via WhatsApp untuk konsultasi lebih detail! 📱\n\nAtau gunakan tombol pertanyaan cepat di bawah untuk mulai! 👇",
+        "clear_chat": "Hapus Riwayat Chat",
+        "confirm_clear_title": "Bersihkan Chat?",
+        "confirm_clear": "Apakah Anda yakin ingin menghapus semua riwayat percakapan?",
+        "yes_clear": "Ya, Hapus Semua",
+        "no_cancel": "Batal",
+        "fallback_response": "Hmm, saya belum sepenuhnya mengerti pertanyaan Anda.\n\nTapi tenang! Saya bisa bantu jelaskan tentang:\n\n- Harga & Paket Layanan\n- Fitur yang Bisa Direquest\n- Cara Order & Proses Kerja\n- Teknologi yang Digunakan\n- Waktu Pengerjaan\n- Portfolio & Contoh Karya\n- Garansi & Support\n- SEO & Mobile Optimization\n\nCoba tanyakan salah satu topik di atas, atau langsung hubungi kami via WhatsApp untuk konsultasi lebih detail!\n\nAtau gunakan tombol pertanyaan cepat di bawah untuk mulai!",
         "faq": {
-            "greeting": "Halo! 👋 Senang bertemu dengan Anda! Saya RoboBot, asisten virtual WebKuu yang siap membantu Anda.\n\nAda yang ingin Anda tanyakan tentang layanan website kami? Saya bisa bantu jelaskan tentang harga, fitur, proses pembuatan, atau apapun yang Anda butuhkan! 😊",
-            "what_is": "Website Custom adalah layanan pembuatan website yang dibuat khusus sesuai kebutuhan Anda. Bukan template! 🎨\n\nKeuntungannya:\n✨ Desain unik sesuai brand Anda\n✨ Fitur yang Anda mau, bukan yang sudah jadi\n✨ Teknologi modern dan terkini\n✨ Lebih fleksibel untuk dikembangkan\n\nJadi website Anda benar-benar mencerminkan bisnis Anda, bukan copy-paste dari orang lain! 💪",
-            "price": "Harga layanan kami sangat terjangkau dan fleksibel! 💰\n\n📌 Paket Hemat: Mulai Rp 100.000\n   → Landing page sederhana\n   → Cocok untuk portfolio atau promosi\n\n📌 Custom/UMKM: Harga Fleksibel\n   → Sesuai fitur yang Anda butuhkan\n   → Desain custom 100%\n\n📌 Full Custom: Harga Diskusi\n   → Sistem kompleks dengan database\n   → Backend + Admin panel\n\nHarga final tergantung fitur yang Anda mau. Konsultasi gratis dulu yuk, kita diskusikan kebutuhan Anda! 😊",
-            "features": "Anda bisa request berbagai fitur sesuai kebutuhan! 🚀\n\n✅ Desain custom 100% (sesuai brand Anda)\n✅ Sistem booking/reservasi online\n✅ Payment gateway (terima pembayaran online)\n✅ Dashboard admin (kelola konten sendiri)\n✅ Integrasi API (Google Maps, sosmed, dll)\n✅ E-commerce lengkap (toko online)\n✅ Multi-bahasa\n✅ SEO optimization\n✅ Dan masih banyak lagi!\n\nPunya ide fitur tertentu? Ceritakan aja, kami bantu wujudkan! 💡",
-            "duration": "Kami kerja cepat tapi tetap berkualitas! ⚡\n\n⏱️ Landing Page Sederhana: 3-5 hari kerja\n⏱️ Website UMKM/Company Profile: 5-7 hari kerja\n⏱️ Toko Online/E-commerce: 1-2 minggu\n⏱️ Sistem Kompleks (Custom): 2-4 minggu\n\nWaktu bisa lebih cepat atau lambat tergantung:\n• Kompleksitas fitur yang diminta\n• Kecepatan feedback dari Anda\n• Ketersediaan konten (teks, gambar, dll)\n\nYang pasti, kami selalu prioritaskan kualitas! 🎯",
+            "greeting": "Halo! Senang bertemu dengan Anda! Saya RoboBot, asisten virtual WebKuu yang siap membantu Anda.\n\nAda yang ingin Anda tanyakan tentang layanan website kami? Saya bisa bantu jelaskan tentang harga, fitur, proses pembuatan, atau apapun yang Anda butuhkan!",
+            "what_is": "Website Custom adalah layanan pembuatan website yang dibuat khusus sesuai kebutuhan Anda. Bukan template!\n\nKeuntungannya:\n- Desain unik sesuai brand Anda\n- Fitur yang Anda mau, bukan yang sudah jadi\n- Teknologi modern dan terkini\n- Lebih fleksibel untuk dikembangkan\n\nJadi website Anda benar-benar mencerminkan bisnis Anda, bukan copy-paste dari orang lain!",
+            "price": "Harga layanan kami sangat terjangkau dan fleksibel!\n\n- Paket Hemat: Mulai Rp 100.000\n   - Landing page sederhana\n   - Cocok untuk portfolio atau promosi\n\n- Custom/UMKM: Harga Fleksibel\n   - Sesuai fitur yang Anda butuhkan\n   - Desain custom 100%\n\n- Full Custom: Harga Diskusi\n   - Sistem kompleks dengan database\n   - Backend + Admin panel\n\nHarga final tergantung fitur yang Anda mau. Konsultasi gratis dulu yuk, kita diskusikan kebutuhan Anda!",
+            "features": "Anda bisa request berbagai fitur sesuai kebutuhan!\n\n- Desain custom 100% (sesuai brand Anda)\n- Sistem booking/reservasi online\n- Payment gateway (terima pembayaran online)\n- Dashboard admin (kelola konten sendiri)\n- Integrasi API (Google Maps, sosmed, dll)\n- E-commerce lengkap (toko online)\n- Multi-bahasa\n- SEO optimization\n- Dan masih banyak lagi!\n\nPunya ide fitur tertentu? Ceritakan aja, kami bantu wujudkan!",
+            "duration": "Kami kerja cepat tapi tetap berkualitas!\n\n- Landing Page Sederhana: 3-5 hari kerja\n- Website UMKM/Company Profile: 5-7 hari kerja\n- Toko Online/E-commerce: 1-2 minggu\n- Sistem Kompleks (Custom): 2-4 minggu\n\nWaktu bisa lebih cepat atau lambat tergantung:\n• Kompleksitas fitur yang diminta\n• Kecepatan feedback dari Anda\n• Ketersediaan konten (teks, gambar, dll)\n\nYang pasti, kami selalu prioritaskan kualitas!",
             "tech": "Kami pakai teknologi modern dan terkini! 💻\n\n🔧 Frontend:\n   • React.js + Tailwind CSS\n   • Next.js (untuk SEO maksimal)\n   • Vue.js (jika diminta)\n\n🔧 Backend:\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\n🔧 CMS:\n   • WordPress (jika Anda prefer)\n   • Custom CMS\n\n🔧 Database:\n   • MySQL, PostgreSQL, MongoDB\n\nAnda juga bisa request tech stack tertentu sesuai kebutuhan! Kami fleksibel kok! 😊",
-            "order": "Cara order sangat mudah dan simple! 📝\n\n1️⃣ Konsultasi Gratis\n   → Hubungi kami via WhatsApp/Email\n   → Ceritakan kebutuhan website Anda\n\n2️⃣ Diskusi & Penawaran\n   → Kami bantu tentukan fitur yang tepat\n   → Sepakati harga dan timeline\n\n3️⃣ Pengerjaan\n   → Kami mulai kerjakan website Anda\n   → Update progress secara berkala\n\n4️⃣ Review & Revisi\n   → Anda cek hasilnya\n   → Revisi GRATIS sampai puas!\n\n5️⃣ Launching! 🎉\n   → Website siap online\n   → Dapat support selamanya\n\nMau mulai? Hubungi kami sekarang! 📱",
-            "packages": "Kami punya 3 paket yang bisa disesuaikan! 📦\n\n💼 Paket Hemat (Mulai Rp 100rb)\n   • Landing page 1-3 halaman\n   • Desain modern & responsive\n   • Cocok untuk: Portfolio, promosi produk\n\n🏢 Custom/UMKM (Harga Fleksibel)\n   • Desain custom sesuai brand\n   • Fitur sesuai kebutuhan\n   • Cocok untuk: Company profile, UMKM\n\n🚀 Full Custom (Harga Diskusi)\n   • Sistem kompleks + database\n   • Backend & admin panel\n   • Cocok untuk: E-commerce, booking system\n\nBingung pilih yang mana? Konsultasi gratis aja, kami bantu tentukan yang paling cocok! 😊",
-            "guarantee": "Kami berikan jaminan terbaik untuk Anda! 🌟\n\n✅ Revisi GRATIS sampai puas\n   → Tidak ada batasan jumlah revisi\n   → Sampai Anda benar-benar puas!\n\n✅ Garansi Bug Fix\n   → Gratis perbaikan jika ada error\n   → Berlaku selamanya\n\n✅ Support Selamanya\n   → Konsultasi gratis kapanpun\n   → Bantuan teknis jika ada masalah\n\n✅ Update Konten\n   → Kami ajari cara update sendiri\n   → Atau bisa request ke kami (gratis!)\n\nKepuasan dan kesuksesan Anda adalah prioritas kami! 💪",
-            "contact": "Yuk hubungi kami sekarang! 📞\n\n📱 WhatsApp: +62 851 2295 9690\n   → Chat langsung dengan tim kami\n   → Konsultasi gratis!\n\n📧 Email: web.kuu@gmail.com\n   → Untuk pertanyaan detail\n   → Kirim brief project Anda\n\n🌐 Website: Anda sedang di sini! 😊\n\n⏰ Jam Operasional:\n   → Siap melayani 24/7 (24 jam setiap hari)\n   → Fast response!\n\nKami siap membantu Anda kapan saja! 💬",
-            "portfolio": "Kami sudah banyak mengerjakan berbagai project! 🎨\n\nAnda bisa lihat portfolio kami di halaman Portfolio website ini. Ada berbagai jenis website yang sudah kami buat:\n\n✨ Company Profile\n✨ Toko Online\n✨ Landing Page\n✨ Website UMKM\n✨ Sistem Booking\n✨ Dan masih banyak lagi!\n\nSetiap project dikerjakan dengan detail dan sesuai kebutuhan klien. Mau lihat? Klik menu Portfolio di atas! 👆",
-            "thanks": "Sama-sama! 😊🙏\n\nSenang bisa membantu Anda! Kalau ada pertanyaan lain, jangan ragu untuk tanya ya.\n\nKalau sudah siap untuk mulai project, langsung hubungi kami via WhatsApp atau email. Kami tunggu kabar baiknya! 💙\n\nSemoga harimu menyenangkan! ✨",
-            "responsive": "Semua website yang kami buat PASTI mobile-friendly! 📱💻\n\n✅ Responsive Design\n   → Tampil sempurna di semua device\n   → HP, tablet, laptop, desktop\n\n✅ Fast Loading\n   → Optimasi kecepatan maksimal\n   → User experience terbaik\n\n✅ Touch-Friendly\n   → Tombol dan menu mudah diklik\n   → Navigasi smooth di touchscreen\n\nDi era sekarang, 70% pengunjung dari mobile. Jadi responsive design itu WAJIB! 🎯",
+            "order": "Cara order sangat mudah dan simple!\n\n1. Konsultasi Gratis\n   - Hubungi kami via WhatsApp/Email\n   - Ceritakan kebutuhan website Anda\n\n2. Diskusi & Penawaran\n   - Kami bantu tentukan fitur yang tepat\n   - Sepakati harga dan timeline\n\n3. Pengerjaan\n   - Kami mulai kerjakan website Anda\n   - Update progress secara berkala\n\n4. Review & Revisi\n   - Anda cek hasilnya\n   - Revisi GRATIS sampai puas!\n\n5. Launching!\n   - Website siap online\n   - Dapat support selamanya\n\nMau mulai? Hubungi kami sekarang!",
+            "packages": "Kami punya 3 paket yang bisa disesuaikan!\n\n- Paket Hemat (Mulai Rp 100rb)\n   • Landing page 1-3 halaman\n   • Desain modern & responsive\n   • Cocok untuk: Portfolio, promosi produk\n\n- Custom/UMKM (Harga Fleksibel)\n   • Desain custom sesuai brand\n   • Fitur sesuai kebutuhan\n   • Cocok untuk: Company profile, UMKM\n\n- Full Custom (Harga Diskusi)\n   • Sistem kompleks + database\n   • Backend & admin panel\n   • Cocok untuk: E-commerce, booking system\n\nBingung pilih yang mana? Konsultasi gratis aja, kami bantu tentukan yang paling cocok!",
+            "guarantee": "Kami berikan jaminan terbaik untuk Anda!\n\n- Revisi GRATIS sampai puas\n   - Tidak ada batasan jumlah revisi\n   - Sampai Anda benar-benar puas!\n\n- Garansi Bug Fix\n   - Gratis perbaikan jika ada error\n   - Berlaku selamanya\n\n- Support Selamanya\n   - Konsultasi gratis kapanpun\n   - Bantuan teknis jika ada masalah\n\n- Update Konten\n   - Kami ajari cara update sendiri\n   - Atau bisa request ke kami (gratis!)\n\nKepuasan dan kesuksesan Anda adalah prioritas kami!",
+            "contact": "Yuk hubungi kami sekarang!\n\n- WhatsApp: +62 851 2295 9690\n   - Chat langsung dengan tim kami\n   - Konsultasi gratis!\n\n- Email: web.kuu@gmail.com\n   - Untuk pertanyaan detail\n   - Kirim brief project Anda\n\n- Website: Anda sedang di sini!\n\n- Jam Operasional:\n   - Siap melayani 24/7 (24 jam setiap hari)\n   - Fast response!\n\nKami siap membantu Anda kapan saja!",
+            "portfolio": "Kami sudah banyak mengerjakan berbagai project!\n\nAnda bisa lihat portfolio kami di halaman Portfolio website ini. Ada berbagai jenis website yang sudah kami buat:\n\n- Company Profile\n- Toko Online\n- Landing Page\n- Website UMKM\n- Sistem Booking\n- Dan masih banyak lagi!\n\nSetiap project dikerjakan dengan detail dan sesuai kebutuhan klien. Mau lihat? Klik menu Portfolio di atas!",
+            "thanks": "Sama-sama!\n\nSenang bisa membantu Anda! Kalau ada pertanyaan lain, jangan ragu untuk tanya ya.\n\nKalau sudah siap untuk mulai project, langsung hubungi kami via WhatsApp atau email. Kami tunggu kabar baiknya!\n\nSemoga harimu menyenangkan!",
+            "responsive": "Semua website yang kami buat PASTI mobile-friendly!\n\n- Responsive Design\n   - Tampil sempurna di semua device\n   - HP, tablet, laptop, desktop\n\n- Fast Loading\n   - Optimasi kecepatan maksimal\n   - User experience terbaik\n\n- Touch-Friendly\n   - Tombol dan menu mudah diklik\n   - Navigasi smooth di touchscreen\n\nDi era sekarang, 70% pengunjung dari mobile. Jadi responsive design itu WAJIB!",
             "seo": "SEO adalah salah satu fokus utama kami! 🔍\n\n✅ SEO-Friendly Structure\n   → Kode yang clean dan terstruktur\n   → Meta tags yang optimal\n\n✅ Fast Loading Speed\n   → Google suka website cepat\n   → Kami optimasi maksimal\n\n✅ Mobile Optimization\n   → Google prioritaskan mobile-first\n   → Website kami pasti responsive\n\n✅ Content Optimization\n   → Heading structure yang benar\n   → Alt text untuk gambar\n\n✅ Sitemap & Analytics\n   → Submit ke Google Search Console\n   → Tracking dengan Google Analytics\n\nWebsite bagus tapi gak keliatan di Google = percuma! Makanya kami pastikan website Anda SEO-friendly! 📈"
         }
     },
@@ -947,6 +960,13 @@
         "blog": {
             "title": "Manajemen Blog",
             "subtitle": "Buat dan kelola artikel blog Anda dengan auto-translate",
+            "my_articles": "Artikel Saya",
+            "articles": "Artikel",
+            "rejection_help": "Beberapa artikel Anda ditolak. Silakan edit artikel tersebut berdasarkan alasan yang diberikan dan simpan kembali untuk mengirim ulang peninjauan.",
+            "empty": {
+                "title": "Belum Ada Artikel",
+                "message": "Anda belum menulis artikel apa pun. Mulai berbagi ide Anda hari ini!"
+            },
             "menu": {
                 "all_posts": "Semua Artikel",
                 "pending": "Menunggu Tinjauan"
@@ -960,7 +980,8 @@
                 "new_post_title": "Artikel Blog Baru!",
                 "just_now": "Baru saja",
                 "review_now": "TINJAU SEKARANG",
-                "by": "Oleh"
+                "by": "Oleh",
+                "rejection_help_title": "Perhatian Diperlukan"
             },
             "status": {
                 "approved": "Disetujui",
@@ -974,7 +995,10 @@
                 "reject_success": "Artikel ditolak",
                 "reject_failed": "Gagal menolak",
                 "delete_success": "Artikel berhasil dihapus",
-                "delete_failed": "Gagal menghapus"
+                "delete_failed": "Gagal menghapus",
+                "resubmit": "Kirim Ulang",
+                "resubmit_success": "Artikel berhasil dikirim ulang untuk ditinjau",
+                "resubmit_failed": "Gagal mengirim ulang artikel"
             },
             "delete_confirm": {
                 "title": "Hapus Artikel?",

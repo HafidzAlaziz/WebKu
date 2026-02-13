@@ -4,228 +4,180 @@ import { Lock, User, ArrowRight, CheckCircle2, AlertCircle, Mail } from 'lucide-
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import SEO from '../components/SEO';
 
 // Hardcoded for synchronous checking on login, matching AuthContext
 const ADMIN_EMAILS = ['admin@webkuu.com', 'hafidz@webkuu.com', 'web.kuu3@gmail.com'];
-
 const LoginPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const redirectPath = searchParams.get('redirect') || '/dashboard';
-    const { signIn, signInWithGoogle } = useAuth();
+    const { signInWithGoogle } = useAuth();
 
-    // Admin Login only - No Sign Up
-    const isSignUp = false;
-
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
     const [error, setError] = useState('');
     const [showSuccess, setShowSuccess] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-        setError('');
-    };
 
     const handleGoogleLogin = async () => {
         setError('');
         setIsSubmitting(true);
         try {
-            const { error } = await signInWithGoogle();
-            if (error) throw error;
-            // Redirect depends on AuthContext logic or automatic
-        } catch (err) {
-            setError(err.message);
-            setIsSubmitting(false);
-        }
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-
-        if (!formData.email.trim()) {
-            setError(t('login.error_empty_username') || "Email is required");
-            return;
-        }
-
-        if (!formData.password.trim()) {
-            setError(t('login.error_empty_password'));
-            return;
-        }
-
-        setIsSubmitting(true);
-
-        try {
-            const { error: signInError, data } = await signIn(formData.email, formData.password);
-            if (signInError) throw signInError;
-
+            const { error, user } = await signInWithGoogle();
+            if (error) {
+                throw error;
+            }
+            // If login is successful, show success message and redirect
             setShowSuccess(true);
-
-            // Determine redirect path based on role
-            const isUserAdmin = data.user && ADMIN_EMAILS.includes(data.user.email);
-            const targetPath = isUserAdmin ? '/dashboard' : '/blog'; // If not admin, go to blog
-
             setTimeout(() => {
-                navigate(targetPath);
-            }, 1000);
+                setShowSuccess(false);
+                navigate(redirectPath);
+            }, 2000); // Show success for 2 seconds
         } catch (err) {
             setError(err.message);
             setIsSubmitting(false);
         }
     };
+
 
     return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center px-4 overflow-hidden">
-            {/* Success Notification Pop-up */}
-            <AnimatePresence>
-                {showSuccess && (
+        <>
+            <SEO noindex={true} title="Login Admin - WebKu" />
+            <div className="relative min-h-screen bg-slate-50 dark:bg-[#020617] flex items-center justify-center px-4 overflow-hidden">
+                {/* Premium Background Elements */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <motion.div
-                        initial={{ opacity: 0, x: 100, scale: 0.9 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        exit={{ opacity: 0, x: 100, scale: 0.9 }}
-                        className="fixed top-6 right-6 z-50 flex items-center gap-4 bg-emerald-500 text-white px-6 py-4 rounded-2xl shadow-2xl shadow-emerald-500/20"
-                    >
-                        <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                            <CheckCircle2 size={24} />
-                        </div>
-                        <div>
-                            <p className="font-bold text-lg leading-tight">{t('login.success_title')}</p>
-                            <p className="text-white/90 text-sm">
-                                {t('login.success_message')}
-                            </p>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            rotate: [0, 90, 0],
+                            x: [-20, 20, -20],
+                            y: [-20, 20, -20],
+                        }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-emerald-500/10 dark:bg-emerald-600/20 rounded-full blur-[120px]"
+                    />
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.3, 1],
+                            rotate: [0, -90, 0],
+                            x: [20, -20, 20],
+                            y: [20, -20, 20],
+                        }}
+                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                        className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-emerald-500/10 dark:bg-emerald-600/20 rounded-full blur-[120px]"
+                    />
+                </div>
 
-            <div className="max-w-md w-full">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl overflow-hidden"
-                >
-                    <div className="p-8">
-                        <div className="text-center mb-8">
-                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-4">
-                                <Lock size={32} />
-                            </div>
-                            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-                                {t('Admin Login')}
-                            </h2>
-                            <p className="text-slate-500 dark:text-slate-400 mt-2">
-                                {t('Enter your credentials to access dashboard')}
-                            </p>
-                        </div>
-
-                        <button
-                            onClick={handleGoogleLogin}
-                            disabled={showSuccess || isSubmitting}
-                            className="w-full flex items-center justify-center gap-3 py-3 px-4 bg-white border border-slate-300 dark:border-slate-600 rounded-xl hover:bg-slate-50 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all shadow-sm hover:shadow-md group mb-6"
+                {/* Success Notification Pop-up */}
+                <AnimatePresence>
+                    {showSuccess && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                            className="fixed top-8 z-[100] flex items-center gap-4 bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl border border-emerald-500/20 dark:border-emerald-500/30 text-slate-900 dark:text-white px-6 py-4 rounded-2xl shadow-[0_20px_50px_rgba(16,185,129,0.15)]"
                         >
-                            <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
-                            <span className="font-bold text-slate-700 dark:text-white">
-                                {t('login.continue_with_google') || "Continue with Google"}
-                            </span>
-                        </button>
+                            <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white">
+                                <CheckCircle2 size={24} />
+                            </div>
+                            <div>
+                                <p className="font-bold text-lg leading-tight">{t('login.success_title') || "Berhasil!"}</p>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm">
+                                    {t('login.success_message') || "Login berhasil! Mengalihkan ke dashboard..."}
+                                </p>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
-                        <div className="relative flex justify-center text-xs mb-6">
-                            <div className="absolute inset-x-0 top-1/2 h-px bg-slate-200 dark:bg-slate-700"></div>
-                            <span className="relative bg-white dark:bg-slate-800 px-2 text-slate-400">Or use email</span>
+                <div className="max-w-[440px] w-full relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        className="group"
+                    >
+                        {/* Main Card with Glassmorphism */}
+                        <div className="relative bg-white/70 dark:bg-slate-900/40 backdrop-blur-2xl rounded-3xl p-8 md:p-10 border border-slate-200/50 dark:border-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-500 group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.1)] dark:group-hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] group-hover:-translate-y-1">
+
+                            {/* Decorative Gradient Line */}
+                            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-emerald-400 via-brand-emerald-500 to-brand-emerald-600 opacity-80" />
+
+                            <div className="text-center mb-10">
+                                <motion.div
+                                    initial={{ scale: 0.8, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                    className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-tr from-brand-emerald-600 to-emerald-700 text-white shadow-lg shadow-emerald-500/25 mb-6 rotate-3 transform transition-transform group-hover:rotate-0"
+                                >
+                                    <Lock size={40} />
+                                </motion.div>
+                                <motion.h2
+                                    initial={{ y: 10, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.3 }}
+                                    className="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight"
+                                >
+                                    {t('Admin Login') || "Admin Access"}
+                                </motion.h2>
+                                <motion.p
+                                    initial={{ y: 10, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.4 }}
+                                    className="text-slate-500 dark:text-slate-400 mt-3 text-lg"
+                                >
+                                    {t('Enter your credentials to access dashboard') || "Sign in with your admin account"}
+                                </motion.p>
+                            </div>
+
+                            <div className="space-y-6">
+                                <motion.button
+                                    initial={{ y: 10, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    transition={{ delay: 0.5 }}
+                                    onClick={handleGoogleLogin}
+                                    disabled={showSuccess || isSubmitting}
+                                    className="w-full flex items-center justify-center gap-4 py-4.5 px-6 bg-white dark:bg-white text-slate-900 rounded-2xl border border-slate-200 dark:border-transparent transition-all shadow-sm hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] group/btn relative overflow-hidden h-[64px]"
+                                >
+                                    <div className="absolute inset-0 bg-slate-900/5 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+                                    <img src="https://www.google.com/favicon.ico" alt="Google" className="w-6 h-6 z-10" />
+                                    <span className="text-lg font-bold tracking-tight z-10">
+                                        {t('login.continue_with_google') || "Lanjutkan dengan Google"}
+                                    </span>
+                                </motion.button>
+
+                                <AnimatePresence mode="wait">
+                                    {error && (
+                                        <motion.div
+                                            initial={{ opacity: 0, height: 0, y: -10 }}
+                                            animate={{ opacity: 1, height: 'auto', y: 0 }}
+                                            exit={{ opacity: 0, height: 0, y: -10 }}
+                                            className="p-4 bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm rounded-2xl flex items-center gap-3 font-medium"
+                                        >
+                                            <AlertCircle size={20} className="shrink-0" />
+                                            <p>{error}</p>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
                         </div>
 
-                        <form onSubmit={handleSubmit} noValidate className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    Email
-                                </label>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                                        <Mail size={20} />
-                                    </div>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        disabled={showSuccess || isSubmitting}
-                                        className={`block w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-900 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-all outline-none ${error && !formData.email.trim() ? 'border-red-500 shadow-sm shadow-red-500/10' : 'border-slate-200 dark:border-slate-700'
-                                            }`}
-                                        placeholder="your@email.com"
-                                    />
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    {t('login.password')}
-                                </label>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-                                        <Lock size={20} />
-                                    </div>
-                                    <input
-                                        type="password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        disabled={showSuccess || isSubmitting}
-                                        className={`block w-full pl-10 pr-3 py-2.5 bg-slate-50 dark:bg-slate-900 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:text-white transition-all outline-none ${error && !formData.password.trim() ? 'border-red-500 shadow-sm shadow-red-500/10' : 'border-slate-200 dark:border-slate-700'
-                                            }`}
-                                        placeholder={t('login.password_placeholder')}
-                                    />
-                                </div>
-                            </div>
-
-                            <AnimatePresence mode="wait">
-                                {error && (
-                                    <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: 'auto' }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 text-red-600 dark:text-red-400 text-sm rounded-lg flex items-center gap-2 font-medium"
-                                    >
-                                        <AlertCircle size={16} />
-                                        {error}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
-                            <button
-                                type="submit"
-                                disabled={showSuccess || isSubmitting}
-                                className={`w-full py-3 px-4 rounded-lg font-semibold shadow-lg transition-all flex items-center justify-center gap-2 ${showSuccess
-                                    ? 'bg-emerald-500 text-white shadow-emerald-500/30 cursor-default'
-                                    : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-500/30 active:scale-[0.98]'
-                                    } disabled:opacity-70 disabled:cursor-not-allowed`}
-                            >
-                                {isSubmitting ? (
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        <span>{t('common.loading')}</span>
-                                    </div>
-                                ) : showSuccess ? (
-                                    <CheckCircle2 size={20} />
-                                ) : (
-                                    <>
-                                        {t('login.submit')}
-                                        <ArrowRight size={20} />
-                                    </>
-                                )}
-                            </button>
-                        </form>
-                    </div>
-                </motion.div>
+                        {/* Footer link */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.7 }}
+                            className="text-center mt-8"
+                        >
+                            <p className="text-slate-500 dark:text-slate-500 text-sm">
+                                &copy; {new Date().getFullYear()} WebKu Portal • Protected Access
+                            </p>
+                        </motion.div>
+                    </motion.div>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

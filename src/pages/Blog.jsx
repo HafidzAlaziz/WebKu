@@ -28,7 +28,7 @@ const MobileFilters = ({
     user,
     onWriteClick,
     onMyArticlesClick,
-    articlesCount
+    myArticlesCounts
 }) => (
     <div className="lg:hidden sticky top-[68px] z-30 px-4 py-3 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 shadow-sm transition-all mb-6 -mx-4 md:-mx-8">
         <div className="container mx-auto space-y-3">
@@ -52,7 +52,7 @@ const MobileFilters = ({
                             <UserMenu
                                 onWriteClick={onWriteClick}
                                 onMyArticlesClick={onMyArticlesClick}
-                                articlesCount={articlesCount}
+                                myArticlesCounts={myArticlesCounts}
                             />
                         </div>
                     ) : (
@@ -140,9 +140,8 @@ const FloatingMobileCTA = ({ showFloatingCTA, setShowFloatingCTA, t }) => {
 
 const Blog = () => {
     const { t, i18n } = useTranslation();
-    const { posts: dbPosts, loading, fetchPosts, addPost, updatePost, fetchMyArticlesCount } = useBlog();
+    const { posts: dbPosts, loading, fetchPosts, addPost, updatePost, fetchMyArticlesCounts, myArticlesCounts } = useBlog();
     const { user } = useAuth();
-    const [articlesCount, setArticlesCount] = useState(0);
     const navigate = useNavigate();
 
     const [isWriteModalOpen, setIsWriteModalOpen] = useState(false);
@@ -156,25 +155,23 @@ const Blog = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [editingArticle, setEditingArticle] = useState(null);
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' });
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
     const showToast = (message, type = 'success') => {
         setToast({ show: true, message, type });
         setTimeout(() => setToast(prev => ({ ...prev, show: false })), 4000);
     };
 
+    const handleCloseForm = () => {
+        setIsWriteModalOpen(false);
+        setEditingArticle(null);
+        // Trigger a refresh of the list modal
+        setRefreshTrigger(prev => prev + 1);
+    };
+
     useEffect(() => {
         fetchPosts();
     }, [fetchPosts]);
-
-    useEffect(() => {
-        const getCount = async () => {
-            if (user?.id) {
-                const count = await fetchMyArticlesCount(user.id);
-                setArticlesCount(count);
-            }
-        };
-        getCount();
-    }, [user, fetchMyArticlesCount]);
 
     useEffect(() => {
         setSelectedCategory('All');
@@ -253,6 +250,7 @@ const Blog = () => {
         const id = isUpdate ? idOrData : null;
 
         if (isUpdate) {
+            // Previously this line explicitly set status to 'pending'
             return await updatePost(id, data);
         }
 
@@ -302,7 +300,7 @@ const Blog = () => {
                                     <UserMenu
                                         onWriteClick={() => setIsWriteModalOpen(true)}
                                         onMyArticlesClick={() => setIsMyArticlesModalOpen(true)}
-                                        articlesCount={articlesCount}
+                                        myArticlesCounts={myArticlesCounts}
                                     />
                                 </div>
                             ) : (
@@ -330,7 +328,7 @@ const Blog = () => {
                             user={user}
                             onWriteClick={handleWriteClick}
                             onMyArticlesClick={() => setIsMyArticlesModalOpen(true)}
-                            articlesCount={articlesCount}
+                            myArticlesCounts={myArticlesCounts}
                         />
 
                         {/* Main Content */}
@@ -379,10 +377,7 @@ const Blog = () => {
                 {(isWriteModalOpen || editingArticle) && (
                     <BlogForm
                         isOpen={true}
-                        onClose={() => {
-                            setIsWriteModalOpen(false);
-                            setEditingArticle(null);
-                        }}
+                        onClose={handleCloseForm}
                         post={editingArticle}
                         onSave={handleSaveArticle}
                         showToast={showToast}
@@ -402,6 +397,7 @@ const Blog = () => {
                 isOpen={isMyArticlesModalOpen}
                 onClose={() => setIsMyArticlesModalOpen(false)}
                 onEditArticle={(article) => setEditingArticle(article)}
+                refreshTrigger={refreshTrigger}
             />
 
             {/* Floating Mobile CTA */}
@@ -416,12 +412,12 @@ const Blog = () => {
                 {toast.show && (
 
                     <motion.div
-                        initial={{ opacity: 0, x: 50, y: -20 }}
-                        animate={{ opacity: 1, x: 0, y: 0 }}
+                        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className={`fixed top-24 left-4 right-4 md:left-auto md:right-6 md:w-auto z-[200] px-6 py-4 rounded-2xl shadow-xl flex items-center gap-4 border backdrop-blur-md ${toast.type === 'error'
-                            ? 'bg-red-600/95 text-white border-red-500/20'
-                            : 'bg-emerald-600/95 text-white border-emerald-500/20'
+                        className={`fixed top-6 left-4 right-4 md:left-auto md:right-6 md:w-auto md:max-w-sm z-[400] px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-4 border backdrop-blur-md ${toast.type === 'error'
+                            ? 'bg-red-600/95 text-white border-white/20'
+                            : 'bg-emerald-600/95 text-white border-white/20'
                             }`}
                     >
                         <div className="bg-white/20 p-2 rounded-xl flex-shrink-0">

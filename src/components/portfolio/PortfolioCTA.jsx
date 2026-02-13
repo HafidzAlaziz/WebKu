@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, Sparkles } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
 
@@ -60,7 +60,7 @@ const PortfolioCTA = () => {
                         className="flex justify-center mb-6"
                     >
                         <div className="p-4 bg-white/20 backdrop-blur-sm rounded-full">
-                            <Sparkles size={48} className="text-accent-light" />
+
                         </div>
                     </motion.div>
 
@@ -103,7 +103,7 @@ const PortfolioCTA = () => {
                                 whileTap={{ scale: 0.95 }}
                                 className="px-8 py-4 bg-white text-primary font-bold text-lg rounded-full shadow-2xl hover:shadow-white/20 transition-all flex items-center gap-2"
                             >
-                                <Sparkles size={24} />
+
                                 {t('portfolio.cta.buttons.order')}
                             </motion.button>
                         </Link>

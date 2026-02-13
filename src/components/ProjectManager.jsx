@@ -18,7 +18,6 @@ import {
     ChevronRight,
     ChevronDown,
     Briefcase,
-    Sparkles,
     RefreshCw,
     Upload
 } from 'lucide-react';

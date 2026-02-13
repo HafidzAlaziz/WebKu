@@ -38,6 +38,9 @@
     "blog": {
         "title": "Blog e Insights de WebKuu",
         "subtitle": "Consejos Web, Marketing Digital y Negocios Online para PYMES",
+        "my_articles": "Mis Artículos",
+        "articles": "Artículos",
+        "rejection_help": "Algunos de sus artículos fueron rechazados. Edite esos artículos según los comentarios proporcionados y vuelva a guardarlos para volver a enviarlos para su revisión.",
         "title_short": "Blog",
         "searchPlaceholder": "Buscar artículos...",
         "categories": "Categorías",
@@ -617,7 +620,14 @@
         "day": "Día",
         "day_plural": "Días",
         "week": "Semana",
-        "week_plural": "Semanas"
+        "week_plural": "Semanas",
+        "captcha": {
+            "label": "No soy un robot",
+            "verifying": "Verificando...",
+            "verified": "Verificado",
+            "help_text": "Haga clic para verificar",
+            "error": "Por favor complete la verificación"
+        }
     },
     "portfolio_preview": {
         "title": "Nuestro Último Portafolio",
@@ -626,34 +636,34 @@
         "live_demo": "Demostración en vivo"
     },
     "chatbot": {
-        "initial_message": "¡Hola! 👋 Soy RoboBot, el asistente virtual de WebKuu. ¿Hay algo en lo que pueda ayudarte con respecto a nuestros servicios de Sitios Web Personalizados?",
+        "initial_message": "¡Hola! Soy RoboBot, el asistente virtual de WebKuu. ¿Hay algo en lo que pueda ayudarte con respecto a nuestros servicios de Sitios Web Personalizados?",
         "bubble_text": "¿Puedo ayudarte con algo?",
         "header_title": "RoboBot",
         "header_subtitle": "Asistente WebKuu • En línea",
         "input_placeholder": "Escribe tu pregunta...",
         "quick_actions": {
-            "price": "💰 Ver Precios",
-            "order": "🚀 Cómo Ordenar",
-            "features": "⚡ ¿Qué Características?",
-            "contact": "📞 Contacto",
+            "price": "Ver Precios",
+            "order": "Cómo Ordenar",
+            "features": "¿Qué Características?",
+            "contact": "Contacto",
             "label": "PREGUNTAS RÁPIDAS:"
         },
-        "fallback_response": "Mmm, todavía no entiendo completamente tu pregunta. 😅\n\n¡Pero no te preocupes! Puedo explicarte sobre:\n\n💡 Precios y Paquetes de Servicios\n💡 Características Solicitables\n💡 Método de Pedido y Proceso de Trabajo\n💡 Tecnología Utilizada\n💡 Tiempo de Procesamiento\n💡 Portafolio y Muestras de Trabajo\n💡 Garantía y Soporte\n💡 SEO y Optimización Móvil\n\n¡Intenta preguntar uno de los temas anteriores, o contáctanos directamente a través de WhatsApp para una consulta más detallada! 📱\n\n¡O usa el botón de pregunta rápida a continuación para comenzar! 👇",
+        "fallback_response": "Mmm, todavía no entiendo completamente tu pregunta.\n\n¡Pero no te preocupes! Puedo explicarte sobre :\n\n- Precios y Paquetes de Servicios\n- Características Solicitables\n- Método de Pedido y Proceso de Trabajo\n- Tecnología Utilizada\n- Tiempo de Procesamiento\n- Portafolio y Muestras de Trabajo\n- Garantía y Soporte\n- SEO y Optimización Móvil\n\n¡Intenta preguntar uno de los temas anteriores, o contáctanos directamente a través de WhatsApp para una consulta más detallada !\n\n¡O usa el botón de pregunta rápida a continuación para comenzar !",
         "faq": {
-            "greeting": "¡Hola! 👋 ¡Encantado de conocerte! Soy RoboBot, el asistente virtual de WebKuu listo para ayudarte.\n\n¿Hay algo que quieras preguntar sobre nuestros servicios de sitios web? ¡Puedo explicarte sobre precios, características, el proceso de creación o cualquier cosa que necesites! 😊",
-            "what_is": "Sitio Web Personalizado es un servicio de creación de sitios web hecho específicamente de acuerdo con tus necesidades. ¡No es una plantilla! 🎨\n\nLas ventajas:\n✨ Diseño único acorde a tu marca\n✨ Características que quieres, no las ya hechas\n✨ Tecnología moderna y actual\n✨ Más flexible para el desarrollo\n\n¡Así que tu sitio web realmente refleja tu negocio, no un copiar y pegar de otra persona! 💪",
-            "price": "¡Nuestros precios de servicio son muy asequibles y flexibles! 💰\n\n📌 Paquete Detallado: Desde Rp 100,000\n   → Página de aterrizaje simple\n   → Adecuado para portafolio o promoción\n\n📌 Personalizado/Pyme: Precio Flexible\n   → De acuerdo con las características que necesitas\n   → Diseño 100% personalizado\n\n📌 Personalizado Completo: Precio a Discutir\n   → Sistema complejo con base de datos\n   → Backend + Panel de administración\n\nEl precio final depende de las características que desees. ¡Tengamos una consulta gratuita primero, discutamos tus necesidades! 😊",
-            "features": "¡Puedes solicitar varias características según tus necesidades! 🚀\n\n✅ Diseño 100% personalizado (según tu marca)\n✅ Sistema de reservas/citas en línea\n✅ Pasarela de pago (aceptar pagos en línea)\n✅ Panel de administración (gestiona el contenido tú mismo)\n✅ Integración API (Google Maps, redes sociales, etc.)\n✅ E-commerce completo (tienda en línea)\n✅ Multi-idioma\n✅ Optimización SEO\n✅ ¡Y mucho más!\n\n¿Tienes una idea de característica específica? ¡Solo dinos, te ayudaremos a hacerla realidad! 💡",
-            "duration": "¡Trabajamos rápido pero mantenemos la calidad! ⚡\n\n⏱️ Página de Aterrizaje Simple: 3-5 días hábiles\n⏱️ Sitio Web Pyme/Perfil de Empresa: 5-7 días hábiles\n⏱️ Tienda en Línea/E-commerce: 1-2 semanas\n⏱️ Sistema Complejo (Personalizado): 2-4 semanas\n\nEl tiempo puede ser más rápido o más lento dependiendo de:\n• Complejidad de las características solicitadas\n• Velocidad de retroalimentación de tu parte\n• Disponibilidad de contenido (texto, imágenes, etc.)\n\n¡Idealmente, siempre priorizamos la calidad! 🎯",
-            "tech": "¡Usamos tecnología moderna y actual! 💻\n\n🔧 Frontend:\n   • React.js + Tailwind CSS\n   • Next.js (para máximo SEO)\n   • Vue.js (si se solicita)\n\n🔧 Backend:\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\n🔧 CMS:\n   • WordPress (si prefieres)\n   • CMS Personalizado\n\n🔧 Base de Datos:\n   • MySQL, PostgreSQL, MongoDB\n\n¡También puedes solicitar una pila tecnológica específica según tus necesidades! ¡Somos flexibles! 😊",
-            "order": "¡El método de pedido es muy fácil y simple! 📝\n\n1️⃣ Consulta Gratuita\n   → Contáctanos vía WhatsApp/Correo electrónico\n   → Cuéntanos tus necesidades de sitio web\n\n2️⃣ Discusión y Oferta\n   → Ayudamos a determinar las características correctas\n   → Acordar precio y cronograma\n\n3️⃣ Producción\n   → Comenzamos a trabajar en tu sitio web\n   → Actualizaciones regulares de progreso\n\n4️⃣ Revisión y Corrección\n   → Tú verificas los resultados\n   → ¡Revisión GRATIS hasta estar satisfecho!\n\n5️⃣ ¡Lanzamiento! 🎉\n   → Sitio web listo en línea\n   → Obtén soporte para siempre\n\n¿Quieres comenzar? ¡Contáctanos ahora! 📱",
-            "packages": "¡Tenemos 3 paquetes que se pueden personalizar! 📦\n\n💼 Paquete Ahorro (Desde Rp 100k)\n   → Página de aterrizaje 1-3 páginas\n   → Diseño moderno y responsivo\n   → Adecuado para: Portafolio, promoción de productos\n\n🏢 Personalizado/Pyme (Precio Flexible)\n   → Diseño personalizado según marca\n   → Características según necesidades\n   → Adecuado para: Perfil de empresa, Pyme\n\n🚀 Personalizado Completo (Precio a Discutir)\n   → Sistema complejo + base de datos\n   → Backend y panel de administración\n   → Adecuado para: E-commerce, sistema de reservas\n\n¿Confundido sobre cuál elegir? ¡Solo consulta gratis, te ayudamos a determinar el más adecuado! 😊",
-            "guarantee": "¡Te brindamos la mejor garantía! 🌟\n\n✅ Revisión GRATIS hasta estar satisfecho\n   → Sin límite en la cantidad de revisiones\n   → ¡Hasta que estés realmente satisfecho!\n\n✅ Garantía de Corrección de Errores\n   → Reparación gratuita si hay un error\n   → Válido para siempre\n\n✅ Soporte Para Siempre\n   → Consulta gratuita en cualquier momento\n   → Asistencia técnica si hay un problema\n\n✅ Actualización de Contenido\n   → Enseñamos cómo actualizar tú mismo\n   → O puedes solicitarnos (¡gratis!)\n\n¡Tu satisfacción y éxito es nuestra prioridad! 💪",
-            "contact": "¡Contáctanos ahora! 📞\n\n📱 WhatsApp: +62 851 2295 9690\n   → Chatea directamente con nuestro equipo\n   → ¡Consulta gratuita!\n\n📧 Correo electrónico: web.kuu@gmail.com\n   → Para preguntas detalladas\n   → Envía el resumen de tu proyecto\n\n🌐 Sitio web: ¡Estás aquí! 😊\n\n⏰ Horas Operativas:\n   → Listo para servir 24/7 (24 horas todos los días)\n   → ¡Respuesta rápida!\n\n¡Estamos listos para ayudarte en cualquier momento! 💬",
-            "portfolio": "¡Hemos trabajado en muchos proyectos variados! 🎨\n\nPuedes ver nuestro portafolio en la página de Portafolio de este sitio web. Hay varios tipos de sitios web que hemos hecho:\n\n✨ Perfil de Empresa\n✨ Tienda en Línea\n✨ Página de Aterrizaje\n✨ Sitio Web Pyme\n✨ Sistema de Reservas\n✨ ¡Y mucho más!\n\nCada proyecto se realiza con detalle y de acuerdo con las necesidades del cliente. ¿Quieres ver? ¡Haz clic en el menú Portafolio arriba! 👆",
-            "thanks": "¡De nada! 😊🙏\n\n¡Me alegra poder ayudarte! Si hay otras preguntas, no dudes en preguntar.\n\nSi estás listo para comenzar el proyecto, contáctanos inmediatamente a través de WhatsApp o correo electrónico. ¡Esperamos las buenas noticias! 💙\n\n¡Que tengas un buen día! ✨",
-            "responsive": "¡Todos los sitios web que hacemos DEBEN ser amigables con móviles! 📱💻\n\n✅ Diseño Responsivo\n   → Aparece perfecto en todos los dispositivos\n   → Celular, tableta, laptop, escritorio\n\n✅ Carga Rápida\n   → Optimización de velocidad máxima\n   → Mejor experiencia de usuario\n\n✅ Amigable al Tacto\n   → Botones y menús fáciles de hacer clic\n   → Navegación suave en pantalla táctil\n\nEn esta era, el 70% de los visitantes son desde móviles. ¡Así que el diseño responsivo es OBLIGATORIO! 🎯",
-            "seo": "¡El SEO es uno de nuestros principales enfoques! 🔍\n\n✅ Estructura Amigable con SEO\n   → Código limpio y estructurado\n   → Meta etiquetas óptimas\n\n✅ Velocidad de Carga Rápida\n   → A Google le gustan los sitios web rápidos\n   → Optimizamos al máximo\n\n✅ Optimización Móvil\n   → Google prioriza mobile-first\n   → Nuestro sitio web es definitivamente responsivo\n\n✅ Optimización de Contenido\n   → Estructura correcta de encabezados\n   → Texto alternativo para imágenes\n\n✅ Mapa del sitio y Analítica\n   → Enviar a Google Search Console\n   → Rastrear con Google Analytics\n\n¡Buen sitio web pero no visible en Google = inútil! ¡Así que nos aseguramos de que tu sitio web sea amigable con SEO! 📈"
+            "greeting": "¡Hola! ¡Encantado de conocerte! Soy RoboBot, el asistente virtual de WebKuu listo para ayudarte.\n\n¿Hay algo que quieras preguntar sobre nuestros servicios de sitios web ? ¡Puedo explicarte sobre precios, características, el proceso de creación o cualquier cosa que necesites !",
+            "what_is": "Sitio Web Personalizado es un servicio de creación de sitios web hecho específicamente de acuerdo con tus necesidades. ¡No es una plantilla !\n\nLas ventajas :\n- Diseño único acorde a tu marca\n- Características que quieres, no las ya hechas\n- Tecnología moderna y actual\n- Más flexible para el desarrollo\n\n¡Así que tu sitio web realmente refleja tu negocio, no un copiar y pegar de otra persona !",
+            "price": "¡Nuestros precios de servicio son muy asequibles y flexibles !\n\n- Paquete Detallado : Desde Rp 100,000\n   - Página de aterrizaje simple\n   - Adecuado para portafolio o promoción\n\n- Personalizado/Pyme : Precio Flexible\n   - De acuerdo con las características que necesitas\n   - Diseño 100% personalizado\n\n- Personalizado Completo : Precio a Discuter\n   - Sistema complejo con base de datos\n   - Backend + Panel de administración\n\nEl precio final depende de las características que desees. ¡Tengamos una consulta gratuita primero, discutamos tus necesidades !",
+            "features": "¡Puedes solicitar varias características según tus necesidades !\n\n- Diseño 100% personalizado (según tu marca)\n- Sistema de reservas/citas en línea\n- Pasarela de pago (aceptar pagos en línea)\n- Panel de administración (gestiona el contenido tú mismo)\n- Integración API (Google Maps, redes sociales, etc.)\n- E-commerce completo (tienda en línea)\n- Multi-idioma\n- Optimización SEO\n- ¡Y mucho más !\n\n¿Tienes una idea de característica específica ? ¡Solo dinos, te ayudaremos a hacerla realidad !",
+            "duration": "¡Trabajamos rápido pero mantenemos la calidad !\n\n- Página de Aterrizaje Simple : 3-5 días hábiles\n- Sitio Web Pyme/Perfil de Empresa : 5-7 días hábiles\n- Tienda en Línea/E-commerce : 1-2 semanas\n- Sistema Complejo (Personalizado) : 2-4 semanas\n\nEl tiempo puede ser más rápido o más lento dependiendo de :\n• Complejidad de las características solicitadas\n• Velocidad de retroalimentación de tu parte\n• Disponibilidad de contenido (texto, imágenes, etc.)\n\n¡Idealmente, siempre priorizamos la calidad !",
+            "tech": "¡Usamos tecnología moderna y actual !\n\nFrontend :\n   • React.js + Tailwind CSS\n   • Next.js (para máximo SEO)\n   • Vue.js (si se solicita)\n\nBackend :\n   • Node.js + Express\n   • Laravel + PHP\n   • Python Django/Flask\n\nCMS :\n   • WordPress (si prefieres)\n   • CMS Personalizado\n\nBase de Datos :\n   • MySQL, PostgreSQL, MongoDB\n\n¡También puedes solicitar una pila tecnológica específica según tus necesidades ! ¡Somos flexibles !",
+            "order": "¡El método de pedido es muy fácil y simple !\n\n1. Consulta Gratuita\n   - Contáctanos vía WhatsApp/Correo electrónico\n   - Cuéntanos tus necesidades de sitio web\n\n2. Discusión y Oferta\n   - Ayudamos a determinar las características correctas\n   - Acordar precio y cronograma\n\n3. Producción\n   - Comenzamos a trabajar en tu sitio web\n   - Actualizaciones regulares de progreso\n\n4. Revisión y Corrección\n   - Tú verificas los resultados\n   - ¡Revisión GRATIS hasta estar satisfecho !\n\n5. ¡Lanzamiento !\n   - Sitio web listo en línea\n   - Obtén soporte para siempre\n\n¿Quieres comenzar ? ¡Contáctanos ahora !",
+            "packages": "¡Tenemos 3 paquetes que se pueden personalizar !\n\n- Paquete Ahorro (Desde Rp 100k)\n   - Página de aterrizaje 1-3 páginas\n   - Diseño moderno y responsivo\n   - Adecuado para : Portafolio, promoción de productos\n\n- Personalizado/Pyme (Precio Flexible)\n   - Diseño personalizado según marca\n   - Características según necesidades\n   - Adecuado para : Perfil de empresa, Pyme\n\n- Personalizado Completo (Precio a Discutir)\n   - Sistema complejo + base de datos\n   - Backend y panel de administración\n   - Adecuado para : E-commerce, sistema de reservas\n\n¿Confundido sobre cuál elegir ? ¡Solo consulta gratis, te ayudamos a determinar el más adecuado !",
+            "guarantee": "¡Te brindamos la mejor garantía !\n\n- Revisión GRATIS hasta estar satisfecho\n   - Sin límite en la cantidad de revisiones\n   - ¡Hasta que estés realmente satisfecho !\n\n- Garantía de Corrección de Errores\n   - Reparación gratuita si hay un error\n   - Válido para siempre\n\n- Soporte Para Siempre\n   - Consulta gratuita en cualquier momento\n   - Asistencia técnica si hay un problema\n\n- Actualización de Contenido\n   - Enseñamos cómo actualizar tú mismo\n   - O puedes solicitarnos (¡gratis !)\n\n¡Tu satisfacción y éxito es nuestra prioridad !",
+            "contact": "¡Contáctanos ahora !\n\n- WhatsApp: +62 851 2295 9690\n   - Chatea directamente con nuestro equipo\n   - ¡Consulta gratuita !\n\n- Correo electrónico: web.kuu@gmail.com\n   - Para preguntas detalladas\n   - Envía el resumen de tu proyecto\n\n- Sitio web: ¡Estás aquí !\n\n- Horas Operativas :\n   - Listo para servir 24/7 (24 horas todos los días)\n   - ¡Respuesta rápida !\n\n¡Estamos listos para ayudarte en cualquier momento !",
+            "portfolio": "¡Hemos trabajado en muchos proyectos variados !\n\nPuedes ver nuestro portafolio en la página de Portafolio de este sitio web. Hay varios tipos de sitios web que hemos hecho :\n\n- Perfil de Empresa\n- Tienda en Línea\n- Página de Aterrizaje\n- Sitio Web Pyme\n- Sistema de Reservas\n- ¡Y mucho más !\n\nCada proyecto se realiza con detalle y de acuerdo con las necesidades del cliente. ¿Quieres ver ? ¡Haz clic en el menú Portafolio arriba !",
+            "thanks": "¡De nada !\n\n¡Me alegra poder ayudarte ! Si hay otras preguntas, no dudes en preguntar.\n\nSi estás listo para comenzar el proyecto, contáctanos inmediatamente a través de WhatsApp o correo electrónico. ¡Esperamos las buenas noticias !\n\n¡Que tengas un buen día !",
+            "responsive": "¡Todos los sitios web que hacemos DEBEN ser amigables con móviles !\n\n- Diseño Responsivo\n   - Aparece perfecto en todos los dispositivos\n   - Celular, tableta, laptop, escritorio\n\n- Carga Rápida\n   - Optimización de velocidad máxima\n   - Mejor experiencia de usuario\n\n- Amigable al Tacto\n   - Botones y menús fáciles de hacer clic\n   - Navegación suave en pantalla táctil\n\nEn esta era, el 70% de los visitantes son desde móviles. ¡Así que el diseño responsivo es OBLIGATORIO !",
+            "seo": "¡El SEO es uno de nuestros principales enfoques !\n\n- Estructura Amigable con SEO\n   - Código limpio y estructurado\n   - Meta etiquetas óptimas\n\n- Velocidad de Carga Rápida\n   - A Google le gustan los sitios web rápidos\n   - Optimizamos al máximo\n\n- Optimización Móvil\n   - Google prioriza mobile-first\n   - Nuestro sitio web es definitivamente responsivo\n\n- Optimización de Contenido\n   - Estructura correcta de encabezados\n   - Texto alternativo para imágenes\n\n- Mapa del sitio y Analítica\n   - Enviar a Google Search Console\n   - Rastrear con Google Analytics\n\n¡Buen sitio web pero no visible en Google = inútil ! ¡Así que nos aseguramos de que tu sitio web sea amigable con SEO !"
         }
     },
     "dashboard": {
@@ -803,6 +813,13 @@
         "blog": {
             "title": "Gestión de Blogs",
             "subtitle": "Crea y gestiona tus artículos de blog con traducción automática",
+            "my_articles": "Mis Artículos",
+            "articles": "Artículos",
+            "rejection_help": "Algunos de tus artículos han sido rechazados. Edítalos basándote en los motivos proporcionados y guárdalos de nuevo para volver a enviarlos a revisión.",
+            "empty": {
+                "title": "Aún no hay artículos",
+                "message": "Aún no has escrito ningún artículo. ¡Empieza a compartir tus ideas hoy!"
+            },
             "menu": {
                 "all_posts": "Todas las Publicaciones",
                 "pending": "Pendiente de Revisión"
@@ -816,7 +833,8 @@
                 "new_post_title": "¡Nueva Publicación de Blog!",
                 "just_now": "Justo ahora",
                 "review_now": "REVISAR AHORA",
-                "by": "Por"
+                "by": "Por",
+                "rejection_help_title": "Atención Requerida"
             },
             "status": {
                 "approved": "Aprobado",
@@ -830,7 +848,10 @@
                 "reject_success": "Artículo rechazado",
                 "reject_failed": "Error al rechazar",
                 "delete_success": "Artículo eliminado con éxito",
-                "delete_failed": "Error al eliminar"
+                "delete_failed": "Error al eliminar",
+                "resubmit": "Reenviar",
+                "resubmit_success": "Artículo reenviado para revisión con éxito",
+                "resubmit_failed": "Error al reenviar el artículo"
             },
             "delete_confirm": {
                 "title": "¿Eliminar Artículo?",

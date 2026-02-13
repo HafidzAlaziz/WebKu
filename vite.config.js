@@ -11,12 +11,14 @@ export default defineConfig({
       dynamicRoutes: [
         '/',
         '/order',
-        '/portfolio'
+        '/portfolio',
+        '/portofolio',
+        '/blog'
       ],
       robots: [{
         userAgent: '*',
         allow: '/',
-        disallow: ['/dashboard', '/login']
+        disallow: ['/dashboard', '/login', '/auth', '/auth/callback']
       }]
     })
   ],

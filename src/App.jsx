@@ -6,6 +6,7 @@ import { useTracker } from './hooks/useTracker';
 import { useEffect } from 'react';
 import AppRoutes from './routes/AppRoutes';
 import FloatingSettings from './components/FloatingSettings';
+import ChatBot from './components/ChatBot';
 
 // Wrapper to track page views
 const PageTracker = ({ children }) => {
@@ -26,19 +27,32 @@ const PageLoader = () => (
   </div>
 );
 
+const AppContent = () => {
+  const location = useLocation();
+  const isExcludedPage =
+    location.pathname.startsWith('/dashboard') ||
+    location.pathname.startsWith('/login') ||
+    location.pathname.startsWith('/blog');
+
+  return (
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+      <PageTracker>
+        <Suspense fallback={<PageLoader />}>
+          <AppRoutes />
+        </Suspense>
+      </PageTracker>
+      <FloatingSettings />
+      {!isExcludedPage && <ChatBot />}
+    </div>
+  );
+};
+
 function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
-            <PageTracker>
-              <Suspense fallback={<PageLoader />}>
-                <AppRoutes />
-              </Suspense>
-            </PageTracker>
-            <FloatingSettings />
-          </div>
+          <AppContent />
         </Router>
       </AuthProvider>
     </ThemeProvider>

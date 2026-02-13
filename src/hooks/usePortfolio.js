@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 
 export const usePortfolio = () => {
@@ -130,6 +130,30 @@ export const usePortfolio = () => {
             setLoading(false);
         }
     };
+
+    // Real-time subscription for portfolio projects
+    useEffect(() => {
+        const channel = supabase
+            .channel('realtime_portfolio')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'portfolio_projects' }, payload => {
+                const { eventType, new: newRecord, old: oldRecord } = payload;
+                setProjects(prev => {
+                    if (eventType === 'INSERT') {
+                        return [newRecord, ...prev];
+                    } else if (eventType === 'UPDATE') {
+                        return prev.map(p => p.id === newRecord.id ? newRecord : p);
+                    } else if (eventType === 'DELETE') {
+                        return prev.filter(p => p.id !== oldRecord.id);
+                    }
+                    return prev;
+                });
+            })
+            .subscribe();
+
+        return () => {
+            supabase.removeChannel(channel);
+        };
+    }, []);
 
     return {
         projects,

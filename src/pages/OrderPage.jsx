@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, CheckCircle, AlertCircle, Sparkles, Code, Palette, Zap, Shield, HeadphonesIcon, Rocket } from 'lucide-react';
+import { Send, CheckCircle, AlertCircle, Code, Palette, Zap, Shield, HeadphonesIcon, Rocket } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 import Navbar from '../components/Navbar';
 import { useTranslation } from 'react-i18next';
 import { useTracker } from '../hooks/useTracker';
 import { formatCurrency } from '../utils/currencyUtils';
+import Captcha from '../components/Captcha';
 
 import SEO from '../components/SEO';
 
@@ -28,6 +29,9 @@ const OrderPage = () => {
         error: false,
         message: '',
     });
+
+    const [isVerified, setIsVerified] = useState(false);
+    const [captchaError, setCaptchaError] = useState(false);
 
     const [errors, setErrors] = useState({});
 
@@ -84,6 +88,12 @@ const OrderPage = () => {
             newErrors.message = t('order_page.form.validation.message_required');
         } else if (formData.message.trim().length < 20) {
             newErrors.message = t('order_page.form.validation.message_min');
+        }
+
+        // Validasi Captcha
+        if (!isVerified) {
+            setCaptchaError(true);
+            newErrors.captcha = t('common.captcha.error');
         }
 
         return newErrors;
@@ -275,7 +285,7 @@ const OrderPage = () => {
                                 className="text-center mb-12"
                             >
                                 <div className="inline-flex items-center gap-2 px-6 py-2 bg-brand-emerald-100 dark:bg-primary-dark/50 text-primary dark:text-brand-emerald-400 rounded-full text-sm font-bold mb-4 border border-brand-emerald-200 dark:border-primary-light/20">
-                                    <Sparkles size={16} />
+
                                     {t('order_page.header.badge')}
                                 </div>
                                 <h1 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white mb-6">
@@ -294,7 +304,7 @@ const OrderPage = () => {
                                 className="mb-16"
                             >
                                 <h2 className="text-3xl font-bold text-slate-900 dark:text-white text-center mb-10 border-b-2 border-accent w-fit mx-auto pb-2">
-                                    🌟 {t('order_page.advantages.title')}
+                                    {t('order_page.advantages.title')}
                                 </h2>
                                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                                     {advantages.map((advantage, index) => (
@@ -331,7 +341,7 @@ const OrderPage = () => {
                                     </h2>
                                     <p className="text-brand-emerald-50 text-lg opacity-90">{t('order_page.form.subtitle')}</p>
                                     <div className="absolute top-0 right-0 p-10 opacity-10">
-                                        <Sparkles size={120} />
+
                                     </div>
                                 </div>
 
@@ -509,6 +519,17 @@ const OrderPage = () => {
                                                 {errors.message}
                                             </p>
                                         )}
+                                    </div>
+
+                                    {/* Captcha */}
+                                    <div className="pt-2">
+                                        <Captcha
+                                            onVerify={(val) => {
+                                                setIsVerified(val);
+                                                setCaptchaError(false);
+                                            }}
+                                            error={captchaError}
+                                        />
                                     </div>
 
                                     {/* Status Messages */}

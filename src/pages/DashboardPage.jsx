@@ -7,7 +7,7 @@ import {
     ChevronDown, Languages, Smartphone, ArrowUpRight, ChevronLeft, ChevronRight, Briefcase,
     ShoppingCart, Bell, Search, Filter, Database, Clock, MoreVertical, Edit, Trash2, Eye,
     EyeOff, AlertCircle, Banknote, MapPin, Mail, Phone, CheckCircle, XCircle, ExternalLink,
-    Monitor, Tablet, Globe, FileText
+    Monitor, Tablet, Globe, FileText, User
 } from 'lucide-react';
 
 
@@ -23,6 +23,7 @@ import DashboardSidebar from '../components/DashboardSidebar';
 import { useTranslation } from 'react-i18next';
 import { useBlog } from '../hooks/useBlog';
 import { useAuth } from '../context/AuthContext';
+import SEO from '../components/SEO';
 
 const DashboardPage = () => {
     const { t, i18n } = useTranslation();
@@ -478,13 +479,7 @@ const DashboardPage = () => {
         fetchPortfolio();
         fetchBlog();
         fetchPendingPosts();
-        const interval = setInterval(() => {
-            refreshData();
-            fetchPortfolio();
-            fetchBlog();
-            fetchPendingPosts();
-        }, 30000);
-        return () => clearInterval(interval);
+        // REMOVED Redundant Polling: Now relying on real-time pulses for maximum speed and zero latency
     }, [filterType, selectedYear, selectedMonth, i18n.language]);
 
     if (loading) {
@@ -497,6 +492,7 @@ const DashboardPage = () => {
 
     return (
         <>
+            <SEO noindex={true} title="Dashboard Admin - WebKu" />
             <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col md:flex-row px-0 md:px-4 pb-4 md:pt-2 gap-0 md:gap-5 overflow-x-hidden">
                 <DashboardSidebar
                     activeTab={activeTab}
@@ -505,7 +501,7 @@ const DashboardPage = () => {
                     setIsMobileOpen={setIsSidebarOpen}
                     isCollapsed={isCollapsed}
                     setIsCollapsed={setIsCollapsed}
-                    blogBadgeCount={unreadBlogsCount}
+                    blogBadgeCount={pendingPosts.length}
                 />
 
                 <div className={`flex-1 flex flex-col min-w-0 py-5 px-4 md:px-0 pb-[80px] md:pb-0 transition-all duration-300 ease-in-out ${isCollapsed ? 'md:ml-24' : 'md:ml-72'}`}>

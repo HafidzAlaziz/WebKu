@@ -43,13 +43,6 @@ export const AuthProvider = ({ children }) => {
         return () => subscription.unsubscribe();
     }, []);
 
-    const signIn = async (email, password) => {
-        return await supabase.auth.signInWithPassword({ email, password });
-    };
-
-    const signUp = async (email, password) => {
-        return await supabase.auth.signUp({ email, password });
-    };
 
     const signOut = async () => {
         return await supabase.auth.signOut();
@@ -72,8 +65,6 @@ export const AuthProvider = ({ children }) => {
         user,
         isAdmin,
         loading,
-        signIn,
-        signUp,
         signOut,
         signInWithGoogle
     };

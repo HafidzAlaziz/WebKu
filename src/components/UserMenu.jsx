@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const UserMenu = ({ onWriteClick, onMyArticlesClick, articlesCount = 0 }) => {
+const UserMenu = ({ onWriteClick, onMyArticlesClick, myArticlesCounts = { approved: 0, rejected: 0, pending: 0, total: 0 } }) => {
     const { t } = useTranslation();
     const { user, signOut } = useAuth();
     const navigate = useNavigate();
@@ -61,6 +61,21 @@ const UserMenu = ({ onWriteClick, onMyArticlesClick, articlesCount = 0 }) => {
                     {displayName}
                 </span>
 
+                {/* Status Badges in main button (Optional but good for UX) */}
+                {(myArticlesCounts.approved > 0 || myArticlesCounts.rejected > 0 || myArticlesCounts.pending > 0) && (
+                    <div className="flex gap-1 ml-1">
+                        {myArticlesCounts.approved > 0 && (
+                            <div className="w-2 h-2 rounded-full bg-emerald-500" title={`${myArticlesCounts.approved} Approved`} />
+                        )}
+                        {myArticlesCounts.pending > 0 && (
+                            <div className="w-2 h-2 rounded-full bg-yellow-500" title={`${myArticlesCounts.pending} Pending`} />
+                        )}
+                        {myArticlesCounts.rejected > 0 && (
+                            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" title={`${myArticlesCounts.rejected} Rejected`} />
+                        )}
+                    </div>
+                )}
+
                 <ChevronDown size={14} className={`text-slate-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
@@ -101,13 +116,25 @@ const UserMenu = ({ onWriteClick, onMyArticlesClick, articlesCount = 0 }) => {
                                 }}
                                 className="w-full flex items-center gap-3 px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 rounded-lg transition-colors text-left"
                             >
-                                <FileText size={16} className="text-emerald-500" />
-                                {t('blog.my_articles') || "My Articles"}
-                                {articlesCount > 0 && (
-                                    <span className="ml-auto px-2 py-0.5 bg-brand-emerald-100 text-brand-emerald-700 dark:bg-brand-emerald-900/40 dark:text-brand-emerald-400 rounded-full text-[10px] font-bold">
-                                        {articlesCount}
-                                    </span>
-                                )}
+                                <FileText size={16} className="text-slate-500 dark:text-slate-400" />
+                                {t('dashboard.blog.my_articles')}
+                                <div className="ml-auto flex gap-1.5">
+                                    {myArticlesCounts.approved > 0 && (
+                                        <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400 rounded-full text-[10px] font-bold" title="Approved">
+                                            {myArticlesCounts.approved}
+                                        </span>
+                                    )}
+                                    {myArticlesCounts.pending > 0 && (
+                                        <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-400 rounded-full text-[10px] font-bold" title="Pending">
+                                            {myArticlesCounts.pending}
+                                        </span>
+                                    )}
+                                    {myArticlesCounts.rejected > 0 && (
+                                        <span className="px-2 py-0.5 bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400 rounded-full text-[10px] font-bold animate-pulse" title="Rejected">
+                                            {myArticlesCounts.rejected}
+                                        </span>
+                                    )}
+                                </div>
                             </button>
                         </div>
 

@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /dashboard
 Disallow: /login
+Disallow: /auth
 
 Sitemap: https://www.web-kuu.my.id/sitemap.xml

@@ -1,9 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../lib/supabaseClient';
 
 export const useTracker = () => {
     const { t, i18n } = useTranslation();
+    const langRef = useRef(i18n.language);
+
+    useEffect(() => {
+        langRef.current = i18n.language;
+    }, [i18n.language]);
     const [stats, setStats] = useState({
         totalViews: 0,
         todayViews: 0,
@@ -18,6 +23,8 @@ export const useTracker = () => {
         viewsHistory: [],
         recentOrders: [],
         allOrders: [],
+        visitors: [],
+        netRevenue: 0,
         currency: 'IDR',
         locale: 'id-ID'
     });
@@ -290,28 +297,42 @@ export const useTracker = () => {
             const views = viewsData.map(v => ({ ...v, event_type: 'view' }));
             const data = [...views, ...orders];
 
-            const processedVisitors = viewsData.map(v => {
+            const uniqueVisitorsMap = new Map();
+            viewsData.forEach(v => {
                 const details = v.details || {};
-                const ua = details.user_agent;
-                const device = ua ? getDeviceType(ua) : (details.device || 'Desktop');
-                const browser = ua ? getBrowserInfo(ua) : (details.browser || 'Unknown');
-                const os = ua ? getOSInfo(ua) : (details.os || 'Unknown');
-                return {
-                    id: v.id,
-                    visitor_id: details.visitor_id,
-                    path: details.path,
-                    device: device,
-                    browser: browser,
-                    os: os,
-                    created_at: v.created_at,
-                    date: new Date(v.created_at).toLocaleString(i18n.language, {
-                        day: 'numeric',
-                        month: 'short',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    })
-                };
-            }).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                const vid = details.visitor_id;
+                if (!vid) return;
+
+                // Group by visitor_id AND local date (YYYY-MM-DD) to ensure 1x per day per device
+                const dateKey = new Date(v.created_at).toLocaleDateString('en-CA');
+                const compositeKey = `${vid}-${dateKey}`;
+
+                if (!uniqueVisitorsMap.has(compositeKey)) {
+                    const ua = details.user_agent;
+                    const device = ua ? getDeviceType(ua) : (details.device || 'Desktop');
+                    const browser = ua ? getBrowserInfo(ua) : (details.browser || 'Unknown');
+                    const os = ua ? getOSInfo(ua) : (details.os || 'Unknown');
+
+                    uniqueVisitorsMap.set(compositeKey, {
+                        id: v.id,
+                        visitor_id: vid,
+                        path: details.path,
+                        device: device,
+                        browser: browser,
+                        os: os,
+                        created_at: v.created_at,
+                        date: new Date(v.created_at).toLocaleString(i18n.language, {
+                            day: 'numeric',
+                            month: 'short',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })
+                    });
+                }
+            });
+
+            const processedVisitors = Array.from(uniqueVisitorsMap.values())
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
             const config = getCurrencyConfig(i18n.language);
             const getSafeDateStr = (dateInput) => {
@@ -483,53 +504,120 @@ export const useTracker = () => {
         }
     };
 
+    // Real-time subscriptions for Dashboard
     useEffect(() => {
+        const handleOrderPayload = (payload) => {
+            const { eventType, new: newRecord, old: oldRecord } = payload;
+
+            setStats(prev => {
+                let updatedAllOrders = [...prev.allOrders];
+                const config = EXCHANGE_RATES[i18n.language] || EXCHANGE_RATES['id'];
+
+                if (eventType === 'INSERT') {
+                    const mapped = mapOrder({ ...newRecord, originTable: payload.table === 'analytics_events' ? 'analytics_events' : 'orders' });
+                    updatedAllOrders = [mapped, ...updatedAllOrders];
+                } else if (eventType === 'UPDATE') {
+                    updatedAllOrders = updatedAllOrders.map(o =>
+                        o.id === newRecord.id ? mapOrder({ ...newRecord, originTable: o.originTable }) : o
+                    );
+                } else if (eventType === 'DELETE') {
+                    updatedAllOrders = updatedAllOrders.filter(o => o.id !== oldRecord.id);
+                }
+
+                // Recalculate aggregates for speed and accuracy
+                const pendingOrders = updatedAllOrders.filter(o => o.status === 'pending');
+                const completedOrders = updatedAllOrders.filter(o => o.status === 'completed');
+                const cancelledOrders = updatedAllOrders.filter(o => o.status === 'cancelled');
+
+                const pendingRev = pendingOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+                const completedRev = completedOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+                const cancelledRev = cancelledOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+
+                return {
+                    ...prev,
+                    totalOrders: updatedAllOrders.length,
+                    totalRevenue: completedRev + pendingRev,
+                    netRevenue: completedRev,
+                    completedOrders: completedOrders.length,
+                    completedRevenue: completedRev,
+                    pendingOrders: pendingOrders.length,
+                    pendingRevenue: pendingRev,
+                    totalCancelled: cancelledOrders.length,
+                    cancelledRevenue: cancelledRev,
+                    allOrders: updatedAllOrders,
+                    recentOrders: updatedAllOrders.slice(0, 10)
+                };
+            });
+        };
+
+        const handleViewPayload = (payload) => {
+            const { new: newRecord } = payload;
+            const details = newRecord.details || {};
+            const vid = details.visitor_id;
+
+            setStats(prev => {
+                const currentLang = langRef.current;
+                const todayStr = new Date().toISOString().split('T')[0];
+                const visitorDate = new Date(newRecord.created_at).toISOString().split('T')[0];
+
+                const isToday = todayStr === visitorDate;
+
+                // Add to visitors list if new
+                let updatedVisitors = [...(prev.visitors || [])];
+                const isNewVisitor = !updatedVisitors.some(v => v.visitor_id === vid);
+
+                if (isNewVisitor) {
+                    const ua = details.user_agent;
+                    const mappedVisitor = {
+                        id: newRecord.id,
+                        visitor_id: vid,
+                        path: details.path,
+                        device: ua ? getDeviceType(ua) : (details.device || 'Desktop'),
+                        browser: ua ? getBrowserInfo(ua) : (details.browser || 'Unknown'),
+                        os: ua ? getOSInfo(ua) : (details.os || 'Unknown'),
+                        created_at: newRecord.created_at,
+                        date: new Date(newRecord.created_at).toLocaleString(currentLang, {
+                            day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                        })
+                    };
+                    updatedVisitors = [mappedVisitor, ...updatedVisitors];
+                }
+
+                return {
+                    ...prev,
+                    totalViews: isNewVisitor ? prev.totalViews + 1 : prev.totalViews,
+                    todayViews: (isToday && isNewVisitor) ? prev.todayViews + 1 : prev.todayViews,
+                    visitors: updatedVisitors
+                };
+            });
+        };
+
         const ordersChannel = supabase
-            .channel('realtime_orders')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'orders' }, payload => {
-                fetchStats();
-            })
-            .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders' }, payload => {
-                fetchStats();
-            })
-            .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'orders' }, payload => {
-                fetchStats();
-            })
+            .channel('realtime_orders_optimized')
+            .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, handleOrderPayload)
             .subscribe();
 
         const aeChannel = supabase
-            .channel('realtime_ae')
+            .channel('realtime_ae_optimized')
+            .on('postgres_changes', {
+                event: '*',
+                schema: 'public',
+                table: 'analytics_events',
+                filter: 'event_type=eq.order'
+            }, handleOrderPayload)
             .on('postgres_changes', {
                 event: 'INSERT',
                 schema: 'public',
                 table: 'analytics_events',
-                filter: 'event_type=eq.order'
-            }, payload => {
-                fetchStats();
-            })
-            .on('postgres_changes', {
-                event: 'UPDATE',
-                schema: 'public',
-                table: 'analytics_events',
-                filter: 'event_type=eq.order'
-            }, payload => {
-                fetchStats();
-            })
-            .on('postgres_changes', {
-                event: 'DELETE',
-                schema: 'public',
-                table: 'analytics_events',
-                filter: 'event_type=eq.order'
-            }, payload => {
-                fetchStats();
-            })
+                filter: 'event_type=eq.view'
+            }, handleViewPayload)
             .subscribe();
 
         return () => {
-            supabase.removeChannel(ordersChannel);
-            supabase.removeChannel(aeChannel);
+            if (ordersChannel) supabase.removeChannel(ordersChannel);
+            if (aeChannel) supabase.removeChannel(aeChannel);
         };
-    }, []);
+    }, []); // Empty dependency array means this stays subscribed for the life of the hook
 
     useEffect(() => {
         fetchStats();
@@ -544,16 +632,16 @@ export const useTracker = () => {
             if (sessionStorage.getItem('is_tracking_in_progress')) return;
             sessionStorage.setItem('is_tracking_in_progress', 'true');
 
-            const today = new Date().toISOString().split('T')[0];
+            // Use local date string (YYYY-MM-DD) to avoid UTC midnight vs Local midnight mismatch
+            const today = new Date().toLocaleDateString('en-CA');
             const storageKey = 'visitor_tracked_today';
             const visitorId = getVisitorId();
 
             // 1. First Layer: Browser Storage Cache (Fastest)
-            // Check if already tracked today (localStorage) or in this session/page (sessionStorage)
+            // Global check: has this device been tracked at all today across any page?
             const lastTrackedDate = localStorage.getItem(storageKey);
-            const isSessionTracked = sessionStorage.getItem(`tracked_${path}_${today}`);
 
-            if (lastTrackedDate === today || isSessionTracked) {
+            if (lastTrackedDate === today) {
                 sessionStorage.removeItem('is_tracking_in_progress');
                 return;
             }
@@ -583,10 +671,9 @@ export const useTracker = () => {
                     .maybeSingle();
 
                 if (!checkError && existingView) {
-                    // Already tracked today from this IP
-                    // Update local storage so we don't check API again this session
+                    // Already tracked today from this IP in a different browser/session
+                    // Update local storage so we don't check API again on this device today
                     localStorage.setItem(storageKey, today);
-                    sessionStorage.setItem(`tracked_${path}_${today}`, 'true');
                     sessionStorage.removeItem('is_tracking_in_progress');
                     return;
                 }
@@ -635,9 +722,8 @@ export const useTracker = () => {
                 }
             ]);
 
-            // Persist tracking status
+            // Persist tracking status globally for this device today
             localStorage.setItem(storageKey, today);
-            sessionStorage.setItem(`tracked_${path}_${today}`, 'true');
 
             // Cleanup old tracking keys if any
             Object.keys(localStorage).forEach(key => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Plus, Edit2, Trash2, Search, Filter, Database,
-    AlertCircle, X, Sparkles, RefreshCw, Upload,
+    AlertCircle, X, RefreshCw, Upload,
     FileText as BlogIcon, ChevronLeft, ChevronRight,
     Eye, Globe, User, Tag, Calendar, CheckCircle,
     Check, XCircle, Clock
@@ -260,7 +260,7 @@ const BlogManager = ({ selectedPostId, onClearSelection }) => {
                     <Clock size={16} />
                     {t('dashboard.blog.menu.pending') || 'Pending Review'}
                     {pendingPosts.length > 0 && (
-                        <span className="bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-0.5 rounded-full text-xs">
+                        <span className="bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400 px-2 py-0.5 rounded-full text-xs animate-pulse font-bold border border-yellow-200 dark:border-yellow-700/50">
                             {pendingPosts.length}
                         </span>
                     )}
@@ -531,12 +531,12 @@ const BlogManager = ({ selectedPostId, onClearSelection }) => {
             <AnimatePresence>
                 {toast.show && (
                     <motion.div
-                        initial={{ opacity: 0, x: 50, y: -20 }}
-                        animate={{ opacity: 1, x: 0, y: 0 }}
+                        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className={`fixed top-6 left-4 right-4 md:left-auto md:right-6 md:w-auto z-[200] px-6 py-4 rounded-2xl shadow-xl flex items-center gap-4 border backdrop-blur-md ${toast.type === 'error'
-                            ? 'bg-red-600/95 text-white border-red-500/20'
-                            : 'bg-emerald-600/95 text-white border-emerald-500/20'
+                        className={`fixed top-10 left-4 right-4 md:left-auto md:right-10 md:w-auto md:max-w-sm z-[400] px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-4 border backdrop-blur-md ${toast.type === 'error'
+                            ? 'bg-red-600/95 text-white border-white/20'
+                            : 'bg-emerald-600/95 text-white border-white/20'
                             }`}
                     >
                         <div className="bg-white/20 p-2 rounded-xl flex-shrink-0">
