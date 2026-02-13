@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
+
 import { Search, X, Plus } from 'lucide-react';
 import { blogPosts, categories } from '../data/blogData';
 import BlogCard from '../components/BlogCard';
@@ -12,6 +12,7 @@ import { useBlog } from '../hooks/useBlog';
 import { useAuth } from '../context/AuthContext';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 import BlogForm from '../components/BlogForm';
+import SEO from '../components/SEO';
 
 import LoginModal from '../components/LoginModal';
 import UserMenu from '../components/UserMenu';
@@ -263,14 +264,34 @@ const Blog = () => {
     };
 
 
+    // Breadcrumb Structured Data
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.web-kuu.my.id/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://www.web-kuu.my.id/blog"
+            }
+        ]
+    };
+
     return (
         <>
-            <Helmet>
-                <title>{t('meta.blog.title')}</title>
-                <meta name="description" content={t('meta.blog.description')} />
-                <meta name="keywords" content={t('meta.blog.keywords')} />
-                <link rel="canonical" href="https://webkuu.com/blog" />
-            </Helmet>
+            <SEO
+                title={t('meta.blog.title')}
+                description={t('meta.blog.description')}
+                keywords={t('meta.blog.keywords')}
+                structuredData={breadcrumbSchema}
+            />
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}

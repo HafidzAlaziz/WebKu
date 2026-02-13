@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { blogPosts } from '../data/blogData';
 import { FaCalendarAlt, FaUser, FaTag, FaWhatsapp, FaFacebook, FaArrowLeft, FaTwitter, FaLinkedin, FaTelegram, FaLink, FaEye } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 import { useBlog } from '../hooks/useBlog';
@@ -30,18 +29,20 @@ const BlogDetail = () => {
             }
         };
         getPost();
-    }, [slug, fetchPostBySlug]);
+    }, [slug, fetchPostBySlug, incrementView]);
 
     const currentLang = i18n.language.split('-')[0];
 
-    const post = dbPost ? {
-        ...dbPost,
-        title: dbPost.translations?.[currentLang]?.title || dbPost.title,
-        category: dbPost.translations?.[currentLang]?.category || dbPost.category,
-        excerpt: dbPost.translations?.[currentLang]?.excerpt || dbPost.excerpt,
-        keywords: dbPost.translations?.[currentLang]?.keywords || dbPost.keywords,
-        content: dbPost.translations?.[currentLang]?.content || dbPost.content,
-    } : null;
+    const post = useMemo(() => {
+        return dbPost ? {
+            ...dbPost,
+            title: dbPost.translations?.[currentLang]?.title || dbPost.title,
+            category: dbPost.translations?.[currentLang]?.category || dbPost.category,
+            excerpt: dbPost.translations?.[currentLang]?.excerpt || dbPost.excerpt,
+            keywords: dbPost.translations?.[currentLang]?.keywords || dbPost.keywords,
+            content: dbPost.translations?.[currentLang]?.content || dbPost.content,
+        } : null;
+    }, [dbPost, currentLang]);
 
     // Redirect if not found (or handle with UI)
     useEffect(() => {
@@ -81,6 +82,31 @@ const BlogDetail = () => {
         }
     };
 
+    const breadcrumbSchema = post ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://www.web-kuu.my.id/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": "https://www.web-kuu.my.id/blog"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": post.title,
+                "item": `https://www.web-kuu.my.id/blog/${slug}`
+            }
+        ]
+    } : null;
+
     return (
         <>
             <SEO
@@ -89,6 +115,7 @@ const BlogDetail = () => {
                 keywords={post.keywords}
                 image={post.image}
                 type="article"
+                structuredData={breadcrumbSchema}
             />
 
             <motion.div

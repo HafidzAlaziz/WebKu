@@ -123,14 +123,14 @@ const ChatBot = () => {
                 )}
             </AnimatePresence>
 
-            <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end">
+            <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[9999] flex flex-col items-end">
                 <AnimatePresence>
                     {isOpen && (
                         <motion.div
                             initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom right' }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                            className="mb-2 w-[calc(100vw-32px)] sm:w-[450px] md:w-[500px] h-[500px] md:h-[640px] max-h-[85vh] bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.4)] flex flex-col border border-slate-100 dark:border-slate-800 overflow-hidden"
+                            className="mb-1 w-[calc(100vw-32px)] sm:w-[450px] md:w-[500px] h-[500px] md:h-[640px] max-h-[85vh] bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.2)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.4)] flex flex-col border border-slate-100 dark:border-slate-800 overflow-hidden"
                         >
                             {/* Header */}
                             <div className="p-5 bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 text-white shrink-0 relative overflow-hidden border-b border-white/5">

@@ -10,7 +10,8 @@ const SEO = ({
     keywords,
     image,
     type = 'website',
-    noindex = false
+    noindex = false,
+    structuredData = null
 }) => {
     const { t } = useTranslation();
     const location = useLocation();
@@ -46,6 +47,13 @@ const SEO = ({
             <meta property="twitter:title" content={finalTitle} />
             <meta property="twitter:description" content={finalDescription} />
             <meta property="twitter:image" content={finalImage} />
+
+            {/* Structured Data (JSON-LD) */}
+            {structuredData && (
+                <script type="application/ld+json">
+                    {JSON.stringify(structuredData)}
+                </script>
+            )}
         </Helmet>
     );
 };
