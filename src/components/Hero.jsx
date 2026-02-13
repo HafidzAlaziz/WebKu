@@ -142,7 +142,7 @@ const Hero = () => {
                                     <Star size={20} fill="currentColor" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label={`Rating ${(animatedRating / 10).toFixed(1)}`}>{(animatedRating / 10).toFixed(1)}</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label={`Rating ${(animatedRating / 10).toFixed(1)} dari 5`}>{(animatedRating / 10).toFixed(1)}</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.rating')}</p>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@ const Hero = () => {
                                     <Award size={20} />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label={`${animatedProjects} Proyek Selesai`}>{animatedProjects}+</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label={`${animatedProjects} lebih Proyek Selesai`}>{animatedProjects}+</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.projects')}</p>
                                 </div>
                             </div>
@@ -162,7 +162,7 @@ const Hero = () => {
                                     <Zap size={20} fill="currentColor" />
                                 </div>
                                 <div className="text-left">
-                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label="Layanan 24 Jam 7 Hari">{animatedHours}/7</p>
+                                    <p className="text-xl font-bold text-slate-900 dark:text-white" aria-label={`Layanan ${animatedHours} Jam 7 Hari`}>{animatedHours}/7</p>
                                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{t('hero.stats.response')}</p>
                                 </div>
                             </div>

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Lock, User, ArrowRight, CheckCircle2, AlertCircle, Mail } from 'lucide-react';
+import { Lock, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import SEO from '../components/SEO';
 
-// Hardcoded for synchronous checking on login, matching AuthContext
-const ADMIN_EMAILS = ['admin@webkuu.com', 'hafidz@webkuu.com', 'web.kuu3@gmail.com'];
 const LoginPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();

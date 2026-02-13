@@ -6,7 +6,7 @@ import { useTracker } from './hooks/useTracker';
 import { useEffect } from 'react';
 import AppRoutes from './routes/AppRoutes';
 import FloatingSettings from './components/FloatingSettings';
-import ChatBot from './components/ChatBot';
+const ChatBot = React.lazy(() => import('./components/ChatBot'));
 
 // Wrapper to track page views
 const PageTracker = ({ children }) => {
@@ -42,7 +42,11 @@ const AppContent = () => {
         </Suspense>
       </PageTracker>
       <FloatingSettings />
-      {!isExcludedPage && <ChatBot />}
+      {!isExcludedPage && (
+        <Suspense fallback={null}>
+          <ChatBot />
+        </Suspense>
+      )}
     </div>
   );
 };

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useBlog } from '../hooks/useBlog';
 import { useAuth } from '../context/AuthContext';
 import { AlertCircle, CheckCircle } from 'lucide-react';
-import BlogForm from '../components/BlogForm';
+const BlogForm = React.lazy(() => import('../components/BlogForm'));
 import SEO from '../components/SEO';
 
 import LoginModal from '../components/LoginModal';
@@ -396,14 +396,16 @@ const Blog = () => {
             {/* Write Article Modal */}
             <AnimatePresence>
                 {(isWriteModalOpen || editingArticle) && (
-                    <BlogForm
-                        isOpen={true}
-                        onClose={handleCloseForm}
-                        post={editingArticle}
-                        onSave={handleSaveArticle}
-                        showToast={showToast}
-                        isPublic={true}
-                    />
+                    <React.Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"><div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin"></div></div>}>
+                        <BlogForm
+                            isOpen={true}
+                            onClose={handleCloseForm}
+                            post={editingArticle}
+                            onSave={handleSaveArticle}
+                            showToast={showToast}
+                            isPublic={true}
+                        />
+                    </React.Suspense>
                 )}
             </AnimatePresence>
 

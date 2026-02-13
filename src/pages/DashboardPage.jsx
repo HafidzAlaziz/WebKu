@@ -29,7 +29,7 @@ const DashboardPage = () => {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
     const { user, signOut } = useAuth();
-    const { stats, loading, refresh, deleteOrder, updateOrderStatus, updateOrder } = useTracker();
+    const { stats, loading, refresh, deleteOrder, updateOrder } = useTracker();
     const { projects: portfolioProjects, fetchProjects: fetchPortfolio } = usePortfolio();
     const { posts: blogPosts, pendingPosts, fetchPosts: fetchBlog, fetchPendingPosts } = useBlog();
 
@@ -288,15 +288,7 @@ const DashboardPage = () => {
         setOrderToDelete(null);
     };
 
-    const handleStatusChange = async (id, status, currentDetails, originTable) => {
-        const res = await updateOrderStatus(id, status, currentDetails, originTable);
-        if (res.success) {
-            triggerSuccess();
-            refreshData();
-        } else {
-            triggerActionError();
-        }
-    };
+
 
     const handleSaveEdit = async (e) => {
         e.preventDefault();
